@@ -1,0 +1,21 @@
+{
+  "name": "packages",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev:test": "playwright test",
+    "e2e:test": "start-server-and-test \"(cd ../../apps/web && pnpm start)\" http://localhost:3000 dev:test",
+    "update": "pnpm update"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@playwright/test": "^1.31.1"
+  },
+  "dependencies": {
+    "@acme/web": "*",
+    "start-server-and-test": "^2.0.0"
+  }
+}

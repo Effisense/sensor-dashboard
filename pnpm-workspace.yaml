@@ -1,0 +1,8 @@
+packages:
+  - apps/web
+  - packages/api
+  - packages/db
+  - packages/influx
+  - packages/email
+  - packages/e2e
+  - packages/config/*
