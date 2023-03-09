@@ -65,7 +65,7 @@ const AuthShowcase: React.FC = () => {
     <div className="flex flex-col items-center justify-center gap-4">
       {isSignedIn && (
         <>
-          <p className="text-center text-2xl text-white">
+          <p className="text-center text-2xl text-black">
             {secretMessage && (
               <span>
                 {" "}

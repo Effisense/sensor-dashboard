@@ -1,12 +1,8 @@
-// src/utils/trpc.ts
 import { createTRPCNext } from "@trpc/next";
 import { httpBatchLink, loggerLink } from "@trpc/client";
 import { inferRouterInputs, inferRouterOutputs } from "@trpc/server";
-import { appRouter, AppRouter, createContext } from "@acme/api";
+import { AppRouter } from "@acme/api";
 import { transformer } from "@acme/api/transformer";
-import superjson from "superjson";
-import { createProxySSGHelpers } from "@trpc/react-query/ssg";
-import { RequestLike } from "@clerk/nextjs/dist/server/types";
 
 const getBaseUrl = () => {
   if (typeof window !== "undefined") return ""; // browser should use relative url

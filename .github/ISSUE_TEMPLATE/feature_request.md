@@ -1,8 +1,8 @@
 ---
-name: Feature request
+name: ✨ Feature request
 about: Suggest an idea for this project
 title: ""
-labels: type:feature
+labels: type:feat
 assignees: ""
 ---
 
@@ -13,6 +13,10 @@ A clear and concise description of what the problem is. Ex. I'm always frustrate
 ## Describe the solution you'd like
 
 ...
+
+### Definition of Done
+
+- [ ] ...
 
 ## Describe alternatives you've considered
 
