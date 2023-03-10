@@ -4,6 +4,7 @@ import type { inferProcedureOutput } from "@trpc/server";
 import type { AppRouter } from "@acme/api";
 import { useAuth, UserButton } from "@clerk/nextjs";
 import Link from "next/link";
+import Map from "@/ui/Map";
 
 const PostCard: React.FC<{
   post: inferProcedureOutput<AppRouter["post"]["all"]>[number];
@@ -27,6 +28,8 @@ const Home: NextPage = () => {
         Create <span className="text-[hsl(280,100%,70%)]">T3</span> Turbo
       </h1>
       <AuthShowcase />
+
+      <Map />
 
       <button
         type="button"

@@ -7,12 +7,24 @@ import { useState } from "react";
 const ScanPage = () => {
   const [deviceId, setDeviceId] = useState<string | null>(null);
 
+  const handleScan = (data: string) => {
+    // TODO
+    // 1.Validate that the `data` is a valid and active device ID
+    // 2. Redirect to `/sensors/add` with `deviceId` as a query parameter
+  };
+
   return (
     <div>
       <H1>Add Sensor</H1>
 
       <div>
-        <QrReader data={deviceId} setData={setDeviceId} />
+        <QrReader
+          onResult={(result) => {
+            if (!!result) {
+              handleScan(result.getText());
+            }
+          }}
+        />
         <p>{deviceId}</p>
       </div>
     </div>
