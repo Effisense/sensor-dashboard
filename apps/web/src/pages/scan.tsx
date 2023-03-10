@@ -5,15 +5,15 @@ import { GetServerSidePropsContext } from "next";
 import { useState } from "react";
 
 const ScanPage = () => {
-  const [data, setData] = useState<string | null>(null);
+  const [deviceId, setDeviceId] = useState<string | null>(null);
 
   return (
     <div>
       <H1>Add Sensor</H1>
 
       <div>
-        <QrReader data={data} setData={setData} />
-        <p>{data}</p>
+        <QrReader data={deviceId} setData={setDeviceId} />
+        <p>{deviceId}</p>
       </div>
     </div>
   );

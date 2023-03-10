@@ -42,8 +42,6 @@ export const getServerSideProps = (ctx: GetServerSidePropsContext) => {
 
   const redirect = ctx.query.redirect as string;
 
-  console.log(redirect);
-
   return {
     props: {
       redirect,

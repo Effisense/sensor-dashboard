@@ -1,14 +1,11 @@
 import { SignIn } from "@clerk/nextjs";
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 import { getAuth } from "@clerk/nextjs/server";
-import { z } from "zod";
 import { RedirectSchema } from "@/schemas";
 
 type SignInPageProps = InferGetServerSidePropsType<typeof getServerSideProps>;
 
 const SignInPage = ({ redirect }: SignInPageProps) => {
-  console.log(redirect);
-
   return (
     <div className="flex flex-col items-center justify-center gap-4">
       <div className="container flex flex-col items-center justify-center gap-12 px-4 py-8">
@@ -46,8 +43,6 @@ export const getServerSideProps = (ctx: GetServerSidePropsContext) => {
   }
 
   const redirect = ctx.query.redirect as string;
-
-  console.log(redirect);
 
   return {
     props: {
