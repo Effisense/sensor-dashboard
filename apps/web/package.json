@@ -35,6 +35,7 @@
     "next": "^13.2.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-qr-reader": "3.0.0-beta-1",
     "superjson": "^1.12.2",
     "tailwind-merge": "^1.10.0",
     "tailwindcss-animate": "^1.0.5",
