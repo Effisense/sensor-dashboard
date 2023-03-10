@@ -16,6 +16,7 @@ const Map = () => {
         console.log(position.coords);
       },
       (error) => {
+        // TODO: Handle error where user denies location. Let user know that they need to allow location to use the app.
         console.log(error);
       },
     );
@@ -39,8 +40,6 @@ const Map = () => {
       },
     });
   });
-
-  console.log(map.current?.getCenter());
 
   return (
     <div className="h-96 w-96" id="map">
