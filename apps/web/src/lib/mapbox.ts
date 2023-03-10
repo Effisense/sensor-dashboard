@@ -13,13 +13,17 @@ type MapboxStyle =
   | "mapbox://styles/mapbox/navigation-night-v1";
 
 interface Options extends mapboxgl.MapboxOptions {
+  center: mapboxgl.LngLatLike;
   style: MapboxStyle;
 }
 
-export const MapboxMap = ({ container, style }: Options) =>
+export const MapboxMap = ({ container, style, center, zoom }: Options) =>
   new mapboxgl.Map({
     container,
     style,
-    center: [-74.5, 40], // starting position [lng, lat]
-    zoom: 9, // starting zoom
-  }).addControl(new mapboxgl.NavigationControl());
+    center,
+    zoom: zoom || 13,
+  })
+    .addControl(new mapboxgl.NavigationControl())
+    .addControl(new mapboxgl.FullscreenControl())
+    .addControl(new mapboxgl.GeolocateControl());
