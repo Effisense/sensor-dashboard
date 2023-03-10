@@ -1,22 +1,23 @@
-import { MapboxMap } from "@/lib/mapbox";
-import * as Mapbox from "mapbox-gl";
+import { MapboxMap, MapboxMarker } from "@/lib/mapbox";
+import mapbox from "mapbox-gl";
 import { useEffect, useRef, useState } from "react";
 
 const Map = () => {
   const mapContainer = useRef(null);
-  const map = useRef<Mapbox.Map | null>(null);
+  const map = useRef<mapbox.Map | null>(null);
   const [longitude, setLongitude] = useState<number | null>(null);
   const [latitude, setLatitude] = useState<number | null>(null);
+  const [sensorMarker, setSensorMarker] = useState<mapbox.Marker | null>(null);
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(
       (position) => {
         setLongitude(position.coords.longitude);
         setLatitude(position.coords.latitude);
-        console.log(position.coords);
       },
       (error) => {
-        // TODO: Handle error where user denies location. Let user know that they need to allow location to use the app.
+        // TODO: Handle error where user denies location.
+        // Let user know that they need to allow location to use the app.
         console.log(error);
       },
     );
@@ -39,6 +40,29 @@ const Map = () => {
         lng: longitude,
       },
     });
+
+    MapboxMarker({
+      addTo: map.current,
+      latitude,
+      longitude,
+      isCenter: true,
+    });
+  });
+
+  map.current?.on("mouseup", (event) => {
+    if (!map.current) {
+      return;
+    }
+
+    MapboxMarker({
+      addTo: map.current,
+      latitude: event.lngLat.lat,
+      longitude: event.lngLat.lng,
+    });
+  });
+
+  map.current?.on("load", () => {
+    console.log("map loaded");
   });
 
   return (
