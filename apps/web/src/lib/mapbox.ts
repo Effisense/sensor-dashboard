@@ -1,5 +1,5 @@
 import mapboxgl from "mapbox-gl";
-import { red, slate } from "tailwindcss/colors";
+import { green } from "tailwindcss/colors";
 
 mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_PUBLIC_TOKEN as string;
 
@@ -36,15 +36,9 @@ interface MarkerOptions extends mapboxgl.MarkerOptions {
   isCenter?: boolean;
 }
 
-export const MapboxMarker = ({
-  latitude,
-  longitude,
-  addTo,
-  isCenter = false,
-}: MarkerOptions) =>
+export const MapboxMarker = ({ latitude, longitude, addTo }: MarkerOptions) =>
   new mapboxgl.Marker({
-    color: isCenter ? red[400] : slate[400],
-    draggable: !isCenter,
+    color: green[500],
   })
     .setLngLat({
       lat: latitude,
