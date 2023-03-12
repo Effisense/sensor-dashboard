@@ -60,6 +60,7 @@ const useMap = () => {
   return {
     container,
     geoLocationEnabled: !!error,
+    sensorMarker,
   };
 };
 
