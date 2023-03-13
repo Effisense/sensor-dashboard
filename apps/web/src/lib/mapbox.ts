@@ -1,6 +1,6 @@
-import mapboxgl from "mapbox-gl";
+import mapboxgl, { LngLat, LngLatLike } from "mapbox-gl";
 import { green } from "tailwindcss/colors";
-import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
+import ExternalMapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
 
 mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_PUBLIC_TOKEN as string;
 
@@ -19,10 +19,22 @@ interface MapOptions extends mapboxgl.MapboxOptions {
   style: MapboxStyle;
 }
 
-const geocoder = new MapboxGeocoder({
-  accessToken: mapboxgl.accessToken,
-  mapboxgl: mapboxgl,
-});
+class InternalMapboxGeocoder extends ExternalMapboxGeocoder {
+  constructor() {
+    super({
+      accessToken: mapboxgl.accessToken,
+      mapboxgl: mapboxgl,
+      marker: false,
+    });
+  }
+
+  getLocationFromLngLat = ({ lng, lat }: LngLat) => {
+    const result = this.query(`${lng},${lat}`);
+    console.log(result);
+  };
+}
+
+export const MapboxGeocoder = new InternalMapboxGeocoder();
 
 export const MapboxMap = ({ container, style, center, zoom }: MapOptions) =>
   new mapboxgl.Map({
@@ -34,7 +46,7 @@ export const MapboxMap = ({ container, style, center, zoom }: MapOptions) =>
     .addControl(new mapboxgl.NavigationControl())
     .addControl(new mapboxgl.FullscreenControl())
     .addControl(new mapboxgl.GeolocateControl())
-    .addControl(geocoder, "top-left");
+    .addControl(MapboxGeocoder, "top-left");
 
 interface MarkerOptions extends mapboxgl.MarkerOptions {
   latitude: number;
