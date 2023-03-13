@@ -32,18 +32,6 @@ const useMap = () => {
     sensorMarker.setLngLat({ lng, lat });
   });
 
-  useEffect(() => {
-    // Get location name using MapboxGeocoder
-    if (!map.current || !sensorMarker) {
-      return;
-    }
-
-    const location = MapboxGeocoder.getLocationFromLngLat(
-      sensorMarker.getLngLat(),
-    );
-    console.log(location);
-  }, [sensorMarker]);
-
   // Initialize map
   useEffect(() => {
     if (map.current) {
@@ -85,10 +73,11 @@ const useMap = () => {
       const { lng, lat } = map.current.getCenter();
       sensorMarker.setLngLat({ lng, lat });
     });
-  });
 
-  console.log(`location: ${location}`);
-  console.log(`sensorMarker: ${sensorMarker?.getLngLat()}`);
+    map.current.on("moveend", () => {
+      setSensorMarker(sensorMarker);
+    });
+  });
 
   return {
     container,
