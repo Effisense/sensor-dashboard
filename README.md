@@ -41,11 +41,25 @@ packages
 
 ## Running the application
 
-To get it running, follow the steps below:
+Ensure that you have `pnpm` installed. This is a necessity for the project to run, as we're using [pnpm workspaces](https://pnpm.io/workspaces) and [Turborepo](https://turborepo.com/)
+
+Ensure that you have a `.env` file in the root of the project. You can copy the contents of `.env.example` to get started:
+
+```sh
+# Navigate to the project directory
+cd sensor-dashboard
+
+# Copy the contents of `.env.example` to `.env`
+cp .env.example .env
+```
+
+Next, update the values in `.env` to match your environment. Environment variables are available on Vault. Contact repository maintainers for access.
+
+To get the application running, follow the steps below:
 
 ### Setup dependencies
 
-```diff
+```sh
 # Navigate to the project directory
 cd sensor-dashboard
 
