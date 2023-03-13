@@ -1,10 +1,12 @@
-import type { NextPage } from "next";
+import type { GetServerSidePropsContext, NextPage } from "next";
 import { trpc } from "../utils/trpc";
 import type { inferProcedureOutput } from "@trpc/server";
 import type { AppRouter } from "@acme/api";
 import { useAuth, UserButton } from "@clerk/nextjs";
 import Link from "next/link";
 import Map from "@/ui/Map";
+import { RedirectSchema } from "@/schemas";
+import { getAuth } from "@clerk/nextjs/server";
 
 const PostCard: React.FC<{
   post: inferProcedureOutput<AppRouter["post"]["all"]>[number];
@@ -98,4 +100,33 @@ const AuthShowcase: React.FC = () => {
       )}
     </div>
   );
+};
+
+
+export const getServerSideProps = (ctx: GetServerSidePropsContext) => {
+  const { userId } = getAuth(ctx.req);
+
+  if (!userId) {
+    return {
+      redirect: {
+        destination: "/sign-in",
+        permanent: false,
+      },
+    };
+  }
+
+  const { success } = RedirectSchema.safeParse(ctx.query.redirect);
+  if (!success) {
+    return {
+      props: {},
+    };
+  }
+
+  const redirect = ctx.query.redirect as string;
+
+  return {
+    props: {
+      redirect,
+    },
+  };
 };

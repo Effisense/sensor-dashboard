@@ -15,7 +15,7 @@ const Navigation = () => {
         <NavigationMenuItem>
           <NavigationMenuTrigger>Item One</NavigationMenuTrigger>
           <NavigationMenuContent>
-            <NavigationMenuLink>Link</NavigationMenuLink>
+            <NavigationMenuLink>Hei</NavigationMenuLink>
           </NavigationMenuContent>
         </NavigationMenuItem>
       </NavigationMenuList>
