@@ -1,5 +1,6 @@
 import mapboxgl from "mapbox-gl";
 import { green } from "tailwindcss/colors";
+import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
 
 mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_PUBLIC_TOKEN as string;
 
@@ -18,6 +19,11 @@ interface MapOptions extends mapboxgl.MapboxOptions {
   style: MapboxStyle;
 }
 
+const geocoder = new MapboxGeocoder({
+  accessToken: mapboxgl.accessToken,
+  mapboxgl: mapboxgl,
+});
+
 export const MapboxMap = ({ container, style, center, zoom }: MapOptions) =>
   new mapboxgl.Map({
     container,
@@ -27,7 +33,8 @@ export const MapboxMap = ({ container, style, center, zoom }: MapOptions) =>
   })
     .addControl(new mapboxgl.NavigationControl())
     .addControl(new mapboxgl.FullscreenControl())
-    .addControl(new mapboxgl.GeolocateControl());
+    .addControl(new mapboxgl.GeolocateControl())
+    .addControl(geocoder, "top-left");
 
 interface MarkerOptions extends mapboxgl.MarkerOptions {
   latitude: number;

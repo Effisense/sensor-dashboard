@@ -20,6 +20,7 @@
     "@acme/influx": "*",
     "@acme/tailwind-config": "*",
     "@clerk/nextjs": "^4.11.2",
+    "@mapbox/mapbox-gl-geocoder": "^5.0.1",
     "@radix-ui/react-navigation-menu": "^1.1.1",
     "@sentry/nextjs": "^7.40.0",
     "@tanstack/react-query": "^4.24.10",
@@ -43,6 +44,7 @@
   },
   "devDependencies": {
     "@types/mapbox-gl": "^2.7.10",
+    "@types/mapbox__mapbox-gl-geocoder": "^4.7.3",
     "@types/node": "^18.14.2",
     "@types/react": "^18.0.25",
     "@types/react-dom": "^18.0.9",
