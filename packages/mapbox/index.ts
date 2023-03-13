@@ -1,25 +1,11 @@
 import mapboxgl, { LngLat } from "mapbox-gl";
 import { green } from "tailwindcss/colors";
 import ExternalMapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
+import { MapOptions, MarkerOptions } from "./types";
 
 mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_PUBLIC_TOKEN as string;
 
-type MapboxStyle =
-  | "mapbox://styles/mapbox/streets-v12"
-  | "mapbox://styles/mapbox/outdoors-v12"
-  | "mapbox://styles/mapbox/light-v11"
-  | "mapbox://styles/mapbox/dark-v11"
-  | "mapbox://styles/mapbox/satellite-v9"
-  | "mapbox://styles/mapbox/satellite-streets-v12"
-  | "mapbox://styles/mapbox/navigation-day-v1"
-  | "mapbox://styles/mapbox/navigation-night-v1";
-
-interface MapOptions extends mapboxgl.MapboxOptions {
-  center: mapboxgl.LngLatLike;
-  style: MapboxStyle;
-}
-
-class InternalMapboxGeocoder extends ExternalMapboxGeocoder {
+export class InternalMapboxGeocoder extends ExternalMapboxGeocoder {
   constructor() {
     super({
       accessToken: mapboxgl.accessToken,
@@ -51,13 +37,6 @@ export const MapboxMap = ({ container, style, center, zoom }: MapOptions) =>
     .addControl(new mapboxgl.GeolocateControl())
     .addControl(MapboxGeocoder, "top-left");
 
-interface MarkerOptions extends mapboxgl.MarkerOptions {
-  latitude: number;
-  longitude: number;
-  addTo: mapboxgl.Map;
-  isCenter?: boolean;
-}
-
 export const MapboxMarker = ({ latitude, longitude, addTo }: MarkerOptions) =>
   new mapboxgl.Marker({
     color: green[500],
@@ -67,3 +46,6 @@ export const MapboxMarker = ({ latitude, longitude, addTo }: MarkerOptions) =>
       lng: longitude,
     })
     .addTo(addTo);
+
+export * from "./types";
+export { mapboxgl as mapbox };

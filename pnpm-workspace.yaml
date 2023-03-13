@@ -4,5 +4,6 @@ packages:
   - packages/db
   - packages/influx
   - packages/email
+  - packages/mapbox
   - packages/e2e
   - packages/config/*

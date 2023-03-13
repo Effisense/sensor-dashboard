@@ -1,8 +1,6 @@
-import { MapboxMap, MapboxMarker } from "@/lib/mapbox";
 import { useEffect, useRef, useState } from "react";
 import useGeoLocation from "./useGeolocation";
-import mapbox from "mapbox-gl";
-import { MapboxGeocoder } from "@/lib/mapbox";
+import { mapbox, MapboxGeocoder, MapboxMap, MapboxMarker } from "@acme/mapbox";
 
 /**
  * Handles initialization of the map from Mapbox, and updates the sensor marker's position on move.
@@ -13,9 +11,7 @@ const useMap = () => {
   const container = useRef(null);
   const { latitude, longitude, error } = useGeoLocation();
   const map = useRef<mapbox.Map | null>(null);
-  const [sensorMarker, setSensorMarker] = useState<
-    mapbox.Marker | null | undefined
-  >(null);
+  const [sensorMarker, setSensorMarker] = useState<mapbox.Marker | null>(null);
   const [location, setLocation] = useState<string | null>(null);
 
   MapboxGeocoder.on("result", (event) => {
