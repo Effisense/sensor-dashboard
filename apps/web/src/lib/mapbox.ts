@@ -1,4 +1,4 @@
-import mapboxgl, { LngLat, LngLatLike } from "mapbox-gl";
+import mapboxgl, { LngLat } from "mapbox-gl";
 import { green } from "tailwindcss/colors";
 import ExternalMapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
 
@@ -29,8 +29,11 @@ class InternalMapboxGeocoder extends ExternalMapboxGeocoder {
   }
 
   getLocationFromLngLat = ({ lng, lat }: LngLat) => {
-    const result = this.query(`${lng},${lat}`);
-    console.log(result);
+    const res = this.query(`${lng},${lat}`);
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const rawData = (res as any).lastSelected as string;
+    console.log(rawData);
   };
 }
 

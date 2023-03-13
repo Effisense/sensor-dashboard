@@ -13,19 +13,27 @@ const useMap = () => {
   const container = useRef(null);
   const { latitude, longitude, error } = useGeoLocation();
   const map = useRef<mapbox.Map | null>(null);
-  const [sensorMarker, setSensorMarker] = useState<mapbox.Marker | null>(null);
+  const [sensorMarker, setSensorMarker] = useState<
+    mapbox.Marker | null | undefined
+  >(null);
   const [location, setLocation] = useState<string | null>(null);
 
-  MapboxGeocoder.on("result", (e) => {
+  MapboxGeocoder.on("result", (event) => {
     // Note that this is a MapboxGeocoder event, not a Mapbox event.
     // The types in this library are not well maintained, so we have to cast the result by trial and error.
-
-    if (!e.result.place_name) {
+    if (
+      !event.result.place_name ||
+      !event.result.geometry.coordinates ||
+      !sensorMarker
+    ) {
       return;
     }
 
-    const location = e.result.place_name as string;
+    const [lng, lat] = event.result.geometry.coordinates as [number, number];
+    const location = event.result.place_name as string;
+
     setLocation(location);
+    sensorMarker.setLngLat({ lng, lat });
   });
 
   useEffect(() => {
@@ -37,6 +45,7 @@ const useMap = () => {
     const location = MapboxGeocoder.getLocationFromLngLat(
       sensorMarker.getLngLat(),
     );
+    console.log(location);
   }, [sensorMarker]);
 
   // Initialize map
@@ -73,14 +82,17 @@ const useMap = () => {
     }
 
     map.current.on("move", () => {
-      if (!map.current) {
+      if (!map.current || !sensorMarker) {
         return;
       }
 
       const { lng, lat } = map.current.getCenter();
-      sensorMarker?.setLngLat([lng, lat]);
+      sensorMarker.setLngLat({ lng, lat });
     });
   });
+
+  console.log(`location: ${location}`);
+  console.log(`sensorMarker: ${sensorMarker?.getLngLat()}`);
 
   return {
     container,
