@@ -18,6 +18,7 @@
     "@acme/db": "*",
     "@acme/email": "*",
     "@acme/influx": "*",
+    "@acme/mapbox": "*",
     "@acme/tailwind-config": "*",
     "@clerk/nextjs": "^4.11.2",
     "@radix-ui/react-navigation-menu": "^1.1.1",
@@ -31,7 +32,6 @@
     "clsx": "^1.2.1",
     "dotenv-cli": "^6.0.0",
     "lucide-react": "^0.115.0",
-    "mapbox-gl": "^2.13.0",
     "next": "^13.2.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
@@ -42,7 +42,6 @@
     "zod": "^3.20.6"
   },
   "devDependencies": {
-    "@types/mapbox-gl": "^2.7.10",
     "@types/node": "^18.14.2",
     "@types/react": "^18.0.25",
     "@types/react-dom": "^18.0.9",

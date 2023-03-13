@@ -6,12 +6,48 @@ generator client {
 }
 
 datasource db {
-    provider = "mysql"
-    url      = env("DATABASE_URL")
+    provider     = "mysql"
+    url          = env("DATABASE_URL")
+    relationMode = "prisma"
 }
 
 model Post {
     id      String @id @default(cuid())
     title   String
     content String
+}
+
+model User {
+    id String @id
+}
+
+model Sensor {
+    id                       String    @id
+    nickname                 String
+    description              String
+    // Threshold where the bin is defined full
+    targetFillLevelInPercent Int
+    location                 String
+    latitude                 Float
+    longitude                Float
+    container                Container @relation(fields: [containerId], references: [id])
+    containerId              String    @unique
+}
+
+model Container {
+    id                        String        @id @default(cuid())
+    Sensor                    Sensor?
+    ContainerType             ContainerType @relation(fields: [containerTypeId], references: [id])
+    containerTypeId           String
+    binHeightInMillimeters    Int
+    binWidthInMillimeters     Int?
+    sensorOffsetInMillimeters Int
+    containerVolumeInLiters   Int
+}
+
+model ContainerType {
+    id          String      @id
+    name        String
+    description String
+    Containers  Container[]
 }

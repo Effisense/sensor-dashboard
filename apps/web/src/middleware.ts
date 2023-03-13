@@ -6,7 +6,7 @@ import {
 import { NextResponse } from "next/server";
 import { isAdmin } from "@acme/api/src/lib/clerk";
 
-const publicPaths = ["/", "/sign-in*", "/sign-up*"];
+const publicPaths = ["/", "/sign-in*", "/sign-up*", "/scan"];
 
 const adminPaths = ["/admin*"];
 

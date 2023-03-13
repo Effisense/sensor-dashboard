@@ -1,11 +1,17 @@
+import QrReader from "@/ui/QrReader";
 import H1 from "@/ui/typography/H1";
 import { getAuth } from "@clerk/nextjs/server";
 import { GetServerSidePropsContext } from "next";
 import { useState } from "react";
-import { QrReader } from "react-qr-reader";
 
 const ScanPage = () => {
-  const [data, setData] = useState("No result");
+  const [deviceId, setDeviceId] = useState<string | null>(null);
+
+  const handleScan = (data: string) => {
+    // TODO
+    // 1.Validate that the `data` is a valid and active device ID
+    // 2. Redirect to `/sensors/add` with `deviceId` as a query parameter
+  };
 
   return (
     <div>
@@ -13,20 +19,13 @@ const ScanPage = () => {
 
       <div>
         <QrReader
-          onResult={(result, error) => {
+          onResult={(result) => {
             if (!!result) {
-              setData(result?.getText());
+              handleScan(result.getText());
             }
-
-            if (!!error) {
-              console.info(error);
-            }
-          }}
-          constraints={{
-            facingMode: "environment",
           }}
         />
-        <p>{data}</p>
+        <p>{deviceId}</p>
       </div>
     </div>
   );
@@ -38,7 +37,7 @@ export const getServerSideProps = (ctx: GetServerSidePropsContext) => {
   if (!userId) {
     return {
       redirect: {
-        destination: "/sign-in",
+        destination: "/sign-in?redirect=/scan",
         permanent: false,
       },
     };

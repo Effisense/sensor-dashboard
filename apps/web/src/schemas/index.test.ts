@@ -1,12 +1,8 @@
-import { it, assert, expect } from "vitest";
-import { TestSchema } from ".";
+import { it, expect } from "vitest";
+import { RedirectSchema } from ".";
 
-it("demo", () => {
-  assert(true);
-  expect(true).toBe(true);
-});
-
-it("sample schema", () => {
-  expect(TestSchema.safeParse({ name: "test" }).success).toEqual(true);
-  expect(TestSchema.safeParse({ name: "" }).success).toEqual(false);
+it("RedirectSchema", () => {
+  expect(RedirectSchema.safeParse("/").success).toBe(true);
+  expect(RedirectSchema.safeParse("/foo").success).toBe(true);
+  expect(RedirectSchema.safeParse("foo").success).toBe(false);
 });

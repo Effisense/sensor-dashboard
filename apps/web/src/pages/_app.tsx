@@ -1,4 +1,7 @@
 import "../styles/globals.css";
+import "mapbox-gl/dist/mapbox-gl.css";
+import "@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css";
+
 import type { AppType } from "next/app";
 import { ClerkProvider } from "@clerk/nextjs";
 import { trpc } from "../utils/trpc";
