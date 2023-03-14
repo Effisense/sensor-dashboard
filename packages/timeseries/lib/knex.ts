@@ -1,6 +1,7 @@
-import knex from "knex";
+import knex, { Knex as IKnex } from "knex";
+import { Tables } from "knex/types/tables";
 
-export const Knex = knex({
+export const Knex: IKnex<Tables> = knex({
   client: "pg",
   connection: {
     host: process.env.TIMESERIES_DB_HOST,
