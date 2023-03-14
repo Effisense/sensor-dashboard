@@ -3,7 +3,6 @@ import { trpc } from "../utils/trpc";
 import type { inferProcedureOutput } from "@trpc/server";
 import type { AppRouter } from "@acme/api";
 import { useAuth, UserButton } from "@clerk/nextjs";
-import Link from "next/link";
 import Map from "@/ui/Map";
 import { RedirectSchema } from "@/schemas";
 import { getAuth } from "@clerk/nextjs/server";
@@ -27,7 +26,7 @@ const Home: NextPage = () => {
   return (
     <div className="container flex flex-col items-center justify-center gap-12 px-4 py-8">
       <h1 className="text-5xl font-extrabold tracking-tight sm:text-[5rem]">
-        Create <span className="text-[hsl(280,100%,70%)]">T3</span> Turbo
+         <span className="text-[hsl(280,100%,70%)]">Effisense dashboard</span> 
       </h1>
       <AuthShowcase />
 
@@ -92,11 +91,6 @@ const AuthShowcase: React.FC = () => {
             />
           </div>
         </>
-      )}
-      {!isSignedIn && (
-        <p className="text-center text-2xl ">
-          <Link href="/sign-in">Sign In</Link>
-        </p>
       )}
     </div>
   );

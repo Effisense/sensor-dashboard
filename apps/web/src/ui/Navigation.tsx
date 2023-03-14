@@ -5,7 +5,9 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
+  navigationMenuTriggerStyle,
 } from "@/ui/NavigationMenu";
+import { UserButton } from "@clerk/nextjs";
 
 const Navigation = () => {
   // TODO: Add Navigation
@@ -13,10 +15,18 @@ const Navigation = () => {
     <NavigationMenu>
       <NavigationMenuList>
         <NavigationMenuItem>
-          <NavigationMenuTrigger>Item One</NavigationMenuTrigger>
-          <NavigationMenuContent>
-            <NavigationMenuLink>Hei</NavigationMenuLink>
-          </NavigationMenuContent>
+        <div className="mx-16">
+            <UserButton
+              appearance={{
+                elements: {
+                  userButtonAvatarBox: {
+                    width: "3rem",
+                    height: "3rem",
+                  },
+                },
+              }}
+            />
+          </div>
         </NavigationMenuItem>
       </NavigationMenuList>
     </NavigationMenu>
