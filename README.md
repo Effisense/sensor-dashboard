@@ -72,6 +72,9 @@ pnpm db:generate
 # Push the Prisma schema to your database
 pnpm db:push
 
+# Generate types from external services
+pnpm gen:types
+
 # Start all `dev` scripts
 pnpm dev
 

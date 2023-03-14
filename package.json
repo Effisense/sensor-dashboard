@@ -19,6 +19,7 @@
     "dev:test": "turbo dev:test",
     "e2e:test": "turbo e2e:test",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "gen:types": "turbo gen:types",
     "lint": "turbo lint",
     "FIXME:lint": "turbo lint && manypkg check",
     "type:check": "turbo type:check",
