@@ -1,4 +1,7 @@
-const path = require("path");
+const {
+  generateKnexTablesModule,
+  generateMigrationCheck,
+} = require("kanel-knex");
 
 /** @type {import('kanel').Config} */
 module.exports = {
@@ -13,8 +16,12 @@ module.exports = {
   preDeleteModelFolder: true,
   outputPath: "./src/schemas",
 
+  enumStyle: "type",
+
   customTypeMap: {
     "pg_catalog.tsvector": "string",
     "pg_catalog.bpchar": "string",
   },
+
+  preRenderHooks: [generateKnexTablesModule, generateMigrationCheck],
 };
