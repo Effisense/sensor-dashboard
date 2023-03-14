@@ -3,6 +3,7 @@ packages:
   - packages/api
   - packages/db
   - packages/influx
+  - packages/timeseries
   - packages/email
   - packages/mapbox
   - packages/e2e

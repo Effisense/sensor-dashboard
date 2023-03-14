@@ -17,7 +17,7 @@
     "@acme/api": "*",
     "@acme/db": "*",
     "@acme/email": "*",
-    "@acme/influx": "*",
+    "@acme/timeseries": "*",
     "@acme/mapbox": "*",
     "@acme/tailwind-config": "*",
     "@clerk/nextjs": "^4.11.2",
