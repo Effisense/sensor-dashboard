@@ -28,6 +28,11 @@ const Navigation = () => {
             />
           </div>
         </NavigationMenuItem>
+        <NavigationMenuItem>
+        <div className="mx-16">
+          
+          </div>
+        </NavigationMenuItem>
       </NavigationMenuList>
     </NavigationMenu>
   );
