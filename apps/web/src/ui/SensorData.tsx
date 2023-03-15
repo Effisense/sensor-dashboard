@@ -3,16 +3,10 @@ import {
   Title,
   AreaChart,
   CategoryBar,
-  Text,
   DateRangePicker,
-  DateRangePickerValue,
-  Metric,
   Flex,
   Badge,
-  Subtitle,
 } from "@tremor/react";
-import { useState } from "react";
-import { getScale } from "@/utils/sensorDataInRange";
 import Map from "@/ui/Map";
 
 const chartdataOld = [
@@ -51,8 +45,6 @@ const chartdataOld = [
 const dataFormatter = (number: number) => {
   return "$ " + Intl.NumberFormat("us").format(number).toString();
 };
-
-//const [chartdata, setChartData] = useState({});
 
 function SensorData() {
   return (

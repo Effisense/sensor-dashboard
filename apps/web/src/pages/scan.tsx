@@ -11,6 +11,7 @@ const ScanPage = () => {
     // TODO
     // 1.Validate that the `data` is a valid and active device ID
     // 2. Redirect to `/sensors/add` with `deviceId` as a query parameter
+    console.log(data);
   };
 
   return (
@@ -22,6 +23,7 @@ const ScanPage = () => {
           onResult={(result) => {
             if (!!result) {
               handleScan(result.getText());
+              setDeviceId(result.getText());
             }
           }}
         />
