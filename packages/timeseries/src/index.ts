@@ -1,4 +1,4 @@
-import { Knex } from "../lib/knex";
+import { db } from "@/lib/knex";
 import SensorData from "./schemas/public/SensorData";
 
-export const Sensors = Knex.from<SensorData, SensorData>("sensor_data");
+export const Sensor = db.from<SensorData, SensorData>("sensor_data");
