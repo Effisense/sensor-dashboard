@@ -1,7 +1,4 @@
-import { Sensor } from "@/src/entities";
-
-export * as SensorData from "@/src/schemas/public/SensorData";
-export { Knex } from "knex";
+import { Sensor } from "./src/entities";
 
 const timeseries = {
   Sensor,
