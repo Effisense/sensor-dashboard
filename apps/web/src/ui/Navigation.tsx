@@ -6,6 +6,7 @@ import {
 import { useState } from 'react';
 import { OrganizationProfile, UserButton } from "@clerk/nextjs";
 import { Button } from "./Button";
+import OrganizationSwitcher from "./OrganizationSwitcher";
 
 const Navigation = () => {
   // TODO: Add Navigation
@@ -19,12 +20,11 @@ const Navigation = () => {
   return (
     <NavigationMenu>
       <NavigationMenuList>
-      <NavigationMenuItem>    
-      <>
-      <Button variant="outline" onClick={toggleProfile}>Manage organization</Button>
-      {showProfile && <OrganizationProfile />}
-    </>
-        </NavigationMenuItem> 
+        <NavigationMenuItem>
+        <div className="mx-16">
+          <OrganizationSwitcher/>
+          </div>
+        </NavigationMenuItem>
         <NavigationMenuItem>
         <div className="mx-16">
             <UserButton
