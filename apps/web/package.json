@@ -19,7 +19,6 @@
     "@acme/email": "*",
     "@acme/mapbox": "*",
     "@acme/tailwind-config": "*",
-    "@acme/timeseries": "*",
     "@clerk/nextjs": "^4.11.2",
     "@heroicons/react": "^2.0.16",
     "@mapbox/mapbox-gl-geocoder": "^5.0.1",

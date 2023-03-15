@@ -5,8 +5,6 @@
 - [ ] Go through existing `TODO`s in code base
 - [ ] Point Sentry to the correct project
 - [ ] Add Tremor to the project if needed
-- [ ] Add Influx credentials in `.env`
-- [ ] Add bucket name to `Bucket` type in `influx` package when we know the available bucket names
 - [ ] Add all secrets to GitHub Secrets
 - [ ] Make Playwright work in CI
 
@@ -35,8 +33,8 @@ packages
  |   └─ E2E tests using Playwright
  ├─ email
  |   └─ Email templates
- ├─ influx
-     └─ InfluxDB client
+ ├─ timeseries
+     └─ Client for timeseries database, specifically TimescaleDB
 ```
 
 ## Running the application

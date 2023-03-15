@@ -2,8 +2,8 @@ import { prisma } from "@acme/db";
 import { type inferAsyncReturnType } from "@trpc/server";
 import { type CreateNextContextOptions } from "@trpc/server/adapters/next";
 import type { User } from "@clerk/nextjs/api";
-// import { influx } from "./lib/influx";
 import { getUser } from "./lib/clerk";
+import timeseries from "@acme/timeseries";
 
 export type CustomClerkMetadata = Record<string, unknown> & {
   role?: "user" | "admin";
@@ -23,10 +23,10 @@ type UserProps = {
  * @see https://beta.create.t3.gg/en/usage/trpc#-servertrpccontextts
  */
 export const createContextInner = async ({ user }: UserProps) => {
+  timeseries;
   return {
     user,
     prisma,
-    // influx,
   };
 };
 

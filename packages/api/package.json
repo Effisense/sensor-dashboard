@@ -12,8 +12,8 @@
   },
   "dependencies": {
     "@acme/db": "^0.1.0",
-    "@acme/influx": "^0.1.0",
     "@acme/mapbox": "^0.1.0",
+    "@acme/timeseries": "*",
     "@clerk/nextjs": "^4.11.2",
     "@trpc/client": "^10.13.0",
     "@trpc/server": "^10.13.0",

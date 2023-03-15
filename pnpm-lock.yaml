@@ -35,7 +35,6 @@ importers:
       '@acme/email': '*'
       '@acme/mapbox': '*'
       '@acme/tailwind-config': '*'
-      '@acme/timeseries': '*'
       '@clerk/nextjs': ^4.11.2
       '@heroicons/react': ^2.0.16
       '@mapbox/mapbox-gl-geocoder': ^5.0.1
@@ -79,7 +78,6 @@ importers:
       '@acme/email': link:../../packages/email
       '@acme/mapbox': link:../../packages/mapbox
       '@acme/tailwind-config': link:../../packages/config/tailwind
-      '@acme/timeseries': link:../../packages/timeseries
       '@clerk/nextjs': 4.11.2_nvzgbose6yf6w7ijjprgspqefi
       '@heroicons/react': 2.0.16_react@18.2.0
       '@mapbox/mapbox-gl-geocoder': 5.0.1_mapbox-gl@2.13.0
@@ -122,8 +120,8 @@ importers:
   packages/api:
     specifiers:
       '@acme/db': ^0.1.0
-      '@acme/influx': ^0.1.0
       '@acme/mapbox': ^0.1.0
+      '@acme/timeseries': '*'
       '@clerk/nextjs': ^4.11.2
       '@trpc/client': ^10.13.0
       '@trpc/server': ^10.13.0
@@ -133,8 +131,8 @@ importers:
       zod: ^3.20.6
     dependencies:
       '@acme/db': link:../db
-      '@acme/influx': link:../influx
       '@acme/mapbox': link:../mapbox
+      '@acme/timeseries': link:../timeseries
       '@clerk/nextjs': 4.11.2
       '@trpc/client': 10.13.0_@trpc+server@10.13.0
       '@trpc/server': 10.13.0
@@ -222,17 +220,6 @@ importers:
       '@sendgrid/mail': 7.7.0
       react: 18.2.0
       react-email: 1.7.13
-    devDependencies:
-      dotenv-cli: 6.0.0
-      typescript: 4.9.5
-
-  packages/influx:
-    specifiers:
-      '@influxdata/influxdb-client': ^1.33.2
-      dotenv-cli: ^6.0.0
-      typescript: ^4.9.5
-    dependencies:
-      '@influxdata/influxdb-client': 1.33.2
     devDependencies:
       dotenv-cli: 6.0.0
       typescript: 4.9.5
@@ -938,10 +925,6 @@ packages:
 
   /@humanwhocodes/object-schema/1.2.1:
     resolution: {integrity: sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==}
-
-  /@influxdata/influxdb-client/1.33.2:
-    resolution: {integrity: sha512-RT5SxH+grHAazo/YK3UTuWK/frPWRM0N7vkrCUyqVprDgQzlLP+bSK4ak2Jv3QVF/pazTnsxWjvtKZdwskV5Xw==}
-    dev: false
 
   /@jridgewell/sourcemap-codec/1.4.14:
     resolution: {integrity: sha512-XPSJHWmi394fuUuzDnGz1wiKqWfo1yXecHQMRf2l6hztTO+nPru658AyDngaBe7isIxEkRsPR3FZh+s7iVa4Uw==}

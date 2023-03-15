@@ -1,6 +1,7 @@
+import SensorData from "@/src/schemas/public/SensorData";
 import knex, { Knex as IKnex } from "knex";
 
-export const db: IKnex = knex({
+export const db: IKnex<SensorData, SensorData> = knex({
   client: "pg",
   connection: {
     host: process.env.TIMESERIES_DB_HOST,
