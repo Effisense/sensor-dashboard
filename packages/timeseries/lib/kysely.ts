@@ -3,7 +3,7 @@ import { Pool } from "pg";
 import { Kysely, PostgresDialect } from "kysely";
 
 type Database = {
-  sensor: SensorData;
+  sensor_data: SensorData;
 };
 
 export const db = new Kysely<Database>({
