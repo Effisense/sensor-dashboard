@@ -3,9 +3,10 @@ import { trpc } from "../utils/trpc";
 import type { inferProcedureOutput } from "@trpc/server";
 import type { AppRouter } from "@acme/api";
 import { useAuth, UserButton } from "@clerk/nextjs";
-import Map from "@/ui/Map";
 import { RedirectSchema } from "@/schemas";
 import { getAuth } from "@clerk/nextjs/server";
+import Link from "next/link";
+import Map from "@/ui/Map";
 
 const PostCard: React.FC<{
   post: inferProcedureOutput<AppRouter["post"]["all"]>[number];

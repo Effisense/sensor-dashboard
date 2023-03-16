@@ -19,7 +19,6 @@ const SignInPage = ({ redirect }: SignInPageProps) => {
           redirectUrl={redirect || "/"}
         />
       </div>
-
     </div>
   );
 };
