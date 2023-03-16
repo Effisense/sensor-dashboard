@@ -121,6 +121,7 @@ importers:
     specifiers:
       '@acme/db': ^0.1.0
       '@acme/mapbox': ^0.1.0
+      '@acme/timeseries': '*'
       '@clerk/nextjs': ^4.11.2
       '@trpc/client': ^10.13.0
       '@trpc/server': ^10.13.0
@@ -131,6 +132,7 @@ importers:
     dependencies:
       '@acme/db': link:../db
       '@acme/mapbox': link:../mapbox
+      '@acme/timeseries': link:../timeseries
       '@clerk/nextjs': 4.11.2
       '@trpc/client': 10.13.0_@trpc+server@10.13.0
       '@trpc/server': 10.13.0
