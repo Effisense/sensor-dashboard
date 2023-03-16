@@ -3,6 +3,7 @@ import { type inferAsyncReturnType } from "@trpc/server";
 import { type CreateNextContextOptions } from "@trpc/server/adapters/next";
 import type { User } from "@clerk/nextjs/api";
 import { getUser } from "./lib/clerk";
+import timeseries from "@acme/timeseries";
 
 export type CustomClerkMetadata = Record<string, unknown> & {
   role?: "user" | "admin";
@@ -25,6 +26,7 @@ export const createContextInner = async ({ user }: UserProps) => {
   return {
     user,
     prisma,
+    timeseries,
   };
 };
 
