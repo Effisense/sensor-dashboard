@@ -1,4 +1,5 @@
-import { db } from "../lib/knex";
-import SensorData from "./schemas/public/SensorData";
+import { db } from "../lib/kysely";
 
-export const Sensor = db.from<SensorData, SensorData>("sensor_data");
+export const Sensor = db.selectFrom("sensor");
+
+console.log(Sensor.select("battery").execute());

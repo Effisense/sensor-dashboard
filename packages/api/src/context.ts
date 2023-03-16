@@ -23,10 +23,10 @@ type UserProps = {
  * @see https://beta.create.t3.gg/en/usage/trpc#-servertrpccontextts
  */
 export const createContextInner = async ({ user }: UserProps) => {
-  timeseries;
   return {
     user,
     prisma,
+    timeseries,
   };
 };
 

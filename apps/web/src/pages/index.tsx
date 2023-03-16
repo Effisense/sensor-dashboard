@@ -22,6 +22,10 @@ const PostCard: React.FC<{
 const Home: NextPage = () => {
   const postQuery = trpc.post.all.useQuery();
 
+  const timeseriesQuery = trpc.timeseries.hello.useQuery();
+
+  console.log(timeseriesQuery.data);
+
   return (
     <div className="container flex flex-col items-center justify-center gap-12 px-4 py-8">
       <h1 className="text-5xl font-extrabold tracking-tight sm:text-[5rem]">

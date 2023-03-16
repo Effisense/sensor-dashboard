@@ -18,7 +18,6 @@
     "@acme/db": "*",
     "@acme/email": "*",
     "@acme/mapbox": "*",
-    "@acme/timeseries": "*",
     "@acme/tailwind-config": "*",
     "@clerk/nextjs": "^4.11.2",
     "@heroicons/react": "^2.0.16",

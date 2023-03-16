@@ -1,4 +1,3 @@
-const { generateKnexTablesModule } = require("kanel-knex");
 const { generateZodSchemas } = require("kanel-zod");
 
 /** @type {import('kanel').Config} */
@@ -21,5 +20,5 @@ module.exports = {
     "pg_catalog.bpchar": "string",
   },
 
-  preRenderHooks: [generateKnexTablesModule, generateZodSchemas],
+  preRenderHooks: [generateZodSchemas],
 };
