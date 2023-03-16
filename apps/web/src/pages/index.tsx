@@ -12,7 +12,7 @@ const Home: NextPage = () => {
       </h1>
       <AuthShowcase />
 
-      {/* <Map /> */}
+      <Map />
 
       <button
         type="button"
