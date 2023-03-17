@@ -48,6 +48,8 @@ model Sensor {
 
     organization   Organization @relation(fields: [organizationId], references: [id])
     organizationId String
+
+    @@index([organizationId])
 }
 
 model Container {
