@@ -1,7 +1,6 @@
 import { TRPCError } from "@trpc/server";
 import { router, publicProcedure } from "../trpc";
 import { z } from "zod";
-import { getScale } from "../utils/sensorDataInRange";
 
 export const timeseriesRouter = router({
   sample: publicProcedure.query(async ({ ctx }) => {
@@ -29,7 +28,6 @@ export const timeseriesRouter = router({
           message: "No sensor data found",
         });
       }
-      getScale(result);
 
       return result;
     }),
