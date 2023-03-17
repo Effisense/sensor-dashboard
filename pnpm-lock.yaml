@@ -13,6 +13,7 @@ importers:
       heroicons: 1.0.6
       prettier: ^2.8.4
       prettier-plugin-tailwindcss: ^0.1.13
+      react-hook-form: ^7.43.6
       turbo: ^1.8.3
       typescript: ^4.9.5
     dependencies:
@@ -25,6 +26,7 @@ importers:
       heroicons: 1.0.6
       prettier: 2.8.4
       prettier-plugin-tailwindcss: 0.1.13_prettier@2.8.4
+      react-hook-form: 7.43.6
       turbo: 1.8.3
       typescript: 4.9.5
 
@@ -5922,6 +5924,13 @@ packages:
       read-pkg: 5.2.0
       shelljs: 0.8.5
       tree-node-cli: 1.6.0
+    dev: false
+
+  /react-hook-form/7.43.6:
+    resolution: {integrity: sha512-zEXpju7XnrszIW5AMIjGw3ta/NmhkXG02fnSbIt4MfCegdQhmLkAfeM8bba87Co3oyBDsp8wONP8POcRToPBVw==}
+    engines: {node: '>=12.22.0'}
+    peerDependencies:
+      react: ^16.8.0 || ^17 || ^18
     dev: false
 
   /react-is/16.13.1:
