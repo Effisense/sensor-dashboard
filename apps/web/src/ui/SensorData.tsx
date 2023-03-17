@@ -10,7 +10,7 @@ import {
   Metric,
 } from "@tremor/react";
 import Map from "@/ui/Map";
-import { BeakerIcon, SignalIcon } from "@heroicons/react/24/solid";
+import { MapPinIcon, SignalIcon } from "@heroicons/react/24/solid";
 
 const chartdataOld = [
   {
@@ -62,24 +62,30 @@ function SensorData() {
         <Metric>Sensor: XGSJNE</Metric>
         <Flex className="justify-start pt-2">
           <Badge className="mr-3" icon={SignalIcon}>
-            live
+            Sist oppdatert: 500 min siden
           </Badge>
-          <Badge icon={BeakerIcon}>Gisle Johnsons Gate 6</Badge>
+          <Badge icon={MapPinIcon}>Gisle Johnsons Gate 6</Badge>
         </Flex>
-        <Text>Her er en beskrivelse</Text>
+        <div className="pt-3">
+          <Text>Her er en beskrivelse</Text>
+        </div>
 
-        <Title className="pt-5">Fyllingsgrad: </Title>
+        <Title className="pt-5">Fyllingsgrad: 40% </Title>
         <CategoryBar
           categoryPercentageValues={[50, 20, 20, 10]}
           colors={["emerald", "yellow", "orange", "rose"]}
-          percentageValue={80}
+          percentageValue={20}
           className="mt-3"
         />
         <Title className="pt-5">Container: </Title>
+        <Text>Navn: Søpletron 300</Text>
+        <Text>Høyde: 500 mm</Text>
+        <Text>Bredde: 500 mm</Text>
+        <Text>Volum: 100L</Text>
         <Title className="pt-10">Fyllingsgrad over tid</Title>
 
         <DateRangePicker
-          className="max-w-sm"
+          className="max-w-sm pt-2"
           enableDropdown={true}
           // onValueChange={(value: DateRangePickerValue) => setChartData(value)}
         />
@@ -92,7 +98,9 @@ function SensorData() {
           colors={["indigo", "cyan"]}
           valueFormatter={dataFormatter}
         />
-        <Map />
+        <div className="pt-8">
+          <Map />
+        </div>
       </Card>
     </div>
   );
