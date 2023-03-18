@@ -3,41 +3,27 @@ import {
   NavigationMenuItem,
   NavigationMenuList,
 } from "@/ui/NavigationMenu";
-import { useState } from 'react';
-import { OrganizationProfile, UserButton } from "@clerk/nextjs";
-import { Button } from "./Button";
+import { UserButton } from "@clerk/nextjs";
 import OrganizationSwitcher from "./OrganizationSwitcher";
 
 const Navigation = () => {
-  // TODO: Add Navigation
-
-  const [showProfile, setShowProfile] = useState(false);
-
-  const toggleProfile = () => {
-    setShowProfile(prevShowProfile => !prevShowProfile);
-  }
-
   return (
     <NavigationMenu>
-      <NavigationMenuList>
+      <NavigationMenuList className="mr-8 flex items-center justify-center gap-8">
         <NavigationMenuItem>
-        <div className="mx-16">
-          <OrganizationSwitcher/>
-          </div>
+          <OrganizationSwitcher />
         </NavigationMenuItem>
         <NavigationMenuItem>
-        <div className="mx-16">
-            <UserButton
-              appearance={{
-                elements: {
-                  userButtonAvatarBox: {
-                    width: "3rem",
-                    height: "3rem",
-                  },
+          <UserButton
+            appearance={{
+              elements: {
+                userButtonAvatarBox: {
+                  width: "2.5rem",
+                  height: "2.5rem",
                 },
-              }}
-            />
-          </div>
+              },
+            }}
+          />
         </NavigationMenuItem>
       </NavigationMenuList>
     </NavigationMenu>

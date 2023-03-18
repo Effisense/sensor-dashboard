@@ -2,10 +2,8 @@ import type { GetServerSidePropsContext, NextPage } from "next";
 import { trpc } from "../utils/trpc";
 import type { inferProcedureOutput } from "@trpc/server";
 import type { AppRouter } from "@acme/api";
-import { useAuth, UserButton } from "@clerk/nextjs";
 import { RedirectSchema } from "@/schemas";
 import { getAuth } from "@clerk/nextjs/server";
-import Link from "next/link";
 import Map from "@/ui/Map";
 
 const PostCard: React.FC<{
@@ -21,26 +19,16 @@ const PostCard: React.FC<{
   );
 };
 
-const Home: NextPage = () => {
+const IndexPage: NextPage = () => {
   const postQuery = trpc.post.all.useQuery();
 
   return (
     <div className="container flex flex-col items-center justify-center gap-12 px-4 py-8">
       <h1 className="text-5xl font-extrabold tracking-tight sm:text-[5rem]">
-         <span className="text-[hsl(280,100%,70%)]">Effisense dashboard</span> 
+        <span className="text-[hsl(280,100%,70%)]">Effisense dashboard</span>
       </h1>
-      <AuthShowcase />
 
       <Map />
-
-      <button
-        type="button"
-        onClick={() => {
-          throw new Error("Sentry Frontend Error");
-        }}
-      >
-        Throw error
-      </button>
 
       <div className="flex h-[60vh] justify-center overflow-y-scroll px-4 text-2xl">
         {postQuery.data ? (
@@ -56,47 +44,6 @@ const Home: NextPage = () => {
     </div>
   );
 };
-
-export default Home;
-
-const AuthShowcase: React.FC = () => {
-  const { isSignedIn } = useAuth();
-  const { data: secretMessage } = trpc.auth.getSecretMessage.useQuery(
-    undefined,
-    { enabled: !!isSignedIn },
-  );
-
-  return (
-    <div className="flex flex-col items-center justify-center gap-4">
-      {isSignedIn && (
-        <>
-          <p className="text-center text-2xl text-black">
-            {secretMessage && (
-              <span>
-                {" "}
-                {secretMessage} click the user button!
-                <br />
-              </span>
-            )}
-          </p>
-          <div className="flex items-center justify-center">
-            <UserButton
-              appearance={{
-                elements: {
-                  userButtonAvatarBox: {
-                    width: "3rem",
-                    height: "3rem",
-                  },
-                },
-              }}
-            />
-          </div>
-        </>
-      )}
-    </div>
-  );
-};
-
 
 export const getServerSideProps = (ctx: GetServerSidePropsContext) => {
   const { userId } = getAuth(ctx.req);
@@ -125,3 +72,5 @@ export const getServerSideProps = (ctx: GetServerSidePropsContext) => {
     },
   };
 };
+
+export default IndexPage;
