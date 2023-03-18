@@ -249,25 +249,25 @@ importers:
     specifiers:
       '@types/pg': ^8.6.6
       dotenv-cli: ^6.0.0
-      kanel: ^3.2.1
+      kanel: ^3.2.2
       kanel-zod: ^0.0.5
       kysely: ^0.23.5
       kysely-codegen: ^0.9.0
       pg: ^8.10.0
       pg-native: ^3.0.1
       typescript: ^4.9.5
-      zod: ^3.20.6
+      zod: ^3.21.4
     dependencies:
       kysely: 0.23.5
+      kysely-codegen: 0.9.0_kysely@0.23.5+pg@8.10.0
       pg: 8.10.0_pg-native@3.0.1
       pg-native: 3.0.1
-      zod: 3.20.6
+      zod: 3.21.4
     devDependencies:
       '@types/pg': 8.6.6
       dotenv-cli: 6.0.0
-      kanel: 3.2.1_pg-native@3.0.1
+      kanel: 3.2.2_pg-native@3.0.1
       kanel-zod: 0.0.5
-      kysely-codegen: 0.9.0_kysely@0.23.5+pg@8.10.0
       typescript: 4.9.5
 
 packages:
@@ -2130,6 +2130,10 @@ packages:
   /@types/node/18.14.2:
     resolution: {integrity: sha512-1uEQxww3DaghA0RxqHx0O0ppVlo43pJhepY51OxuQIKHpjbnYLA7vcdwioNPzIqmC2u3I/dmylcqjlh0e7AyUA==}
 
+  /@types/node/18.15.3:
+    resolution: {integrity: sha512-p6ua9zBxz5otCmbpb5D3U4B5Nanw6Pk3PPyX05xnxbB/fRv71N7CPmORg7uAD5P70T0xmx1pzAx/FUfa5X+3cw==}
+    dev: true
+
   /@types/normalize-package-data/2.4.1:
     resolution: {integrity: sha512-Gj7cI7z+98M282Tqmp2K5EIsoouUEzbBJhQQzDE3jSIRk6r9gsz0oUokqIUR4u1R3dMHo0pDHM7sNOHyhulypw==}
     dev: false
@@ -2137,7 +2141,7 @@ packages:
   /@types/pg/8.6.6:
     resolution: {integrity: sha512-O2xNmXebtwVekJDD+02udOncjVcMZQuTEQEMpKJ0ZRf5E7/9JJX3izhKUcUifBkyKpljyUM6BTgy2trmviKlpw==}
     dependencies:
-      '@types/node': 18.14.2
+      '@types/node': 18.15.3
       pg-protocol: 1.6.0
       pg-types: 2.2.0
     dev: true
@@ -3033,6 +3037,12 @@ packages:
   /commander/9.4.1:
     resolution: {integrity: sha512-5EEkTNyHNGFPD2H+c/dXXfQZYa/scCKasxWcXJaWnNJ99pnQN9Vnmqow+p+PlFPE63Q6mThaZws1T+HxfpgtPw==}
     engines: {node: ^12.20.0 || >=14}
+    dev: false
+
+  /commander/9.5.0:
+    resolution: {integrity: sha512-KRs7WVDKg86PWiuAqhDrAQnTXZKraVcCc6vFdL14qrZ/DcWwuRo7VoiYXalXO7S5GKpqYiVEwCbgFDfxNHKJBQ==}
+    engines: {node: ^12.20.0 || >=14}
+    dev: true
 
   /commondir/1.0.1:
     resolution: {integrity: sha512-W9pAhw0ja1Edb5GVdIF1mjZw/ASI0AlShXM83UUGe2DVr5TdAPEA1OA8m/g8zWp9x6On7gqufY+FatDbC3MDQg==}
@@ -4035,12 +4045,12 @@ packages:
       is-extendable: 0.1.1
     dev: false
 
-  /extract-pg-schema/4.1.0_pg-native@3.0.1:
-    resolution: {integrity: sha512-GMIzcgQLRTcHTMyBqN8WnK1iY1KOq6LW+tw4ZQo5v9qUh9jsselQpUtAQXdU5rIm9n4QZPFf2eThR2NMFEqfZg==}
+  /extract-pg-schema/4.1.1_pg-native@3.0.1:
+    resolution: {integrity: sha512-SJdpW+woPKCTJI+CFIK/iWsD2UzOa6Q1hYQJ+4MaOqULSRX14uKiRtNWX9lCker/F6LfmlZWh35pp+F3lCmDgg==}
     dependencies:
       jsonpath: 1.1.1
-      knex: 2.3.0_pg-native@3.0.1+pg@8.7.3
-      pg: 8.7.3_pg-native@3.0.1
+      knex: 2.4.2_pg-native@3.0.1+pg@8.9.0
+      pg: 8.9.0_pg-native@3.0.1
       pg-query-emscripten: 0.1.0
       ramda: 0.28.0
       tagged-comment-parser: 1.3.0
@@ -4458,6 +4468,9 @@ packages:
 
   /graceful-fs/4.2.10:
     resolution: {integrity: sha512-9ByhssR2fPVsNZj478qUUbKfmL0+t5BDVyjShtyZZLiK7ZDAArFFfopyOTj0M05wE2tJPisA4iTnnXl2YoPvOA==}
+
+  /graceful-fs/4.2.11:
+    resolution: {integrity: sha512-RbJ5/jmFcNNCcDV5o9eTnBLJ/HszWV0P73bc+Ff4nS/rJj+YaS6IGyiOL0VoBYX+l1Wrl3k63h/KrH+nhJ0XvQ==}
 
   /grapheme-splitter/1.0.4:
     resolution: {integrity: sha512-bzh50DW9kTPM00T8y4o8vQg89Di9oLJVLW/KaOGIXJWP/iqCN6WKYkbNOF04vFLJhwcpYUh9ydh/+5vpOqV4YQ==}
@@ -4985,7 +4998,7 @@ packages:
   /jsonfile/4.0.0:
     resolution: {integrity: sha512-m6F1R3z8jjlf2imQHS2Qez5sjKWQzbuuhuJ/FKYFRZvPE3PuHcSMVZzfsLhGVOkfd20obL5SWEBew5ShlquNxg==}
     optionalDependencies:
-      graceful-fs: 4.2.10
+      graceful-fs: 4.2.11
     dev: false
 
   /jsonpath/1.1.1:
@@ -5008,14 +5021,14 @@ packages:
     resolution: {integrity: sha512-+zGt5FdSyHXlVdT9sRKpnUK0f+4pkPfYiHHFHJicN8KwPLOByMar7m3XbYE1pS5U8UL9RtIz6V264SSiPVDqqA==}
     dev: true
 
-  /kanel/3.2.1_pg-native@3.0.1:
-    resolution: {integrity: sha512-rW8uc6iYhrSwIdDnffYKQy/a/2V5/HhRs9Ksffg+5KGfsmLk87ggaQJoKu6Z2MKo10hyN0bIbBKUWOGIDOu7Tg==}
+  /kanel/3.2.2_pg-native@3.0.1:
+    resolution: {integrity: sha512-Pb6rHsl0BgpeuGimEr5HVpIO5Dod3sRGQgGTrQVdI76OAX1Wj8WxxrZbQ00uZt36mQfWeESoLw4wzPAUvoq+4w==}
     hasBin: true
     dependencies:
       '@kristiandupont/recase': 1.2.0
       chalk: 4.1.2
       cli-progress: 3.12.0
-      extract-pg-schema: 4.1.0_pg-native@3.0.1
+      extract-pg-schema: 4.1.1_pg-native@3.0.1
       optionator: 0.9.1
       pg: 8.10.0_pg-native@3.0.1
       ramda: 0.28.0
@@ -5065,8 +5078,8 @@ packages:
     resolution: {integrity: sha512-dcS1ul+9tmeD95T+x28/ehLgd9mENa3LsvDTtzm3vyBEO7RPptvAD+t44WVXaUjTBRcrpFeFlC8WCruUR456hw==}
     engines: {node: '>=0.10.0'}
 
-  /knex/2.3.0_pg-native@3.0.1+pg@8.7.3:
-    resolution: {integrity: sha512-WMizPaq9wRMkfnwKXKXgBZeZFOSHGdtoSz5SaLAVNs3WRDfawt9O89T4XyH52PETxjV8/kRk0Yf+8WBEP/zbYw==}
+  /knex/2.4.2_pg-native@3.0.1+pg@8.9.0:
+    resolution: {integrity: sha512-tMI1M7a+xwHhPxjbl/H9K1kHX+VncEYcvCx5K00M16bWvpYPKAZd6QrCu68PtHAdIZNQPWZn0GVhqVBEthGWCg==}
     engines: {node: '>=12'}
     hasBin: true
     peerDependencies:
@@ -5094,7 +5107,7 @@ packages:
         optional: true
     dependencies:
       colorette: 2.0.19
-      commander: 9.4.1
+      commander: 9.5.0
       debug: 4.3.4
       escalade: 3.1.1
       esm: 3.2.25
@@ -5102,7 +5115,7 @@ packages:
       getopts: 2.3.0
       interpret: 2.2.0
       lodash: 4.17.21
-      pg: 8.7.3_pg-native@3.0.1
+      pg: 8.9.0_pg-native@3.0.1
       pg-connection-string: 2.5.0
       pg-native: 3.0.1
       rechoir: 0.8.0
@@ -5135,11 +5148,12 @@ packages:
       micromatch: 4.0.5
       minimist: 1.2.8
       pg: 8.10.0_pg-native@3.0.1
-    dev: true
+    dev: false
 
   /kysely/0.23.5:
     resolution: {integrity: sha512-TH+b56pVXQq0tsyooYLeNfV11j6ih7D50dyN8tkM0e7ndiUH28Nziojiog3qRFlmEj9XePYdZUrNJ2079Qjdow==}
     engines: {node: '>=14.0.0'}
+    dev: false
 
   /language-subtag-registry/0.3.22:
     resolution: {integrity: sha512-tN0MCzyWnoz/4nHS6uxdlFWoUZT7ABptwKPQ52Ea7URk6vll88bWBVhodtnlfEuCcKWNGoc+uGbw1cwa9IKh/w==}
@@ -5944,12 +5958,12 @@ packages:
     dependencies:
       pg: 8.10.0_pg-native@3.0.1
 
-  /pg-pool/3.6.0_pg@8.7.3:
+  /pg-pool/3.6.0_pg@8.9.0:
     resolution: {integrity: sha512-clFRf2ksqd+F497kWFyM21tMjeikn60oGDmqMT8UBrynEwVEX/5R5xd2sdvdo1cZCFlguORNpVuqxIj+aK4cfQ==}
     peerDependencies:
       pg: '>=8.0'
     dependencies:
-      pg: 8.7.3_pg-native@3.0.1
+      pg: 8.9.0_pg-native@3.0.1
     dev: true
 
   /pg-protocol/1.6.0:
@@ -5996,11 +6010,11 @@ packages:
       pg-types: 2.2.0
       pgpass: 1.0.5
 
-  /pg/8.7.3_pg-native@3.0.1:
-    resolution: {integrity: sha512-HPmH4GH4H3AOprDJOazoIcpI49XFsHCe8xlrjHkWiapdbHK+HLtbm/GQzXYAZwmPju/kzKhjaSfMACG+8cgJcw==}
+  /pg/8.9.0_pg-native@3.0.1:
+    resolution: {integrity: sha512-ZJM+qkEbtOHRuXjmvBtOgNOXOtLSbxiMiUVMgE4rV6Zwocy03RicCVvDXgx8l4Biwo8/qORUnEqn2fdQzV7KCg==}
     engines: {node: '>= 8.0.0'}
     peerDependencies:
-      pg-native: '>=2.0.0'
+      pg-native: '>=3.0.1'
     peerDependenciesMeta:
       pg-native:
         optional: true
@@ -6009,7 +6023,7 @@ packages:
       packet-reader: 1.0.0
       pg-connection-string: 2.5.0
       pg-native: 3.0.1
-      pg-pool: 3.6.0_pg@8.7.3
+      pg-pool: 3.6.0_pg@8.9.0
       pg-protocol: 1.6.0
       pg-types: 2.2.0
       pgpass: 1.0.5
@@ -6781,7 +6795,7 @@ packages:
     dependencies:
       assert-valid-glob-opts: 1.0.0
       glob: 7.2.3
-      graceful-fs: 4.2.10
+      graceful-fs: 4.2.11
       inspect-with-kind: 1.0.5
       rimraf: 2.7.1
     dev: true
@@ -7998,4 +8012,8 @@ packages:
 
   /zod/3.20.6:
     resolution: {integrity: sha512-oyu0m54SGCtzh6EClBVqDDlAYRz4jrVtKwQ7ZnsEmMI9HnzuZFj8QFwAY1M5uniIYACdGvv0PBWPF2kO0aNofA==}
+    dev: false
+
+  /zod/3.21.4:
+    resolution: {integrity: sha512-m46AKbrzKVzOzs/DZgVnG5H55N1sv1M8qZU3A8RIKbs3mrACDNeIOeilDymVb2HdmP8uwshOCF4uJ8uM9rCqJw==}
     dev: false

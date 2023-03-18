@@ -14,15 +14,15 @@
   "devDependencies": {
     "@types/pg": "^8.6.6",
     "dotenv-cli": "^6.0.0",
-    "kanel": "^3.2.1",
+    "kanel": "^3.2.2",
     "kanel-zod": "^0.0.5",
-    "kysely-codegen": "^0.9.0",
     "typescript": "^4.9.5"
   },
   "dependencies": {
     "kysely": "^0.23.5",
+    "kysely-codegen": "^0.9.0",
     "pg": "^8.10.0",
     "pg-native": "^3.0.1",
-    "zod": "^3.20.6"
+    "zod": "^3.21.4"
   }
 }
