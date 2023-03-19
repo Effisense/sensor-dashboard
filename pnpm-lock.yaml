@@ -49,6 +49,7 @@ importers:
       '@types/mapbox-gl': ^2.7.10
       '@types/mapbox__mapbox-gl-geocoder': ^4.7.3
       '@types/node': ^18.14.2
+      '@types/pg': ^8.6.6
       '@types/react': ^18.0.25
       '@types/react-dom': ^18.0.9
       autoprefixer: ^10.4.13
@@ -58,9 +59,11 @@ importers:
       eslint: ^8.35.0
       eslint-config-next: 13.1.6
       heroicons: 1.0.6
+      kysely: ^0.23.5
       lucide-react: ^0.115.0
       mapbox-gl: ^2.13.0
       next: ^13.2.1
+      pg: ^8.10.0
       postcss: ^8.4.21
       react: 18.2.0
       react-dom: 18.2.0
@@ -93,9 +96,11 @@ importers:
       clsx: 1.2.1
       dotenv-cli: 6.0.0
       heroicons: 1.0.6
+      kysely: 0.23.5
       lucide-react: 0.115.0_react@18.2.0
       mapbox-gl: 2.13.0
       next: 13.2.3_biqbaboplfbrettd7655fr4n2y
+      pg: 8.10.0
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
       react-qr-reader: 3.0.0-beta-1_biqbaboplfbrettd7655fr4n2y
@@ -107,6 +112,7 @@ importers:
       '@types/mapbox-gl': 2.7.10
       '@types/mapbox__mapbox-gl-geocoder': 4.7.3
       '@types/node': 18.14.2
+      '@types/pg': 8.6.6
       '@types/react': 18.0.28
       '@types/react-dom': 18.0.11
       autoprefixer: 10.4.13_postcss@8.4.21
@@ -121,7 +127,6 @@ importers:
     specifiers:
       '@acme/db': ^0.1.0
       '@acme/mapbox': ^0.1.0
-      '@acme/timeseries': '*'
       '@clerk/nextjs': ^4.11.2
       '@trpc/client': ^10.13.0
       '@trpc/server': ^10.13.0
@@ -132,7 +137,6 @@ importers:
     dependencies:
       '@acme/db': link:../db
       '@acme/mapbox': link:../mapbox
-      '@acme/timeseries': link:../timeseries
       '@clerk/nextjs': 4.11.2
       '@trpc/client': 10.13.0_@trpc+server@10.13.0
       '@trpc/server': 10.13.0
@@ -1965,7 +1969,7 @@ packages:
     resolution: {integrity: sha512-ALYone6pm6QmwZoAgeyNksccT9Q4AWZQ6PvfwR37GT6r6FWUPguq6sUmNGSMV2Wr761oQoBxwGGa6DR5o1DC9g==}
     dependencies:
       '@types/connect': 3.4.35
-      '@types/node': 18.14.2
+      '@types/node': 18.15.3
     dev: false
 
   /@types/cacheable-request/6.0.3:
@@ -1973,7 +1977,7 @@ packages:
     dependencies:
       '@types/http-cache-semantics': 4.0.1
       '@types/keyv': 3.1.4
-      '@types/node': 18.14.2
+      '@types/node': 18.15.3
       '@types/responselike': 1.0.0
     dev: false
 
@@ -1990,7 +1994,7 @@ packages:
   /@types/connect/3.4.35:
     resolution: {integrity: sha512-cdeYyv4KWoEgpBISTxWvqYsVy444DOqehiF3fM3ne10AmJ62RSyNkUnxMJXHQWRQQX2eR94m5y1IZyDwBjV9FQ==}
     dependencies:
-      '@types/node': 18.14.2
+      '@types/node': 18.15.3
     dev: false
 
   /@types/cookies/0.7.7:
@@ -1999,7 +2003,7 @@ packages:
       '@types/connect': 3.4.35
       '@types/express': 4.17.14
       '@types/keygrip': 1.0.2
-      '@types/node': 18.14.2
+      '@types/node': 18.15.3
     dev: false
 
   /@types/d3-array/3.0.4:
@@ -2051,7 +2055,7 @@ packages:
   /@types/express-serve-static-core/4.17.33:
     resolution: {integrity: sha512-TPBqmR/HRYI3eC2E5hmiivIzv+bidAfXofM+sbonAGvyDhySGw9/PQZFt2BLOrjUUR++4eJVpx6KnLQK1Fk9tA==}
     dependencies:
-      '@types/node': 18.14.2
+      '@types/node': 18.15.3
       '@types/qs': 6.9.7
       '@types/range-parser': 1.2.4
     dev: false
@@ -2088,7 +2092,7 @@ packages:
   /@types/keyv/3.1.4:
     resolution: {integrity: sha512-BQ5aZNSCpj7D6K2ksrRCTmKRLEpnPvWDiLPfoGyhZ++8YtiK9d/3DBKPJgry359X/P1PfruyYwvnvwFjuEiEIg==}
     dependencies:
-      '@types/node': 18.14.2
+      '@types/node': 18.15.3
     dev: false
 
   /@types/mapbox-gl/2.7.10:
@@ -2115,7 +2119,7 @@ packages:
   /@types/node-fetch/2.6.2:
     resolution: {integrity: sha512-DHqhlq5jeESLy19TYhLakJ07kNumXWjcDdxXsLUMJZ6ue8VZJj4kLPQVE/2mdHh3xZziNF1xppu5lwmS53HR+A==}
     dependencies:
-      '@types/node': 18.14.2
+      '@types/node': 18.15.3
       form-data: 3.0.1
     dev: false
 
@@ -2132,7 +2136,6 @@ packages:
 
   /@types/node/18.15.3:
     resolution: {integrity: sha512-p6ua9zBxz5otCmbpb5D3U4B5Nanw6Pk3PPyX05xnxbB/fRv71N7CPmORg7uAD5P70T0xmx1pzAx/FUfa5X+3cw==}
-    dev: true
 
   /@types/normalize-package-data/2.4.1:
     resolution: {integrity: sha512-Gj7cI7z+98M282Tqmp2K5EIsoouUEzbBJhQQzDE3jSIRk6r9gsz0oUokqIUR4u1R3dMHo0pDHM7sNOHyhulypw==}
@@ -2175,7 +2178,7 @@ packages:
   /@types/responselike/1.0.0:
     resolution: {integrity: sha512-85Y2BjiufFzaMIlvJDvTTB8Fxl2xfLo4HgmHzVBz08w4wDePCTjYw66PdrolO0kzli3yam/YCgRufyo1DdQVTA==}
     dependencies:
-      '@types/node': 18.14.2
+      '@types/node': 18.15.3
     dev: false
 
   /@types/scheduler/0.16.2:
@@ -2194,7 +2197,7 @@ packages:
     resolution: {integrity: sha512-NUo5XNiAdULrJENtJXZZ3fHtfMolzZwczzBbnAeBbqBwG+LaG6YaJtuwzwGSQZ2wsCrxjEhNNjAkKigy3n8teQ==}
     dependencies:
       '@types/mime': 3.0.1
-      '@types/node': 18.14.2
+      '@types/node': 18.15.3
     dev: false
 
   /@typescript-eslint/eslint-plugin/5.53.0_cjo54hduev4bqhpjw5znwiokqu:
@@ -4471,6 +4474,7 @@ packages:
 
   /graceful-fs/4.2.11:
     resolution: {integrity: sha512-RbJ5/jmFcNNCcDV5o9eTnBLJ/HszWV0P73bc+Ff4nS/rJj+YaS6IGyiOL0VoBYX+l1Wrl3k63h/KrH+nhJ0XvQ==}
+    requiresBuild: true
 
   /grapheme-splitter/1.0.4:
     resolution: {integrity: sha512-bzh50DW9kTPM00T8y4o8vQg89Di9oLJVLW/KaOGIXJWP/iqCN6WKYkbNOF04vFLJhwcpYUh9ydh/+5vpOqV4YQ==}
@@ -5956,7 +5960,7 @@ packages:
     peerDependencies:
       pg: '>=8.0'
     dependencies:
-      pg: 8.10.0_pg-native@3.0.1
+      pg: 8.10.0
 
   /pg-pool/3.6.0_pg@8.9.0:
     resolution: {integrity: sha512-clFRf2ksqd+F497kWFyM21tMjeikn60oGDmqMT8UBrynEwVEX/5R5xd2sdvdo1cZCFlguORNpVuqxIj+aK4cfQ==}
@@ -5991,6 +5995,23 @@ packages:
       postgres-bytea: 1.0.0
       postgres-date: 1.0.7
       postgres-interval: 1.2.0
+
+  /pg/8.10.0:
+    resolution: {integrity: sha512-ke7o7qSTMb47iwzOSaZMfeR7xToFdkE71ifIipOAAaLIM0DYzfOAXlgFFmYUIE2BcJtvnVlGCID84ZzCegE8CQ==}
+    engines: {node: '>= 8.0.0'}
+    peerDependencies:
+      pg-native: '>=3.0.1'
+    peerDependenciesMeta:
+      pg-native:
+        optional: true
+    dependencies:
+      buffer-writer: 2.0.0
+      packet-reader: 1.0.0
+      pg-connection-string: 2.5.0
+      pg-pool: 3.6.0_pg@8.10.0
+      pg-protocol: 1.6.0
+      pg-types: 2.2.0
+      pgpass: 1.0.5
 
   /pg/8.10.0_pg-native@3.0.1:
     resolution: {integrity: sha512-ke7o7qSTMb47iwzOSaZMfeR7xToFdkE71ifIipOAAaLIM0DYzfOAXlgFFmYUIE2BcJtvnVlGCID84ZzCegE8CQ==}
