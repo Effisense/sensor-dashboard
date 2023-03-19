@@ -33,8 +33,6 @@ packages
  |   └─ E2E tests using Playwright
  ├─ email
  |   └─ Email templates
- ├─ timeseries
-     └─ Client for timeseries database, specifically TimescaleDB
 ```
 
 ## Running the application

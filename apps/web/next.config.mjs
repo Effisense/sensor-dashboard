@@ -22,7 +22,6 @@ const config = {
     "@acme/email",
     "@acme/mapbox",
     "@acme/tailwind-config",
-    "@acme/timeseries",
   ],
   // We already do linting on GH actions
   eslint: {
