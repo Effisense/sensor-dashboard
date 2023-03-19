@@ -12,7 +12,6 @@ import {
   Subtitle,
 } from "@tremor/react";
 import { useState } from "react";
-import { getScale } from "@/utils/sensorDataInRange";
 import Map from "@/ui/Map";
 
 const chartdataOld = [
