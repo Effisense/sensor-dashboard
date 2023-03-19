@@ -11,7 +11,8 @@
     "lint": "next lint",
     "type-check": "tsc --noEmit",
     "update": "pnpm update",
-    "test": "vitest run"
+    "test": "vitest run",
+    "gen:types": "pnpm with-env kanel"
   },
   "dependencies": {
     "@acme/api": "*",
@@ -57,6 +58,8 @@
     "autoprefixer": "^10.4.13",
     "eslint": "^8.35.0",
     "eslint-config-next": "13.1.6",
+    "kanel": "^3.2.2",
+    "kanel-zod": "^0.0.5",
     "postcss": "^8.4.21",
     "tailwindcss": "^3.2.7",
     "typescript": "^4.9.5",

@@ -2,7 +2,6 @@ packages:
   - apps/web
   - packages/api
   - packages/db
-  - packages/timeseries
   - packages/email
   - packages/mapbox
   - packages/e2e
