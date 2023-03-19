@@ -65,6 +65,7 @@ importers:
       lucide-react: ^0.115.0
       mapbox-gl: ^2.13.0
       next: ^13.2.1
+      next-superjson-plugin: ^0.5.6
       pg: ^8.10.0
       postcss: ^8.4.21
       react: 18.2.0
@@ -102,6 +103,7 @@ importers:
       lucide-react: 0.115.0_react@18.2.0
       mapbox-gl: 2.13.0
       next: 13.2.3_biqbaboplfbrettd7655fr4n2y
+      next-superjson-plugin: 0.5.6_bybiisvvvxj62fig2dzdxxp2ea
       pg: 8.10.0
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
@@ -5448,6 +5450,17 @@ packages:
 
   /natural-compare/1.4.0:
     resolution: {integrity: sha512-OWND8ei3VtNC9h7V60qff3SVobHr996CTwgxubgyQYEpg290h9J0buyECNNJexkFm5sOajh5G116RYA1c8ZMSw==}
+
+  /next-superjson-plugin/0.5.6_bybiisvvvxj62fig2dzdxxp2ea:
+    resolution: {integrity: sha512-vokzkgtr3axon5uXobhXJWN6/YlPOHdcAb/BeR+d0rXA3h1b5h98A+V0TgMUf+vcy9RvBqte/ppaJfkOwi4NGA==}
+    peerDependencies:
+      next: ^13
+      superjson: ^1
+    dependencies:
+      hoist-non-react-statics: 3.3.2
+      next: 13.2.3_biqbaboplfbrettd7655fr4n2y
+      superjson: 1.12.2
+    dev: false
 
   /next/13.2.3_biqbaboplfbrettd7655fr4n2y:
     resolution: {integrity: sha512-nKFJC6upCPN7DWRx4+0S/1PIOT7vNlCT157w9AzbXEgKy6zkiPKEt5YyRUsRZkmpEqBVrGgOqNfwecTociyg+w==}

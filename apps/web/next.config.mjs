@@ -31,6 +31,16 @@ const config = {
   sentry: {
     hideSourceMaps: true,
   },
+  experimental: {
+    swcPlugins: [
+      [
+        "next-superjson-plugin",
+        {
+          excluded: [],
+        },
+      ],
+    ],
+  },
 };
 
 const sentryWebpackPluginOptions = {
