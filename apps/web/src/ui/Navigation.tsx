@@ -20,8 +20,18 @@ const Navigation = () => {
   return (
     <NavigationMenu>
       <NavigationMenuList>
+      <NavigationMenuItem>
+        <div className="mx-7">
+        <Button variant="default">My containers</Button>
+          </div>
+        </NavigationMenuItem>
         <NavigationMenuItem>
-        <div className="mx-16">
+        <div className="mx-7">
+        <Button variant="default">Add sensor</Button>
+          </div>
+        </NavigationMenuItem>
+        <NavigationMenuItem>
+        <div className="mx-7">
           <OrganizationSwitcher/>
           </div>
         </NavigationMenuItem>
