@@ -19,3 +19,4 @@ export const db = new Kysely<Database>({
 });
 
 export const Sensor = db.selectFrom("sensor_data");
+
