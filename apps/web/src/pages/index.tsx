@@ -33,6 +33,7 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
     };
   }
 
+  // TODO: Locally, we get data, but in production, this throws because it cannot connect to the database. I have checked, and env variables are set correctly in Vercel.
   const data = await Sensor.selectAll()
     .execute()
     .then((res) => res)
