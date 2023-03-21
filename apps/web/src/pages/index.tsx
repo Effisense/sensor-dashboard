@@ -33,7 +33,11 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
     };
   }
 
-  const data = await Sensor.selectAll().execute();
+  const data = await Sensor.selectAll()
+    .execute()
+    .then((res) => res)
+    .catch(() => []);
+
   return {
     props: {
       data,
