@@ -49,7 +49,6 @@ importers:
       '@types/mapbox-gl': ^2.7.10
       '@types/mapbox__mapbox-gl-geocoder': ^4.7.3
       '@types/node': ^18.14.2
-      '@types/pg': ^8.6.6
       '@types/react': ^18.0.25
       '@types/react-dom': ^18.0.9
       autoprefixer: ^10.4.13
@@ -59,14 +58,9 @@ importers:
       eslint: ^8.35.0
       eslint-config-next: 13.1.6
       heroicons: 1.0.6
-      kanel: ^3.2.2
-      kanel-zod: ^0.0.5
-      kysely: ^0.23.5
       lucide-react: ^0.115.0
       mapbox-gl: ^2.13.0
       next: ^13.2.1
-      next-superjson-plugin: ^0.5.6
-      pg: ^8.10.0
       postcss: ^8.4.21
       react: 18.2.0
       react-dom: 18.2.0
@@ -99,12 +93,9 @@ importers:
       clsx: 1.2.1
       dotenv-cli: 6.0.0
       heroicons: 1.0.6
-      kysely: 0.23.5
       lucide-react: 0.115.0_react@18.2.0
       mapbox-gl: 2.13.0
       next: 13.2.3_biqbaboplfbrettd7655fr4n2y
-      next-superjson-plugin: 0.5.6_bybiisvvvxj62fig2dzdxxp2ea
-      pg: 8.10.0
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
       react-qr-reader: 3.0.0-beta-1_biqbaboplfbrettd7655fr4n2y
@@ -116,14 +107,11 @@ importers:
       '@types/mapbox-gl': 2.7.10
       '@types/mapbox__mapbox-gl-geocoder': 4.7.3
       '@types/node': 18.14.2
-      '@types/pg': 8.6.6
       '@types/react': 18.0.28
       '@types/react-dom': 18.0.11
       autoprefixer: 10.4.13_postcss@8.4.21
       eslint: 8.35.0
       eslint-config-next: 13.1.6_ycpbpc6yetojsgtrx3mwntkhsu
-      kanel: 3.2.2
-      kanel-zod: 0.0.5
       postcss: 8.4.21
       tailwindcss: 3.2.7_postcss@8.4.21
       typescript: 4.9.5
@@ -136,7 +124,13 @@ importers:
       '@clerk/nextjs': ^4.11.2
       '@trpc/client': ^10.13.0
       '@trpc/server': ^10.13.0
+      '@types/pg': ^8.6.6
+      dotenv-cli: ^6.0.0
       eslint: ^8.35.0
+      kanel: ^3.2.2
+      kanel-zod: ^0.0.5
+      kysely: ^0.23.5
+      pg: ^8.10.0
       superjson: ^1.12.2
       typescript: ^4.9.5
       zod: ^3.20.6
@@ -146,10 +140,16 @@ importers:
       '@clerk/nextjs': 4.11.2
       '@trpc/client': 10.13.0_@trpc+server@10.13.0
       '@trpc/server': 10.13.0
+      dotenv-cli: 6.0.0
+      kysely: 0.23.5
+      pg: 8.10.0
       superjson: 1.12.2
       zod: 3.20.6
     devDependencies:
+      '@types/pg': 8.6.6
       eslint: 8.35.0
+      kanel: 3.2.2
+      kanel-zod: 0.0.5
       typescript: 4.9.5
 
   packages/config/tailwind:
@@ -5450,17 +5450,6 @@ packages:
 
   /natural-compare/1.4.0:
     resolution: {integrity: sha512-OWND8ei3VtNC9h7V60qff3SVobHr996CTwgxubgyQYEpg290h9J0buyECNNJexkFm5sOajh5G116RYA1c8ZMSw==}
-
-  /next-superjson-plugin/0.5.6_bybiisvvvxj62fig2dzdxxp2ea:
-    resolution: {integrity: sha512-vokzkgtr3axon5uXobhXJWN6/YlPOHdcAb/BeR+d0rXA3h1b5h98A+V0TgMUf+vcy9RvBqte/ppaJfkOwi4NGA==}
-    peerDependencies:
-      next: ^13
-      superjson: ^1
-    dependencies:
-      hoist-non-react-statics: 3.3.2
-      next: 13.2.3_biqbaboplfbrettd7655fr4n2y
-      superjson: 1.12.2
-    dev: false
 
   /next/13.2.3_biqbaboplfbrettd7655fr4n2y:
     resolution: {integrity: sha512-nKFJC6upCPN7DWRx4+0S/1PIOT7vNlCT157w9AzbXEgKy6zkiPKEt5YyRUsRZkmpEqBVrGgOqNfwecTociyg+w==}

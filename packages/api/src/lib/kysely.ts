@@ -1,6 +1,6 @@
 import { Pool } from "pg";
 import { Kysely, PostgresDialect } from "kysely";
-import SensorData from "@/schemas/public/SensorData";
+import SensorData from "../schemas/public/SensorData";
 
 type Database = {
   sensor_data: SensorData;

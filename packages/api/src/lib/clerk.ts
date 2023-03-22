@@ -20,7 +20,7 @@ export const getAuthentication = async (options: CreateNextContextOptions) => {
 };
 
 export const isAdmin = (
-  auth: inferAsyncReturnType<typeof getAuthentication>,
+  user: inferAsyncReturnType<typeof getAuthentication>["user"],
 ) => {
-  return auth?.user?.privateMetadata?.role === "admin";
+  return user?.privateMetadata?.role === "admin";
 };
