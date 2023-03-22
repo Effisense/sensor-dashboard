@@ -16,7 +16,7 @@ export const sensorRouter = router({
         description,
         latitude,
         longitude,
-        containerId,
+        containerTypeId,
       } = input;
 
       const location = await getLocationFromLngLat({
@@ -24,7 +24,7 @@ export const sensorRouter = router({
         longitude,
       }).catch((err) => {
         throw new TRPCError({
-          code: "INTERNAL_SERVER_ERROR",
+          code: "BAD_REQUEST",
           message: err.message,
         });
       });
@@ -33,6 +33,22 @@ export const sensorRouter = router({
         throw new TRPCError({
           code: "BAD_REQUEST",
           message: "Organization not found",
+        });
+      }
+
+      const containerTypeExists = await ctx.prisma.containerType
+        .findUnique({
+          where: {
+            id: containerTypeId,
+          },
+        })
+        .then((containerType) => !!containerType)
+        .catch(() => false);
+
+      if (!containerTypeExists) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "Container type not found",
         });
       }
 
@@ -45,7 +61,7 @@ export const sensorRouter = router({
           name,
           description,
           location: location || "",
-          containerId,
+          containerTypeId,
           organizationId: ctx.auth.organizationId,
         },
       });
@@ -77,6 +93,13 @@ export const sensorRouter = router({
     .query(async ({ ctx, input }) => {
       const { id } = input;
 
+      if (!ctx.auth.organizationId) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "Organization not found",
+        });
+      }
+
       const sensor = await ctx.prisma.sensor.findUnique({
         where: {
           id,
@@ -90,12 +113,20 @@ export const sensorRouter = router({
         });
       }
 
-      if (sensor.organizationId !== ctx.auth.organizationId) {
+      const sensorBelongsToOrganization =
+        sensor.organizationId === ctx.auth.organizationId;
+      if (!sensorBelongsToOrganization) {
         throw new TRPCError({
           code: "BAD_REQUEST",
-          message: "Sensor does not belong to the organization",
+          message: "Your organization does not own this sensor",
         });
       }
+
+      const containerType = await ctx.prisma.containerType.findUnique({
+        where: {
+          id: sensor.containerTypeId,
+        },
+      });
 
       const timeseries = Sensor.selectAll()
         .where("sensor_id", "=", id)
@@ -106,6 +137,7 @@ export const sensorRouter = router({
       return {
         sensor,
         timeseries,
+        containerType,
       };
     }),
 
@@ -113,13 +145,13 @@ export const sensorRouter = router({
     .input(SensorSchema)
     .mutation(async ({ ctx, input }) => {
       const {
-        sensorId: deviceId,
+        sensorId,
         collectionId,
         name,
         description,
         latitude,
         longitude,
-        containerId,
+        containerTypeId,
       } = input;
 
       const location = await getLocationFromLngLat({
@@ -141,7 +173,7 @@ export const sensorRouter = router({
 
       return ctx.prisma.sensor.update({
         where: {
-          id: deviceId,
+          id: sensorId,
         },
         data: {
           collectionId,
@@ -150,7 +182,7 @@ export const sensorRouter = router({
           name,
           description,
           location: location || "",
-          containerId,
+          containerTypeId,
           organizationId: ctx.auth.organizationId,
         },
       });
@@ -159,13 +191,13 @@ export const sensorRouter = router({
   delete: protectedProcedure
     .input(SensorIdSchema)
     .mutation(async ({ ctx, input }) => {
-      const { sensorId: deviceId } = input;
+      const { sensorId } = input;
 
       // TODO: Maybe we need to delete the container as well?
 
       return ctx.prisma.sensor.delete({
         where: {
-          id: deviceId,
+          id: sensorId,
         },
       });
     }),

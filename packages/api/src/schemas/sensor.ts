@@ -7,7 +7,7 @@ export const SensorSchema = z.object({
   description: z.string(),
   latitude: z.number(),
   longitude: z.number(),
-  containerId: z.string(),
+  containerTypeId: z.string(),
 });
 
 export const SensorIdSchema = SensorSchema.pick({
