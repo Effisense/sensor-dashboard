@@ -4,10 +4,14 @@ import type {
 } from "next";
 import { getAuth } from "@clerk/nextjs/server";
 import Map from "@/ui/Map";
+import { trpc } from "@/utils/trpc";
 
 type IndexPageProps = InferGetServerSidePropsType<typeof getServerSideProps>;
 
 const IndexPage = ({}: IndexPageProps) => {
+  const { data } = trpc.test.getSensorData.useQuery();
+  console.log(data);
+
   return (
     <div className="container flex flex-col items-center justify-center gap-12 px-4 py-8">
       <h1 className="text-5xl font-extrabold tracking-tight sm:text-[5rem]">
