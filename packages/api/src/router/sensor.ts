@@ -1,6 +1,7 @@
 import { getLocationFromLngLat } from "@acme/mapbox";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
+import { Sensor } from "../lib/kysely";
 import { SensorIdSchema, SensorSchema } from "../schemas/sensor";
 import { protectedProcedure, router } from "../trpc";
 
@@ -50,20 +51,62 @@ export const sensorRouter = router({
       });
     }),
 
+  exists: protectedProcedure
+    .input(SensorIdSchema)
+    .query(async ({ ctx, input }) => {
+      const { sensorId } = input;
+
+      const exists = await ctx.prisma.sensor
+        .findUnique({
+          where: {
+            id: sensorId,
+          },
+        })
+        .then((sensor) => !!sensor)
+        .catch(() => false);
+
+      return exists;
+    }),
+
   get: protectedProcedure
     .input(
       z.object({
-        deviceId: z.string(),
+        id: z.string(),
       }),
     )
     .query(async ({ ctx, input }) => {
-      const { deviceId } = input;
+      const { id } = input;
 
-      return ctx.prisma.sensor.findUnique({
+      const sensor = await ctx.prisma.sensor.findUnique({
         where: {
-          id: deviceId,
+          id,
         },
       });
+
+      if (!sensor) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Sensor not found",
+        });
+      }
+
+      if (sensor.organizationId !== ctx.auth.organizationId) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "Sensor does not belong to the organization",
+        });
+      }
+
+      const timeseries = Sensor.selectAll()
+        .where("sensor_id", "=", id)
+        .orderBy("time", "desc")
+        .limit(1)
+        .execute();
+
+      return {
+        sensor,
+        timeseries,
+      };
     }),
 
   update: protectedProcedure
