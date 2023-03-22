@@ -43,21 +43,13 @@ model Sensor {
     location     String
     collectionId String
 
-    container   Container @relation(fields: [containerId], references: [id])
-    containerId String    @unique
+    containerType   ContainerType @relation(fields: [containerTypeId], references: [id])
+    containerTypeId String
 
     organization   Organization @relation(fields: [organizationId], references: [id])
     organizationId String
 
     @@index([organizationId])
-}
-
-model Container {
-    id              String        @id @default(cuid())
-    containerType   ContainerType @relation(fields: [containerTypeId], references: [id])
-    containerTypeId String
-    Sensor          Sensor?
-
     @@index([containerTypeId])
 }
 
@@ -72,7 +64,7 @@ model ContainerType {
     containerVolumeInLiters   Int?         @default(0)
     organization              Organization @relation(fields: [organizationId], references: [id])
     organizationId            String
-    Container                 Container[]
+    Sensor                    Sensor[]
 
     @@index([organizationId])
 }
