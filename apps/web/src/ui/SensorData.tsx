@@ -3,16 +3,15 @@ import {
   Title,
   AreaChart,
   CategoryBar,
-  Text,
   DateRangePicker,
-  DateRangePickerValue,
-  Metric,
   Flex,
+  Text,
   Badge,
-  Subtitle,
+  Metric,
 } from "@tremor/react";
 import { useState } from "react";
 import Map from "@/ui/Map";
+import { MapPinIcon, SignalIcon } from "@heroicons/react/24/solid";
 
 const chartdataOld = [
   {
@@ -51,30 +50,43 @@ const dataFormatter = (number: number) => {
   return "$ " + Intl.NumberFormat("us").format(number).toString();
 };
 
+const getFillLevel = () => {
+  return 40;
+};
+
 //const [chartdata, setChartData] = useState({});
 
 function SensorData() {
   return (
     <div className="mx-auto flex w-full items-center justify-center ">
       <Card className="max-w-3xl">
-        <Title>Sensor: XGSJNE</Title>
+        <Metric>Sensor: XGSJNE</Metric>
         <Flex className="justify-start pt-2">
-          {/* Må få inn icons her. Status og location */}
-          <Badge className="mr-3">live</Badge>
-          <Badge>Gisle Johnsons Gate 6</Badge>
+          <Badge className="mr-3" icon={SignalIcon}>
+            Sist oppdatert: 500 min siden
+          </Badge>
+          <Badge icon={MapPinIcon}>Gisle Johnsons Gate 6</Badge>
         </Flex>
+        <div className="pt-3">
+          <Text>Her er en beskrivelse</Text>
+        </div>
 
-        <Title className="pt-5">Fyllingsgrad:</Title>
+        <Title className="pt-5">Fyllingsgrad: 40% </Title>
         <CategoryBar
           categoryPercentageValues={[50, 20, 20, 10]}
           colors={["emerald", "yellow", "orange", "rose"]}
-          // percentageValue={getScale()}
+          percentageValue={20}
           className="mt-3"
         />
+        <Title className="pt-5">Container: </Title>
+        <Text>Navn: Søpletron 300</Text>
+        <Text>Høyde: 500 mm</Text>
+        <Text>Bredde: 500 mm</Text>
+        <Text>Volum: 100L</Text>
         <Title className="pt-10">Fyllingsgrad over tid</Title>
 
         <DateRangePicker
-          className="max-w-sm"
+          className="max-w-sm pt-2"
           enableDropdown={true}
           // onValueChange={(value: DateRangePickerValue) => setChartData(value)}
         />
@@ -87,7 +99,9 @@ function SensorData() {
           colors={["indigo", "cyan"]}
           valueFormatter={dataFormatter}
         />
-        <Map />
+        <div className="pt-8">
+          <Map />
+        </div>
       </Card>
     </div>
   );

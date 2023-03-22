@@ -19,6 +19,7 @@
     "dev:test": "turbo dev:test",
     "e2e:test": "turbo e2e:test",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "gen:types": "turbo gen:types",
     "lint": "turbo lint",
     "FIXME:lint": "turbo lint && manypkg check",
     "type:check": "turbo type:check",
@@ -34,7 +35,7 @@
     "heroicons": "1.0.6",
     "prettier": "^2.8.4",
     "prettier-plugin-tailwindcss": "^0.1.13",
-    "turbo": "^1.8.3",
+    "turbo": "^1.8.5",
     "typescript": "^4.9.5"
   }
 }

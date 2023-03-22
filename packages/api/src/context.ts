@@ -2,7 +2,6 @@ import { prisma } from "@acme/db";
 import { type inferAsyncReturnType } from "@trpc/server";
 import { type CreateNextContextOptions } from "@trpc/server/adapters/next";
 import type { User } from "@clerk/nextjs/api";
-// import { influx } from "./lib/influx";
 import { getUser } from "./lib/clerk";
 
 export type CustomClerkMetadata = Record<string, unknown> & {
@@ -26,7 +25,6 @@ export const createContextInner = async ({ user }: UserProps) => {
   return {
     user,
     prisma,
-    // influx,
   };
 };
 
