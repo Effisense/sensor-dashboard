@@ -26,6 +26,7 @@ export const sensorRouter = router({
         longitude,
         containerId,
       } = input;
+
       const location = await getLocationFromLngLat({
         latitude,
         longitude,
