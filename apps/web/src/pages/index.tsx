@@ -30,9 +30,7 @@ const Home: NextPage = () => {
          <span className="text-[hsl(280,100%,70%)]">Effisense dashboard</span> 
       </h1>
       <AuthShowcase />
-
       <Map />
-
       <button
         type="button"
         onClick={() => {

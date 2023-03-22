@@ -24,7 +24,7 @@ const Layout = ({ children }: LayoutProps) => {
       <Navigation />
       )}
 
-      <main className="flex min-h-screen w-screen flex-col items-center bg-sage-1 text-sage-12">
+      <main className="flex min-h-screen w-screen flex-col items-center bg-slate-100 text-sage-12">
         {children}
       </main>
 

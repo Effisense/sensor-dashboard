@@ -12,7 +12,7 @@ const Map = () => {
 
   return (
     <div>
-      <div className="h-96 w-96" id="map">
+      <div className="h-72 w-72" id="map">
         <div ref={container} className="w-full" />
       </div>
       <p className="my-12">
