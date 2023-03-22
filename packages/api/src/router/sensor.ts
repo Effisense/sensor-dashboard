@@ -9,7 +9,7 @@ export const sensorRouter = router({
     .input(SensorSchema)
     .mutation(async ({ ctx, input }) => {
       const {
-        deviceId,
+        sensorId,
         collectionId,
         name,
         description,
@@ -37,7 +37,7 @@ export const sensorRouter = router({
 
       return ctx.prisma.sensor.create({
         data: {
-          id: deviceId,
+          id: sensorId,
           collectionId,
           latitude,
           longitude,
@@ -70,7 +70,7 @@ export const sensorRouter = router({
     .input(SensorSchema)
     .mutation(async ({ ctx, input }) => {
       const {
-        deviceId,
+        sensorId: deviceId,
         collectionId,
         name,
         description,
@@ -116,7 +116,7 @@ export const sensorRouter = router({
   delete: protectedProcedure
     .input(SensorIdSchema)
     .mutation(async ({ ctx, input }) => {
-      const { deviceId } = input;
+      const { sensorId: deviceId } = input;
 
       // TODO: Maybe we need to delete the container as well?
 

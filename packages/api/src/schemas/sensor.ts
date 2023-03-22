@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 export const SensorSchema = z.object({
-  deviceId: z.string(),
+  sensorId: z.string(),
   collectionId: z.string(),
   name: z.string(),
   description: z.string(),
@@ -11,5 +11,5 @@ export const SensorSchema = z.object({
 });
 
 export const SensorIdSchema = SensorSchema.pick({
-  deviceId: true,
+  sensorId: true,
 });
