@@ -6,7 +6,7 @@ export const authRouter = router({
     return !!isAdmin(ctx.user);
   }),
   getSession: publicProcedure.query(({ ctx }) => {
-    return ctx.user;
+    return ctx.auth.user;
   }),
   getSecretMessage: protectedProcedure.query(() => {
     return "you can see this secret message!";
