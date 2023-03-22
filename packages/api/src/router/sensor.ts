@@ -4,6 +4,7 @@ import { z } from "zod";
 import { Sensor } from "../lib/kysely";
 import { SensorIdSchema, SensorSchema } from "../schemas/sensor";
 import { protectedProcedure, router } from "../trpc";
+import { sensorBelongsToCollection as _sensorBelongsToCollection } from "../utils/sensor";
 
 export const sensorRouter = router({
   create: protectedProcedure
@@ -18,6 +19,17 @@ export const sensorRouter = router({
         longitude,
         containerTypeId,
       } = input;
+
+      const sensorBelongsToCollection = await _sensorBelongsToCollection(
+        sensorId,
+        collectionId,
+      );
+      if (!sensorBelongsToCollection) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "Sensor does not belong to collection",
+        });
+      }
 
       const location = await getLocationFromLngLat({
         latitude,

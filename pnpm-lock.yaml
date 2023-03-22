@@ -133,6 +133,7 @@ importers:
       '@trpc/client': ^10.13.0
       '@trpc/server': ^10.13.0
       '@types/pg': ^8.6.6
+      axios: ^1.3.4
       dotenv-cli: ^6.0.0
       eslint: ^8.35.0
       kanel: ^3.2.2
@@ -148,6 +149,7 @@ importers:
       '@clerk/nextjs': 4.11.2
       '@trpc/client': 10.13.0_@trpc+server@10.13.0
       '@trpc/server': 10.13.0
+      axios: 1.3.4
       dotenv-cli: 6.0.0
       kysely: 0.23.5
       pg: 8.10.0
@@ -2671,6 +2673,16 @@ packages:
     dependencies:
       follow-redirects: 1.15.2_debug@4.3.4
       form-data: 4.0.0
+    transitivePeerDependencies:
+      - debug
+    dev: false
+
+  /axios/1.3.4:
+    resolution: {integrity: sha512-toYm+Bsyl6VC5wSkfkbbNB6ROv7KY93PEBBL6xyDczaIHasAiv4wPqQ/c4RjoQzipxRD2W5g21cOqQulZ7rHwQ==}
+    dependencies:
+      follow-redirects: 1.15.2
+      form-data: 4.0.0
+      proxy-from-env: 1.1.0
     transitivePeerDependencies:
       - debug
     dev: false
