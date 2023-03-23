@@ -6,8 +6,8 @@ const Map = () => {
   const { container, geoLocationEnabled, sensorMarker, location } = useMap();
 
   const { data, error } = trpc.map.getLocationFromLngLat.useQuery({
-    lng: sensorMarker?.getLngLat().lng || 0,
-    lat: sensorMarker?.getLngLat().lat || 0,
+    longitude: sensorMarker?.getLngLat().lng || 0,
+    latitude: sensorMarker?.getLngLat().lat || 0,
   });
 
   return (
