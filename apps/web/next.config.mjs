@@ -16,13 +16,29 @@ import { withSentryConfig } from "@sentry/nextjs";
 const config = {
   reactStrictMode: true,
   swcMinify: true,
-  transpilePackages: ["@acme/api", "@acme/db", "@acme/influx"],
+  transpilePackages: [
+    "@acme/api",
+    "@acme/db",
+    "@acme/email",
+    "@acme/mapbox",
+    "@acme/tailwind-config",
+  ],
   // We already do linting on GH actions
   eslint: {
     ignoreDuringBuilds: !!process.env.CI,
   },
   sentry: {
     hideSourceMaps: true,
+  },
+  experimental: {
+    swcPlugins: [
+      [
+        "next-superjson-plugin",
+        {
+          excluded: [],
+        },
+      ],
+    ],
   },
 };
 

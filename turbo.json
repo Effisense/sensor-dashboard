@@ -31,6 +31,9 @@
       ],
       "cache": false
     },
+    "gen:types": {
+      "cache": false
+    },
     "dev:test": {
       "cache": false
     },
@@ -73,10 +76,10 @@
     "DATABASE_URL",
     "NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY",
     "CLERK_SECRET_KEY",
-    "INFLUX_URL",
-    "INFLUX_TOKEN",
-    "INFLUX_ORG",
-    "INFLUX_BUCKET",
+    "TIMESERIES_DB_HOST",
+    "TIMESERIES_DB_PORT",
+    "TIMESERIES_DB_USERNAME",
+    "TIMESERIES_DB_NAME",
     "SENDGRID_API_KEY"
   ]
 }

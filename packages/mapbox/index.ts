@@ -1,7 +1,9 @@
-import mapboxgl from "mapbox-gl";
+import mapboxgl, { LngLat } from "mapbox-gl";
 import { green } from "tailwindcss/colors";
-import ExternalMapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
-import { MapOptions, MarkerOptions } from "./types";
+import ExternalMapboxGeocoder, {
+  LngLatLiteral,
+} from "@mapbox/mapbox-gl-geocoder";
+import { MapboxGeocoderResponse, MapOptions, MarkerOptions } from "./types";
 
 mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_PUBLIC_TOKEN as string;
 
@@ -32,6 +34,23 @@ export const MapboxMarker = ({ latitude, longitude, addTo }: MarkerOptions) =>
       lng: longitude,
     })
     .addTo(addTo);
+
+export const getLocationFromLngLat = async ({
+  longitude,
+  latitude,
+}: LngLatLiteral) => {
+  const token = process.env.NEXT_PUBLIC_MAPBOX_PUBLIC_TOKEN;
+
+  if (!token) throw new Error("Token not found");
+
+  const data = await fetch(
+    `https://api.mapbox.com/geocoding/v5/mapbox.places/${longitude},${latitude}.json?limit=1&access_token=${
+      token as string
+    }`,
+  ).then((res) => res.json() as Promise<MapboxGeocoderResponse>);
+
+  return data.features[0]?.place_name;
+};
 
 export * from "./types";
 export { mapboxgl as mapbox };

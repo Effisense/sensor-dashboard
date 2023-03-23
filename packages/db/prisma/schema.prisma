@@ -11,43 +11,60 @@ datasource db {
     relationMode = "prisma"
 }
 
-model Post {
-    id      String @id @default(cuid())
-    title   String
-    content String
+model User {
+    id                 String               @id
+    UserInOrganization UserInOrganization[]
 }
 
-model User {
-    id String @id
+model Organization {
+    id                 String               @id
+    UserInOrganization UserInOrganization[]
+    ContainerType      ContainerType[]
+    Sensor             Sensor[]
+}
+
+model UserInOrganization {
+    id             String       @id @default(cuid())
+    user           User         @relation(fields: [userId], references: [id])
+    userId         String
+    organization   Organization @relation(fields: [organizationId], references: [id])
+    organizationId String
+
+    @@index([userId])
+    @@index([organizationId])
 }
 
 model Sensor {
-    id                       String    @id
-    nickname                 String
-    description              String
-    // Threshold where the bin is defined full
-    targetFillLevelInPercent Int
-    location                 String
-    latitude                 Float
-    longitude                Float
-    container                Container @relation(fields: [containerId], references: [id])
-    containerId              String    @unique
-}
+    id           String @id
+    name         String
+    description  String
+    latitude     Float
+    longitude    Float
+    location     String
+    collectionId String
 
-model Container {
-    id                        String        @id @default(cuid())
-    Sensor                    Sensor?
-    ContainerType             ContainerType @relation(fields: [containerTypeId], references: [id])
-    containerTypeId           String
-    binHeightInMillimeters    Int
-    binWidthInMillimeters     Int?
-    sensorOffsetInMillimeters Int
-    containerVolumeInLiters   Int
+    containerType   ContainerType @relation(fields: [containerTypeId], references: [id])
+    containerTypeId String
+
+    organization   Organization @relation(fields: [organizationId], references: [id])
+    organizationId String
+
+    @@index([organizationId])
+    @@index([containerTypeId])
 }
 
 model ContainerType {
-    id          String      @id
-    name        String
-    description String
-    Containers  Container[]
+    id                        String       @id @default(cuid())
+    name                      String
+    description               String
+    targetFillLevelInPercent  Int
+    binHeightInMillimeters    Int
+    binWidthInMillimeters     Int?         @default(0)
+    sensorOffsetInMillimeters Int?         @default(0)
+    containerVolumeInLiters   Int?         @default(0)
+    organization              Organization @relation(fields: [organizationId], references: [id])
+    organizationId            String
+    Sensor                    Sensor[]
+
+    @@index([organizationId])
 }

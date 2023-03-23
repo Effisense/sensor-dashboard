@@ -30,13 +30,6 @@ export const trpc = createTRPCNext<AppRouter>({
   ssr: false,
 });
 
-// export const ssgHelper = async (req: RequestLike) =>
-//   createProxySSGHelpers({
-//     router: appRouter,
-//     ctx: await createContext(req),
-//     transformer: superjson,
-//   });
-
 /**
  * Inference helpers for input types
  * @example type HelloInput = RouterInputs['example']['hello']

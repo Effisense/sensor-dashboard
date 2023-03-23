@@ -10,14 +10,6 @@ import OrganizationSwitcher from "./OrganizationSwitcher";
 import Link from 'next/link';
 
 const Navigation = () => {
-  // TODO: Add Navigation
-
-  const [showProfile, setShowProfile] = useState(false);
-
-  const toggleProfile = () => {
-    setShowProfile(prevShowProfile => !prevShowProfile);
-  }
-
   return (
     <NavigationMenu>
       <NavigationMenuList>
@@ -46,18 +38,16 @@ const Navigation = () => {
           </div>
         </NavigationMenuItem>
         <NavigationMenuItem>
-        <div className="mx-16">
-            <UserButton
-              appearance={{
-                elements: {
-                  userButtonAvatarBox: {
-                    width: "3rem",
-                    height: "3rem",
-                  },
+          <UserButton
+            appearance={{
+              elements: {
+                userButtonAvatarBox: {
+                  width: "2.5rem",
+                  height: "2.5rem",
                 },
-              }}
-            />
-          </div>
+              },
+            }}
+          />
         </NavigationMenuItem>
       </NavigationMenuList>
     </NavigationMenu>

@@ -11,28 +11,28 @@ const t = initTRPC.context<Context>().create({
 });
 
 const isAuthed = t.middleware(({ next, ctx }) => {
-  if (!ctx.user) {
+  if (!ctx.auth.user) {
     throw new TRPCError({ code: "UNAUTHORIZED", message: "Not authenticated" });
   }
   return next({
     ctx: {
-      user: ctx.user,
+      user: ctx.auth.user,
     },
   });
 });
 
 const isAdmin = t.middleware(({ next, ctx }) => {
-  if (!ctx.user) {
+  if (!ctx.auth.user) {
     throw new TRPCError({ code: "UNAUTHORIZED", message: "Not authenticated" });
   }
 
-  if (!_isAdmin(ctx.user)) {
+  if (!_isAdmin(ctx.auth.user)) {
     throw new TRPCError({ code: "UNAUTHORIZED", message: "Not authorized" });
   }
 
   return next({
     ctx: {
-      user: ctx.user,
+      user: ctx.auth.user,
     },
   });
 });
