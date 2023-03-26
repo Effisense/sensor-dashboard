@@ -1,6 +1,6 @@
 const Footer = () => {
   // TODO: Add footer
-  return <div>footer goes here</div>;
+  return <div className="overflow-x-hidden">footer goes here</div>;
 };
 
 export default Footer;

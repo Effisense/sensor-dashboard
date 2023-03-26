@@ -44,14 +44,15 @@ const Layout = ({ children }: LayoutProps) => {
 
         <link rel="icon" href="/favicon.ico" />
       </Head>
-
+      <div className="overflow-x-hidden">
       {isSignedIn && <Navigation />}
 
-      <main className="flex min-h-screen w-screen flex-col items-center bg-slate-100 text-sage-12">
+      <main className="flex min-h-screen w-screen flex-col items-center bg-slate-100 text-sage-12 overflow-hidden">
         {children}
       </main>
 
       <Footer />
+      </div>
     </>
   );
 };

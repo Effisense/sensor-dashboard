@@ -15,7 +15,7 @@ const Navigation = () => {
       <NavigationMenuList>
       <NavigationMenuItem>
       <Link href="/">
-        <div className="mr-64 font-bold text-[25px]">
+        <div className="mr-80 font-bold text-[25px]">
         Effisense Dashboard
           </div>
         </Link>
@@ -38,6 +38,7 @@ const Navigation = () => {
           </div>
         </NavigationMenuItem>
         <NavigationMenuItem>
+        <div className="mx-7">
           <UserButton
             appearance={{
               elements: {
@@ -48,6 +49,7 @@ const Navigation = () => {
               },
             }}
           />
+          </div>
         </NavigationMenuItem>
       </NavigationMenuList>
     </NavigationMenu>

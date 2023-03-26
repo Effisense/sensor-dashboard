@@ -1,51 +1,98 @@
 import { getAuth } from "@clerk/nextjs/server";
 import { GetServerSidePropsContext } from "next";
-import { useForm, Controller, SubmitHandler } from "react-hook-form";
+import { useForm, UseFormProps } from "react-hook-form";
 import { Input } from "../../ui/Input";
 import { Button } from "../../ui/Button";
 import { Label } from "../../ui/Label";
 import Map from "@/ui/Map";
 import { Textarea } from "../../ui/Textarea";
 import H4 from "@/ui/typography/H4";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { SensorSchema } from "@acme/api/src/schemas/sensor";
+import { trpc } from "@/utils/trpc";
+import { useCallback } from "react";
 
-interface FormData {
-    collectionId: string,
-    name: string,
-    description: string,
-    latitude: number,
-    longitude: number,
-    containerId: string,
+import {z} from "zod"
+
+  type SensorForm = z.infer<typeof SensorSchema>
+
+  function useZodForm<TSchema extends z.ZodType>(
+    props: Omit<UseFormProps<TSchema['_input']>, 'resolver'> & {
+      schema: TSchema;
+    },
+  ) {
+    const form = useForm<TSchema['_input']>({
+      ...props,
+      resolver: zodResolver(props.schema, undefined),
+    });
+  
+    return form;
   }
 
 const CreateSensorPage = () => {
-  const { register, handleSubmit, formState: { errors } } = useForm<FormData>();
 
-  const onSubmit = handleSubmit(data => console.log(data));
+  const createSensorMutation = trpc.sensor.create.useMutation();
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    control,
+  } = useZodForm({
+    schema: SensorSchema,
+    defaultValues:{
+      
+    }
+  });
+
+  console.log(errors)
+
+  //triggered when the form is submitted
+  const onSubmit = async (data: SensorForm) => {
+    console.log(data)
+    try {
+      await createSensorMutation.mutateAsync(data);
+    } catch (error) {
+      // handle error
+      console.log(error)
+    }
+  };
 
   return (
-    <><div className="bg-slate-300 w-[400px] grid rounded-md mt-4 mb-8">
-      
+    <><div className="bg-slate-300 w-[400px] rounded-md mt-4 mb-8">
       <div className="mt-2 grid align-middle justify-center">
         <H4>Add sensor</H4>
       </div>
-      
-      <form onSubmit={onSubmit} className="grid gap-y-4 grid-cols-1 my-4 mb-8 align-middle justify-center items-center">
-        <Label htmlFor="name">Name</Label>
-        <Input className="bg-white align-middle justify-center w-3/4"  placeholder="Name" {...register("name")} />
+      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col items-center justify-center my-4 mb-8 gap-y-4">
 
-        <Label htmlFor="containerId">Container ID</Label>
-        <Input className="bg-white w-3/4"  placeholder="Container ID" {...register("containerId")} />
+          <Label htmlFor="sensorId" className="mr-44  w-36">Sensor ID</Label>
+          <Input className="bg-white w-10/12" placeholder="Sensor ID" {...register("sensorId")} />
 
-        <Label htmlFor="collectionId">Collection ID</Label>
-        <Input className="bg-white w-3/4"  placeholder="Collection ID" {...register("collectionId")} />
+          <Label htmlFor="collectionId" className="mr-44 w-36">Collection ID</Label>
+          <Input className="bg-white w-10/12" placeholder="Collection ID" required {...register("collectionId")} />
 
-        <Label htmlFor="description">Description</Label>
-        <Textarea className="bg-white w-3/4" placeholder="Description"  {...register("description")}/>
+          <Label htmlFor="name" className="mr-44 w-36">Name</Label>
+          <Input className="bg-white w-10/12" placeholder="Name" {...register("name")} />
 
-        <Label htmlFor="nickname">Location</Label>
-        <Map/>
+          <Label htmlFor="description" className="mr-44 w-36">Description</Label>
+          <Textarea className="bg-white w-10/12" placeholder="Description" {...register("description")} />
 
-        <Button variant="default" type="button" className="w-3/4">Add sensor</Button>
+          <Label htmlFor="containerId" className="mr-44  w-36">Container ID</Label>
+          <Input className="bg-white w-10/12" placeholder="Container ID" {...register("containerTypeId")} />
+
+          <Label htmlFor="latitude" className="mr-44  w-36">Latitude</Label>
+          <Input className="bg-white w-10/12" placeholder="Latitude" {...register("latitude", {
+            valueAsNumber: true
+          })} type="number" />
+
+          <Label htmlFor="longitude" className="mr-44  w-36">Longitude</Label>
+          <Input className="bg-white w-10/12" placeholder="Longitude" {...register("longitude", {
+            valueAsNumber: true
+          })} type="number" />
+
+          <Map />
+
+        <Button variant="default" type="submit" className="w-3/4">Add sensor</Button>
       </form> 
     </div>
       </>
