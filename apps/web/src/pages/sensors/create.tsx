@@ -41,7 +41,8 @@ const CreateSensorPage = () => {
   } = useZodForm({
     schema: SensorSchema,
     defaultValues:{
-      
+      sensorId: "17fk1ja662n2g0",
+      collectionId: "17fk1ja662n2g1",
     }
   });
 
@@ -64,12 +65,6 @@ const CreateSensorPage = () => {
         <H4>Add sensor</H4>
       </div>
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col items-center justify-center my-4 mb-8 gap-y-4">
-
-          <Label htmlFor="sensorId" className="mr-44  w-36">Sensor ID</Label>
-          <Input className="bg-white w-10/12" placeholder="Sensor ID" {...register("sensorId")} />
-
-          <Label htmlFor="collectionId" className="mr-44 w-36">Collection ID</Label>
-          <Input className="bg-white w-10/12" placeholder="Collection ID" required {...register("collectionId")} />
 
           <Label htmlFor="name" className="mr-44 w-36">Name</Label>
           <Input className="bg-white w-10/12" placeholder="Name" {...register("name")} />
