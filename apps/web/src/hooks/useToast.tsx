@@ -1,5 +1,7 @@
 // Inspired by react-hot-toast library
+import { Severity } from "@/types";
 import { ToastActionElement, ToastProps } from "@/ui/ToastPrimitive";
+import { severityToTailwindColor } from "@/utils/tailwind";
 import * as React from "react";
 
 const TOAST_LIMIT = 1;
@@ -8,6 +10,7 @@ const TOAST_REMOVE_DELAY = 1000;
 type ToasterToast = ToastProps & {
   id: string;
   title?: React.ReactNode;
+  severity?: Severity;
   description?: React.ReactNode;
   action?: ToastActionElement;
 };
@@ -87,8 +90,6 @@ export const reducer = (state: State, action: Action): State => {
     case "DISMISS_TOAST": {
       const { toastId } = action;
 
-      // ! Side effects ! - This could be extracted into a dismissToast() action,
-      // but I'll keep it here for simplicity
       if (toastId) {
         addToRemoveQueue(toastId);
       } else {
@@ -155,6 +156,7 @@ function toast({ ...props }: Toast) {
       onOpenChange: (open) => {
         if (!open) dismiss();
       },
+      color: severityToTailwindColor(props.severity),
     },
   });
 

@@ -1,5 +1,4 @@
 import { useToast } from "@/hooks/useToast";
-import { Button } from "@/ui/Button";
 import QrReader from "@/ui/QrReader";
 import H1 from "@/ui/typography/H1";
 import { trpc } from "@/utils/trpc";
@@ -28,33 +27,27 @@ const ScanPage = () => {
     );
 
   const handleScan = (data: string) => {
-    let parsed;
     try {
-      parsed = JSON.parse(data);
-    } catch (e) {
-      console.log(e);
-      toast({
-        title: "Oops!",
-        description: "Something went wrong. Are you sure you scanned a sensor?",
-      });
-      return;
-    }
-
-    try {
-      const payload = SpanApiPayloadSchema.parse(parsed);
+      const payload = SpanApiPayloadSchema.parse(JSON.parse(data));
       setPayload(payload);
       refetch();
     } catch (e) {
-      console.log(e);
       toast({
         title: "Oops!",
         description: "Something went wrong. Are you sure you scanned a sensor?",
+        severity: "error",
       });
     }
   };
 
   useEffect(() => {
     if (sensorBelongsToCollection && payload) {
+      toast({
+        title: "Success!",
+        description: "You will now be redirected to add the sensor.",
+        severity: "success",
+      });
+
       router.push({
         pathname: "/sensors/add",
         query: {
@@ -63,22 +56,11 @@ const ScanPage = () => {
         },
       });
     }
-  }, [payload, router, sensorBelongsToCollection]);
+  }, [payload, router, sensorBelongsToCollection, toast]);
 
   return (
     <div className="">
       <H1 className="text-center">Add Sensor</H1>
-
-      <Button
-        onClick={() => {
-          toast({
-            title: "test",
-            description: "test",
-          });
-        }}
-      >
-        test toast
-      </Button>
 
       <div>
         <QrReader
@@ -89,7 +71,6 @@ const ScanPage = () => {
           }}
           className="h-full w-full"
         />
-        <p>{JSON.stringify(payload)}</p>
       </div>
     </div>
   );
