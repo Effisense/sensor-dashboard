@@ -43,6 +43,7 @@ const CreateSensorPage = () => {
     defaultValues:{
       sensorId: "17fk1ja662n2g0",
       collectionId: "17fk1ja662n2g1",
+      //use clfqqzai80000vfvf7l90d7ap for containerTypeId
     }
   });
 
