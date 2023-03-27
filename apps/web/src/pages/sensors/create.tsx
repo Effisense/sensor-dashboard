@@ -10,7 +10,6 @@ import H4 from "@/ui/typography/H4";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SensorSchema } from "@acme/api/src/schemas/sensor";
 import { trpc } from "@/utils/trpc";
-import { useCallback } from "react";
 
 import {z} from "zod"
 
@@ -52,7 +51,7 @@ const CreateSensorPage = () => {
   //triggered when the form is submitted
   const onSubmit = async (data: SensorForm) => {
     console.log(data)
-    try {
+    try {      
       await createSensorMutation.mutateAsync(data);
     } catch (error) {
       // handle error

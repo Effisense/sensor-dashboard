@@ -42,6 +42,7 @@ export const sensorRouter = router({
       });
 
       if (!ctx.auth.organizationId) {
+        console.log(ctx.auth.organizationId);
         throw new TRPCError({
           code: "BAD_REQUEST",
           message: "Organization not found",
