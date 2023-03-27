@@ -2,8 +2,12 @@ import { getLocationFromLngLat } from "@acme/mapbox";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 import { Sensor } from "../lib/kysely";
-import { SensorIdSchema, SensorSchema } from "../schemas/sensor";
-import { protectedProcedure, router } from "../trpc";
+import {
+  SensorIdSchema,
+  SensorSchema,
+  SpanApiPayloadSchema,
+} from "../schemas/sensor";
+import { protectedProcedure, publicProcedure, router } from "../trpc";
 import { sensorBelongsToCollection as _sensorBelongsToCollection } from "../utils/sensor";
 
 export const sensorRouter = router({
@@ -213,4 +217,8 @@ export const sensorRouter = router({
         },
       });
     }),
+
+  sensorBelongsToCollection: publicProcedure
+    .input(SpanApiPayloadSchema)
+    .query(async ({ ctx, input }) => {}),
 });

@@ -1,13 +1,21 @@
+import { SpanApiPayload, SpanApiPayloadSchema } from "@/schemas";
 import QrReader from "@/ui/QrReader";
 import H1 from "@/ui/typography/H1";
+import { trpc } from "@/utils/trpc";
 import { getAuth } from "@clerk/nextjs/server";
 import { GetServerSidePropsContext } from "next";
 import { useState } from "react";
 
 const ScanPage = () => {
-  const [deviceId, setDeviceId] = useState<string | null>(null);
+  const [payload, setPayload] = useState<SpanApiPayload | null>(null);
+  const {} = trpc.
 
   const handleScan = (data: string) => {
+    const { success } = SpanApiPayloadSchema.safeParse(data);
+    if (!success) {
+      // Display toast with error message
+    }
+
     // TODO
     // 1.Validate that the `data` is a valid and active device ID
     // 2. Redirect to `/sensors/add` with `deviceId` as a query parameter
@@ -23,12 +31,11 @@ const ScanPage = () => {
           onResult={(result) => {
             if (!!result) {
               handleScan(result.getText());
-              setDeviceId(result.getText());
             }
           }}
           className="h-full w-full"
         />
-        <p>{deviceId}</p>
+        <p>{JSON.stringify(payload)}</p>
       </div>
     </div>
   );
