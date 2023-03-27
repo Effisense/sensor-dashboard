@@ -15,8 +15,8 @@ const ScanPage = () => {
   };
 
   return (
-    <div>
-      <H1>Add Sensor</H1>
+    <div className="w-1/2 md:w-3/4">
+      <H1 className="text-center">Add Sensor</H1>
 
       <div>
         <QrReader
@@ -26,6 +26,7 @@ const ScanPage = () => {
               setDeviceId(result.getText());
             }
           }}
+          className="h-full w-full"
         />
         <p>{deviceId}</p>
       </div>
