@@ -1,3 +1,4 @@
+import { useToast } from "@/hooks/useToast";
 import { Button } from "@/ui/Button";
 import QrReader from "@/ui/QrReader";
 import H1 from "@/ui/typography/H1";
@@ -12,6 +13,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
 const ScanPage = () => {
+  const { toast } = useToast();
   const [payload, setPayload] = useState<SpanApiPayload | null>(null);
   const router = useRouter();
   const { data: sensorBelongsToCollection, refetch } =
@@ -26,13 +28,28 @@ const ScanPage = () => {
     );
 
   const handleScan = (data: string) => {
+    let parsed;
     try {
-      const payload = SpanApiPayloadSchema.parse(JSON.parse(data));
+      parsed = JSON.parse(data);
+    } catch (e) {
+      console.log(e);
+      toast({
+        title: "Oops!",
+        description: "Something went wrong. Are you sure you scanned a sensor?",
+      });
+      return;
+    }
+
+    try {
+      const payload = SpanApiPayloadSchema.parse(parsed);
       setPayload(payload);
       refetch();
     } catch (e) {
-      // TODO: Display error message in toast
       console.log(e);
+      toast({
+        title: "Oops!",
+        description: "Something went wrong. Are you sure you scanned a sensor?",
+      });
     }
   };
 
@@ -51,6 +68,17 @@ const ScanPage = () => {
   return (
     <div className="">
       <H1 className="text-center">Add Sensor</H1>
+
+      <Button
+        onClick={() => {
+          toast({
+            title: "test",
+            description: "test",
+          });
+        }}
+      >
+        test toast
+      </Button>
 
       <div>
         <QrReader
