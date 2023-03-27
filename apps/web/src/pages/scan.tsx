@@ -1,29 +1,55 @@
-import { SpanApiPayload, SpanApiPayloadSchema } from "@/schemas";
+import { Button } from "@/ui/Button";
 import QrReader from "@/ui/QrReader";
 import H1 from "@/ui/typography/H1";
 import { trpc } from "@/utils/trpc";
+import {
+  SpanApiPayload,
+  SpanApiPayloadSchema,
+} from "@acme/api/src/schemas/sensor";
 import { getAuth } from "@clerk/nextjs/server";
 import { GetServerSidePropsContext } from "next";
-import { useState } from "react";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 
 const ScanPage = () => {
   const [payload, setPayload] = useState<SpanApiPayload | null>(null);
-  const {} = trpc.
+  const router = useRouter();
+  const { data: sensorBelongsToCollection, refetch } =
+    trpc.sensor.belongsToCollection.useQuery(
+      {
+        collectionId: payload?.collectionId || "",
+        deviceId: payload?.deviceId || "",
+      },
+      {
+        enabled: !!payload,
+      },
+    );
 
   const handleScan = (data: string) => {
-    const { success } = SpanApiPayloadSchema.safeParse(data);
-    if (!success) {
-      // Display toast with error message
+    try {
+      const payload = SpanApiPayloadSchema.parse(JSON.parse(data));
+      setPayload(payload);
+      refetch();
+    } catch (e) {
+      // TODO: Display error message in toast
+      console.log(e);
     }
-
-    // TODO
-    // 1.Validate that the `data` is a valid and active device ID
-    // 2. Redirect to `/sensors/add` with `deviceId` as a query parameter
-    console.log(data);
   };
 
+  useEffect(() => {
+    if (sensorBelongsToCollection && payload) {
+      router.push({
+        pathname: "/sensors/add",
+        query: {
+          deviceId: payload.deviceId,
+          collectionId: payload.collectionId,
+        },
+      });
+    }
+  }, [payload, router, sensorBelongsToCollection]);
+
   return (
-    <div className="w-1/2 md:w-3/4">
+    <div className="">
       <H1 className="text-center">Add Sensor</H1>
 
       <div>

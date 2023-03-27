@@ -218,7 +218,10 @@ export const sensorRouter = router({
       });
     }),
 
-  sensorBelongsToCollection: publicProcedure
+  belongsToCollection: publicProcedure
     .input(SpanApiPayloadSchema)
-    .query(async ({ ctx, input }) => {}),
+    .query(async ({ input }) => {
+      const { deviceId, collectionId } = input;
+      return await _sensorBelongsToCollection(deviceId, collectionId);
+    }),
 });
