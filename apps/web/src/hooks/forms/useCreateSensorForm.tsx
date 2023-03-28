@@ -5,12 +5,20 @@ import { z } from "zod";
 import { useToast } from "../useToast";
 import useZodForm from "../useZodForm";
 
+type CreateSensorFormProps = {
+  sensorId: string;
+  collectionId: string;
+};
+
 /**
  * Handles logic related to creating a sensor.
  *
  * @returns all objects and handlers needed to create a sensor.
  */
-const useCreateSensorForm = () => {
+const useCreateSensorForm = ({
+  sensorId,
+  collectionId,
+}: CreateSensorFormProps) => {
   const { mutateAsync, error } = trpc.sensor.create.useMutation();
   const { toast } = useToast();
   const [containerId, setContainerId] = useState<string | undefined>(undefined);
@@ -23,10 +31,9 @@ const useCreateSensorForm = () => {
     setValue,
   } = useZodForm({
     schema: SensorSchema,
-    // TODO: Get these values from query parameters in `/sensors/create`.
     defaultValues: {
-      sensorId: "17fk1ja662n2g0",
-      collectionId: "17fk1ja662n2g1",
+      sensorId,
+      collectionId,
     },
   });
 

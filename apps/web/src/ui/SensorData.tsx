@@ -9,7 +9,6 @@ import {
   Badge,
   Metric,
 } from "@tremor/react";
-import { useState } from "react";
 import CreateSensorMap from "@/ui/Map";
 import { MapPinIcon, SignalIcon } from "@heroicons/react/24/solid";
 
