@@ -9,11 +9,10 @@ import H1 from "@/ui/typography/H1";
 import useCreateSensorForm from "@/hooks/useCreateSensorForm";
 import Subtle from "@/ui/typography/Subtle";
 import FormInput from "@/ui/FormInput";
+import FormTextarea from "@/ui/FormTextarea";
 
 const CreateSensorPage = () => {
   const { register, onSubmit, handleSubmit, errors } = useCreateSensorForm();
-
-  const _ = register;
 
   return (
     <div className="flex flex-col items-center justify-center">
@@ -21,7 +20,7 @@ const CreateSensorPage = () => {
 
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="my-8 flex flex-col items-center justify-center gap-y-8"
+        className="my-8 flex flex-col items-center justify-center gap-y-2"
       >
         <FormInput
           label="Name"
@@ -30,60 +29,34 @@ const CreateSensorPage = () => {
           register={register}
         />
 
-        <div className="flex w-full flex-col items-start justify-start gap-y-2">
-          <Label htmlFor="description">Description</Label>
-          <Textarea
-            className="bg-white"
-            placeholder="Description"
-            {...register("description")}
-          />
-          <Subtle className="h-4 w-full text-red-500">
-            {errors.description?.message}
-          </Subtle>
-        </div>
+        <FormTextarea
+          register={register}
+          id="description"
+          errorMessage={errors.description?.message}
+          label="Description"
+        />
 
         {/* TODO: Remove this input field, and get it from a dropdown menu */}
-        <div className="flex w-full flex-col items-start justify-start gap-y-2">
-          <Label htmlFor="containerId">Container ID</Label>
-          <Input
-            className="bg-white"
-            placeholder="Container ID"
-            {...register("containerTypeId")}
-          />
-          <Subtle className="h-4 w-full text-red-500">
-            {errors.containerTypeId?.message}
-          </Subtle>
-        </div>
+        <FormInput
+          register={register}
+          id="containerTypeId"
+          label="Container identifier"
+          errorMessage={errors.containerTypeId?.message}
+        />
 
-        <div className="flex w-full flex-col items-start justify-start gap-y-2">
-          <Label htmlFor="latitude">Latitude</Label>
-          <Input
-            className="bg-white"
-            placeholder="Latitude"
-            {...register("latitude", {
-              valueAsNumber: true,
-            })}
-            type="number"
-          />
-          <Subtle className="h-4 w-full text-red-500">
-            {errors.latitude?.message}
-          </Subtle>
-        </div>
+        <FormInput
+          register={register}
+          id="latitude"
+          label="Latitude"
+          errorMessage={errors.latitude?.message}
+        />
 
-        <div className="flex w-full flex-col items-start justify-start gap-y-2">
-          <Label htmlFor="longitude">Longitude</Label>
-          <Input
-            className="bg-white"
-            placeholder="Longitude"
-            {...register("longitude", {
-              valueAsNumber: true,
-            })}
-            type="number"
-          />
-          <Subtle className="h-4 w-full text-red-500">
-            {errors.longitude?.message}
-          </Subtle>
-        </div>
+        <FormInput
+          register={register}
+          id="longitude"
+          label="Longitude"
+          errorMessage={errors.longitude?.message}
+        />
 
         <CreateSensorMap />
 
