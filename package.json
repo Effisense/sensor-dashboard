@@ -12,6 +12,7 @@
     "clean:workspace": "turbo clean",
     "db:generate": "turbo db:generate",
     "db:push": "turbo db:push",
+    "db:reset": "turbo db:reset",
     "email:dev": "turbo email:dev",
     "email:export": "turbo email:export",
     "dev": "turbo dev --parallel",
@@ -26,8 +27,11 @@
     "update:workspace": "turbo update"
   },
   "dependencies": {
+    "@hookform/resolvers": "^3.0.0",
     "@manypkg/cli": "^0.19.2",
+    "@radix-ui/react-label": "^2.0.1",
     "@tremor/react": "^2.0.0",
+    "@trpc/react": "^9.27.4",
     "@types/node": "^18.14.2",
     "@typescript-eslint/eslint-plugin": "^5.53.0",
     "@typescript-eslint/parser": "^5.53.0",
@@ -35,7 +39,8 @@
     "heroicons": "1.0.6",
     "prettier": "^2.8.4",
     "prettier-plugin-tailwindcss": "^0.1.13",
-    "turbo": "^1.8.5",
+    "react-hook-form": "^7.43.6",
+    "turbo": "^1.8.6",
     "typescript": "^4.9.5"
   }
 }

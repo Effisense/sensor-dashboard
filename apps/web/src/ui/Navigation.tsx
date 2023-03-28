@@ -4,16 +4,37 @@ import {
   NavigationMenuList,
 } from "@/ui/NavigationMenu";
 import { UserButton } from "@clerk/nextjs";
+import { Button } from "./Button";
 import OrganizationSwitcher from "./OrganizationSwitcher";
+import Link from "next/link";
+import Logo from "./Logo";
 
 const Navigation = () => {
   return (
     <NavigationMenu>
-      <NavigationMenuList className="mr-8 flex items-center justify-center gap-8">
+      {/* Left part of navigation, with logo */}
+      <div className="flex items-center justify-start">
+        <Link href="/">
+          <div className="h-10">
+            <Logo />
+          </div>
+        </Link>
+      </div>
+
+      <NavigationMenuList className="gap-x-4">
+        {/* Right part of navigation, with the rest */}
+        <NavigationMenuItem>
+          <Button variant="subtle">My containers</Button>
+        </NavigationMenuItem>
+        <NavigationMenuItem>
+          <Link href="/sensors/create">
+            <Button variant="subtle">Add sensor</Button>
+          </Link>
+        </NavigationMenuItem>
         <NavigationMenuItem>
           <OrganizationSwitcher />
         </NavigationMenuItem>
-        <NavigationMenuItem>
+        <NavigationMenuItem className="mr-6">
           <UserButton
             appearance={{
               elements: {

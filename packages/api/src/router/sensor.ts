@@ -21,7 +21,7 @@ export const sensorRouter = router({
         description,
         latitude,
         longitude,
-        containerTypeId,
+        containerId,
       } = input;
 
       const sensorBelongsToCollection = await _sensorBelongsToCollection(
@@ -52,21 +52,35 @@ export const sensorRouter = router({
         });
       }
 
-      const containerTypeExists = await ctx.prisma.containerType
+      const containerExists = await ctx.prisma.container
         .findUnique({
           where: {
-            id: containerTypeId,
+            id: containerId,
           },
         })
-        .then((containerType) => !!containerType)
+        .then((container) => !!container)
         .catch(() => false);
 
-      if (!containerTypeExists) {
+      if (!containerExists) {
         throw new TRPCError({
           code: "BAD_REQUEST",
           message: "Container type not found",
         });
       }
+
+      const organization = await ctx.prisma.organization
+        .upsert({
+          where: {
+            id: ctx.auth.organizationId,
+          },
+          update: {
+            id: ctx.auth.organizationId,
+          },
+          create: {
+            id: ctx.auth.organizationId,
+          },
+        })
+        .then((org) => org);
 
       return ctx.prisma.sensor.create({
         data: {
@@ -77,8 +91,8 @@ export const sensorRouter = router({
           name,
           description,
           location: location || "",
-          containerTypeId,
-          organizationId: ctx.auth.organizationId,
+          containerId,
+          organizationId: organization.id,
         },
       });
     }),
@@ -138,9 +152,9 @@ export const sensorRouter = router({
         });
       }
 
-      const containerType = await ctx.prisma.containerType.findUnique({
+      const containerType = await ctx.prisma.container.findUnique({
         where: {
-          id: sensor.containerTypeId,
+          id: sensor.containerId,
         },
       });
 
@@ -167,7 +181,7 @@ export const sensorRouter = router({
         description,
         latitude,
         longitude,
-        containerTypeId,
+        containerId,
       } = input;
 
       const location = await getLocationFromLngLat({
@@ -198,7 +212,7 @@ export const sensorRouter = router({
           name,
           description,
           location: location || "",
-          containerTypeId,
+          containerId,
           organizationId: ctx.auth.organizationId,
         },
       });

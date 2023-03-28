@@ -10,7 +10,7 @@ import {
   Metric,
 } from "@tremor/react";
 import { useState } from "react";
-import Map from "@/ui/Map";
+import CreateSensorMap from "@/ui/Map";
 import { MapPinIcon, SignalIcon } from "@heroicons/react/24/solid";
 
 const chartdataOld = [
@@ -100,7 +100,7 @@ function SensorData() {
           valueFormatter={dataFormatter}
         />
         <div className="pt-8">
-          <Map />
+          <CreateSensorMap />
         </div>
       </Card>
     </div>

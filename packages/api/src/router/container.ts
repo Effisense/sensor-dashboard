@@ -1,14 +1,14 @@
 import { TRPCError } from "@trpc/server";
 import {
-  ContainerTypeIdSchema,
-  ContainerTypeSchema,
-  CreateContainerTypeSchema,
-} from "../schemas/containerType";
+  ContainerIdSchema,
+  ContainerSchema,
+  CreateContainerSchema,
+} from "../schemas/container";
 import { protectedProcedure, router } from "../trpc";
 
-export const containerTypeRouter = router({
+export const containerRouter = router({
   create: protectedProcedure
-    .input(CreateContainerTypeSchema)
+    .input(CreateContainerSchema)
     .mutation(async ({ ctx, input }) => {
       const {
         name,
@@ -27,7 +27,7 @@ export const containerTypeRouter = router({
         });
       }
 
-      return ctx.prisma.containerType.create({
+      return ctx.prisma.container.create({
         data: {
           name,
           description,
@@ -42,11 +42,11 @@ export const containerTypeRouter = router({
     }),
 
   get: protectedProcedure
-    .input(ContainerTypeIdSchema)
+    .input(ContainerIdSchema)
     .query(async ({ ctx, input }) => {
       const { containerTypeId } = input;
 
-      return ctx.prisma.containerType.findUnique({
+      return ctx.prisma.container.findUnique({
         where: {
           id: containerTypeId,
         },
@@ -61,7 +61,7 @@ export const containerTypeRouter = router({
       });
     }
 
-    return ctx.prisma.containerType.findMany({
+    return ctx.prisma.container.findMany({
       where: {
         organizationId: ctx.auth.organizationId,
       },
@@ -69,7 +69,7 @@ export const containerTypeRouter = router({
   }),
 
   update: protectedProcedure
-    .input(ContainerTypeSchema)
+    .input(ContainerSchema)
     .mutation(async ({ ctx, input }) => {
       const {
         containerTypeId,
@@ -89,7 +89,7 @@ export const containerTypeRouter = router({
         });
       }
 
-      return ctx.prisma.containerType.update({
+      return ctx.prisma.container.update({
         where: {
           id: containerTypeId,
         },
@@ -106,7 +106,7 @@ export const containerTypeRouter = router({
     }),
 
   delete: protectedProcedure
-    .input(ContainerTypeIdSchema)
+    .input(ContainerIdSchema)
     .mutation(async ({ ctx, input }) => {
       const { containerTypeId } = input;
 
@@ -119,7 +119,7 @@ export const containerTypeRouter = router({
 
       // TODO: Check if container type is in use by container / sensor. If so, set sensor's containerType to null.
 
-      return ctx.prisma.containerType.delete({
+      return ctx.prisma.container.delete({
         where: {
           id: containerTypeId,
         },

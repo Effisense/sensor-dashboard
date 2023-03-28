@@ -1,7 +1,7 @@
 import useMap from "@/hooks/useMap";
 import { trpc } from "@/utils/trpc";
 
-const Map = () => {
+const CreateSensorMap = () => {
   // TODO: Handle the case where geolocation is not enabled. Let the user know that they need to enable it.
   const { container, geoLocationEnabled, sensorMarker, location } = useMap();
 
@@ -12,7 +12,7 @@ const Map = () => {
 
   return (
     <div>
-      <div className="h-96 w-96" id="map">
+      <div className="h-72 w-72" id="map">
         <div ref={container} className="w-full" />
       </div>
       <p className="my-12">
@@ -22,4 +22,4 @@ const Map = () => {
   );
 };
 
-export default Map;
+export default CreateSensorMap;
