@@ -30,7 +30,7 @@ const SelectContainerDropdown = ({
   isLoading,
 }: SelectContainerDropdownProps) => {
   return (
-    <div>
+    <div className="flex w-full flex-col items-center justify-start gap-y-2">
       <Label htmlFor={containerId}>Container</Label>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
