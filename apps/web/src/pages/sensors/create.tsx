@@ -6,34 +6,19 @@ import H1 from "@/ui/typography/H1";
 import useCreateSensorForm from "@/hooks/forms/useCreateSensorForm";
 import FormInput from "@/ui/FormInput";
 import FormTextarea from "@/ui/FormTextarea";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuHeading,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuRadioGroup,
-  DropdownMenuRadioItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/ui/DropdownMenu";
-import Link from "next/link";
-import { useEffect, useState } from "react";
 import { trpc } from "@/utils/trpc";
-import { useToast } from "@/hooks/useToast";
+import SelectContainerDropdown from "@/ui/containers/SelectContainerDropdown";
 
 const CreateSensorPage = () => {
-  const { register, onSubmit, handleSubmit, errors } = useCreateSensorForm();
-  const [containerId, setContainerId] = useState<string | undefined>(undefined);
-  const { data, isLoading, error } = trpc.container.getAll.useQuery();
-  const { toast } = useToast();
-
-  useEffect(() => {
-    toast({
-      title: "Oops!",
-      description: "An error occured when fetching your containers.",
-    });
-  }, [error, toast]);
+  const {
+    register,
+    onSubmit,
+    handleSubmit,
+    errors,
+    containerId,
+    setContainerId,
+  } = useCreateSensorForm();
+  const { data, isLoading } = trpc.container.getAll.useQuery();
 
   return (
     <div className="flex flex-col items-center justify-center">
@@ -57,60 +42,12 @@ const CreateSensorPage = () => {
           label="Description"
         />
 
-        {/* TODO: Remove this input field, and get it from a dropdown menu */}
-        <FormInput
-          register={register}
-          id="containerId"
-          label="Container identifier"
-          errorMessage={errors.containerId?.message}
+        <SelectContainerDropdown
+          containerId={containerId}
+          setContainerId={setContainerId}
+          data={data}
+          isLoading={isLoading}
         />
-
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline">Select container</Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent>
-            <DropdownMenuHeading>Select container</DropdownMenuHeading>
-            <DropdownMenuSeparator />
-
-            {isLoading && (
-              <>
-                <DropdownMenuLabel>Loading...</DropdownMenuLabel>
-                <DropdownMenuSeparator />
-              </>
-            )}
-
-            {data && data.length > 0 && (
-              <>
-                <DropdownMenuRadioGroup
-                  value={containerId}
-                  onValueChange={setContainerId}
-                >
-                  {data?.map((container) => (
-                    <DropdownMenuRadioItem
-                      value={container.id}
-                      key={container.id}
-                    >
-                      {container.name}
-                    </DropdownMenuRadioItem>
-                  ))}
-                </DropdownMenuRadioGroup>
-                <DropdownMenuSeparator />
-              </>
-            )}
-
-            <DropdownMenuItem>
-              <Link
-                href={{
-                  pathname: "/containers/create",
-                  // TODO: Add query params to redirect back to this page and include the deviceId and collectionId, just like in /scan
-                }}
-              >
-                Add new container
-              </Link>
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
 
         <FormInput
           register={register}
