@@ -21,14 +21,16 @@ const Navigation = () => {
         </Link>
       </div>
 
-      <NavigationMenuList className="gap-x-4">
+      <NavigationMenuList className="gap-x-2">
         {/* Right part of navigation, with the rest */}
         <NavigationMenuItem>
-          <Button variant="subtle">My containers</Button>
+          <Link href="/containers/create">
+            <Button variant="link">Add container</Button>
+          </Link>
         </NavigationMenuItem>
         <NavigationMenuItem>
           <Link href="/sensors/create">
-            <Button variant="subtle">Add sensor</Button>
+            <Button variant="link">Add sensor</Button>
           </Link>
         </NavigationMenuItem>
         <NavigationMenuItem>

@@ -3,7 +3,7 @@ import { GetServerSidePropsContext } from "next";
 import { Button } from "../../ui/Button";
 import CreateSensorMap from "@/ui/Map";
 import H1 from "@/ui/typography/H1";
-import useCreateSensorForm from "@/hooks/useCreateSensorForm";
+import useCreateSensorForm from "@/hooks/forms/useCreateSensorForm";
 import FormInput from "@/ui/FormInput";
 import FormTextarea from "@/ui/FormTextarea";
 

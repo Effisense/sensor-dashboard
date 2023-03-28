@@ -2,8 +2,8 @@ import { trpc } from "@/utils/trpc";
 import { SensorSchema } from "@acme/api/src/schemas/sensor";
 import { useEffect } from "react";
 import { z } from "zod";
-import { useToast } from "./useToast";
-import useZodForm from "./useZodForm";
+import { useToast } from "../useToast";
+import useZodForm from "../useZodForm";
 
 /**
  * Handles logic related to creating a sensor.
