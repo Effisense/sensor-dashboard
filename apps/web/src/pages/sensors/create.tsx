@@ -7,9 +7,10 @@ import CreateSensorMap from "@/ui/Map";
 import { Textarea } from "../../ui/Textarea";
 import H1 from "@/ui/typography/H1";
 import useCreateSensorForm from "@/hooks/useCreateSensorForm";
+import Subtle from "@/ui/typography/Subtle";
 
 const CreateSensorPage = () => {
-  const { register, onSubmit, handleSubmit } = useCreateSensorForm();
+  const { register, onSubmit, handleSubmit, errors } = useCreateSensorForm();
 
   return (
     <div className="flex flex-col items-center justify-center">
@@ -26,6 +27,9 @@ const CreateSensorPage = () => {
             placeholder="Name"
             {...register("name")}
           />
+          <Subtle className="h-4 w-full text-red-500">
+            {errors.name?.message}
+          </Subtle>
         </div>
 
         <div className="flex w-full flex-col items-start justify-start gap-y-2">
@@ -35,6 +39,9 @@ const CreateSensorPage = () => {
             placeholder="Description"
             {...register("description")}
           />
+          <Subtle className="h-4 w-full text-red-500">
+            {errors.description?.message}
+          </Subtle>
         </div>
 
         {/* TODO: Remove this input field, and get it from a dropdown menu */}
@@ -45,6 +52,9 @@ const CreateSensorPage = () => {
             placeholder="Container ID"
             {...register("containerTypeId")}
           />
+          <Subtle className="h-4 w-full text-red-500">
+            {errors.containerTypeId?.message}
+          </Subtle>
         </div>
 
         <div className="flex w-full flex-col items-start justify-start gap-y-2">
@@ -57,6 +67,9 @@ const CreateSensorPage = () => {
             })}
             type="number"
           />
+          <Subtle className="h-4 w-full text-red-500">
+            {errors.latitude?.message}
+          </Subtle>
         </div>
 
         <div className="flex w-full flex-col items-start justify-start gap-y-2">
@@ -69,6 +82,9 @@ const CreateSensorPage = () => {
             })}
             type="number"
           />
+          <Subtle className="h-4 w-full text-red-500">
+            {errors.longitude?.message}
+          </Subtle>
         </div>
 
         <CreateSensorMap />

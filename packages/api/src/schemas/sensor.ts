@@ -3,10 +3,16 @@ import { z } from "zod";
 export const SensorSchema = z.object({
   sensorId: z.string(),
   collectionId: z.string(),
-  name: z.string(),
+  name: z.string().min(1, { message: "Required" }),
   description: z.string(),
-  latitude: z.number(),
-  longitude: z.number(),
+  latitude: z
+    .number()
+    .min(-90, { message: "Must be between -90 and 90" })
+    .max(90, { message: "Must be between -90 and 90" }),
+  longitude: z
+    .number()
+    .min(-180, { message: "Must be between -180 and 180" })
+    .max(180, { message: "Must be between -180 and 180" }),
   containerTypeId: z.string(),
 });
 export type Sensor = z.infer<typeof SensorSchema>;
