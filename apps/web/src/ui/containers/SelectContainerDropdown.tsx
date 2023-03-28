@@ -31,6 +31,9 @@ const SelectContainerDropdown = ({
   isLoading,
 }: SelectContainerDropdownProps) => {
   const router = useRouter();
+  const selectedContainer = data?.find(
+    (container) => container.id === containerId,
+  );
 
   return (
     <div className="flex w-full flex-col items-center justify-start gap-y-2">
@@ -39,7 +42,7 @@ const SelectContainerDropdown = ({
         <DropdownMenuTrigger asChild>
           <Button variant="default">
             <div className="flex items-center justify-center">
-              <span>Select container</span>
+              <span>{selectedContainer?.name || "Select container"}</span>
               <ChevronDown className="ml-2 w-4" />
             </div>
           </Button>
