@@ -67,6 +67,20 @@ export const sensorRouter = router({
         });
       }
 
+      const organization = await ctx.prisma.organization
+        .upsert({
+          where: {
+            id: ctx.auth.organizationId,
+          },
+          update: {
+            id: ctx.auth.organizationId,
+          },
+          create: {
+            id: ctx.auth.organizationId,
+          },
+        })
+        .then((org) => org);
+
       return ctx.prisma.sensor.create({
         data: {
           id: sensorId,
@@ -77,7 +91,7 @@ export const sensorRouter = router({
           description,
           location: location || "",
           containerTypeId,
-          organizationId: ctx.auth.organizationId,
+          organizationId: organization.id,
         },
       });
     }),

@@ -12,7 +12,6 @@ export const getAuthentication = async (options: CreateNextContextOptions) => {
         privateMetadata: user?.privateMetadata as CustomClerkMetadata,
       }))
     : null;
-  console.log(organizationId);
 
   return {
     user,
