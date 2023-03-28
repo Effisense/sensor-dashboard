@@ -49,6 +49,7 @@ const CreateSensorPage = () => {
           id="latitude"
           label="Latitude"
           errorMessage={errors.latitude?.message}
+          valueAsNumber
         />
 
         <FormInput
@@ -56,6 +57,7 @@ const CreateSensorPage = () => {
           id="longitude"
           label="Longitude"
           errorMessage={errors.longitude?.message}
+          valueAsNumber
         />
 
         <CreateSensorMap />

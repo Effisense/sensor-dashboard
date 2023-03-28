@@ -20,10 +20,10 @@ const useCreateSensorForm = () => {
     formState: { errors },
   } = useZodForm({
     schema: SensorSchema,
+    // TODO: Get these values from query parameters in `/sensors/create`.
     defaultValues: {
       sensorId: "17fk1ja662n2g0",
       collectionId: "17fk1ja662n2g1",
-      //use clfs020b60000vw6gbxhvli89 for containerTypeId
     },
   });
 

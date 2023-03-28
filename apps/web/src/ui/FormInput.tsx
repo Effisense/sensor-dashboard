@@ -9,6 +9,7 @@ type FormInputProps<T extends FieldValues> = {
   errorMessage?: string;
   id: Path<T>;
   label: string;
+  valueAsNumber?: boolean;
 };
 
 /**
@@ -26,6 +27,7 @@ const FormInput = <T extends FieldValues>({
   errorMessage,
   id,
   label,
+  valueAsNumber,
 }: FormInputProps<T>) => {
   return (
     <div className="flex w-full flex-col items-start justify-start gap-y-2">
@@ -33,7 +35,9 @@ const FormInput = <T extends FieldValues>({
       <Input
         className="bg-white"
         placeholder={capitalize(label)}
-        {...register(id)}
+        {...register(id, {
+          valueAsNumber: valueAsNumber || false,
+        })}
       />
       <Subtle className="h-4 w-full text-red-500">{errorMessage}</Subtle>
     </div>
