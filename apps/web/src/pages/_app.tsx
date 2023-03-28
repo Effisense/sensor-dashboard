@@ -6,12 +6,15 @@ import type { AppType } from "next/app";
 import { ClerkProvider } from "@clerk/nextjs";
 import { trpc } from "../utils/trpc";
 import Layout from "../ui/Layout";
+import { Toaster } from "@/ui/Toaster";
 
 const MyApp: AppType = ({ Component, pageProps: { ...pageProps } }) => {
   return (
     <ClerkProvider {...pageProps}>
       <Layout>
         <Component {...pageProps} />
+        {/* Load `Toaster` at top-level, and render it using `useToast` */}
+        <Toaster />
       </Layout>
     </ClerkProvider>
   );

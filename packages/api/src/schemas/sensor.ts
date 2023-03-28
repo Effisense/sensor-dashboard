@@ -13,3 +13,9 @@ export const SensorSchema = z.object({
 export const SensorIdSchema = SensorSchema.pick({
   sensorId: true,
 });
+
+export const SpanApiPayloadSchema = z.object({
+  deviceId: z.string(),
+  collectionId: z.string(),
+});
+export type SpanApiPayload = z.infer<typeof SpanApiPayloadSchema>;
