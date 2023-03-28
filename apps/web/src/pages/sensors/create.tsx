@@ -36,7 +36,6 @@ const CreateSensorPage = () => {
     register,
     handleSubmit,
     formState: { errors },
-    control,
   } = useZodForm({
     schema: SensorSchema,
     defaultValues:{
