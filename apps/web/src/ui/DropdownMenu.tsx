@@ -144,7 +144,7 @@ const DropdownMenuLabel = React.forwardRef<
   <DropdownMenuPrimitive.Label
     ref={ref}
     className={cn(
-      "dark:text-slate-300 px-2 py-1.5 text-sm font-semibold text-slate-900",
+      "dark:text-slate-300 px-2 py-1.5 text-sm text-slate-900",
       inset && "pl-8",
       className,
     )}
@@ -152,6 +152,24 @@ const DropdownMenuLabel = React.forwardRef<
   />
 ));
 DropdownMenuLabel.displayName = DropdownMenuPrimitive.Label.displayName;
+
+const DropdownMenuHeading = React.forwardRef<
+  React.ElementRef<typeof DropdownMenuPrimitive.Label>,
+  React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Label> & {
+    inset?: boolean;
+  }
+>(({ className, inset, ...props }, ref) => (
+  <DropdownMenuPrimitive.Label
+    ref={ref}
+    className={cn(
+      "dark:text-slate-300 px-2 py-1.5 text-sm font-semibold text-slate-900",
+      inset && "pl-8",
+      className,
+    )}
+    {...props}
+  />
+));
+DropdownMenuHeading.displayName = DropdownMenuPrimitive.Label.displayName;
 
 const DropdownMenuSeparator = React.forwardRef<
   React.ElementRef<typeof DropdownMenuPrimitive.Separator>,
@@ -189,6 +207,7 @@ export {
   DropdownMenuCheckboxItem,
   DropdownMenuRadioItem,
   DropdownMenuLabel,
+  DropdownMenuHeading,
   DropdownMenuSeparator,
   DropdownMenuShortcut,
   DropdownMenuGroup,
