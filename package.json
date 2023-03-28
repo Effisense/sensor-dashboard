@@ -12,6 +12,7 @@
     "clean:workspace": "turbo clean",
     "db:generate": "turbo db:generate",
     "db:push": "turbo db:push",
+    "db:reset": "turbo db:reset",
     "email:dev": "turbo email:dev",
     "email:export": "turbo email:export",
     "dev": "turbo dev --parallel",

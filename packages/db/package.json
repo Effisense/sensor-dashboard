@@ -10,6 +10,7 @@
     "studio": "pnpm with-env prisma studio --port 3002",
     "db:push": "pnpm with-env prisma db push",
     "db:generate": "pnpm with-env prisma generate",
+    "db:reset": "pnpm with-env prisma migrate reset --force",
     "update": "pnpm update"
   },
   "dependencies": {
