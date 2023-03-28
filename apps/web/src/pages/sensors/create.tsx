@@ -1,13 +1,9 @@
 import { getAuth } from "@clerk/nextjs/server";
 import { GetServerSidePropsContext } from "next";
-import { Input } from "../../ui/Input";
 import { Button } from "../../ui/Button";
-import { Label } from "../../ui/Label";
 import CreateSensorMap from "@/ui/Map";
-import { Textarea } from "../../ui/Textarea";
 import H1 from "@/ui/typography/H1";
 import useCreateSensorForm from "@/hooks/useCreateSensorForm";
-import Subtle from "@/ui/typography/Subtle";
 import FormInput from "@/ui/FormInput";
 import FormTextarea from "@/ui/FormTextarea";
 
@@ -39,9 +35,9 @@ const CreateSensorPage = () => {
         {/* TODO: Remove this input field, and get it from a dropdown menu */}
         <FormInput
           register={register}
-          id="containerTypeId"
+          id="containerId"
           label="Container identifier"
-          errorMessage={errors.containerTypeId?.message}
+          errorMessage={errors.containerId?.message}
         />
 
         <FormInput

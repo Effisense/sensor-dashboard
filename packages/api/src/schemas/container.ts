@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const ContainerTypeSchema = z.object({
+export const ContainerSchema = z.object({
   containerTypeId: z.string(),
   name: z.string(),
   description: z.string(),
@@ -11,10 +11,10 @@ export const ContainerTypeSchema = z.object({
   containerVolumeInLiters: z.number(),
 });
 
-export const CreateContainerTypeSchema = ContainerTypeSchema.omit({
+export const CreateContainerSchema = ContainerSchema.omit({
   containerTypeId: true,
 });
 
-export const ContainerTypeIdSchema = ContainerTypeSchema.pick({
+export const ContainerIdSchema = ContainerSchema.pick({
   containerTypeId: true,
 });
