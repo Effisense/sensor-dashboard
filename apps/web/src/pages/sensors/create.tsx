@@ -18,13 +18,22 @@ import {
   DropdownMenuTrigger,
 } from "@/ui/DropdownMenu";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { trpc } from "@/utils/trpc";
+import { useToast } from "@/hooks/useToast";
 
 const CreateSensorPage = () => {
   const { register, onSubmit, handleSubmit, errors } = useCreateSensorForm();
   const [containerId, setContainerId] = useState<string | undefined>(undefined);
   const { data, isLoading, error } = trpc.container.getAll.useQuery();
+  const { toast } = useToast();
+
+  useEffect(() => {
+    toast({
+      title: "Oops!",
+      description: "An error occured when fetching your containers.",
+    });
+  }, [error, toast]);
 
   return (
     <div className="flex flex-col items-center justify-center">
@@ -64,7 +73,14 @@ const CreateSensorPage = () => {
             <DropdownMenuHeading>Select container</DropdownMenuHeading>
             <DropdownMenuSeparator />
 
-            {data && data.length > 0 ? (
+            {isLoading && (
+              <>
+                <DropdownMenuLabel>Loading...</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+              </>
+            )}
+
+            {data && data.length > 0 && (
               <>
                 <DropdownMenuRadioGroup
                   value={containerId}
@@ -79,11 +95,6 @@ const CreateSensorPage = () => {
                     </DropdownMenuRadioItem>
                   ))}
                 </DropdownMenuRadioGroup>
-                <DropdownMenuSeparator />
-              </>
-            ) : (
-              <>
-                <DropdownMenuLabel>No containers found</DropdownMenuLabel>
                 <DropdownMenuSeparator />
               </>
             )}
