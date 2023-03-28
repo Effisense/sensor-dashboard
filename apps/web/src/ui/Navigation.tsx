@@ -3,42 +3,38 @@ import {
   NavigationMenuItem,
   NavigationMenuList,
 } from "@/ui/NavigationMenu";
-import { useState } from 'react';
 import { UserButton } from "@clerk/nextjs";
 import { Button } from "./Button";
 import OrganizationSwitcher from "./OrganizationSwitcher";
-import Link from 'next/link';
+import Link from "next/link";
+import Logo from "./Logo";
 
 const Navigation = () => {
   return (
     <NavigationMenu>
-      <NavigationMenuList>
-      <NavigationMenuItem>
-      <Link href="/">
-        <div className="mr-80 font-bold text-[25px]">
-        Effisense Dashboard
+      {/* Left part of navigation, with logo */}
+      <div className="flex items-center justify-start">
+        <Link href="/">
+          <div className="h-10">
+            <Logo />
           </div>
         </Link>
-        </NavigationMenuItem>
-      <NavigationMenuItem>
-        <div className="mx-7">
-        <Button variant="default">My containers</Button>
-          </div>
+      </div>
+
+      <NavigationMenuList className="gap-x-4">
+        {/* Right part of navigation, with the rest */}
+        <NavigationMenuItem>
+          <Button variant="subtle">My containers</Button>
         </NavigationMenuItem>
         <NavigationMenuItem>
-        <div className="mx-7">
-        <Link href="/sensors/create">
-        <Button variant="default">Add sensor</Button>
-        </Link>
-          </div>
+          <Link href="/sensors/create">
+            <Button variant="subtle">Add sensor</Button>
+          </Link>
         </NavigationMenuItem>
         <NavigationMenuItem>
-        <div className="mx-7">
-          <OrganizationSwitcher/>
-          </div>
+          <OrganizationSwitcher />
         </NavigationMenuItem>
-        <NavigationMenuItem>
-        <div className="mx-7">
+        <NavigationMenuItem className="mr-6">
           <UserButton
             appearance={{
               elements: {
@@ -49,7 +45,6 @@ const Navigation = () => {
               },
             }}
           />
-          </div>
         </NavigationMenuItem>
       </NavigationMenuList>
     </NavigationMenu>

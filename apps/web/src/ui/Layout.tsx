@@ -42,16 +42,16 @@ const Layout = ({ children }: LayoutProps) => {
             .replace(/\s+/g, " ")}
         />
 
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/favicon.svg" />
       </Head>
       <div className="overflow-x-hidden">
-      {isSignedIn && <Navigation />}
+        {isSignedIn && <Navigation />}
 
-      <main className="flex min-h-screen w-screen flex-col items-center bg-slate-100 text-sage-12 overflow-hidden">
-        {children}
-      </main>
+        <main className="flex min-h-screen w-screen flex-col items-center overflow-hidden bg-slate-100 text-sage-12">
+          {children}
+        </main>
 
-      <Footer />
+        <Footer />
       </div>
     </>
   );

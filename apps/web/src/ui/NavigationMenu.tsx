@@ -11,7 +11,7 @@ const NavigationMenu = React.forwardRef<
   <NavigationMenuPrimitive.Root
     ref={ref}
     className={cn(
-      "relative z-10 flex flex-1 bg-slate-100 justify-end h-20",
+      "relative z-10 flex h-20 w-screen items-center justify-between bg-slate-100 p-4",
       className,
     )}
     {...props}
@@ -28,10 +28,7 @@ const NavigationMenuList = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <NavigationMenuPrimitive.List
     ref={ref}
-    className={cn(
-      "group my-4 flex flex-1 list-none items-center justify-center",
-      className,
-    )}
+    className={cn("group my-4 flex list-none", className)}
     {...props}
   />
 ));
@@ -85,7 +82,7 @@ const NavigationMenuViewport = React.forwardRef<
   <div className={cn("absolute top-full flex items-center justify-center ")}>
     <NavigationMenuPrimitive.Viewport
       className={cn(
-        "origin-top-center data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=open]:zoom-in-90 data-[state=closed]:zoom-out-95 dark:border-slate-700 dark:bg-slate-800 relative mt-1.5 h-[var(--radix-navigation-menu-viewport-height)] min-w-full w-full overflow-hidden rounded-md border border-slate-200 bg-white shadow-lg md:w-[var(--radix-navigation-menu-viewport-width)]",
+        "origin-top-center data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=open]:zoom-in-90 data-[state=closed]:zoom-out-95 dark:border-slate-700 dark:bg-slate-800 relative mt-1.5 h-[var(--radix-navigation-menu-viewport-height)] w-full min-w-full overflow-hidden rounded-md border border-slate-200 bg-white shadow-lg md:w-[var(--radix-navigation-menu-viewport-width)]",
         className,
       )}
       ref={ref}
