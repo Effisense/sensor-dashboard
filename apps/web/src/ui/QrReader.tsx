@@ -13,6 +13,11 @@ const QrReader = ({ onResult, ...props }: QrReaderProps) => {
       constraints={{
         facingMode: "environment",
       }}
+      videoStyle={{
+        height: "auto",
+        width: "100%",
+        borderRadius: "0.25rem",
+      }}
     />
   );
 };
