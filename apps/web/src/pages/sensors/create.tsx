@@ -8,9 +8,12 @@ import { Textarea } from "../../ui/Textarea";
 import H1 from "@/ui/typography/H1";
 import useCreateSensorForm from "@/hooks/useCreateSensorForm";
 import Subtle from "@/ui/typography/Subtle";
+import FormInput from "@/ui/FormInput";
 
 const CreateSensorPage = () => {
   const { register, onSubmit, handleSubmit, errors } = useCreateSensorForm();
+
+  const _ = register;
 
   return (
     <div className="flex flex-col items-center justify-center">
@@ -20,17 +23,12 @@ const CreateSensorPage = () => {
         onSubmit={handleSubmit(onSubmit)}
         className="my-8 flex flex-col items-center justify-center gap-y-8"
       >
-        <div className="flex w-full flex-col items-start justify-start gap-y-2">
-          <Label htmlFor="name">Name</Label>
-          <Input
-            className="bg-white"
-            placeholder="Name"
-            {...register("name")}
-          />
-          <Subtle className="h-4 w-full text-red-500">
-            {errors.name?.message}
-          </Subtle>
-        </div>
+        <FormInput
+          label="Name"
+          errorMessage={errors.name?.message}
+          id="name"
+          register={register}
+        />
 
         <div className="flex w-full flex-col items-start justify-start gap-y-2">
           <Label htmlFor="description">Description</Label>
