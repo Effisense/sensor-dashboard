@@ -27,7 +27,6 @@ const useCreateSensorForm = ({
     register,
     handleSubmit,
     formState: { errors },
-    getValues,
     setValue,
   } = useZodForm({
     schema: SensorSchema,
@@ -36,8 +35,6 @@ const useCreateSensorForm = ({
       collectionId,
     },
   });
-
-  console.log(getValues());
 
   const onSubmit = async (data: z.infer<typeof SensorSchema>) => {
     await mutateAsync(data).then(() => {
