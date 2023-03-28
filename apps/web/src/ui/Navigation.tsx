@@ -3,13 +3,16 @@ import {
   NavigationMenuItem,
   NavigationMenuList,
 } from "@/ui/NavigationMenu";
-import { UserButton } from "@clerk/nextjs";
+import { useAuth, UserButton } from "@clerk/nextjs";
 import { Button } from "./Button";
 import OrganizationSwitcher from "./OrganizationSwitcher";
 import Link from "next/link";
 import Logo from "./Logo";
+import { Loader, Loader2 } from "lucide-react";
+import LoadingSpinner from "./LoadingSpinner";
 
 const Navigation = () => {
+  const { isSignedIn, isLoaded } = useAuth();
   return (
     <NavigationMenu>
       {/* Left part of navigation, with logo */}
@@ -33,21 +36,32 @@ const Navigation = () => {
             <Button variant="link">Add sensor</Button>
           </Link>
         </NavigationMenuItem>
-        <NavigationMenuItem>
-          <OrganizationSwitcher />
-        </NavigationMenuItem>
-        <NavigationMenuItem className="mr-6">
-          <UserButton
-            appearance={{
-              elements: {
-                userButtonAvatarBox: {
-                  width: "2.5rem",
-                  height: "2.5rem",
-                },
-              },
-            }}
-          />
-        </NavigationMenuItem>
+        <div className="flex items-center justify-center">
+          {!isLoaded && (
+            <NavigationMenuItem>
+              <LoadingSpinner />
+            </NavigationMenuItem>
+          )}
+          {isSignedIn && (
+            <div className="flex items-center justify-center">
+              <NavigationMenuItem>
+                <OrganizationSwitcher />
+              </NavigationMenuItem>
+              <NavigationMenuItem className="mr-6">
+                <UserButton
+                  appearance={{
+                    elements: {
+                      userButtonAvatarBox: {
+                        width: "2.5rem",
+                        height: "2.5rem",
+                      },
+                    },
+                  }}
+                />
+              </NavigationMenuItem>
+            </div>
+          )}
+        </div>
       </NavigationMenuList>
     </NavigationMenu>
   );

@@ -9,12 +9,13 @@ import {
   DropdownMenuItem,
 } from "@/ui/DropdownMenu";
 import { Label } from "@radix-ui/react-label";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, Loader2 } from "lucide-react";
 import { Dispatch, SetStateAction } from "react";
 import { Button } from "../Button";
 import { DropdownMenuHeading } from "../DropdownMenu";
 import { Container } from "@acme/db";
 import Link from "next/link";
+import LoadingSpinner from "../LoadingSpinner";
 
 type SelectContainerDropdownProps = {
   containerId?: string;
@@ -46,10 +47,10 @@ const SelectContainerDropdown = ({
           <DropdownMenuSeparator />
 
           {isLoading && (
-            <>
-              <DropdownMenuLabel>Loading...</DropdownMenuLabel>
+            <div className="flex flex-col items-center justify-center">
+              <LoadingSpinner />
               <DropdownMenuSeparator />
-            </>
+            </div>
           )}
 
           {data && data.length > 0 && (
