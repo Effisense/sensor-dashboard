@@ -5,37 +5,11 @@ import { Button } from "../../ui/Button";
 import { Label } from "../../ui/Label";
 import CreateSensorMap from "@/ui/Map";
 import { Textarea } from "../../ui/Textarea";
-import { SensorSchema } from "@acme/api/src/schemas/sensor";
-import { trpc } from "@/utils/trpc";
-import useZodForm from "@/hooks/useZodForm";
-import { z } from "zod";
 import H1 from "@/ui/typography/H1";
+import useCreateSensorForm from "@/hooks/useCreateSensorForm";
 
 const CreateSensorPage = () => {
-  const createSensorMutation = trpc.sensor.create.useMutation();
-
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useZodForm({
-    schema: SensorSchema,
-    defaultValues: {
-      sensorId: "17fk1ja662n2g0",
-      collectionId: "17fk1ja662n2g1",
-      //use clfs020b60000vw6gbxhvli89 for containerTypeId
-    },
-  });
-
-  const onSubmit = async (data: z.infer<typeof SensorSchema>) => {
-    try {
-      await createSensorMutation.mutateAsync(data);
-    } catch (error) {
-      // handle error
-      console.log(error);
-      // TODO: Handle errors using Toast
-    }
-  };
+  const { register, onSubmit, handleSubmit } = useCreateSensorForm();
 
   return (
     <div className="flex flex-col items-center justify-center">
