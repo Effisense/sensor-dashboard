@@ -3,7 +3,7 @@ import type {
   InferGetServerSidePropsType,
 } from "next";
 import { getAuth } from "@clerk/nextjs/server";
-import Map from "@/ui/Map";
+import CreateSensorMap from "@/ui/Map";
 
 type IndexPageProps = InferGetServerSidePropsType<typeof getServerSideProps>;
 
@@ -14,7 +14,7 @@ const IndexPage = ({}: IndexPageProps) => {
         <span className="text-[hsl(280,100%,70%)]">Effisense dashboard</span>
       </h1>
 
-      <Map />
+      <CreateSensorMap />
     </div>
   );
 };

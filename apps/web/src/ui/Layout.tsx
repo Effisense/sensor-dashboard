@@ -44,10 +44,10 @@ const Layout = ({ children }: LayoutProps) => {
 
         <link rel="icon" href="/favicon.svg" />
       </Head>
-      <div className="overflow-x-hidden">
+      <div className="overflow-x-hidden bg-slate-50 text-sage-12">
         {isSignedIn && <Navigation />}
 
-        <main className="flex min-h-screen w-screen flex-col items-center overflow-hidden bg-slate-100 text-sage-12">
+        <main className="flex min-h-screen w-screen flex-col items-center overflow-hidden">
           {children}
         </main>
 

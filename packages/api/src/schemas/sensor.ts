@@ -9,6 +9,7 @@ export const SensorSchema = z.object({
   longitude: z.number(),
   containerTypeId: z.string(),
 });
+export type Sensor = z.infer<typeof SensorSchema>;
 
 export const SensorIdSchema = SensorSchema.pick({
   sensorId: true,

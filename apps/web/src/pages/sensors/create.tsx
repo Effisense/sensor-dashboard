@@ -1,35 +1,17 @@
 import { getAuth } from "@clerk/nextjs/server";
 import { GetServerSidePropsContext } from "next";
-import { useForm, UseFormProps } from "react-hook-form";
 import { Input } from "../../ui/Input";
 import { Button } from "../../ui/Button";
 import { Label } from "../../ui/Label";
-import Map from "@/ui/Map";
+import CreateSensorMap from "@/ui/Map";
 import { Textarea } from "../../ui/Textarea";
-import H4 from "@/ui/typography/H4";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { SensorSchema } from "@acme/api/src/schemas/sensor";
 import { trpc } from "@/utils/trpc";
-
-import {z} from "zod"
-
-  type SensorForm = z.infer<typeof SensorSchema>
-
-  function useZodForm<TSchema extends z.ZodType>(
-    props: Omit<UseFormProps<TSchema['_input']>, 'resolver'> & {
-      schema: TSchema;
-    },
-  ) {
-    const form = useForm<TSchema['_input']>({
-      ...props,
-      resolver: zodResolver(props.schema, undefined),
-    });
-  
-    return form;
-  }
+import useZodForm from "@/hooks/useZodForm";
+import { z } from "zod";
+import H1 from "@/ui/typography/H1";
 
 const CreateSensorPage = () => {
-
   const createSensorMutation = trpc.sensor.create.useMutation();
 
   const {
@@ -38,58 +20,90 @@ const CreateSensorPage = () => {
     formState: { errors },
   } = useZodForm({
     schema: SensorSchema,
-    defaultValues:{
+    defaultValues: {
       sensorId: "17fk1ja662n2g0",
       collectionId: "17fk1ja662n2g1",
       //use clfs020b60000vw6gbxhvli89 for containerTypeId
-    }
+    },
   });
 
-  console.log(errors)
-
-  //triggered when the form is submitted
-  const onSubmit = async (data: SensorForm) => {
-    console.log(data)
-    try {      
+  const onSubmit = async (data: z.infer<typeof SensorSchema>) => {
+    try {
       await createSensorMutation.mutateAsync(data);
     } catch (error) {
       // handle error
-      console.log(error)
+      console.log(error);
+      // TODO: Handle errors using Toast
     }
   };
 
   return (
-    <><div className="bg-slate-300 w-[400px] rounded-md mt-4 mb-8">
-      <div className="mt-2 grid align-middle justify-center">
-        <H4>Add sensor</H4>
-      </div>
-      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col items-center justify-center my-4 mb-8 gap-y-4">
+    <div className="flex flex-col items-center justify-center">
+      <H1>Add sensor</H1>
 
-          <Label htmlFor="name" className="mr-44 w-36">Name</Label>
-          <Input className="bg-white w-10/12" placeholder="Name" {...register("name")} />
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="my-8 flex flex-col items-center justify-center gap-y-8"
+      >
+        <div className="flex w-full flex-col items-start justify-start gap-y-2">
+          <Label htmlFor="name">Name</Label>
+          <Input
+            className="bg-white"
+            placeholder="Name"
+            {...register("name")}
+          />
+        </div>
 
-          <Label htmlFor="description" className="mr-44 w-36">Description</Label>
-          <Textarea className="bg-white w-10/12" placeholder="Description" {...register("description")} />
+        <div className="flex w-full flex-col items-start justify-start gap-y-2">
+          <Label htmlFor="description">Description</Label>
+          <Textarea
+            className="bg-white"
+            placeholder="Description"
+            {...register("description")}
+          />
+        </div>
 
-          <Label htmlFor="containerId" className="mr-44  w-36">Container ID</Label>
-          <Input className="bg-white w-10/12" placeholder="Container ID" {...register("containerTypeId")} />
+        {/* TODO: Remove this input field, and get it from a dropdown menu */}
+        <div className="flex w-full flex-col items-start justify-start gap-y-2">
+          <Label htmlFor="containerId">Container ID</Label>
+          <Input
+            className="bg-white"
+            placeholder="Container ID"
+            {...register("containerTypeId")}
+          />
+        </div>
 
-          <Label htmlFor="latitude" className="mr-44  w-36">Latitude</Label>
-          <Input className="bg-white w-10/12" placeholder="Latitude" {...register("latitude", {
-            valueAsNumber: true
-          })} type="number" />
+        <div className="flex w-full flex-col items-start justify-start gap-y-2">
+          <Label htmlFor="latitude">Latitude</Label>
+          <Input
+            className="bg-white"
+            placeholder="Latitude"
+            {...register("latitude", {
+              valueAsNumber: true,
+            })}
+            type="number"
+          />
+        </div>
 
-          <Label htmlFor="longitude" className="mr-44  w-36">Longitude</Label>
-          <Input className="bg-white w-10/12" placeholder="Longitude" {...register("longitude", {
-            valueAsNumber: true
-          })} type="number" />
+        <div className="flex w-full flex-col items-start justify-start gap-y-2">
+          <Label htmlFor="longitude">Longitude</Label>
+          <Input
+            className="bg-white"
+            placeholder="Longitude"
+            {...register("longitude", {
+              valueAsNumber: true,
+            })}
+            type="number"
+          />
+        </div>
 
-          <Map />
+        <CreateSensorMap />
 
-        <Button variant="default" type="submit" className="w-3/4">Add sensor</Button>
-      </form> 
+        <Button variant="default" type="submit" className="w-3/4">
+          Add sensor
+        </Button>
+      </form>
     </div>
-      </>
   );
 };
 
