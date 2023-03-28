@@ -37,6 +37,7 @@ const CreateContainerPage = () => {
           id="targetFillLevelInPercent"
           register={register}
           valueAsNumber
+          defaultValue={100}
         />
 
         <FormInput

@@ -3,19 +3,19 @@ import {
   DropdownMenuTrigger,
   DropdownMenuContent,
   DropdownMenuSeparator,
-  DropdownMenuLabel,
   DropdownMenuRadioGroup,
   DropdownMenuRadioItem,
   DropdownMenuItem,
 } from "@/ui/DropdownMenu";
 import { Label } from "@radix-ui/react-label";
-import { ChevronDown, Loader2 } from "lucide-react";
+import { ChevronDown, Plus } from "lucide-react";
 import { Dispatch, SetStateAction } from "react";
 import { Button } from "../Button";
 import { DropdownMenuHeading } from "../DropdownMenu";
 import { Container } from "@acme/db";
 import Link from "next/link";
 import LoadingSpinner from "../LoadingSpinner";
+import { useRouter } from "next/router";
 
 type SelectContainerDropdownProps = {
   containerId?: string;
@@ -30,6 +30,8 @@ const SelectContainerDropdown = ({
   data,
   isLoading,
 }: SelectContainerDropdownProps) => {
+  const router = useRouter();
+
   return (
     <div className="flex w-full flex-col items-center justify-start gap-y-2">
       <Label htmlFor={containerId}>Container</Label>
@@ -76,10 +78,16 @@ const SelectContainerDropdown = ({
             <Link
               href={{
                 pathname: "/containers/create",
-                // TODO: Add query params to redirect back to this page and include the deviceId and collectionId, just like in /scan
+                query: {
+                  // Using `router.asPath` includes both the base and the query string of the current page
+                  redirect: router.asPath,
+                },
               }}
             >
-              Add new container
+              <div className="flex items-start justify-center">
+                <Plus className="mr-2 w-4" />
+                <span>Add new container</span>
+              </div>
             </Link>
           </DropdownMenuItem>
         </DropdownMenuContent>

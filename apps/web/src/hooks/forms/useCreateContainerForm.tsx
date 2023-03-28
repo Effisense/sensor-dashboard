@@ -1,5 +1,6 @@
 import { trpc } from "@/utils/trpc";
 import { CreateContainerSchema } from "@acme/api/src/schemas/container";
+import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { z } from "zod";
 import { useToast } from "../useToast";
@@ -13,6 +14,7 @@ import useZodForm from "../useZodForm";
 const useCreateContainerForm = () => {
   const { mutateAsync, error } = trpc.container.create.useMutation();
   const { toast } = useToast();
+  const router = useRouter();
 
   const {
     register,
@@ -29,6 +31,13 @@ const useCreateContainerForm = () => {
         description: "Successfully added container.",
       });
     });
+
+    // If there is a `redirect` query param, redirect to that page including all query params.
+    if (router.query.redirect) {
+      router.push(router.query.redirect as string, undefined, {
+        shallow: true,
+      });
+    }
   };
 
   useEffect(() => {
