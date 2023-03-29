@@ -1,20 +1,22 @@
 import { trpc } from "@/utils/trpc";
 import { ContainerFormSchema } from "@acme/api/src/schemas/container";
-import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { z } from "zod";
 import { useToast } from "../useToast";
 import useZodForm from "../useZodForm";
 
+type UpdateContainerFormProps = {
+  id: string;
+};
+
 /**
- * Handles logic related to creating a container.
+ * Handles logic related to updating a container.
  *
- * @returns all objects and handlers needed to create a container.
+ * @returns all objects and handlers needed to update a container.
  */
-const useCreateContainerForm = () => {
-  const { mutateAsync, error } = trpc.container.create.useMutation();
+const useUpdateContainerForm = ({ id }: UpdateContainerFormProps) => {
+  const { mutateAsync, error } = trpc.container.update.useMutation();
   const { toast } = useToast();
-  const router = useRouter();
 
   const {
     register,
@@ -25,19 +27,15 @@ const useCreateContainerForm = () => {
   });
 
   const onSubmit = async (data: z.infer<typeof ContainerFormSchema>) => {
-    await mutateAsync(data).then(() => {
+    await mutateAsync({
+      containerId: id,
+      ...data,
+    }).then(() => {
       toast({
         title: "Success!",
-        description: "Successfully added container.",
+        description: "Successfully updated container.",
       });
     });
-
-    // If there is a `redirect` query param, redirect to that page including all query params.
-    if (router.query.redirect) {
-      router.push(router.query.redirect as string, undefined, {
-        shallow: true,
-      });
-    }
   };
 
   useEffect(() => {
@@ -58,4 +56,4 @@ const useCreateContainerForm = () => {
   };
 };
 
-export default useCreateContainerForm;
+export default useUpdateContainerForm;

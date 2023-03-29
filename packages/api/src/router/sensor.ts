@@ -76,7 +76,7 @@ export const sensorRouter = router({
       if (!containerExists) {
         throw new TRPCError({
           code: "BAD_REQUEST",
-          message: "Container type not found",
+          message: "Container not found",
         });
       }
 
@@ -158,9 +158,9 @@ export const sensorRouter = router({
         });
       }
 
-      const containerType = await ctx.prisma.container.findUnique({
+      const container = await ctx.prisma.container.findUnique({
         where: {
-          id: sensor.containerId,
+          id: sensor.containerId || undefined,
         },
       });
 
@@ -173,7 +173,7 @@ export const sensorRouter = router({
       return {
         sensor,
         timeseries,
-        containerType,
+        container,
       };
     }),
 
