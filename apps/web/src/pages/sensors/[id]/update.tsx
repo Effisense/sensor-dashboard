@@ -1,5 +1,5 @@
 import useUpdateSensorForm from "@/hooks/forms/useUpdateSensorForm";
-import { useToast } from "@/hooks/useToast";
+import useGetSensor from "@/hooks/queries/useGetSensor";
 import { Button } from "@/ui/Button";
 import FormInput from "@/ui/FormInput";
 import FormTextarea from "@/ui/FormTextarea";
@@ -7,40 +7,18 @@ import LoadingSpinner from "@/ui/LoadingSpinner";
 import SensorPositionMap from "@/ui/Map";
 import H1 from "@/ui/typography/H1";
 import Subtle from "@/ui/typography/Subtle";
-import { trpc } from "@/utils/trpc";
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
-import { useRouter } from "next/router";
-import { useEffect } from "react";
 
 type UpdateSensorPageProps = InferGetServerSidePropsType<
   typeof getServerSideProps
 >;
 
 const UpdateSensorPage = ({ id }: UpdateSensorPageProps) => {
-  const router = useRouter();
-  const { data, isLoading, error } = trpc.sensor.get.useQuery({ id });
   const { register, onSubmit, handleSubmit, errors } = useUpdateSensorForm({
     id,
   });
-  const { toast } = useToast();
-
-  useEffect(() => {
-    if (error) {
-      toast({
-        title: "Oops!",
-        description: `An error occurred: ${error.message}`,
-        severity: "error",
-      });
-    }
-  }, [error, toast]);
-
-  const sensorExists = !error && !isLoading && !!data.sensor;
-
-  useEffect(() => {
-    if (error?.data?.code === "NOT_FOUND") {
-      router.push("/404");
-    }
-  }, [error, router]);
+  const { data, isLoading, error } = useGetSensor({ id });
+  const sensorExists = !error && !isLoading && !!data?.sensor;
 
   return (
     <div>

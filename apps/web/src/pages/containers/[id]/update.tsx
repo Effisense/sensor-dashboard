@@ -1,47 +1,23 @@
 import useUpdateContainerForm from "@/hooks/forms/useUpdateContainerForm";
-import { useToast } from "@/hooks/useToast";
+import useGetContainer from "@/hooks/queries/useGetContainer";
 import { Button } from "@/ui/Button";
 import FormInput from "@/ui/FormInput";
 import FormTextarea from "@/ui/FormTextarea";
 import LoadingSpinner from "@/ui/LoadingSpinner";
 import H1 from "@/ui/typography/H1";
 import Subtle from "@/ui/typography/Subtle";
-import { trpc } from "@/utils/trpc";
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
-import { useRouter } from "next/router";
-import { useEffect } from "react";
 
 type UpdateContainerPageProps = InferGetServerSidePropsType<
   typeof getServerSideProps
 >;
 
 const UpdateContainerPage = ({ id }: UpdateContainerPageProps) => {
-  const { data, isLoading, error } = trpc.container.get.useQuery({
-    containerId: id,
-  });
-  const router = useRouter();
   const { register, onSubmit, handleSubmit, errors } = useUpdateContainerForm({
     id,
   });
-  const { toast } = useToast();
-
-  useEffect(() => {
-    if (error) {
-      toast({
-        title: "Oops!",
-        description: `An error occurred: ${error.message}`,
-        severity: "error",
-      });
-    }
-  }, [error, toast]);
-
+  const { data, isLoading, error } = useGetContainer({ id });
   const containerExists = !error && !isLoading && data;
-
-  useEffect(() => {
-    if (error?.data?.code === "NOT_FOUND") {
-      router.push("/404");
-    }
-  }, [error, router]);
 
   return (
     <div>
