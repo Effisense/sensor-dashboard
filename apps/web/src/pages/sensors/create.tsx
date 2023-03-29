@@ -1,14 +1,37 @@
 import { getAuth } from "@clerk/nextjs/server";
-import { GetServerSidePropsContext } from "next";
+import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 import { Button } from "../../ui/Button";
 import CreateSensorMap from "@/ui/Map";
 import H1 from "@/ui/typography/H1";
-import useCreateSensorForm from "@/hooks/useCreateSensorForm";
+import useCreateSensorForm from "@/hooks/forms/useCreateSensorForm";
 import FormInput from "@/ui/FormInput";
 import FormTextarea from "@/ui/FormTextarea";
+import { trpc } from "@/utils/trpc";
+import SelectContainerDropdown from "@/ui/containers/SelectContainerDropdown";
+import {
+  SpanApiPayload,
+  SpanApiPayloadSchema,
+} from "@acme/api/src/schemas/sensor";
+import { sensorBelongsToCollection as _sensorBelongsToCollection } from "@acme/api/src/utils/sensor";
+import urlWithQueryParameters from "@/utils/urlWithQueryParameters";
 
-const CreateSensorPage = () => {
-  const { register, onSubmit, handleSubmit, errors } = useCreateSensorForm();
+type CreateSensorPageProps = InferGetServerSidePropsType<
+  typeof getServerSideProps
+>;
+
+const CreateSensorPage = ({
+  sensorId,
+  collectionId,
+}: CreateSensorPageProps) => {
+  const {
+    register,
+    onSubmit,
+    handleSubmit,
+    errors,
+    containerId,
+    setContainerId,
+  } = useCreateSensorForm({ sensorId, collectionId });
+  const { data, isLoading } = trpc.container.getAll.useQuery();
 
   return (
     <div className="flex flex-col items-center justify-center">
@@ -32,12 +55,11 @@ const CreateSensorPage = () => {
           label="Description"
         />
 
-        {/* TODO: Remove this input field, and get it from a dropdown menu */}
-        <FormInput
-          register={register}
-          id="containerId"
-          label="Container identifier"
-          errorMessage={errors.containerId?.message}
+        <SelectContainerDropdown
+          containerId={containerId}
+          setContainerId={setContainerId}
+          data={data}
+          isLoading={isLoading}
         />
 
         <FormInput
@@ -66,20 +88,55 @@ const CreateSensorPage = () => {
   );
 };
 
-export const getServerSideProps = (ctx: GetServerSidePropsContext) => {
+export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
   const { userId } = getAuth(ctx.req);
 
+  const { success } = SpanApiPayloadSchema.safeParse(ctx.query);
+  if (!success) {
+    return {
+      redirect: {
+        destination: "/scan",
+        permanent: false,
+      },
+    };
+  }
+
+  const { deviceId, collectionId } = ctx.query as SpanApiPayload;
+
+  const sensorBelongsToCollection = await _sensorBelongsToCollection(
+    deviceId,
+    collectionId,
+  );
+  if (!sensorBelongsToCollection) {
+    return {
+      redirect: {
+        destination: "/scan",
+        permanent: false,
+      },
+    };
+  }
+
+  // Note that if the user is not signed in, the server-side logic in this function
+  // will be ran when the user is redirected back to the `/sensors/create` page.
+  // This way, we always ensure that the user is signed in and we have the `deviceId` and `collectionId`.
   if (!userId) {
     return {
       redirect: {
-        destination: "/sign-in?redirect=/sensors/create",
+        destination: urlWithQueryParameters("/sign-in", {
+          redirect: "/sensors/create",
+          deviceId,
+          collectionId,
+        }),
         permanent: false,
       },
     };
   }
 
   return {
-    props: {},
+    props: {
+      sensorId: deviceId,
+      collectionId,
+    },
   };
 };
 

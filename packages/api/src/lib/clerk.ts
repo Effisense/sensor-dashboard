@@ -24,3 +24,20 @@ export const isAdmin = (
 ) => {
   return user?.privateMetadata?.role === "admin";
 };
+
+export const userIsMemberOfOrganization = async (
+  userId?: string | null,
+  organizationId?: string | null,
+) => {
+  if (!userId || !organizationId) return false;
+
+  return await clerkClient.users
+    .getOrganizationMembershipList({
+      userId,
+    })
+    .then((memberships) => {
+      return memberships.some(
+        (membership) => membership.organization.id === organizationId,
+      );
+    });
+};

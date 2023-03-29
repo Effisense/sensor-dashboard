@@ -2,6 +2,7 @@ import { getLocationFromLngLat } from "@acme/mapbox";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 import { Sensor } from "../lib/kysely";
+import { userIsMemberOfOrganization } from "../lib/clerk";
 import {
   SensorIdSchema,
   SensorSchema,
@@ -32,6 +33,17 @@ export const sensorRouter = router({
         throw new TRPCError({
           code: "BAD_REQUEST",
           message: "Sensor does not belong to collection",
+        });
+      }
+
+      const isMemberOfOrganization = await userIsMemberOfOrganization(
+        ctx.auth.user?.id,
+        ctx.auth.organizationId,
+      );
+      if (!isMemberOfOrganization) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "You are not part of this organization",
         });
       }
 
@@ -68,7 +80,7 @@ export const sensorRouter = router({
         });
       }
 
-      const organization = await ctx.prisma.organization
+      await ctx.prisma.organization
         .upsert({
           where: {
             id: ctx.auth.organizationId,
@@ -92,26 +104,9 @@ export const sensorRouter = router({
           description,
           location: location || "",
           containerId,
-          organizationId: organization.id,
+          organizationId: ctx.auth.organizationId,
         },
       });
-    }),
-
-  exists: protectedProcedure
-    .input(SensorIdSchema)
-    .query(async ({ ctx, input }) => {
-      const { sensorId } = input;
-
-      const exists = await ctx.prisma.sensor
-        .findUnique({
-          where: {
-            id: sensorId,
-          },
-        })
-        .then((sensor) => !!sensor)
-        .catch(() => false);
-
-      return exists;
     }),
 
   get: protectedProcedure
@@ -127,6 +122,17 @@ export const sensorRouter = router({
         throw new TRPCError({
           code: "BAD_REQUEST",
           message: "Organization not found",
+        });
+      }
+
+      const isMemberOfOrganization = await userIsMemberOfOrganization(
+        ctx.auth.user?.id,
+        ctx.auth.organizationId,
+      );
+      if (!isMemberOfOrganization) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "You are not part of this organization",
         });
       }
 
@@ -184,6 +190,24 @@ export const sensorRouter = router({
         containerId,
       } = input;
 
+      if (!ctx.auth.organizationId) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "Organization not found",
+        });
+      }
+
+      const isMemberOfOrganization = await userIsMemberOfOrganization(
+        ctx.auth.user?.id,
+        ctx.auth.organizationId,
+      );
+      if (!isMemberOfOrganization) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "You are not part of this organization",
+        });
+      }
+
       const location = await getLocationFromLngLat({
         latitude,
         longitude,
@@ -193,13 +217,6 @@ export const sensorRouter = router({
           message: err.message,
         });
       });
-
-      if (!ctx.auth.organizationId) {
-        throw new TRPCError({
-          code: "BAD_REQUEST",
-          message: "Organization not found",
-        });
-      }
 
       return ctx.prisma.sensor.update({
         where: {
@@ -222,6 +239,17 @@ export const sensorRouter = router({
     .input(SensorIdSchema)
     .mutation(async ({ ctx, input }) => {
       const { sensorId } = input;
+
+      const isMemberOfOrganization = await userIsMemberOfOrganization(
+        ctx.auth.user?.id,
+        ctx.auth.organizationId,
+      );
+      if (!isMemberOfOrganization) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "You are not part of this organization",
+        });
+      }
 
       // TODO: Maybe we need to delete the container as well?
 

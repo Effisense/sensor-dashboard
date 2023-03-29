@@ -1,4 +1,5 @@
 import { TRPCError } from "@trpc/server";
+import { userIsMemberOfOrganization } from "../lib/clerk";
 import {
   ContainerIdSchema,
   ContainerSchema,
@@ -27,6 +28,17 @@ export const containerRouter = router({
         });
       }
 
+      const isMemberOfOrganization = await userIsMemberOfOrganization(
+        ctx.auth.user?.id,
+        ctx.auth.organizationId,
+      );
+      if (!isMemberOfOrganization) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "You are not part of this organization",
+        });
+      }
+
       return ctx.prisma.container.create({
         data: {
           name,
@@ -44,7 +56,18 @@ export const containerRouter = router({
   get: protectedProcedure
     .input(ContainerIdSchema)
     .query(async ({ ctx, input }) => {
-      const { containerTypeId } = input;
+      const { containerId: containerTypeId } = input;
+
+      const isMemberOfOrganization = await userIsMemberOfOrganization(
+        ctx.auth.user?.id,
+        ctx.auth.organizationId,
+      );
+      if (!isMemberOfOrganization) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "You are not part of this organization",
+        });
+      }
 
       return ctx.prisma.container.findUnique({
         where: {
@@ -61,6 +84,17 @@ export const containerRouter = router({
       });
     }
 
+    const isMemberOfOrganization = await userIsMemberOfOrganization(
+      ctx.auth.user?.id,
+      ctx.auth.organizationId,
+    );
+    if (!isMemberOfOrganization) {
+      throw new TRPCError({
+        code: "BAD_REQUEST",
+        message: "You are not part of this organization",
+      });
+    }
+
     return ctx.prisma.container.findMany({
       where: {
         organizationId: ctx.auth.organizationId,
@@ -72,7 +106,7 @@ export const containerRouter = router({
     .input(ContainerSchema)
     .mutation(async ({ ctx, input }) => {
       const {
-        containerTypeId,
+        containerId,
         name,
         description,
         binHeightInMillimeters,
@@ -89,9 +123,20 @@ export const containerRouter = router({
         });
       }
 
+      const isMemberOfOrganization = await userIsMemberOfOrganization(
+        ctx.auth.user?.id,
+        ctx.auth.organizationId,
+      );
+      if (!isMemberOfOrganization) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "You are not part of this organization",
+        });
+      }
+
       return ctx.prisma.container.update({
         where: {
-          id: containerTypeId,
+          id: containerId,
         },
         data: {
           name,
@@ -108,12 +153,23 @@ export const containerRouter = router({
   delete: protectedProcedure
     .input(ContainerIdSchema)
     .mutation(async ({ ctx, input }) => {
-      const { containerTypeId } = input;
+      const { containerId: containerTypeId } = input;
 
       if (!ctx.auth.organizationId) {
         throw new TRPCError({
           code: "BAD_REQUEST",
           message: "Organization not found",
+        });
+      }
+
+      const isMemberOfOrganization = await userIsMemberOfOrganization(
+        ctx.auth.user?.id,
+        ctx.auth.organizationId,
+      );
+      if (!isMemberOfOrganization) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "You are not part of this organization",
         });
       }
 

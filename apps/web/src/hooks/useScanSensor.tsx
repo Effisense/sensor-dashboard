@@ -60,7 +60,7 @@ const useScanSensor = () => {
       });
 
       router.push({
-        pathname: "/sensors/add",
+        pathname: "/sensors/create",
         query: {
           deviceId: payload.deviceId,
           collectionId: payload.collectionId,

@@ -1,29 +1,38 @@
 import { trpc } from "@/utils/trpc";
 import { SensorSchema } from "@acme/api/src/schemas/sensor";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { z } from "zod";
-import { useToast } from "./useToast";
-import useZodForm from "./useZodForm";
+import { useToast } from "../useToast";
+import useZodForm from "../useZodForm";
+
+type CreateSensorFormProps = {
+  sensorId: string;
+  collectionId: string;
+};
 
 /**
  * Handles logic related to creating a sensor.
  *
  * @returns all objects and handlers needed to create a sensor.
  */
-const useCreateSensorForm = () => {
+const useCreateSensorForm = ({
+  sensorId,
+  collectionId,
+}: CreateSensorFormProps) => {
   const { mutateAsync, error } = trpc.sensor.create.useMutation();
   const { toast } = useToast();
+  const [containerId, setContainerId] = useState<string | undefined>(undefined);
 
   const {
     register,
     handleSubmit,
     formState: { errors },
+    setValue,
   } = useZodForm({
     schema: SensorSchema,
-    // TODO: Get these values from query parameters in `/sensors/create`.
     defaultValues: {
-      sensorId: "17fk1ja662n2g0",
-      collectionId: "17fk1ja662n2g1",
+      sensorId,
+      collectionId,
     },
   });
 
@@ -46,11 +55,19 @@ const useCreateSensorForm = () => {
     }
   }, [error, toast]);
 
+  // Whenever the containerId changes in the dropdown menu, update the form value.
+  useEffect(() => {
+    if (!containerId) return;
+    setValue("containerId", containerId);
+  }, [containerId, setValue]);
+
   return {
     register,
     handleSubmit,
     onSubmit,
     errors,
+    containerId,
+    setContainerId,
   };
 };
 

@@ -6,8 +6,6 @@ type SensorPageProps = InferGetServerSidePropsType<typeof getServerSideProps>;
 const SensorPage = ({ id }: SensorPageProps) => {
   const { data, isLoading, error } = trpc.sensor.get.useQuery({ id: id });
 
-  console.log(data);
-
   return <div>sensor data goes here (check the console)</div>;
 };
 
