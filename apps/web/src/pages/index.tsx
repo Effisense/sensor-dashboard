@@ -3,7 +3,7 @@ import type {
   InferGetServerSidePropsType,
 } from "next";
 import { getAuth } from "@clerk/nextjs/server";
-import CreateSensorMap from "@/ui/Map";
+import SensorPositionMap from "@/ui/Map";
 
 type IndexPageProps = InferGetServerSidePropsType<typeof getServerSideProps>;
 
@@ -14,7 +14,7 @@ const IndexPage = ({}: IndexPageProps) => {
         Dashboard
       </h1>
 
-      <CreateSensorMap />
+      <SensorPositionMap />
     </div>
   );
 };

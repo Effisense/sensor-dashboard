@@ -1,9 +1,10 @@
-import useUpdateContainerForm from "@/hooks/forms/useUpdateContainerForm";
+import useUpdateSensorForm from "@/hooks/forms/useUpdateSensorForm";
 import { useToast } from "@/hooks/useToast";
 import { Button } from "@/ui/Button";
 import FormInput from "@/ui/FormInput";
 import FormTextarea from "@/ui/FormTextarea";
 import LoadingSpinner from "@/ui/LoadingSpinner";
+import SensorPositionMap from "@/ui/Map";
 import H1 from "@/ui/typography/H1";
 import Subtle from "@/ui/typography/Subtle";
 import { trpc } from "@/utils/trpc";
@@ -11,16 +12,14 @@ import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 
-type UpdateContainerPageProps = InferGetServerSidePropsType<
+type UpdateSensorPageProps = InferGetServerSidePropsType<
   typeof getServerSideProps
 >;
 
-const UpdateContainerPage = ({ id }: UpdateContainerPageProps) => {
-  const { data, isLoading, error } = trpc.container.get.useQuery({
-    containerId: id,
-  });
+const UpdateSensorPage = ({ id }: UpdateSensorPageProps) => {
   const router = useRouter();
-  const { register, onSubmit, handleSubmit, errors } = useUpdateContainerForm({
+  const { data, isLoading, error } = trpc.sensor.get.useQuery({ id });
+  const { register, onSubmit, handleSubmit, errors } = useUpdateSensorForm({
     id,
   });
   const { toast } = useToast();
@@ -35,7 +34,7 @@ const UpdateContainerPage = ({ id }: UpdateContainerPageProps) => {
     }
   }, [error, toast]);
 
-  const containerExists = !error && !isLoading && data;
+  const sensorExists = !error && !isLoading && !!data.sensor;
 
   useEffect(() => {
     if (error?.data?.code === "NOT_FOUND") {
@@ -45,16 +44,16 @@ const UpdateContainerPage = ({ id }: UpdateContainerPageProps) => {
 
   return (
     <div>
-      {isLoading && (
+      {!error && isLoading && (
         <div className="flex items-center justify-center">
           <LoadingSpinner />
         </div>
       )}
-      {containerExists && (
+      {sensorExists && (
         <div>
           <div className="flex flex-col items-center justify-center py-8">
-            <H1>{data?.name}</H1>
-            <Subtle>Update information about this container.</Subtle>
+            <H1>{data?.sensor.name}</H1>
+            <Subtle>Update information about this sensor.</Subtle>
           </div>
 
           <form
@@ -66,7 +65,7 @@ const UpdateContainerPage = ({ id }: UpdateContainerPageProps) => {
               errorMessage={errors.name?.message}
               id="name"
               register={register}
-              defaultValue={data?.name}
+              defaultValue={data?.sensor.name}
             />
 
             <FormTextarea
@@ -74,56 +73,31 @@ const UpdateContainerPage = ({ id }: UpdateContainerPageProps) => {
               errorMessage={errors.description?.message}
               id="description"
               register={register}
-              defaultValue={data?.description}
-            />
-
-            <FormInput
-              label="Target fill level (%)"
-              errorMessage={errors.targetFillLevelInPercent?.message}
-              id="targetFillLevelInPercent"
-              register={register}
-              valueAsNumber
-              defaultValue={data?.targetFillLevelInPercent}
+              defaultValue={data?.sensor.description}
             />
 
             <FormInput
               register={register}
-              id="binHeightInMillimeters"
-              label="Bin height (mm)"
-              errorMessage={errors.binHeightInMillimeters?.message}
+              id="latitude"
+              label="Latitude"
+              errorMessage={errors.latitude?.message}
               valueAsNumber
-              defaultValue={data?.binHeightInMillimeters}
+              defaultValue={data?.sensor.latitude}
             />
 
             <FormInput
               register={register}
-              id="binWidthInMillimeters"
-              label="Bin width (mm)"
-              errorMessage={errors.binWidthInMillimeters?.message}
+              id="longitude"
+              label="Longitude"
+              errorMessage={errors.longitude?.message}
               valueAsNumber
-              defaultValue={data?.binWidthInMillimeters}
+              defaultValue={data?.sensor.longitude}
             />
 
-            <FormInput
-              register={register}
-              id="sensorOffsetInMillimeters"
-              label="Sensor offset (mm)"
-              errorMessage={errors.sensorOffsetInMillimeters?.message}
-              valueAsNumber
-              defaultValue={data?.sensorOffsetInMillimeters}
-            />
-
-            <FormInput
-              register={register}
-              id="containerVolumeInLiters"
-              label="Container volume (L)"
-              errorMessage={errors.containerVolumeInLiters?.message}
-              valueAsNumber
-              defaultValue={data?.containerVolumeInLiters}
-            />
+            <SensorPositionMap />
 
             <Button variant="default" type="submit" className="w-3/4">
-              Update container
+              Update sensor
             </Button>
           </form>
         </div>
@@ -152,4 +126,4 @@ export const getServerSideProps = async (
   };
 };
 
-export default UpdateContainerPage;
+export default UpdateSensorPage;

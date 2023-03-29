@@ -33,7 +33,7 @@ const CreateContainerPage = () => {
 
         <FormInput
           label="Target fill level (%)"
-          errorMessage={errors.name?.message}
+          errorMessage={errors.targetFillLevelInPercent?.message}
           id="targetFillLevelInPercent"
           register={register}
           valueAsNumber
