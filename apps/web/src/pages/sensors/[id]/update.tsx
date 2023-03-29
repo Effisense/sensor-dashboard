@@ -26,13 +26,20 @@ const UpdateSensorPage = ({ id }: UpdateSensorPageProps) => {
   } = useUpdateSensorForm({
     id,
   });
-  const { data, isLoading, error } = useGetSensor({ id });
-  const sensorExists = !error && !isLoading && !!data?.sensor;
+  const {
+    data,
+    isLoading: sensorIsLoading,
+    error: sensorError,
+  } = useGetSensor({ id });
   const {
     data: containerData,
     isLoading: containerIsLoading,
     error: containerError,
   } = trpc.container.getAll.useQuery();
+
+  const isLoading = sensorIsLoading || containerIsLoading;
+  const error = !!sensorError || !!containerError;
+  const sensorExists = !sensorError && !sensorIsLoading && !!data?.sensor;
 
   return (
     <div>
