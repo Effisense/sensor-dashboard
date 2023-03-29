@@ -1,6 +1,6 @@
 import { trpc } from "@/utils/trpc";
 import { UpdateSensorSchema } from "@acme/api/src/schemas/sensor";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { z } from "zod";
 import { useToast } from "../useToast";
 import useZodForm from "../useZodForm";
@@ -11,7 +11,6 @@ import useZodForm from "../useZodForm";
  */
 const UpdateSensorFormSchema = UpdateSensorSchema.omit({
   sensorId: true,
-  // TODO: Check if we should include containerId or not
 });
 
 type UpdateSensorFormProps = {
@@ -26,10 +25,12 @@ type UpdateSensorFormProps = {
 const useUpdateSensorForm = ({ id }: UpdateSensorFormProps) => {
   const { mutateAsync, error } = trpc.sensor.update.useMutation();
   const { toast } = useToast();
+  const [containerId, setContainerId] = useState<string | undefined>(undefined);
 
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useZodForm({
     schema: UpdateSensorFormSchema,
@@ -57,11 +58,19 @@ const useUpdateSensorForm = ({ id }: UpdateSensorFormProps) => {
     }
   }, [error, toast]);
 
+  // Whenever the containerId changes in the dropdown menu, update the form value.
+  useEffect(() => {
+    if (!containerId) return;
+    setValue("containerId", containerId);
+  }, [containerId, setValue]);
+
   return {
     register,
     handleSubmit,
     onSubmit,
     errors,
+    containerId,
+    setContainerId,
   };
 };
 

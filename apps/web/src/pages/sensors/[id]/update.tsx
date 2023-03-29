@@ -1,12 +1,14 @@
 import useUpdateSensorForm from "@/hooks/forms/useUpdateSensorForm";
 import useGetSensor from "@/hooks/queries/useGetSensor";
 import { Button } from "@/ui/Button";
+import SelectContainerDropdown from "@/ui/containers/SelectContainerDropdown";
 import FormInput from "@/ui/FormInput";
 import FormTextarea from "@/ui/FormTextarea";
 import LoadingSpinner from "@/ui/LoadingSpinner";
 import SensorPositionMap from "@/ui/Map";
 import H1 from "@/ui/typography/H1";
 import Subtle from "@/ui/typography/Subtle";
+import { trpc } from "@/utils/trpc";
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 
 type UpdateSensorPageProps = InferGetServerSidePropsType<
@@ -14,11 +16,23 @@ type UpdateSensorPageProps = InferGetServerSidePropsType<
 >;
 
 const UpdateSensorPage = ({ id }: UpdateSensorPageProps) => {
-  const { register, onSubmit, handleSubmit, errors } = useUpdateSensorForm({
+  const {
+    register,
+    onSubmit,
+    handleSubmit,
+    errors,
+    containerId,
+    setContainerId,
+  } = useUpdateSensorForm({
     id,
   });
   const { data, isLoading, error } = useGetSensor({ id });
   const sensorExists = !error && !isLoading && !!data?.sensor;
+  const {
+    data: containerData,
+    isLoading: containerIsLoading,
+    error: containerError,
+  } = trpc.container.getAll.useQuery();
 
   return (
     <div>
@@ -52,6 +66,13 @@ const UpdateSensorPage = ({ id }: UpdateSensorPageProps) => {
               id="description"
               register={register}
               defaultValue={data?.sensor.description}
+            />
+
+            <SelectContainerDropdown
+              containerId={containerId}
+              setContainerId={setContainerId}
+              data={containerData}
+              isLoading={isLoading}
             />
 
             <FormInput
