@@ -11,6 +11,7 @@ import useZodForm from "../useZodForm";
  */
 const UpdateSensorFormSchema = UpdateSensorSchema.omit({
   sensorId: true,
+  // TODO: Check if we should include containerId or not
 });
 
 type UpdateSensorFormProps = {

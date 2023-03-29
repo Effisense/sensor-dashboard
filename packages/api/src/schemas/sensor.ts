@@ -24,6 +24,7 @@ export const SensorIdSchema = SensorSchema.pick({
 export const UpdateSensorSchema = SensorSchema.omit({
   collectionId: true,
   // TODO: Perhaps omit containerId as well?
+  containerId: true,
 });
 
 export const SpanApiPayloadSchema = z.object({
