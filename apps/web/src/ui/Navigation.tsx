@@ -8,7 +8,6 @@ import { Button } from "./Button";
 import OrganizationSwitcher from "./OrganizationSwitcher";
 import Link from "next/link";
 import Logo from "./Logo";
-import { Loader, Loader2 } from "lucide-react";
 import LoadingSpinner from "./LoadingSpinner";
 
 const Navigation = () => {
@@ -18,7 +17,7 @@ const Navigation = () => {
       {/* Left part of navigation, with logo */}
       <div className="flex items-center justify-start">
         <Link href="/">
-          <div className="h-10">
+          <div className="h-10 transition-all duration-300 hover:drop-shadow-lg">
             <Logo />
           </div>
         </Link>
