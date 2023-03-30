@@ -9,7 +9,7 @@ import { mapbox, MapboxMap, MapboxMarker } from "@acme/mapbox";
  */
 const useMap = () => {
   const container = useRef(null);
-  const { latitude, longitude, error } = useGeoLocation();
+  const { latitude, longitude } = useGeoLocation();
   const map = useRef<mapbox.Map | null>(null);
   const [sensorMarker, setSensorMarker] = useState<mapbox.Marker | null>(null);
 
@@ -62,7 +62,6 @@ const useMap = () => {
 
   return {
     container,
-    geoLocationEnabled: !!error,
     sensorMarker,
   };
 };

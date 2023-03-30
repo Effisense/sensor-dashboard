@@ -1,24 +1,31 @@
 import useErrorToast from "@/hooks/toast/useErrorToast";
+import { useToast } from "@/hooks/toast/useToast";
 import useMap from "@/hooks/useMap";
 import { trpc } from "@/utils/trpc";
+import { useEffect } from "react";
 import LoadingSpinner from "./LoadingSpinner";
 import Subtle from "./typography/Subtle";
 
 const SensorPositionMap = () => {
   // TODO: Handle the case where geolocation is not enabled. Let the user know that they need to enable it.
-  const { container, geoLocationEnabled, sensorMarker } = useMap();
+  const { container, sensorMarker } = useMap();
 
-  const { data, isLoading, error } = trpc.map.getLocationFromLngLat.useQuery(
-    {
-      longitude: sensorMarker?.getLngLat().lng,
-      latitude: sensorMarker?.getLngLat().lat,
-    },
-    {
-      enabled: !!sensorMarker?.getLngLat(),
-    },
-  );
+  const { data, isLoading, error, refetch } =
+    trpc.map.getLocationFromLngLat.useQuery(
+      {
+        longitude: sensorMarker?.getLngLat().lng,
+        latitude: sensorMarker?.getLngLat().lat,
+      },
+      {
+        enabled: !!sensorMarker?.getLngLat(),
+      },
+    );
 
-  useErrorToast({ error });
+  useEffect(() => {
+    refetch();
+  }, [refetch, sensorMarker]);
+
+  // useErrorToast({ error });
 
   return (
     <div>

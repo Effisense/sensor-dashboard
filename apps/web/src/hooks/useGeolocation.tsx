@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useToast } from "./toast/useToast";
 
 /**
  * Handles getting the user's current geolocation from the browser.
@@ -11,6 +12,7 @@ const useGeoLocation = () => {
   const [longitude, setLongitude] = useState<number | null>(null);
   const [latitude, setLatitude] = useState<number | null>(null);
   const [error, setError] = useState<GeolocationPositionError | null>(null);
+  const { toast } = useToast();
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(
@@ -23,6 +25,17 @@ const useGeoLocation = () => {
       },
     );
   }, []);
+
+  useEffect(() => {
+    if (!!error) {
+      toast({
+        title: "Oops!",
+        description:
+          "Geolocation is not enabled. Please enable it to interact with the map.",
+        severity: "error",
+      });
+    }
+  }, [error, toast]);
 
   return { longitude, latitude, error };
 };
