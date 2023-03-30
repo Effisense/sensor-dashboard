@@ -13,23 +13,28 @@ const useMap = () => {
   const map = useRef<mapbox.Map | null>(null);
   const [sensorMarker, setSensorMarker] = useState<mapbox.Marker | null>(null);
   const [location, setLocation] = useState<string | null>(null);
+  console.log(location);
 
-  MapboxGeocoder.on("result", (event) => {
-    // Note that this is a MapboxGeocoder event, not a Mapbox event.
-    // The types in this library are not well maintained, so we have to cast the result by trial and error.
-    if (
-      !event.result.place_name ||
-      !event.result.geometry.coordinates ||
-      !sensorMarker
-    ) {
-      return;
-    }
+  useEffect(() => {
+    MapboxGeocoder.on("result", (event) => {
+      // Note that this is a MapboxGeocoder event, not a Mapbox event.
+      // The types in this library are not well maintained, so we have to cast the result by trial and error.
+      if (
+        !event.result.place_name ||
+        !event.result.geometry.coordinates ||
+        !sensorMarker
+      ) {
+        return;
+      }
 
-    const [lng, lat] = event.result.geometry.coordinates as [number, number];
-    const location = event.result.place_name as string;
+      console.log(event.result);
 
-    setLocation(location);
-    sensorMarker.setLngLat({ lng, lat });
+      const [lng, lat] = event.result.geometry.coordinates as [number, number];
+      const location = event.result.place_name as string;
+
+      setLocation(location);
+      sensorMarker.setLngLat({ lng, lat });
+    });
   });
 
   // Initialize map
