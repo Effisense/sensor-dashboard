@@ -1,7 +1,7 @@
 import { trpc } from "@/utils/trpc";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
-import { useToast } from "../useToast";
+import { useToast } from "../toast/useToast";
 
 type GetContainerProps = {
   id: string;

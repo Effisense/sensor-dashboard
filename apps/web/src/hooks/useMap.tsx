@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import useGeoLocation from "./useGeolocation";
-import { mapbox, MapboxGeocoder, MapboxMap, MapboxMarker } from "@acme/mapbox";
+import { mapbox, MapboxMap, MapboxMarker } from "@acme/mapbox";
 
 /**
  * Handles initialization of the map from Mapbox, and updates the sensor marker's position on move.
@@ -12,30 +12,6 @@ const useMap = () => {
   const { latitude, longitude, error } = useGeoLocation();
   const map = useRef<mapbox.Map | null>(null);
   const [sensorMarker, setSensorMarker] = useState<mapbox.Marker | null>(null);
-  const [location, setLocation] = useState<string | null>(null);
-  console.log(location);
-
-  useEffect(() => {
-    MapboxGeocoder.on("result", (event) => {
-      // Note that this is a MapboxGeocoder event, not a Mapbox event.
-      // The types in this library are not well maintained, so we have to cast the result by trial and error.
-      if (
-        !event.result.place_name ||
-        !event.result.geometry.coordinates ||
-        !sensorMarker
-      ) {
-        return;
-      }
-
-      console.log(event.result);
-
-      const [lng, lat] = event.result.geometry.coordinates as [number, number];
-      const location = event.result.place_name as string;
-
-      setLocation(location);
-      sensorMarker.setLngLat({ lng, lat });
-    });
-  });
 
   // Initialize map
   useEffect(() => {
@@ -88,7 +64,6 @@ const useMap = () => {
     container,
     geoLocationEnabled: !!error,
     sensorMarker,
-    location,
   };
 };
 

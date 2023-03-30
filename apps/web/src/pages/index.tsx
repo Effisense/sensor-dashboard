@@ -5,7 +5,7 @@ import type {
 import { getAuth } from "@clerk/nextjs/server";
 import SensorPositionMap from "@/ui/Map";
 import { Button } from "@/ui/Button";
-import { useToast } from "@/hooks/useToast";
+import { useToast } from "@/hooks/toast/useToast";
 
 type IndexPageProps = InferGetServerSidePropsType<typeof getServerSideProps>;
 
