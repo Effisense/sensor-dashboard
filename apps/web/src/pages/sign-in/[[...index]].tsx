@@ -8,6 +8,7 @@ type SignInPageProps = InferGetServerSidePropsType<typeof getServerSideProps>;
 
 const SignInPage = ({ redirect }: SignInPageProps) => {
   const { isLoaded } = useAuth();
+
   return (
     <div className="flex flex-col items-center justify-center gap-4">
       <div className="container flex flex-col items-center justify-center gap-12 px-4 py-8">
