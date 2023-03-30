@@ -1,4 +1,4 @@
-import { useToast } from "@/hooks/useToast";
+import { useToast } from "@/hooks/toast/useToast";
 import { cn } from "@/utils/tailwind";
 import {
   Toast,
