@@ -3,7 +3,6 @@ import LoadingSpinner from "@/ui/LoadingSpinner";
 import OrganizationSwitcher from "@/ui/OrganizationSwitcher";
 import H1 from "@/ui/typography/H1";
 import H2 from "@/ui/typography/H2";
-import P from "@/ui/typography/P";
 import Subtle from "@/ui/typography/Subtle";
 import { trpc } from "@/utils/trpc";
 import { userIsMemberOfAnyOrganization } from "@acme/api/src/lib/clerk";

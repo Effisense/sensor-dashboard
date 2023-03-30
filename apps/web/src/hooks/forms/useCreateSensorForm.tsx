@@ -19,7 +19,22 @@ const useCreateSensorForm = ({
   sensorId,
   collectionId,
 }: CreateSensorFormProps) => {
-  const { mutateAsync, error } = trpc.sensor.create.useMutation();
+  const { mutateAsync } = trpc.sensor.create.useMutation({
+    onSuccess: () => {
+      toast({
+        title: "Success!",
+        description: "Successfully added sensor.",
+        severity: "success",
+      });
+    },
+    onError: (error) => {
+      toast({
+        title: "Oops!",
+        description: `An error occurred: ${error.message}`,
+        severity: "error",
+      });
+    },
+  });
   const { toast } = useToast();
   const [containerId, setContainerId] = useState<string | undefined>(undefined);
 
@@ -37,24 +52,8 @@ const useCreateSensorForm = ({
   });
 
   const onSubmit = async (data: z.infer<typeof SensorSchema>) => {
-    await mutateAsync(data).then(() => {
-      toast({
-        title: "Success!",
-        description: "Successfully added sensor.",
-        severity: "success",
-      });
-    });
+    await mutateAsync(data);
   };
-
-  useEffect(() => {
-    if (error) {
-      toast({
-        title: "Oops!",
-        description: `An error occurred: ${error.message}`,
-        severity: "error",
-      });
-    }
-  }, [error, toast]);
 
   // Whenever the containerId changes in the dropdown menu, update the form value.
   useEffect(() => {
