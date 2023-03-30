@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import useGeoLocation from "./useGeolocation";
 import { mapbox, MapboxMap, MapboxMarker } from "@acme/mapbox";
+import { trpc } from "@/utils/trpc";
 
 /**
  * Handles initialization of the map from Mapbox, and updates the sensor marker's position on move.
@@ -12,6 +13,20 @@ const useMap = () => {
   const { latitude, longitude } = useGeoLocation();
   const map = useRef<mapbox.Map | null>(null);
   const [sensorMarker, setSensorMarker] = useState<mapbox.Marker | null>(null);
+  const {
+    data,
+    isLoading: locationIsLoading,
+    error,
+    refetch,
+  } = trpc.map.getLocationFromLngLat.useQuery(
+    {
+      longitude: sensorMarker?.getLngLat().lng,
+      latitude: sensorMarker?.getLngLat().lat,
+    },
+    {
+      enabled: !!sensorMarker?.getLngLat(),
+    },
+  );
 
   // Initialize map
   useEffect(() => {
@@ -57,12 +72,17 @@ const useMap = () => {
 
     map.current.on("moveend", () => {
       setSensorMarker(sensorMarker);
+      refetch();
     });
   });
 
+  const isLoading = map.current?.isMoving() || locationIsLoading;
+
   return {
     container,
-    sensorMarker,
+    data,
+    isLoading,
+    error,
   };
 };
 
