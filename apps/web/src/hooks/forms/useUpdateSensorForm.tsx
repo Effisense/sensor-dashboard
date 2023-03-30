@@ -2,7 +2,7 @@ import { trpc } from "@/utils/trpc";
 import { UpdateSensorSchema } from "@acme/api/src/schemas/sensor";
 import { useEffect, useState } from "react";
 import { z } from "zod";
-import { useToast } from "../useToast";
+import { useToast } from "../toast/useToast";
 import useZodForm from "../useZodForm";
 
 /**
@@ -44,6 +44,7 @@ const useUpdateSensorForm = ({ id }: UpdateSensorFormProps) => {
       toast({
         title: "Success!",
         description: "Successfully updated sensor.",
+        severity: "success",
       });
     });
   };

@@ -12,12 +12,7 @@ export const mapRouter = router({
       }),
     )
     .query(async ({ input: { longitude, latitude } }) => {
-      if (!longitude || !latitude) {
-        throw new TRPCError({
-          code: "BAD_REQUEST",
-          message: "Invalid coordinates",
-        });
-      }
+      if (!longitude || !latitude) return "";
 
       const location = await getLocationFromLngLat({
         longitude,

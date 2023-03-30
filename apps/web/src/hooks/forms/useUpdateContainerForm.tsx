@@ -2,7 +2,7 @@ import { trpc } from "@/utils/trpc";
 import { ContainerFormSchema } from "@acme/api/src/schemas/container";
 import { useEffect } from "react";
 import { z } from "zod";
-import { useToast } from "../useToast";
+import { useToast } from "../toast/useToast";
 import useZodForm from "../useZodForm";
 
 type UpdateContainerFormProps = {
@@ -34,6 +34,7 @@ const useUpdateContainerForm = ({ id }: UpdateContainerFormProps) => {
       toast({
         title: "Success!",
         description: "Successfully updated container.",
+        severity: "success",
       });
     });
   };

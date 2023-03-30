@@ -2,7 +2,7 @@ import { trpc } from "@/utils/trpc";
 import { SensorSchema } from "@acme/api/src/schemas/sensor";
 import { useEffect, useState } from "react";
 import { z } from "zod";
-import { useToast } from "../useToast";
+import { useToast } from "../toast/useToast";
 import useZodForm from "../useZodForm";
 
 type CreateSensorFormProps = {
@@ -41,6 +41,7 @@ const useCreateSensorForm = ({
       toast({
         title: "Success!",
         description: "Successfully added sensor.",
+        severity: "success",
       });
     });
   };

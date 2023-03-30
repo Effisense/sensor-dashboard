@@ -3,7 +3,7 @@ import { ContainerFormSchema } from "@acme/api/src/schemas/container";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { z } from "zod";
-import { useToast } from "../useToast";
+import { useToast } from "../toast/useToast";
 import useZodForm from "../useZodForm";
 
 /**
@@ -29,6 +29,7 @@ const useCreateContainerForm = () => {
       toast({
         title: "Success!",
         description: "Successfully added container.",
+        severity: "success",
       });
     });
 
