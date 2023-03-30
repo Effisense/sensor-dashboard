@@ -29,6 +29,7 @@ const useCreateContainerForm = () => {
       toast({
         title: "Success!",
         description: "Successfully added container.",
+        severity: "success",
       });
     });
 

@@ -34,6 +34,7 @@ const useUpdateContainerForm = ({ id }: UpdateContainerFormProps) => {
       toast({
         title: "Success!",
         description: "Successfully updated container.",
+        severity: "success",
       });
     });
   };

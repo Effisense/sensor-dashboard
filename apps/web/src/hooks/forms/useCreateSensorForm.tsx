@@ -41,6 +41,7 @@ const useCreateSensorForm = ({
       toast({
         title: "Success!",
         description: "Successfully added sensor.",
+        severity: "success",
       });
     });
   };

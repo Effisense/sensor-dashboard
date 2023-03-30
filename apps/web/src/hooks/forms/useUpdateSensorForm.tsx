@@ -44,6 +44,7 @@ const useUpdateSensorForm = ({ id }: UpdateSensorFormProps) => {
       toast({
         title: "Success!",
         description: "Successfully updated sensor.",
+        severity: "success",
       });
     });
   };
