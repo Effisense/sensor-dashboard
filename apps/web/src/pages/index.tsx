@@ -20,12 +20,22 @@ const IndexPage = ({}: IndexPageProps) => {
 };
 
 export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
-  const { userId } = getAuth(ctx.req);
+  const { userId, orgId } = getAuth(ctx.req);
 
   if (!userId) {
     return {
       redirect: {
         destination: "/sign-in",
+        permanent: false,
+      },
+    };
+  }
+
+  // If user has not set an active organization, we must ensure they do so before they can access the dashboard
+  if (!orgId) {
+    return {
+      redirect: {
+        destination: "/customer",
         permanent: false,
       },
     };
