@@ -1,20 +1,45 @@
+import LoadingSpinner from "@/ui/LoadingSpinner";
 import OrganizationSwitcher from "@/ui/OrganizationSwitcher";
 import H1 from "@/ui/typography/H1";
 import H2 from "@/ui/typography/H2";
+import P from "@/ui/typography/P";
 import Subtle from "@/ui/typography/Subtle";
+import { trpc } from "@/utils/trpc";
 import { userIsMemberOfAnyOrganization } from "@acme/api/src/lib/clerk";
+import { useAuth } from "@clerk/nextjs";
 import { getAuth } from "@clerk/nextjs/server";
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
+import { useEffect } from "react";
 
 type CustomerPageProps = InferGetServerSidePropsType<typeof getServerSideProps>;
 
 const CustomerPage = ({ isMemberOfAnyOrganization }: CustomerPageProps) => {
+  const { userId, orgId, isLoaded } = useAuth();
+  const { mutateAsync, isLoading } =
+    trpc.organization.addUserToOrganization.useMutation();
+
+  useEffect(() => {
+    const addUserToOrganization = async () => {
+      if (!orgId) return;
+      await mutateAsync({ userId });
+    };
+
+    addUserToOrganization();
+  }, [mutateAsync, orgId, userId]);
+
   return (
     <div>
       <H1>Welcome to Effisense</H1>
       <Subtle>
         Before you can use the platform, you need to set an active organization.
       </Subtle>
+
+      {isLoading && (
+        <div className="flex items-center justify-center gap-x-2">
+          <LoadingSpinner />
+          <P>Adding you to the organization</P>
+        </div>
+      )}
 
       {!isMemberOfAnyOrganization && (
         <div>
@@ -28,7 +53,12 @@ const CustomerPage = ({ isMemberOfAnyOrganization }: CustomerPageProps) => {
       {isMemberOfAnyOrganization && (
         <div className="flex flex-col items-center justify-center gap-y-2">
           <H2>Select active organization</H2>
-          <OrganizationSwitcher />
+          {!isLoaded && (
+            <div className="flex items-center justify-center">
+              <LoadingSpinner />
+            </div>
+          )}
+          {isLoaded && <OrganizationSwitcher />}
         </div>
       )}
     </div>
