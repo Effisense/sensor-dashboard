@@ -37,7 +37,7 @@ const CustomerPage = ({ isMemberOfAnyOrganization }: CustomerPageProps) => {
       {isLoading && (
         <div className="flex items-center justify-center gap-x-2">
           <LoadingSpinner />
-          <P>Adding you to the organization</P>
+          <Subtle>Setting active organization</Subtle>
         </div>
       )}
 
