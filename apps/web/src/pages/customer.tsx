@@ -1,3 +1,4 @@
+import { useToast } from "@/hooks/toast/useToast";
 import LoadingSpinner from "@/ui/LoadingSpinner";
 import OrganizationSwitcher from "@/ui/OrganizationSwitcher";
 import H1 from "@/ui/typography/H1";
@@ -15,8 +16,24 @@ type CustomerPageProps = InferGetServerSidePropsType<typeof getServerSideProps>;
 
 const CustomerPage = ({ isMemberOfAnyOrganization }: CustomerPageProps) => {
   const { userId, orgId, isLoaded } = useAuth();
+  const { toast } = useToast();
   const { mutateAsync, isLoading } =
-    trpc.organization.addUserToOrganization.useMutation();
+    trpc.organization.addUserToOrganization.useMutation({
+      onSuccess: () => {
+        toast({
+          title: "Success",
+          description: "Successfully set active organization",
+          severity: "success",
+        });
+      },
+      onError: () => {
+        toast({
+          title: "Error",
+          description: "An error occurred when setting the active organization",
+          severity: "error",
+        });
+      },
+    });
 
   useEffect(() => {
     const addUserToOrganization = async () => {
