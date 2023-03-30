@@ -8,7 +8,7 @@ import {
   ToastTitle,
   ToastViewport,
 } from "./ToastPrimitive";
-import SeverityToIcon from "./utils/severityToIcon";
+import SeverityToIcon from "@/ui/utils/SeverityToIcon";
 
 export function Toaster() {
   const { toasts } = useToast();
