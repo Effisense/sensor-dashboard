@@ -7,6 +7,7 @@ import {
   SensorIdSchema,
   SensorSchema,
   SpanApiPayloadSchema,
+  UpdateSensorSchema,
 } from "../schemas/sensor";
 import { protectedProcedure, publicProcedure, router } from "../trpc";
 import { sensorBelongsToCollection as _sensorBelongsToCollection } from "../utils/sensor";
@@ -76,7 +77,7 @@ export const sensorRouter = router({
       if (!containerExists) {
         throw new TRPCError({
           code: "BAD_REQUEST",
-          message: "Container type not found",
+          message: "Container not found",
         });
       }
 
@@ -136,11 +137,13 @@ export const sensorRouter = router({
         });
       }
 
-      const sensor = await ctx.prisma.sensor.findUnique({
-        where: {
-          id,
-        },
-      });
+      const sensor = await ctx.prisma.sensor
+        .findUnique({
+          where: {
+            id,
+          },
+        })
+        .then((sensor) => sensor);
 
       if (!sensor) {
         throw new TRPCError({
@@ -158,9 +161,9 @@ export const sensorRouter = router({
         });
       }
 
-      const containerType = await ctx.prisma.container.findUnique({
+      const container = await ctx.prisma.container.findUnique({
         where: {
-          id: sensor.containerId,
+          id: sensor.containerId || undefined,
         },
       });
 
@@ -173,22 +176,15 @@ export const sensorRouter = router({
       return {
         sensor,
         timeseries,
-        containerType,
+        container,
       };
     }),
 
   update: protectedProcedure
-    .input(SensorSchema)
+    .input(UpdateSensorSchema)
     .mutation(async ({ ctx, input }) => {
-      const {
-        sensorId,
-        collectionId,
-        name,
-        description,
-        latitude,
-        longitude,
-        containerId,
-      } = input;
+      const { sensorId, name, description, latitude, longitude, containerId } =
+        input;
 
       if (!ctx.auth.organizationId) {
         throw new TRPCError({
@@ -223,7 +219,6 @@ export const sensorRouter = router({
           id: sensorId,
         },
         data: {
-          collectionId,
           latitude,
           longitude,
           name,

@@ -3,13 +3,13 @@ import { userIsMemberOfOrganization } from "../lib/clerk";
 import {
   ContainerIdSchema,
   ContainerSchema,
-  CreateContainerSchema,
+  ContainerFormSchema,
 } from "../schemas/container";
 import { protectedProcedure, router } from "../trpc";
 
 export const containerRouter = router({
   create: protectedProcedure
-    .input(CreateContainerSchema)
+    .input(ContainerFormSchema)
     .mutation(async ({ ctx, input }) => {
       const {
         name,
@@ -101,6 +101,29 @@ export const containerRouter = router({
       },
     });
   }),
+
+  getSensorsByContainerId: protectedProcedure
+    .input(ContainerIdSchema)
+    .query(async ({ ctx, input }) => {
+      const { containerId } = input;
+
+      const isMemberOfOrganization = await userIsMemberOfOrganization(
+        ctx.auth.user?.id,
+        ctx.auth.organizationId,
+      );
+      if (!isMemberOfOrganization) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "You are not part of this organization",
+        });
+      }
+
+      return ctx.prisma.sensor.findMany({
+        where: {
+          containerId,
+        },
+      });
+    }),
 
   update: protectedProcedure
     .input(ContainerSchema)

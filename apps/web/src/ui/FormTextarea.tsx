@@ -9,6 +9,7 @@ type FormTextareaProps<T extends FieldValues> = {
   errorMessage?: string;
   id: Path<T>;
   label: string;
+  defaultValue?: string | number | null;
 };
 
 /**
@@ -26,6 +27,7 @@ const FormTextarea = <T extends FieldValues>({
   errorMessage,
   id,
   label,
+  defaultValue,
 }: FormTextareaProps<T>) => {
   return (
     <div className="flex w-full flex-col items-start justify-start gap-y-2">
@@ -34,6 +36,7 @@ const FormTextarea = <T extends FieldValues>({
         className="bg-white"
         placeholder={capitalize(label)}
         {...register(id)}
+        defaultValue={defaultValue || undefined}
       />
       <Subtle className="h-4 w-full text-red-500">{errorMessage}</Subtle>
     </div>

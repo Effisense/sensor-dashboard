@@ -1,46 +1,49 @@
 import { trpc } from "@/utils/trpc";
-import { SensorSchema } from "@acme/api/src/schemas/sensor";
+import { UpdateSensorSchema } from "@acme/api/src/schemas/sensor";
 import { useEffect, useState } from "react";
 import { z } from "zod";
 import { useToast } from "../toast/useToast";
 import useZodForm from "../useZodForm";
 
-type CreateSensorFormProps = {
-  sensorId: string;
-  collectionId: string;
+/**
+ * We use this schema to omit the `sensorId` from the form, because the `id` is passed in as a prop.
+ * We keep this schema close to the custom hook so that it's easy to see what's going on.
+ */
+const UpdateSensorFormSchema = UpdateSensorSchema.omit({
+  sensorId: true,
+});
+
+type UpdateSensorFormProps = {
+  id: string;
 };
 
 /**
- * Handles logic related to creating a sensor.
+ * Handles logic related to updating a sensor.
  *
- * @returns all objects and handlers needed to create a sensor.
+ * @returns all objects and handlers needed to update a sensor.
  */
-const useCreateSensorForm = ({
-  sensorId,
-  collectionId,
-}: CreateSensorFormProps) => {
-  const { mutateAsync, error } = trpc.sensor.create.useMutation();
+const useUpdateSensorForm = ({ id }: UpdateSensorFormProps) => {
+  const { mutateAsync, error } = trpc.sensor.update.useMutation();
   const { toast } = useToast();
   const [containerId, setContainerId] = useState<string | undefined>(undefined);
 
   const {
     register,
     handleSubmit,
-    formState: { errors },
     setValue,
+    formState: { errors },
   } = useZodForm({
-    schema: SensorSchema,
-    defaultValues: {
-      sensorId,
-      collectionId,
-    },
+    schema: UpdateSensorFormSchema,
   });
 
-  const onSubmit = async (data: z.infer<typeof SensorSchema>) => {
-    await mutateAsync(data).then(() => {
+  const onSubmit = async (data: z.infer<typeof UpdateSensorFormSchema>) => {
+    await mutateAsync({
+      sensorId: id,
+      ...data,
+    }).then(() => {
       toast({
         title: "Success!",
-        description: "Successfully added sensor.",
+        description: "Successfully updated sensor.",
         severity: "success",
       });
     });
@@ -72,4 +75,4 @@ const useCreateSensorForm = ({
   };
 };
 
-export default useCreateSensorForm;
+export default useUpdateSensorForm;

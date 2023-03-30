@@ -22,9 +22,9 @@ model Organization {
 
 model UserInOrganization {
     id             String       @id @default(cuid())
-    user           User         @relation(fields: [userId], references: [id])
+    user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
     userId         String
-    organization   Organization @relation(fields: [organizationId], references: [id])
+    organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
     organizationId String
 
     @@index([userId])
@@ -40,11 +40,11 @@ model Sensor {
     location     String
     collectionId String
 
-    organization   Organization @relation(fields: [organizationId], references: [id])
+    organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
     organizationId String
 
-    container   Container @relation(fields: [containerId], references: [id])
-    containerId String
+    container   Container? @relation(fields: [containerId], references: [id])
+    containerId String?
 
     @@index([containerId])
     @@index([organizationId])
@@ -59,7 +59,7 @@ model Container {
     binWidthInMillimeters     Int?         @default(0)
     sensorOffsetInMillimeters Int?         @default(0)
     containerVolumeInLiters   Int?         @default(0)
-    organization              Organization @relation(fields: [organizationId], references: [id])
+    organization              Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
     organizationId            String
     Sensor                    Sensor[]
 

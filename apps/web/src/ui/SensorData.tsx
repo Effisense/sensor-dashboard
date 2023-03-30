@@ -9,7 +9,7 @@ import {
   Badge,
   Metric,
 } from "@tremor/react";
-import CreateSensorMap from "@/ui/Map";
+import SensorPositionMap from "@/ui/Map";
 import { MapPinIcon, SignalIcon } from "@heroicons/react/24/solid";
 
 const chartdataOld = [
@@ -99,7 +99,7 @@ function SensorData() {
           valueFormatter={dataFormatter}
         />
         <div className="pt-8">
-          <CreateSensorMap />
+          <SensorPositionMap />
         </div>
       </Card>
     </div>

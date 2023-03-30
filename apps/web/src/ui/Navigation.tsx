@@ -17,7 +17,7 @@ const Navigation = () => {
       {/* Left part of navigation, with logo */}
       <div className="flex items-center justify-start">
         <Link href="/">
-          <div className="h-10 transition-all duration-300 hover:drop-shadow-lg">
+          <div className="h-10 drop-shadow-md transition-all duration-300 hover:drop-shadow-lg">
             <Logo />
           </div>
         </Link>

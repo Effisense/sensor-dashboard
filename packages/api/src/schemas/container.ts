@@ -18,7 +18,7 @@ export const ContainerSchema = z.object({
   containerVolumeInLiters: numberGreaterThanOne,
 });
 
-export const CreateContainerSchema = ContainerSchema.omit({
+export const ContainerFormSchema = ContainerSchema.omit({
   containerId: true,
 });
 

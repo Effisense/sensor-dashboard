@@ -10,7 +10,7 @@ type FormInputProps<T extends FieldValues> = {
   id: Path<T>;
   label: string;
   valueAsNumber?: boolean;
-  defaultValue?: string | number;
+  defaultValue?: string | number | null;
 };
 
 /**
@@ -40,7 +40,7 @@ const FormInput = <T extends FieldValues>({
         {...register(id, {
           valueAsNumber: valueAsNumber || false,
         })}
-        defaultValue={defaultValue}
+        defaultValue={defaultValue || undefined}
       />
       <Subtle className="h-4 w-full text-red-500">{errorMessage}</Subtle>
     </div>
