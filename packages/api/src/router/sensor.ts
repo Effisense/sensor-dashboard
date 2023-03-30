@@ -10,6 +10,7 @@ import {
 } from "../schemas/sensor";
 import { protectedProcedure, publicProcedure, router } from "../trpc";
 import { sensorBelongsToCollection as _sensorBelongsToCollection } from "../utils/sensor";
+import getFillLevel from "../utils/sensorDataInRange";
 
 export const sensorRouter = router({
   create: protectedProcedure
@@ -266,4 +267,53 @@ export const sensorRouter = router({
       const { deviceId, collectionId } = input;
       return await _sensorBelongsToCollection(deviceId, collectionId);
     }),
+
+  getAllSensorsWithFill: protectedProcedure.query(async ({ ctx }) => {
+    if (!ctx.auth.organizationId) {
+      throw new TRPCError({
+        code: "BAD_REQUEST",
+        message: "Organization not found",
+      });
+    }
+
+    const isMemberOfOrganization = await userIsMemberOfOrganization(
+      ctx.auth.user?.id,
+      ctx.auth.organizationId,
+    );
+    if (!isMemberOfOrganization) {
+      throw new TRPCError({
+        code: "BAD_REQUEST",
+        message: "You are not part of this organization",
+      });
+    }
+
+    const sensors = await ctx.prisma.sensor.findMany({
+      where: {
+        organizationId: ctx.auth.organizationId,
+      },
+    });
+
+    const sensorsWithFillLevel = [];
+
+    for (const sensor of sensors) {
+      const timeseries = await Sensor.selectAll()
+        .where("sensor_id", "=", sensor.id)
+        .orderBy("time", "desc")
+        .limit(1)
+        .execute();
+
+      const containerType = await ctx.prisma.container.findUnique({
+        where: {
+          id: sensor.containerId,
+        },
+      });
+
+      // const fillLevel = getFillLevel(timeseries, containerType);
+      const fillLevel = 83; // Dummy value, replace with actual value from the function above
+
+      sensorsWithFillLevel.push([sensor, fillLevel]);
+    }
+
+    return sensorsWithFillLevel;
+  }),
 });

@@ -12,12 +12,13 @@ const CreateSensorMap = () => {
 
   return (
     <div>
-      <div className="h-72 w-72" id="map">
-        <div ref={container} className="w-full" />
+      <div className="h-96 md:h-[calc(100vh-8rem)]" id="map">
+        <div ref={container} className="" />
       </div>
-      <p className="my-12">
+
+      {/* <p className="my-12">
         {!data && !error ? `Loading...` : `Location: ${data}`}
-      </p>
+      </p> */}
     </div>
   );
 };

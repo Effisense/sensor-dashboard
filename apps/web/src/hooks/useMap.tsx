@@ -44,7 +44,7 @@ const useMap = () => {
 
     map.current = MapboxMap({
       container: "map",
-      style: "mapbox://styles/mapbox/dark-v11",
+      style: "mapbox://styles/mapbox/light-v11",
       center: {
         lat: latitude,
         lng: longitude,
