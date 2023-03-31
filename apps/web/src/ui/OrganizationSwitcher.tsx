@@ -5,19 +5,13 @@ import {
   useAuth,
 } from "@clerk/nextjs";
 import { useEffect } from "react";
+import LoadingSpinner from "./LoadingSpinner";
 
 const OrganizationSwitcher = () => {
   const { userId, orgId } = useAuth();
   const { toast } = useToast();
   const { mutateAsync, isLoading } =
     trpc.organization.addUserToOrganization.useMutation({
-      onSuccess: () => {
-        toast({
-          title: "Success",
-          description: "Successfully set active organization",
-          severity: "success",
-        });
-      },
       onError: () => {
         toast({
           title: "Error",
@@ -36,26 +30,24 @@ const OrganizationSwitcher = () => {
     addUserToOrganization();
   }, [mutateAsync, orgId, userId]);
 
-  useEffect(() => {
-    if (isLoading) {
-      toast({
-        title: "Loading...",
-        description: "Setting active organization",
-        severity: "neutral",
-      });
-    }
-  }, [isLoading, toast]);
-
   return (
-    <ClerkOrganizationSwitcher
-      appearance={{
-        elements: {
-          organizationSwitcherPopoverActionButton__createOrganization: {
-            display: "none",
-          },
-        },
-      }}
-    />
+    <div className="mx-4">
+      {isLoading ? (
+        <div className="flex items-center justify-center">
+          <LoadingSpinner />
+        </div>
+      ) : (
+        <ClerkOrganizationSwitcher
+          appearance={{
+            elements: {
+              organizationSwitcherPopoverActionButton__createOrganization: {
+                display: "none",
+              },
+            },
+          }}
+        />
+      )}
+    </div>
   );
 };
 

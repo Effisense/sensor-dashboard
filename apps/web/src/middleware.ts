@@ -3,10 +3,29 @@ import {
   getAuth,
   withClerkMiddleware,
 } from "@clerk/nextjs/server";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { isAdmin } from "@acme/api/src/lib/clerk";
 
-const publicPaths = ["/", "/sign-in*", "/sign-up*", "/scan"];
+/**
+ * Get the authentication state from Clerk.
+ *
+ * @param req is the Next.js request object
+ * @returns the authentication state, including the user and organization.
+ */
+const getAuthentication = async (req: NextRequest) => {
+  const { userId, orgId: organizationId } = getAuth(req);
+  const user = userId ? await clerkClient.users.getUser(userId) : null;
+  const organization = organizationId
+    ? await clerkClient.organizations.getOrganization({ organizationId })
+    : null;
+
+  return {
+    user,
+    organization,
+  };
+};
+
+const publicPaths = ["/sign-in*", "/sign-up*", "/scan"];
 
 const adminPaths = ["/admin*"];
 
@@ -22,13 +41,16 @@ const isAdminPath = (path: string) => {
   );
 };
 
+const isCustomerPath = (path: string) => {
+  return path === "/customer";
+};
+
 export default withClerkMiddleware(async (req) => {
   if (isPublicPath(req.nextUrl.pathname)) {
     return NextResponse.next();
   }
 
-  const { userId } = getAuth(req);
-  const user = userId ? await clerkClient.users.getUser(userId) : null;
+  const { user, organization } = await getAuthentication(req);
 
   if (!user) {
     const signInUrl = new URL("/sign-in", req.url);
@@ -38,6 +60,20 @@ export default withClerkMiddleware(async (req) => {
   if (isAdminPath(req.nextUrl.pathname) && !isAdmin(user)) {
     const signInUrl = new URL("/sign-in", req.url);
     return NextResponse.redirect(signInUrl);
+  }
+
+  if (!organization && isCustomerPath(req.nextUrl.pathname)) {
+    return NextResponse.next();
+  }
+
+  if (organization && isCustomerPath(req.nextUrl.pathname)) {
+    const dashboardUrl = new URL("/", req.url);
+    return NextResponse.redirect(dashboardUrl);
+  }
+
+  if (!organization) {
+    const customerUrl = new URL("/customer", req.url);
+    return NextResponse.redirect(customerUrl);
   }
 
   return NextResponse.next();

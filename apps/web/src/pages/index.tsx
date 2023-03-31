@@ -22,40 +22,21 @@ const IndexPage = ({}: IndexPageProps) => {
 export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
   const { userId, orgId } = getAuth(ctx.req);
 
-  if (!userId) {
-    return {
-      redirect: {
-        destination: "/sign-in",
-        permanent: false,
-      },
-    };
-  }
+  // const userExists = await prisma?.user
+  //   .findUnique({
+  //     where: {
+  //       id: userId,
+  //     },
+  //   })
+  //   .then((user) => !!user);
 
-  // If user has not set an active organization, we must ensure they do so before they can access the dashboard
-  if (!orgId) {
-    return {
-      redirect: {
-        destination: "/customer",
-        permanent: false,
-      },
-    };
-  }
-
-  const userExists = await prisma?.user
-    .findUnique({
-      where: {
-        id: userId,
-      },
-    })
-    .then((user) => !!user);
-
-  if (!userExists) {
-    await prisma?.user.create({
-      data: {
-        id: userId,
-      },
-    });
-  }
+  // if (!userExists) {
+  //   await prisma?.user.create({
+  //     data: {
+  //       id: userId,
+  //     },
+  //   });
+  // }
 
   return {
     props: {},

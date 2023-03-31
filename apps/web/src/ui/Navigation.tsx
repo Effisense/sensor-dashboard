@@ -23,45 +23,47 @@ const Navigation = () => {
         </Link>
       </div>
 
-      <NavigationMenuList className="gap-x-2">
-        {/* Right part of navigation, with the rest */}
-        <NavigationMenuItem>
-          <Link href="/containers/create">
-            <Button variant="link">Add container</Button>
-          </Link>
-        </NavigationMenuItem>
-        <NavigationMenuItem>
-          <Link href="/sensors/create">
-            <Button variant="link">Add sensor</Button>
-          </Link>
-        </NavigationMenuItem>
-        <div className="flex items-center justify-center">
-          {!isLoaded && (
-            <NavigationMenuItem>
-              <LoadingSpinner />
-            </NavigationMenuItem>
-          )}
-          {isSignedIn && (
-            <div className="flex items-center justify-center">
+      {isSignedIn && (
+        <NavigationMenuList className="gap-x-2">
+          {/* Right part of navigation, with the rest */}
+          <NavigationMenuItem>
+            <Link href="/containers/create">
+              <Button variant="link">Add container</Button>
+            </Link>
+          </NavigationMenuItem>
+          <NavigationMenuItem>
+            <Link href="/sensors/create">
+              <Button variant="link">Add sensor</Button>
+            </Link>
+          </NavigationMenuItem>
+          <div className="flex items-center justify-center">
+            {!isLoaded && (
               <NavigationMenuItem>
-                <OrganizationSwitcher />
+                <LoadingSpinner />
               </NavigationMenuItem>
-              <NavigationMenuItem className="mr-6">
-                <UserButton
-                  appearance={{
-                    elements: {
-                      userButtonAvatarBox: {
-                        width: "2.5rem",
-                        height: "2.5rem",
+            )}
+            {isSignedIn && (
+              <div className="flex items-center justify-center">
+                <NavigationMenuItem>
+                  <OrganizationSwitcher />
+                </NavigationMenuItem>
+                <NavigationMenuItem className="mr-6">
+                  <UserButton
+                    appearance={{
+                      elements: {
+                        userButtonAvatarBox: {
+                          width: "2.5rem",
+                          height: "2.5rem",
+                        },
                       },
-                    },
-                  }}
-                />
-              </NavigationMenuItem>
-            </div>
-          )}
-        </div>
-      </NavigationMenuList>
+                    }}
+                  />
+                </NavigationMenuItem>
+              </div>
+            )}
+          </div>
+        </NavigationMenuList>
+      )}
     </NavigationMenu>
   );
 };

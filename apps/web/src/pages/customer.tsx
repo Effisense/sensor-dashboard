@@ -47,24 +47,6 @@ const CustomerPage = ({ isMemberOfAnyOrganization }: CustomerPageProps) => {
 export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
   const { userId, orgId } = getAuth(ctx.req);
 
-  if (!userId) {
-    return {
-      redirect: {
-        destination: "/sign-in",
-        permanent: false,
-      },
-    };
-  }
-
-  if (orgId) {
-    return {
-      redirect: {
-        destination: "/",
-        permanent: false,
-      },
-    };
-  }
-
   const isMemberOfAnyOrganization = await userIsMemberOfAnyOrganization(userId);
 
   return {
