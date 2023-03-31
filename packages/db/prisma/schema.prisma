@@ -21,12 +21,12 @@ model Organization {
 }
 
 model UserInOrganization {
-    id             String       @id @default(cuid())
     user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
     userId         String
     organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
     organizationId String
 
+    @@id([userId, organizationId])
     @@index([userId])
     @@index([organizationId])
 }

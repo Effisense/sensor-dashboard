@@ -44,9 +44,19 @@ export const organizationRouter = router({
         },
       });
 
-      // Link user to organization
-      return await ctx.prisma.userInOrganization.create({
-        data: {
+      // Link user to organization if not already linked
+      return await ctx.prisma.userInOrganization.upsert({
+        where: {
+          userId_organizationId: {
+            userId,
+            organizationId: ctx.auth.organizationId,
+          },
+        },
+        update: {
+          userId,
+          organizationId: ctx.auth.organizationId,
+        },
+        create: {
           userId,
           organizationId: ctx.auth.organizationId,
         },
