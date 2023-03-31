@@ -8,9 +8,13 @@ import { useAuth } from "@clerk/nextjs";
 import { getAuth } from "@clerk/nextjs/server";
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 
-type CustomerPageProps = InferGetServerSidePropsType<typeof getServerSideProps>;
+type ActivateOrganizationPageProps = InferGetServerSidePropsType<
+  typeof getServerSideProps
+>;
 
-const CustomerPage = ({ isMemberOfAnyOrganization }: CustomerPageProps) => {
+const ActivateOrganizationPage = ({
+  isMemberOfAnyOrganization,
+}: ActivateOrganizationPageProps) => {
   const { isLoaded } = useAuth();
 
   return (
@@ -45,8 +49,7 @@ const CustomerPage = ({ isMemberOfAnyOrganization }: CustomerPageProps) => {
 };
 
 export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
-  const { userId, orgId } = getAuth(ctx.req);
-
+  const { userId } = getAuth(ctx.req);
   const isMemberOfAnyOrganization = await userIsMemberOfAnyOrganization(userId);
 
   return {
@@ -56,4 +59,4 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
   };
 };
 
-export default CustomerPage;
+export default ActivateOrganizationPage;

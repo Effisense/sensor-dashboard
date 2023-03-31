@@ -31,17 +31,6 @@ const SignInPage = ({ redirect }: SignInPageProps) => {
 };
 
 export const getServerSideProps = (ctx: GetServerSidePropsContext) => {
-  const { userId } = getAuth(ctx.req);
-
-  if (userId) {
-    return {
-      redirect: {
-        destination: "/",
-        permanent: false,
-      },
-    };
-  }
-
   const { success } = RedirectSchema.safeParse(ctx.query.redirect);
   if (!success) {
     return {

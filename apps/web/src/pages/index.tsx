@@ -22,6 +22,7 @@ const IndexPage = ({}: IndexPageProps) => {
 export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
   const { userId, orgId } = getAuth(ctx.req);
 
+  // TODO
   // const userExists = await prisma?.user
   //   .findUnique({
   //     where: {

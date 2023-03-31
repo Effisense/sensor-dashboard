@@ -41,8 +41,8 @@ const isAdminPath = (path: string) => {
   );
 };
 
-const isCustomerPath = (path: string) => {
-  return path === "/customer";
+const isActivateOrganizationPath = (path: string) => {
+  return path === "/organizations/activate";
 };
 
 export default withClerkMiddleware(async (req) => {
@@ -62,18 +62,18 @@ export default withClerkMiddleware(async (req) => {
     return NextResponse.redirect(signInUrl);
   }
 
-  if (!organization && isCustomerPath(req.nextUrl.pathname)) {
+  if (!organization && isActivateOrganizationPath(req.nextUrl.pathname)) {
     return NextResponse.next();
   }
 
-  if (organization && isCustomerPath(req.nextUrl.pathname)) {
+  if (organization && isActivateOrganizationPath(req.nextUrl.pathname)) {
     const dashboardUrl = new URL("/", req.url);
     return NextResponse.redirect(dashboardUrl);
   }
 
   if (!organization) {
-    const customerUrl = new URL("/customer", req.url);
-    return NextResponse.redirect(customerUrl);
+    const activateOrganizationUrl = new URL("/organizations/activate", req.url);
+    return NextResponse.redirect(activateOrganizationUrl);
   }
 
   return NextResponse.next();
