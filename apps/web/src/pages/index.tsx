@@ -4,33 +4,36 @@ import type {
 } from "next";
 import { getAuth } from "@clerk/nextjs/server";
 import SensorPositionMap from "@/ui/Map";
-import { Button } from "@/ui/Button";
-import { useToast } from "@/hooks/toast/useToast";
+import { trpc } from "@/utils/trpc";
+import LoadingSpinner from "@/ui/LoadingSpinner";
+import { useEffect } from "react";
 
 type IndexPageProps = InferGetServerSidePropsType<typeof getServerSideProps>;
 
-const IndexPage = ({}: IndexPageProps) => {
-  const { toast } = useToast();
+const IndexPage = ({ userId }: IndexPageProps) => {
+  const { mutateAsync, isLoading } = trpc.user.createIfNotExists.useMutation();
+
+  useEffect(() => {
+    if (!userId) return;
+    mutateAsync({ userId });
+  }, [mutateAsync, userId]);
+
   return (
-    <div className="container flex flex-col items-center justify-center gap-12 px-4 py-8">
-      <h1 className="text-5xl font-extrabold tracking-tight sm:text-[5rem]">
-        Dashboard
-      </h1>
+    <div className="flex flex-col items-center justify-center gap-12 px-4 py-8">
+      {isLoading && (
+        <div className="flex flex-col items-center justify-center">
+          <LoadingSpinner />
+        </div>
+      )}
+      {!isLoading && (
+        <>
+          <h1 className="text-5xl font-extrabold tracking-tight sm:text-[5rem]">
+            Dashboard
+          </h1>
 
-      <Button
-        onClick={() => {
-          toast({
-            title: "Test",
-            description: "Test description",
-            severity: "error",
-            duration: 5000,
-          });
-        }}
-      >
-        Trigger toast
-      </Button>
-
-      <SensorPositionMap />
+          <SensorPositionMap />
+        </>
+      )}
     </div>
   );
 };
@@ -38,17 +41,8 @@ const IndexPage = ({}: IndexPageProps) => {
 export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
   const { userId } = getAuth(ctx.req);
 
-  if (!userId) {
-    return {
-      redirect: {
-        destination: "/sign-in",
-        permanent: false,
-      },
-    };
-  }
-
   return {
-    props: {},
+    props: { userId },
   };
 };
 

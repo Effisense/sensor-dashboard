@@ -41,3 +41,15 @@ export const userIsMemberOfOrganization = async (
       );
     });
 };
+
+export const userIsMemberOfAnyOrganization = async (userId?: string | null) => {
+  if (!userId) return false;
+
+  return await clerkClient.users
+    .getOrganizationMembershipList({
+      userId,
+    })
+    .then((memberships) => {
+      return memberships.length > 0;
+    });
+};

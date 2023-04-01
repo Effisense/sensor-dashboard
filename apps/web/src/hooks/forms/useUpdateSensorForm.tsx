@@ -23,8 +23,23 @@ type UpdateSensorFormProps = {
  * @returns all objects and handlers needed to update a sensor.
  */
 const useUpdateSensorForm = ({ id }: UpdateSensorFormProps) => {
-  const { mutateAsync, error } = trpc.sensor.update.useMutation();
   const { toast } = useToast();
+  const { mutateAsync } = trpc.sensor.update.useMutation({
+    onSuccess: () => {
+      toast({
+        title: "Success!",
+        description: "Successfully updated sensor.",
+        severity: "success",
+      });
+    },
+    onError: (error) => {
+      toast({
+        title: "Oops!",
+        description: `An error occurred: ${error.message}`,
+        severity: "error",
+      });
+    },
+  });
   const [containerId, setContainerId] = useState<string | undefined>(undefined);
 
   const {
@@ -40,24 +55,8 @@ const useUpdateSensorForm = ({ id }: UpdateSensorFormProps) => {
     await mutateAsync({
       sensorId: id,
       ...data,
-    }).then(() => {
-      toast({
-        title: "Success!",
-        description: "Successfully updated sensor.",
-        severity: "success",
-      });
     });
   };
-
-  useEffect(() => {
-    if (error) {
-      toast({
-        title: "Oops!",
-        description: `An error occurred: ${error.message}`,
-        severity: "error",
-      });
-    }
-  }, [error, toast]);
 
   // Whenever the containerId changes in the dropdown menu, update the form value.
   useEffect(() => {

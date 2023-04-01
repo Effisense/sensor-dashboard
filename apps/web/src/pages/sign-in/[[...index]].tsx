@@ -8,6 +8,7 @@ type SignInPageProps = InferGetServerSidePropsType<typeof getServerSideProps>;
 
 const SignInPage = ({ redirect }: SignInPageProps) => {
   const { isLoaded } = useAuth();
+
   return (
     <div className="flex flex-col items-center justify-center gap-4">
       <div className="container flex flex-col items-center justify-center gap-12 px-4 py-8">
@@ -30,17 +31,6 @@ const SignInPage = ({ redirect }: SignInPageProps) => {
 };
 
 export const getServerSideProps = (ctx: GetServerSidePropsContext) => {
-  const { userId } = getAuth(ctx.req);
-
-  if (userId) {
-    return {
-      redirect: {
-        destination: "/",
-        permanent: false,
-      },
-    };
-  }
-
   const { success } = RedirectSchema.safeParse(ctx.query.redirect);
   if (!success) {
     return {
