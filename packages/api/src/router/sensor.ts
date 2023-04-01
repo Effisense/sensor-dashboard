@@ -71,7 +71,7 @@ export const sensorRouter = router({
             id: containerId,
           },
         })
-        .then((container) => !!container)
+        .then((container: any) => !!container)
         .catch(() => false);
 
       if (!containerExists) {
@@ -158,6 +158,19 @@ export const sensorRouter = router({
         throw new TRPCError({
           code: "BAD_REQUEST",
           message: "Your organization does not own this sensor",
+        });
+      }
+
+      const sensorLocations = await ctx.prisma.sensor.findMany({
+        select: {
+          latitude: true,
+          longitude: true,
+        },
+      });
+      if (sensorLocations.length === 0) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "Locations not found",
         });
       }
 
