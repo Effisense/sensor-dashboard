@@ -49,12 +49,6 @@ const dataFormatter = (number: number) => {
   return "$ " + Intl.NumberFormat("us").format(number).toString();
 };
 
-const getFillLevel = () => {
-  return 40;
-};
-
-//const [chartdata, setChartData] = useState({});
-
 function SensorData() {
   return (
     <div className="mx-auto flex w-full items-center justify-center ">
