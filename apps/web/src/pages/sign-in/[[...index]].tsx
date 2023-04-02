@@ -1,6 +1,5 @@
 import { SignIn, useAuth } from "@clerk/nextjs";
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
-import { getAuth } from "@clerk/nextjs/server";
 import { RedirectSchema } from "@/schemas";
 import LoadingSpinner from "@/ui/LoadingSpinner";
 
