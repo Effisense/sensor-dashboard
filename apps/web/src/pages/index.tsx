@@ -41,6 +41,15 @@ const IndexPage = ({ userId }: IndexPageProps) => {
 export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
   const { userId } = getAuth(ctx.req);
 
+  if (!userId) {
+    return {
+      redirect: {
+        destination: "/sign-in",
+        permanent: false,
+      },
+    };
+  }
+
   return {
     props: { userId },
   };

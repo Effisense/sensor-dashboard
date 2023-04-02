@@ -3,6 +3,8 @@ import H1 from "@/ui/typography/H1";
 import FormInput from "@/ui/FormInput";
 import FormTextarea from "@/ui/FormTextarea";
 import useCreateContainerForm from "@/hooks/forms/useCreateContainerForm";
+import { getAuth } from "@clerk/nextjs/server";
+import { GetServerSidePropsContext } from "next";
 
 const CreateContainerPage = () => {
   const { register, onSubmit, handleSubmit, errors } = useCreateContainerForm();
@@ -76,6 +78,23 @@ const CreateContainerPage = () => {
       </form>
     </div>
   );
+};
+
+export const getServerSideProps = (ctx: GetServerSidePropsContext) => {
+  const { userId } = getAuth(ctx.req);
+
+  if (!userId) {
+    return {
+      redirect: {
+        destination: "/sign-in?redirect=/containers/create",
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {},
+  };
 };
 
 export default CreateContainerPage;
