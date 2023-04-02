@@ -9,7 +9,7 @@
   "scripts": {
     "build": "turbo build",
     "clean": "rm -rf node_modules",
-    "clean:workspace": "turbo clean",
+    "clean:workspace": "turbo clean && rm pnpm-lock.yaml",
     "db:generate": "turbo db:generate",
     "db:push": "turbo db:push",
     "db:reset": "turbo db:reset",
