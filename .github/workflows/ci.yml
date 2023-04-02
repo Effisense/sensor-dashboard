@@ -29,10 +29,10 @@ jobs:
       - name: Setup pnpm
         uses: pnpm/action-setup@v2.2.4
 
-      - name: Setup Node 18
+      - name: Setup Node 16
         uses: actions/setup-node@v3
         with:
-          node-version: 18
+          node-version: 16
 
       - name: Get pnpm store directory
         id: pnpm-cache
