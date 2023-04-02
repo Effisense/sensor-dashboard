@@ -50,11 +50,11 @@ jobs:
       - name: Install deps (with cache)
         run: pnpm install --prefer-offline
 
-      # - name: Next.js cache
-      #   uses: actions/cache@v3
-      #   with:
-      #     path: ${{ github.workspace }}apps/nextjs/.next/cache
-      #     key: ${{ runner.os }}-${{ runner.node }}-${{ hashFiles('**/pnpm-lock.yaml') }}-nextjs
+      - name: Next.js cache
+        uses: actions/cache@v3
+        with:
+          path: ${{ github.workspace }}apps/nextjs/.next/cache
+          key: ${{ runner.os }}-${{ runner.node }}-${{ hashFiles('**/pnpm-lock.yaml') }}-nextjs
 
       - name: Build, lint and type-check
         run: pnpm turbo build lint type:check
