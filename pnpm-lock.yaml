@@ -4,21 +4,9 @@ importers:
 
   .:
     dependencies:
-      '@hookform/resolvers':
-        specifier: ^3.0.0
-        version: 3.0.0(react-hook-form@7.43.6)
       '@manypkg/cli':
         specifier: ^0.19.2
         version: 0.19.2
-      '@radix-ui/react-label':
-        specifier: ^2.0.1
-        version: 2.0.1(react-dom@18.2.0)(react@18.2.0)
-      '@tremor/react':
-        specifier: ^2.0.0
-        version: 2.0.0(prop-types@15.8.1)(react-dom@18.2.0)(react@18.2.0)
-      '@trpc/react':
-        specifier: ^9.27.4
-        version: 9.27.4(@trpc/client@9.27.4)(@trpc/server@9.27.4)(react-dom@18.2.0)(react-query@3.39.3)(react@18.2.0)
       '@types/node':
         specifier: ^18.14.2
         version: 18.14.2
@@ -31,21 +19,15 @@ importers:
       eslint:
         specifier: ^8.35.0
         version: 8.35.0
-      heroicons:
-        specifier: 1.0.6
-        version: 1.0.6
       prettier:
         specifier: ^2.8.4
         version: 2.8.4
       prettier-plugin-tailwindcss:
         specifier: ^0.1.13
         version: 0.1.13(prettier@2.8.4)
-      react-hook-form:
-        specifier: ^7.43.6
-        version: 7.43.6(react@18.2.0)
       turbo:
-        specifier: ^1.8.6
-        version: 1.8.6
+        specifier: ^1.8.8
+        version: 1.8.8
       typescript:
         specifier: ^4.9.5
         version: 4.9.5
@@ -73,12 +55,18 @@ importers:
       '@heroicons/react':
         specifier: ^2.0.16
         version: 2.0.16(react@18.2.0)
+      '@hookform/resolvers':
+        specifier: ^3.0.0
+        version: 3.0.0(react-hook-form@7.43.6)
       '@mapbox/mapbox-gl-geocoder':
         specifier: ^5.0.1
         version: 5.0.1(mapbox-gl@2.13.0)
       '@radix-ui/react-dropdown-menu':
         specifier: ^2.0.4
         version: 2.0.4(@types/react@18.0.25)(react-dom@18.2.0)(react@18.2.0)
+      '@radix-ui/react-label':
+        specifier: ^2.0.1
+        version: 2.0.1(react-dom@18.2.0)(react@18.2.0)
       '@radix-ui/react-navigation-menu':
         specifier: ^1.1.1
         version: 1.1.1(react-dom@18.2.0)(react@18.2.0)
@@ -142,6 +130,9 @@ importers:
       react-dom:
         specifier: 18.2.0
         version: 18.2.0(react@18.2.0)
+      react-hook-form:
+        specifier: ^7.43.6
+        version: 7.43.6(react@18.2.0)
       react-qr-reader:
         specifier: 3.0.0-beta-1
         version: 3.0.0-beta-1(react-dom@18.2.0)(react@18.2.0)
@@ -2271,16 +2262,6 @@ packages:
       '@trpc/server': 10.13.0
     dev: false
 
-  /@trpc/client@9.27.4(@trpc/server@9.27.4):
-    resolution: {integrity: sha512-NyS3J333xy8PJWGTSKO0egvj3x/s4SaSPx7XDWHf/i51W/i5Fla+sNxYpv+4z+SwE2xyJKszN2EZbvKIW2X/wA==}
-    deprecated: 'Migrate to v10: https://trpc.io/docs/migrate-from-v9-to-v10'
-    peerDependencies:
-      '@trpc/server': 9.27.4
-    dependencies:
-      '@babel/runtime': 7.21.0
-      '@trpc/server': 9.27.4
-    dev: false
-
   /@trpc/next@10.13.0(@tanstack/react-query@4.24.10)(@trpc/client@10.13.0)(@trpc/react-query@10.13.0)(@trpc/server@10.13.0)(next@13.2.1)(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-Q4rnuuiSUXDYv34f8FNUKhEMQFgLJTTJean78YjhG3Aaci+r4sew4hPmRvDRut8fBpa+EtExq+dv1EUbzlXgJg==}
     peerDependencies:
@@ -2318,31 +2299,8 @@ packages:
       react-dom: 18.2.0(react@18.2.0)
     dev: false
 
-  /@trpc/react@9.27.4(@trpc/client@9.27.4)(@trpc/server@9.27.4)(react-dom@18.2.0)(react-query@3.39.3)(react@18.2.0):
-    resolution: {integrity: sha512-bP74Tf6vWcMoWYiTAvbWrieV9cFQiKUDKRoRj0+VeGJbxdbhdJyUzv4zos0T4SiSKuhgoEm9bP4jWU2NhNhpIA==}
-    deprecated: 'Migrate to v10: https://trpc.io/docs/migrate-from-v9-to-v10. Also, this package has changed name to `@trpc/react-query`.'
-    peerDependencies:
-      '@trpc/client': 9.27.4
-      '@trpc/server': 9.27.4
-      react: '>=16.8.0'
-      react-dom: '>=16.8.0'
-      react-query: ^3.37.0
-    dependencies:
-      '@babel/runtime': 7.21.0
-      '@trpc/client': 9.27.4(@trpc/server@9.27.4)
-      '@trpc/server': 9.27.4
-      react: 18.2.0
-      react-dom: 18.2.0(react@18.2.0)
-      react-query: 3.39.3(react-dom@18.2.0)(react@18.2.0)
-    dev: false
-
   /@trpc/server@10.13.0:
     resolution: {integrity: sha512-d/bu6utCC4ALxhTJkolEPAHMOSuCAu3mG79TZswa6wD2ob0/Z3AIvBF/meeSTqDxe4tvXY78lQqOkQI81dgi/g==}
-    dev: false
-
-  /@trpc/server@9.27.4:
-    resolution: {integrity: sha512-yw0omUrxGp8+gEAuieZFeXB4bCqFvmyCDL3GOBv+Q6+cK0m5824ViHZKPgK5DYG1ijN/lbi1hP3UVKywPN7rbQ==}
-    deprecated: 'Migrate to v10: https://trpc.io/docs/migrate-from-v9-to-v10'
     dev: false
 
   /@types/body-parser@1.19.2:
@@ -3144,19 +3102,6 @@ packages:
     dependencies:
       fill-range: 7.0.1
 
-  /broadcast-channel@3.7.0:
-    resolution: {integrity: sha512-cIAKJXAxGJceNZGTZSBzMxzyOn72cVgPnKx4dc6LRjQgbaJUQqhy5rzL3zbMxkMWsGKkv2hSFkPRMEXfoMZ2Mg==}
-    dependencies:
-      '@babel/runtime': 7.21.0
-      detect-node: 2.1.0
-      js-sha3: 0.8.0
-      microseconds: 0.2.0
-      nano-time: 1.0.0
-      oblivious-set: 1.0.0
-      rimraf: 3.0.2
-      unload: 2.2.0
-    dev: false
-
   /browserslist@4.21.5:
     resolution: {integrity: sha512-tUkiguQGW7S3IhB7N+c2MV/HZPSCPAAiYBZXLsBhFB/PCy6ZKKsZrmBayHV9fdGV/ARIfJ14NkxKzRDjvp7L6w==}
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
@@ -3749,10 +3694,6 @@ packages:
 
   /detect-node-es@1.1.0:
     resolution: {integrity: sha512-ypdmJU/TbBby2Dxibuv7ZLW3Bs1QEmM7nHjEANfohJLvE0XVujisn1qPJcZxg+qDucsr+bP6fLD1rPS3AhJ7EQ==}
-    dev: false
-
-  /detect-node@2.1.0:
-    resolution: {integrity: sha512-T0NIuQpnTvFDATNuHN5roPwSBG83rFsuO+MXXH9/3N1eFbn4wcPjttvjMLEPWJ0RGUYgQE7cGgS3tNxbqCGM7g==}
     dev: false
 
   /detect-package-manager@2.0.1:
@@ -5362,10 +5303,6 @@ packages:
   /js-sdsl@4.4.0:
     resolution: {integrity: sha512-FfVSdx6pJ41Oa+CF7RDaFmTnCaFhua+SNYQX74riGOpl96x+2jQCqEfQ2bnXu/5DPCqlRuiqyvTJM0Qjz26IVg==}
 
-  /js-sha3@0.8.0:
-    resolution: {integrity: sha512-gF1cRrHhIzNfToc802P800N8PpXS+evLLXfsVpowqmAFR9uwbi89WvXg2QspOmXL8QL86J4T1EpFu+yUkwJY3Q==}
-    dev: false
-
   /js-tokens@4.0.0:
     resolution: {integrity: sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==}
 
@@ -5772,13 +5709,6 @@ packages:
       vt-pbf: 3.1.3
     dev: false
 
-  /match-sorter@6.3.1:
-    resolution: {integrity: sha512-mxybbo3pPNuA+ZuCUhm5bwNkXrJTbsk5VWbR5wiwz/GC6LIiegBGn2w3O08UG/jdbYLinw51fSQ5xNU1U3MgBw==}
-    dependencies:
-      '@babel/runtime': 7.21.0
-      remove-accents: 0.4.2
-    dev: false
-
   /meow@6.1.1:
     resolution: {integrity: sha512-3YffViIt2QWgTy6Pale5QpopX/IvU3LPL03jOTqp6pGj3VjesdO/U8CuHMKpnQr4shCNCM5fd5XFFvIIl6JBHg==}
     engines: {node: '>=8'}
@@ -5810,10 +5740,6 @@ packages:
     dependencies:
       braces: 3.0.2
       picomatch: 2.3.1
-
-  /microseconds@0.2.0:
-    resolution: {integrity: sha512-n7DHHMjR1avBbSpsTBj6fmMGh2AGrifVV4e+WYc3Q9lO+xnSZ3NyhcBND3vzzatt05LFhoKFRxrIyklmLlUtyA==}
-    dev: false
 
   /mime-db@1.52.0:
     resolution: {integrity: sha512-sPU4uV7dYlvtWJxwwxHD0PuihVNiE7TyAbQ5SWxDCB9mUYvOgroQOwYQQOKPJ8CIbE+1ETVlOoK1UC2nU3gYvg==}
@@ -5896,12 +5822,6 @@ packages:
 
   /murmurhash-js@1.0.0:
     resolution: {integrity: sha512-TvmkNhkv8yct0SVBSy+o8wYzXjE4Zz3PCesbfs8HiCXXdcTuocApFv11UWlNFWKYsP2okqrhb7JNlSm9InBhIw==}
-    dev: false
-
-  /nano-time@1.0.0:
-    resolution: {integrity: sha512-flnngywOoQ0lLQOTRNexn2gGSNuM9bKj9RZAWSzhQ+UJYaAFG9bac4DW9VHjUAzrOaIcajHybCTHe/bkvozQqA==}
-    dependencies:
-      big-integer: 1.6.51
     dev: false
 
   /nanoid@3.3.6:
@@ -6152,10 +6072,6 @@ packages:
       define-properties: 1.2.0
       es-abstract: 1.21.2
     dev: true
-
-  /oblivious-set@1.0.0:
-    resolution: {integrity: sha512-z+pI07qxo4c2CulUHCDf9lcqDlMSo72N/4rLUpRXf6fu+q8vjt8y0xS+Tlf8NTJDdTXHbdeO1n3MlbctwEoXZw==}
-    dev: false
 
   /once@1.4.0:
     resolution: {integrity: sha512-lNaJgI+2Q5URQBkccEKHTQOPaXdUxnZZElQTZY0MFUAuaEqe1E+Nyvgdz/aIyNi6Z9MzO5dv1H8n58/GELp3+w==}
@@ -6747,25 +6663,6 @@ packages:
       rollup: 2.79.1
     dev: false
 
-  /react-query@3.39.3(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-nLfLz7GiohKTJDuT4us4X3h/8unOh+00MLb2yJoGTPjxKs2bc1iDhkNx2bd5MKklXnOD3NrVZ+J2UXujA5In4g==}
-    peerDependencies:
-      react: ^16.8.0 || ^17.0.0 || ^18.0.0
-      react-dom: '*'
-      react-native: '*'
-    peerDependenciesMeta:
-      react-dom:
-        optional: true
-      react-native:
-        optional: true
-    dependencies:
-      '@babel/runtime': 7.21.0
-      broadcast-channel: 3.7.0
-      match-sorter: 6.3.1
-      react: 18.2.0
-      react-dom: 18.2.0(react@18.2.0)
-    dev: false
-
   /react-remove-scroll-bar@2.3.4(@types/react@18.0.25)(react@18.2.0):
     resolution: {integrity: sha512-63C4YQBUt0m6ALadE9XV56hV8BgJWDmmTPY758iIJjfQKt2nYwoUrPk0LXRXcB/yIj82T1/Ixfdpdk68LwIB0A==}
     engines: {node: '>=10'}
@@ -7032,10 +6929,6 @@ packages:
     engines: {node: '>=8'}
     dependencies:
       rc: 1.2.8
-    dev: false
-
-  /remove-accents@0.4.2:
-    resolution: {integrity: sha512-7pXIJqJOq5tFgG1A2Zxti3Ht8jJF337m4sowbuHsW30ZnkQFnDzy9qBNhgzX8ZLW4+UBcXiiR7SwR6pokHsxiA==}
     dev: false
 
   /repeat-string@1.6.1:
@@ -7798,65 +7691,65 @@ packages:
       tslib: 1.14.1
       typescript: 4.9.5
 
-  /turbo-darwin-64@1.8.6:
-    resolution: {integrity: sha512-VlXkQR0TEBAEyBRsvAXBax+fj1EdPKPliwBaCnRLiDUcA/8wYlKte/Kk6ubmj9E0n7U/B4keCxxHiJZqW/5Rqg==}
+  /turbo-darwin-64@1.8.8:
+    resolution: {integrity: sha512-18cSeIm7aeEvIxGyq7PVoFyEnPpWDM/0CpZvXKHpQ6qMTkfNt517qVqUTAwsIYqNS8xazcKAqkNbvU1V49n65Q==}
     cpu: [x64]
     os: [darwin]
     requiresBuild: true
     dev: false
     optional: true
 
-  /turbo-darwin-arm64@1.8.6:
-    resolution: {integrity: sha512-w4L2QLj90ex68UXxTPoqtZPl8mWzc6a1RtPjQhoxAWtZf9T2WXi813dCzYEbVUVC09/DOW/VxZRN7sb2r0KP9A==}
+  /turbo-darwin-arm64@1.8.8:
+    resolution: {integrity: sha512-ruGRI9nHxojIGLQv1TPgN7ud4HO4V8mFBwSgO6oDoZTNuk5ybWybItGR+yu6fni5vJoyMHXOYA2srnxvOc7hjQ==}
     cpu: [arm64]
     os: [darwin]
     requiresBuild: true
     dev: false
     optional: true
 
-  /turbo-linux-64@1.8.6:
-    resolution: {integrity: sha512-eV245jefIhMAZskqQKalFwreC5UEdQcuHcBiWcgUk0py76fbwB7+1HfH5cmeJlb3a1sB6f3H0HHmGPmb34feCA==}
+  /turbo-linux-64@1.8.8:
+    resolution: {integrity: sha512-N/GkHTHeIQogXB1/6ZWfxHx+ubYeb8Jlq3b/3jnU4zLucpZzTQ8XkXIAfJG/TL3Q7ON7xQ8yGOyGLhHL7MpFRg==}
     cpu: [x64]
     os: [linux]
     requiresBuild: true
     dev: false
     optional: true
 
-  /turbo-linux-arm64@1.8.6:
-    resolution: {integrity: sha512-Kiw3nyEvNU6Bpil4zE5FwhasPAOi59R4YdCmjJp0Sen6V9u+/Jij6SWwaoUdATORJLiYQBbhontWBH55B53VDw==}
+  /turbo-linux-arm64@1.8.8:
+    resolution: {integrity: sha512-hKqLbBHgUkYf2Ww8uBL9UYdBFQ5677a7QXdsFhONXoACbDUPvpK4BKlz3NN7G4NZ+g9dGju+OJJjQP0VXRHb5w==}
     cpu: [arm64]
     os: [linux]
     requiresBuild: true
     dev: false
     optional: true
 
-  /turbo-windows-64@1.8.6:
-    resolution: {integrity: sha512-34BkAG9r4nE00xeMeVahaF82h8R6SO+IIOcD60fNr2p+Ch+YcQa+DbEWA/KUj3coUTIiNP5XnRCLRUYADdlxjQ==}
+  /turbo-windows-64@1.8.8:
+    resolution: {integrity: sha512-2ndjDJyzkNslXxLt+PQuU21AHJWc8f6MnLypXy3KsN4EyX/uKKGZS0QJWz27PeHg0JS75PVvhfFV+L9t9i+Yyg==}
     cpu: [x64]
     os: [win32]
     requiresBuild: true
     dev: false
     optional: true
 
-  /turbo-windows-arm64@1.8.6:
-    resolution: {integrity: sha512-4jWUaI7Lmonp2I3x81GruiCYd0aQsG/xDOYhuv9+j2yIgB/UHJFz/P8PWp/nziwPtGpRd/AheDlPzzyd9lWoqw==}
+  /turbo-windows-arm64@1.8.8:
+    resolution: {integrity: sha512-xCA3oxgmW9OMqpI34AAmKfOVsfDljhD5YBwgs0ZDsn5h3kCHhC4x9W5dDk1oyQ4F5EXSH3xVym5/xl1J6WRpUg==}
     cpu: [arm64]
     os: [win32]
     requiresBuild: true
     dev: false
     optional: true
 
-  /turbo@1.8.6:
-    resolution: {integrity: sha512-6IOOaa8ytgjnSCTnp3LKAd2uGBZ/Kmx8ZPlI/YMWuKMUqvkXKLbh+w76ApMgMm+faUqti+QujVWovCu2kY6KuQ==}
+  /turbo@1.8.8:
+    resolution: {integrity: sha512-qYJ5NjoTX+591/x09KgsDOPVDUJfU9GoS+6jszQQlLp1AHrf1wRFA3Yps8U+/HTG03q0M4qouOfOLtRQP4QypA==}
     hasBin: true
     requiresBuild: true
     optionalDependencies:
-      turbo-darwin-64: 1.8.6
-      turbo-darwin-arm64: 1.8.6
-      turbo-linux-64: 1.8.6
-      turbo-linux-arm64: 1.8.6
-      turbo-windows-64: 1.8.6
-      turbo-windows-arm64: 1.8.6
+      turbo-darwin-64: 1.8.8
+      turbo-darwin-arm64: 1.8.8
+      turbo-linux-64: 1.8.8
+      turbo-linux-arm64: 1.8.8
+      turbo-windows-64: 1.8.8
+      turbo-windows-arm64: 1.8.8
     dev: false
 
   /type-check@0.3.2:
@@ -7939,13 +7832,6 @@ packages:
   /universalify@0.1.2:
     resolution: {integrity: sha512-rBJeI5CXAlmy1pV+617WB9J63U6XcazHHF2f2dbJix4XzpUF0RS3Zbj0FGIOCAva5P/d/GBOYaACQ1w+0azUkg==}
     engines: {node: '>= 4.0.0'}
-    dev: false
-
-  /unload@2.2.0:
-    resolution: {integrity: sha512-B60uB5TNBLtN6/LsgAf3udH9saB5p7gqJwcFfbOEZ8BcBHnGwCf6G/TGiEqkRAxX7zAFIUtzdrXQSdL3Q/wqNA==}
-    dependencies:
-      '@babel/runtime': 7.21.0
-      detect-node: 2.1.0
     dev: false
 
   /unzipper@0.10.11:
