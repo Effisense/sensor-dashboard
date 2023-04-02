@@ -25,7 +25,7 @@ const getAuthentication = async (req: NextRequest) => {
   };
 };
 
-const publicPaths = ["/sign-in*", "/sign-up*", "/scan"];
+const publicPaths = ["/", "/sign-in*", "/sign-up*", "/scan"];
 
 const adminPaths = ["/admin*"];
 
