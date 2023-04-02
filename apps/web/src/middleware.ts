@@ -8,6 +8,7 @@ import { isAdmin } from "@acme/api/src/lib/clerk";
 
 const publicPaths = ["/", "/sign-in*", "/sign-up*", "/scan"];
 
+
 const adminPaths = ["/admin*"];
 
 const isPublicPath = (path: string) => {
