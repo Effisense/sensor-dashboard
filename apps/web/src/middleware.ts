@@ -12,69 +12,69 @@ import { isAdmin } from "@acme/api/src/lib/clerk";
  * @param req is the Next.js request object
  * @returns the authentication state, including the user and organization.
  */
-const getAuthentication = async (req: NextRequest) => {
-  const { userId, orgId: organizationId } = getAuth(req);
-  const user = userId ? await clerkClient.users.getUser(userId) : null;
-  const organization = organizationId
-    ? await clerkClient.organizations.getOrganization({ organizationId })
-    : null;
+// const getAuthentication = async (req: NextRequest) => {
+//   const { userId, orgId: organizationId } = getAuth(req);
+//   const user = userId ? await clerkClient.users.getUser(userId) : null;
+//   const organization = organizationId
+//     ? await clerkClient.organizations.getOrganization({ organizationId })
+//     : null;
 
-  return {
-    user,
-    organization,
-  };
-};
+//   return {
+//     user,
+//     organization,
+//   };
+// };
 
-const publicPaths = ["/sign-in*", "/sign-up*", "/scan"];
+// const publicPaths = ["/sign-in*", "/sign-up*", "/scan"];
 
-const adminPaths = ["/admin*"];
+// const adminPaths = ["/admin*"];
 
-const isPublicPath = (path: string) => {
-  return publicPaths.find((x) =>
-    path.match(new RegExp(`^${x}$`.replace("*$", "($|/)"))),
-  );
-};
+// const isPublicPath = (path: string) => {
+//   return publicPaths.find((x) =>
+//     path.match(new RegExp(`^${x}$`.replace("*$", "($|/)"))),
+//   );
+// };
 
-const isAdminPath = (path: string) => {
-  return adminPaths.find((x) =>
-    path.match(new RegExp(`^${x}$`.replace("*$", "($|/)"))),
-  );
-};
+// const isAdminPath = (path: string) => {
+//   return adminPaths.find((x) =>
+//     path.match(new RegExp(`^${x}$`.replace("*$", "($|/)"))),
+//   );
+// };
 
-const isActivateOrganizationPath = (path: string) => {
-  return path === "/organizations/activate";
-};
+// const isActivateOrganizationPath = (path: string) => {
+//   return path === "/organizations/activate";
+// };
 
 export default withClerkMiddleware(async (req) => {
-  if (isPublicPath(req.nextUrl.pathname)) {
-    return NextResponse.next();
-  }
+  // if (isPublicPath(req.nextUrl.pathname)) {
+  //   return NextResponse.next();
+  // }
 
-  const { user, organization } = await getAuthentication(req);
+  // const { user, organization } = await getAuthentication(req);
 
-  if (!user) {
-    const signInUrl = new URL("/sign-in", req.url);
-    return NextResponse.redirect(signInUrl);
-  }
+  // if (!user) {
+  //   const signInUrl = new URL("/sign-in", req.url);
+  //   return NextResponse.redirect(signInUrl);
+  // }
 
-  if (isAdminPath(req.nextUrl.pathname) && !isAdmin(user)) {
-    const signInUrl = new URL("/sign-in", req.url);
-    return NextResponse.redirect(signInUrl);
-  }
+  // if (isAdminPath(req.nextUrl.pathname) && !isAdmin(user)) {
+  //   const signInUrl = new URL("/sign-in", req.url);
+  //   return NextResponse.redirect(signInUrl);
+  // }
 
-  if (!organization && isActivateOrganizationPath(req.nextUrl.pathname)) {
-    return NextResponse.next();
-  }
+  // if (!organization && isActivateOrganizationPath(req.nextUrl.pathname)) {
+  //   return NextResponse.next();
+  // }
 
-  if (organization && isActivateOrganizationPath(req.nextUrl.pathname)) {
-    const dashboardUrl = new URL("/", req.url);
-    return NextResponse.redirect(dashboardUrl);
-  }
+  // if (organization && isActivateOrganizationPath(req.nextUrl.pathname)) {
+  //   const dashboardUrl = new URL("/", req.url);
+  //   return NextResponse.redirect(dashboardUrl);
+  // }
 
-  if (!organization) {
-    const activateOrganizationUrl = new URL("/organizations/activate", req.url);
-    return NextResponse.redirect(activateOrganizationUrl);
-  }
+  // if (!organization) {
+  //   const activateOrganizationUrl = new URL("/organizations/activate", req.url);
+  //   return NextResponse.redirect(activateOrganizationUrl);
+  // }
 
   return NextResponse.next();
 });
