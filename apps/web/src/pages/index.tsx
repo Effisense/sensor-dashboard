@@ -7,6 +7,7 @@ import SensorPositionMap from "@/ui/Map";
 import { trpc } from "@/utils/trpc";
 import LoadingSpinner from "@/ui/LoadingSpinner";
 import { useEffect } from "react";
+import AllSensorsMap from "@/ui/AllSenorsMap";
 
 type IndexPageProps = InferGetServerSidePropsType<typeof getServerSideProps>;
 
@@ -32,6 +33,8 @@ const IndexPage = ({ userId }: IndexPageProps) => {
           </h1>
 
           <SensorPositionMap />
+
+          <AllSensorsMap/>
         </>
       )}
     </div>
