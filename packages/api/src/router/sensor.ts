@@ -223,6 +223,7 @@ export const sensorRouter = router({
       latitude: sensor.latitude,
       longitude: sensor.longitude,
       name: sensor.name,
+      location: sensor.location,
     }));
   }),
 

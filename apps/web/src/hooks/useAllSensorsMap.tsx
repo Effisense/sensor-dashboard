@@ -3,6 +3,7 @@ import useGeoLocation from "./useGeolocation";
 import { Marker, MarkerOptions } from "mapbox-gl";
 import { mapbox, MapboxMap } from "@acme/mapbox";
 import { trpc } from "@/utils/trpc";
+import mapboxgl from "mapbox-gl";
 
 const useAllSensorsMap = () => {
   const container = useRef<HTMLDivElement>(null);
@@ -34,19 +35,21 @@ const useAllSensorsMap = () => {
       zoom: 10,
     });
 
-const onMapLoad = () => {
-        //creates a marker for each location of the sensors in the db
-        const markers = sensors.map((sensor) => {
-          return (options: MarkerOptions) =>
-            new Marker({ ...options, color: "green" })
-              .setLngLat([sensor.longitude, sensor.latitude])
-              .addTo(map.current!);
-        });
-    
-        //set markers to state
-        setSensorMarkers(markers);
-      };
-    
+    const onMapLoad = () => {
+      //creates a marker for each location of the sensors in the db
+      const markers = sensors.map((sensor) => {
+        // create the popup
+        const popup = new mapboxgl.Popup({ offset: 25 }).setHTML(`<b>${sensor.name}</b><p>${sensor.location}</p>`).setMaxWidth('210px');
+        return (options: MarkerOptions) =>
+          new Marker({ ...options, color: "green"})
+            .setPopup(popup)
+            .setLngLat([sensor.longitude, sensor.latitude])
+            .addTo(map.current!);
+      });
+  
+      //set markers to state
+      setSensorMarkers(markers);
+    };
       map.current.on("load", onMapLoad);
     
       return () => {
