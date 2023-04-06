@@ -1,5 +1,5 @@
 import useErrorToast from "@/hooks/toast/useErrorToast";
-import useAllSensorsMap from "@/hooks/useAllSensorsMap";
+import useAllSensorsMap from "@/hooks/map/useAllSensorsMap";
 import LoadingSpinner from "../LoadingSpinner";
 import Subtle from "../typography/Subtle";
 

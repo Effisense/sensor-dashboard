@@ -1,11 +1,23 @@
 import useErrorToast from "@/hooks/toast/useErrorToast";
-import useMap from "@/hooks/useMap";
 import LoadingSpinner from "../LoadingSpinner";
 import Subtle from "../typography/Subtle";
+import { MutableRefObject } from "react";
+import { TRPCClientErrorBase } from "@trpc/client";
+import { DefaultErrorShape } from "@trpc/server";
 
-const SetSensorPositionMap = () => {
-  const { container, data, isLoading, error } = useMap();
+type SetSensorPositionMapProps<T extends DefaultErrorShape> = {
+  container: MutableRefObject<null>;
+  location?: string;
+  isLoading: boolean;
+  error: TRPCClientErrorBase<T> | null;
+};
 
+const SetSensorPositionMap = <T extends DefaultErrorShape>({
+  container,
+  location,
+  isLoading,
+  error,
+}: SetSensorPositionMapProps<T>) => {
   useErrorToast({ error });
 
   return (
@@ -19,9 +31,9 @@ const SetSensorPositionMap = () => {
             <LoadingSpinner />
           </div>
         )}
-        {!isLoading && !error && !!data && (
+        {!isLoading && !error && !!location && (
           <div className="flex items-center justify-center">
-            <Subtle>{data}</Subtle>
+            <Subtle>{location}</Subtle>
           </div>
         )}
       </div>
