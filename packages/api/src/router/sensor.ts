@@ -71,7 +71,7 @@ export const sensorRouter = router({
             id: containerId,
           },
         })
-        .then((container: any) => !!container)
+        .then((container) => !!container)
         .catch(() => false);
 
       if (!containerExists) {
@@ -161,19 +161,6 @@ export const sensorRouter = router({
         });
       }
 
-      const sensorLocations = await ctx.prisma.sensor.findMany({
-        select: {
-          latitude: true,
-          longitude: true,
-        },
-      });
-      if (sensorLocations.length === 0) {
-        throw new TRPCError({
-          code: "BAD_REQUEST",
-          message: "Locations not found",
-        });
-      }
-
       const container = await ctx.prisma.container.findUnique({
         where: {
           id: sensor.containerId || undefined,
@@ -212,19 +199,11 @@ export const sensorRouter = router({
       });
     }
 
-    const sensors = await ctx.prisma.sensor.findMany({
+    return await ctx.prisma.sensor.findMany({
       where: {
         organizationId: ctx.auth.organizationId,
       },
     });
-
-    return sensors.map((sensor) => ({
-      id: sensor.id,
-      latitude: sensor.latitude,
-      longitude: sensor.longitude,
-      name: sensor.name,
-      location: sensor.location,
-    }));
   }),
 
   update: protectedProcedure
