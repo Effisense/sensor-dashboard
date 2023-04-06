@@ -3,11 +3,11 @@ import type {
   InferGetServerSidePropsType,
 } from "next";
 import { getAuth } from "@clerk/nextjs/server";
-import SensorPositionMap from "@/ui/Map";
+import SetSensorPositionMap from "@/ui/map/SetSensorPositionMap";
 import { trpc } from "@/utils/trpc";
 import LoadingSpinner from "@/ui/LoadingSpinner";
 import { useEffect } from "react";
-import AllSensorsMap from "@/ui/AllSenorsMap";
+import AllSensorsMap from "@/ui/map/AllSensorsMap";
 
 type IndexPageProps = InferGetServerSidePropsType<typeof getServerSideProps>;
 
@@ -32,9 +32,9 @@ const IndexPage = ({ userId }: IndexPageProps) => {
             Dashboard
           </h1>
 
-          <SensorPositionMap />
+          <SetSensorPositionMap />
 
-          <AllSensorsMap/>
+          <AllSensorsMap />
         </>
       )}
     </div>

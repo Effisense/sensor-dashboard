@@ -5,7 +5,7 @@ import SelectContainerDropdown from "@/ui/containers/SelectContainerDropdown";
 import FormInput from "@/ui/FormInput";
 import FormTextarea from "@/ui/FormTextarea";
 import LoadingSpinner from "@/ui/LoadingSpinner";
-import SensorPositionMap from "@/ui/Map";
+import SetSensorPositionMap from "@/ui/map/SetSensorPositionMap";
 import H1 from "@/ui/typography/H1";
 import Subtle from "@/ui/typography/Subtle";
 import { trpc } from "@/utils/trpc";
@@ -100,7 +100,7 @@ const UpdateSensorPage = ({ id }: UpdateSensorPageProps) => {
               defaultValue={data?.sensor.longitude}
             />
 
-            <SensorPositionMap />
+            <SetSensorPositionMap />
 
             <Button variant="default" type="submit" className="w-3/4">
               Update sensor

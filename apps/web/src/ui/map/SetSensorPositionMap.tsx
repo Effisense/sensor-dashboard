@@ -1,9 +1,9 @@
 import useErrorToast from "@/hooks/toast/useErrorToast";
 import useMap from "@/hooks/useMap";
-import LoadingSpinner from "./LoadingSpinner";
-import Subtle from "./typography/Subtle";
+import LoadingSpinner from "../LoadingSpinner";
+import Subtle from "../typography/Subtle";
 
-const SensorPositionMap = () => {
+const SetSensorPositionMap = () => {
   const { container, data, isLoading, error } = useMap();
 
   useErrorToast({ error });
@@ -29,4 +29,4 @@ const SensorPositionMap = () => {
   );
 };
 
-export default SensorPositionMap;
+export default SetSensorPositionMap;

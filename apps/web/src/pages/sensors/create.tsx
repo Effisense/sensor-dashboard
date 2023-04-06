@@ -1,7 +1,7 @@
 import { getAuth } from "@clerk/nextjs/server";
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 import { Button } from "../../ui/Button";
-import SensorPositionMap from "@/ui/Map";
+import SetSensorPositionMap from "@/ui/map/SetSensorPositionMap";
 import H1 from "@/ui/typography/H1";
 import useCreateSensorForm from "@/hooks/forms/useCreateSensorForm";
 import FormInput from "@/ui/FormInput";
@@ -78,7 +78,7 @@ const CreateSensorPage = ({
           valueAsNumber
         />
 
-        <SensorPositionMap />
+        <SetSensorPositionMap />
 
         <Button variant="default" type="submit" className="w-3/4">
           Add sensor
