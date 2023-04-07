@@ -1,7 +1,7 @@
 import { getAuth } from "@clerk/nextjs/server";
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 import { Button } from "../../ui/Button";
-import SensorPositionMap from "@/ui/Map";
+import SetSensorPositionMap from "@/ui/map/SetSensorPositionMap";
 import H1 from "@/ui/typography/H1";
 import useCreateSensorForm from "@/hooks/forms/useCreateSensorForm";
 import FormInput from "@/ui/FormInput";
@@ -14,6 +14,7 @@ import {
 } from "@acme/api/src/schemas/sensor";
 import { sensorBelongsToCollection as _sensorBelongsToCollection } from "@acme/api/src/utils/sensor";
 import urlWithQueryParameters from "@/utils/urlWithQueryParameters";
+import useSetSensorPositionMap from "@/hooks/map/useSetSensorPositionMap";
 
 type CreateSensorPageProps = InferGetServerSidePropsType<
   typeof getServerSideProps
@@ -24,13 +25,23 @@ const CreateSensorPage = ({
   collectionId,
 }: CreateSensorPageProps) => {
   const {
+    container,
+    data: location,
+    isLoading: mapIsLoading,
+    latitude,
+    longitude,
+    error,
+  } = useSetSensorPositionMap();
+
+  const {
     register,
     onSubmit,
     handleSubmit,
     errors,
     containerId,
     setContainerId,
-  } = useCreateSensorForm({ sensorId, collectionId });
+  } = useCreateSensorForm({ sensorId, collectionId, latitude, longitude });
+
   const { data, isLoading } = trpc.container.getAll.useQuery();
 
   return (
@@ -62,23 +73,12 @@ const CreateSensorPage = ({
           isLoading={isLoading}
         />
 
-        <FormInput
-          register={register}
-          id="latitude"
-          label="Latitude"
-          errorMessage={errors.latitude?.message}
-          valueAsNumber
+        <SetSensorPositionMap
+          container={container}
+          location={location}
+          error={error}
+          isLoading={mapIsLoading}
         />
-
-        <FormInput
-          register={register}
-          id="longitude"
-          label="Longitude"
-          errorMessage={errors.longitude?.message}
-          valueAsNumber
-        />
-
-        <SensorPositionMap />
 
         <Button variant="default" type="submit" className="w-3/4">
           Add sensor

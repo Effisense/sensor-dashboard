@@ -15,6 +15,8 @@ const UpdateSensorFormSchema = UpdateSensorSchema.omit({
 
 type UpdateSensorFormProps = {
   id: string;
+  latitude?: number;
+  longitude?: number;
 };
 
 /**
@@ -22,7 +24,11 @@ type UpdateSensorFormProps = {
  *
  * @returns all objects and handlers needed to update a sensor.
  */
-const useUpdateSensorForm = ({ id }: UpdateSensorFormProps) => {
+const useUpdateSensorForm = ({
+  id,
+  latitude,
+  longitude,
+}: UpdateSensorFormProps) => {
   const { toast } = useToast();
   const { mutateAsync } = trpc.sensor.update.useMutation({
     onSuccess: () => {
@@ -63,6 +69,16 @@ const useUpdateSensorForm = ({ id }: UpdateSensorFormProps) => {
     if (!containerId) return;
     setValue("containerId", containerId);
   }, [containerId, setValue]);
+
+  useEffect(() => {
+    if (!latitude) return;
+    setValue("latitude", latitude);
+  }, [latitude, setValue]);
+
+  useEffect(() => {
+    if (!longitude) return;
+    setValue("longitude", longitude);
+  }, [longitude, setValue]);
 
   return {
     register,

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import useGeoLocation from "./useGeolocation";
+import useGeoLocation from "../useGeolocation";
 import { mapbox, MapboxMap, MapboxMarker } from "@acme/mapbox";
 import { trpc } from "@/utils/trpc";
 
@@ -8,7 +8,7 @@ import { trpc } from "@/utils/trpc";
  *
  * @returns the `ref` to the map container. This is used to render the map, for instance in a `div` element: `<div ref={container} />`.
  */
-const useMap = () => {
+const useSetSensorPositionMap = () => {
   const container = useRef(null);
   const { latitude, longitude } = useGeoLocation();
   const map = useRef<mapbox.Map | null>(null);
@@ -81,9 +81,11 @@ const useMap = () => {
   return {
     container,
     data,
+    latitude: sensorMarker?.getLngLat().lat,
+    longitude: sensorMarker?.getLngLat().lng,
     isLoading,
     error,
   };
 };
 
-export default useMap;
+export default useSetSensorPositionMap;

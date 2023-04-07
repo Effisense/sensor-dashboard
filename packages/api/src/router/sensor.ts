@@ -180,6 +180,32 @@ export const sensorRouter = router({
       };
     }),
 
+  getAll: protectedProcedure.query(async ({ ctx }) => {
+    if (!ctx.auth.organizationId) {
+      throw new TRPCError({
+        code: "BAD_REQUEST",
+        message: "Organization not found",
+      });
+    }
+
+    const isMemberOfOrganization = await userIsMemberOfOrganization(
+      ctx.auth.user?.id,
+      ctx.auth.organizationId,
+    );
+    if (!isMemberOfOrganization) {
+      throw new TRPCError({
+        code: "BAD_REQUEST",
+        message: "You are not part of this organization",
+      });
+    }
+
+    return await ctx.prisma.sensor.findMany({
+      where: {
+        organizationId: ctx.auth.organizationId,
+      },
+    });
+  }),
+
   update: protectedProcedure
     .input(UpdateSensorSchema)
     .mutation(async ({ ctx, input }) => {

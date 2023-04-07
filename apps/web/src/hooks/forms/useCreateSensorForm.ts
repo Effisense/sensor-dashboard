@@ -8,6 +8,8 @@ import useZodForm from "../useZodForm";
 type CreateSensorFormProps = {
   sensorId: string;
   collectionId: string;
+  latitude?: number;
+  longitude?: number;
 };
 
 /**
@@ -18,6 +20,8 @@ type CreateSensorFormProps = {
 const useCreateSensorForm = ({
   sensorId,
   collectionId,
+  latitude,
+  longitude,
 }: CreateSensorFormProps) => {
   const { mutateAsync } = trpc.sensor.create.useMutation({
     onSuccess: () => {
@@ -60,6 +64,16 @@ const useCreateSensorForm = ({
     if (!containerId) return;
     setValue("containerId", containerId);
   }, [containerId, setValue]);
+
+  useEffect(() => {
+    if (!latitude) return;
+    setValue("latitude", latitude);
+  }, [latitude, setValue]);
+
+  useEffect(() => {
+    if (!longitude) return;
+    setValue("longitude", longitude);
+  }, [longitude, setValue]);
 
   return {
     register,
