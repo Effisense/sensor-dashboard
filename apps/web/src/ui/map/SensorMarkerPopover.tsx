@@ -1,6 +1,7 @@
-import { Popover, PopoverProps } from "@radix-ui/react-popover";
+import { PopoverProps } from "@radix-ui/react-popover";
 import P from "../typography/P";
 import Subtle from "../typography/Subtle";
+import { Popover } from "../Popover";
 
 type SensorMarkerPopoverProps = PopoverProps & {
   title: string;
