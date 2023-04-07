@@ -38,13 +38,10 @@ const useScanSensor = () => {
    * @param data is the raw data of the QR code, which can be any string in any format.
    */
   const handleScan = (data: string) => {
-    console.log("handle scan is run");
     try {
       const payload = SpanApiPayloadSchema.parse(JSON.parse(data));
       setPayload(payload);
       refetch();
-
-      console.log("refetch is run");
     } catch (e) {
       toast({
         title: "Oops!",
@@ -56,6 +53,8 @@ const useScanSensor = () => {
 
   useEffect(() => {
     console.log("useEffect is run");
+    console.log("sensorBelongsToCollection", sensorBelongsToCollection);
+    console.log("payload", payload);
     if (sensorBelongsToCollection && payload) {
       console.log("sensorBelongsToCollection && payload is true");
 
