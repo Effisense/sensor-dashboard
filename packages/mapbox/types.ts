@@ -57,5 +57,6 @@ export interface MarkerOptions extends mapboxgl.MarkerOptions {
   latitude: number;
   longitude: number;
   addTo: mapboxgl.Map;
+  color?: string;
   isCenter?: boolean;
 }

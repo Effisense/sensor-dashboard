@@ -26,9 +26,14 @@ export const MapboxMap = ({ container, style, center, zoom }: MapOptions) =>
     .addControl(new mapboxgl.GeolocateControl())
     .addControl(MapboxGeocoder, "top-left");
 
-export const MapboxMarker = ({ latitude, longitude, addTo }: MarkerOptions) =>
+export const MapboxMarker = ({
+  latitude,
+  longitude,
+  addTo,
+  color,
+}: MarkerOptions) =>
   new mapboxgl.Marker({
-    color: green[500],
+    color: color || green[500],
   })
     .setLngLat({
       lat: latitude,

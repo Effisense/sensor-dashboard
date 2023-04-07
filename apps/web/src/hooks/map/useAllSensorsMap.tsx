@@ -1,17 +1,17 @@
 import { useEffect, useRef, useState } from "react";
 import useGeoLocation from "../useGeolocation";
-import { Marker, MarkerOptions } from "mapbox-gl";
-import { mapbox, MapboxMap } from "@acme/mapbox";
+import { mapbox, MapboxMap, MapboxMarker } from "@acme/mapbox";
 import { trpc } from "@/utils/trpc";
 import mapboxgl from "mapbox-gl";
+import { slate } from "tailwindcss/colors";
 
 const useAllSensorsMap = () => {
   const container = useRef<HTMLDivElement>(null);
   const { latitude, longitude } = useGeoLocation();
   const map = useRef<mapbox.Map | null>(null);
-  const [sensorMarkers, setSensorMarkers] = useState<
-    ((options: MarkerOptions) => Marker)[]
-  >([]);
+  const [sensorMarkers, setSensorMarkers] = useState<(mapbox.Marker | null)[]>(
+    [],
+  );
 
   const {
     data: sensors,
@@ -40,20 +40,22 @@ const useAllSensorsMap = () => {
     });
 
     const onMapLoad = () => {
-      //creates a marker for each location of the sensors in the db
       const markers = sensors.map((sensor) => {
-        // create the popup
+        if (!map.current) return null;
+
+        // TODO: Can we use shadcn's popup component here?
         const popup = new mapboxgl.Popup({ offset: 25 })
           .setHTML(`<b>${sensor.name}</b><p>${sensor.location}</p>`)
           .setMaxWidth("210px");
-        return (options: MarkerOptions) =>
-          new Marker({ ...options, color: "green" })
-            .setPopup(popup)
-            .setLngLat([sensor.longitude, sensor.latitude])
-            .addTo(map.current!);
+
+        return MapboxMarker({
+          latitude: sensor.latitude,
+          longitude: sensor.longitude,
+          color: slate["400"],
+          addTo: map.current,
+        }).setPopup(popup);
       });
 
-      //set markers to state
       setSensorMarkers(markers);
     };
     map.current.on("load", onMapLoad);
@@ -65,7 +67,7 @@ const useAllSensorsMap = () => {
     };
   }, [longitude, latitude, sensors]);
 
-  // useEffect hook that updates the position of the markers when the map is moved
+  // Updates the position of the markers when the map is moved
   useEffect(() => {
     if (!map.current) {
       return;
@@ -77,12 +79,14 @@ const useAllSensorsMap = () => {
       }
 
       sensorMarkers.forEach((marker) => {
-        const { lng, lat } = marker({}).getLngLat();
-        marker({}).setLngLat([lng, lat]);
+        if (!marker) return;
+        const { lng, lat } = marker.getLngLat();
+        marker.setLngLat({ lng, lat });
       });
     };
 
     map.current.on("move", onMove);
+
     return () => {
       if (map.current) {
         map.current.off("move", onMove);
