@@ -8,6 +8,7 @@ import { GetServerSidePropsContext } from "next";
 const ScanPage = () => {
   const { handleScan } = useScanSensor();
 
+
   return (
     <div className="w-full">
       <div className="flex flex-col items-center justify-center py-8">
