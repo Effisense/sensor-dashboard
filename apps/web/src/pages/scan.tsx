@@ -18,8 +18,6 @@ const ScanPage = () => {
       <div className="mx-auto w-11/12 md:w-3/4 lg:w-1/2">
         <QrReader
           onResult={(result) => {
-            console.log(result);
-
             if (!!result) {
               handleScan(result.getText());
             }
