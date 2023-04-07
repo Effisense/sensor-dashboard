@@ -5,9 +5,9 @@ import LogoLink from "../LogoLink";
 import { UserButton, useAuth } from "@clerk/nextjs";
 import OrganizationSwitcher from "../OrganizationSwitcher";
 import LoadingSpinner from "../LoadingSpinner";
-import { useRouter } from "next/router";
 import navigation from "@/lib/navigation";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 const MobileNavigation = () => {
   const { isSignedIn, isLoaded } = useAuth();
