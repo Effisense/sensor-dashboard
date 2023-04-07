@@ -3,9 +3,12 @@ import useGeoLocation from "../useGeolocation";
 import { mapbox, MapboxMap, MapboxMarker, MapboxPopup } from "@acme/mapbox";
 import { trpc } from "@/utils/trpc";
 import { slate } from "tailwindcss/colors";
+import SensorMarkerPopover from "@/ui/map/SensorMarkerPopover";
+import ReactDOM from "react-dom";
 
 const useAllSensorsMap = () => {
   const container = useRef<HTMLDivElement>(null);
+  const popups = useRef<(mapbox.Popup | null)[]>([]);
   const { latitude, longitude } = useGeoLocation();
   const map = useRef<mapbox.Map | null>(null);
   const [sensorMarkers, setSensorMarkers] = useState<(mapbox.Marker | null)[]>(
@@ -42,10 +45,13 @@ const useAllSensorsMap = () => {
       const markers = sensors.map((sensor) => {
         if (!map.current) return null;
 
-        // TODO: Can we use shadcn's popup component here?
-        const popup = MapboxPopup({
-          html: `<b>${sensor.name}</b><p>${sensor.location}</p>`,
-        });
+        // Render custom popup content
+        const popupNode = document.createElement("div");
+        ReactDOM.render(
+          <SensorMarkerPopover title={sensor.name} content={sensor.location} />,
+          popupNode,
+        );
+        const popup = MapboxPopup({ html: popupNode });
 
         return MapboxMarker({
           latitude: sensor.latitude,

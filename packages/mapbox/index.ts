@@ -51,7 +51,7 @@ export const MapboxPopup = ({ html }: PopupOptions) =>
     closeOnMove: true,
     closeButton: false,
     offset: 25,
-  }).setHTML(html);
+  }).setHTML(html.innerHTML);
 
 export const getLocationFromLngLat = async ({
   longitude,

@@ -62,5 +62,5 @@ export interface MarkerOptions extends mapboxgl.MarkerOptions {
 }
 
 export interface PopupOptions extends mapboxgl.PopupOptions {
-  html: string;
+  html: HTMLElement;
 }
