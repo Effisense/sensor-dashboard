@@ -26,7 +26,7 @@ const MobileNavigation = () => {
           </Button>
         </SheetTrigger>
         <SheetContent className="flex w-10/12 flex-col items-center justify-center">
-          <div className="my-4 flex flex-col items-center gap-y-2">
+          <div className="my-8 flex flex-col items-center gap-y-2">
             {navigation.map((item, i) => {
               const active = router.pathname === item.href;
               return (
@@ -39,8 +39,8 @@ const MobileNavigation = () => {
             })}
           </div>
 
-          <SheetFooter>
-            <div className="flex items-center justify-center">
+          <SheetFooter className="flex-1">
+            <div className="flex items-end justify-center">
               {!isLoaded && (
                 <div className="flex flex-col items-center justify-center">
                   <LoadingSpinner />
