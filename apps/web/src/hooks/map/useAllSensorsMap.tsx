@@ -1,8 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import useGeoLocation from "../useGeolocation";
-import { mapbox, MapboxMap, MapboxMarker } from "@acme/mapbox";
+import { mapbox, MapboxMap, MapboxMarker, MapboxPopup } from "@acme/mapbox";
 import { trpc } from "@/utils/trpc";
-import mapboxgl from "mapbox-gl";
 import { slate } from "tailwindcss/colors";
 
 const useAllSensorsMap = () => {
@@ -44,9 +43,9 @@ const useAllSensorsMap = () => {
         if (!map.current) return null;
 
         // TODO: Can we use shadcn's popup component here?
-        const popup = new mapboxgl.Popup({ offset: 25 })
-          .setHTML(`<b>${sensor.name}</b><p>${sensor.location}</p>`)
-          .setMaxWidth("210px");
+        const popup = MapboxPopup({
+          html: `<b>${sensor.name}</b><p>${sensor.location}</p>`,
+        });
 
         return MapboxMarker({
           latitude: sensor.latitude,

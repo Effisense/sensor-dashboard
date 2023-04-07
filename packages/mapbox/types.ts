@@ -60,3 +60,7 @@ export interface MarkerOptions extends mapboxgl.MarkerOptions {
   color?: string;
   isCenter?: boolean;
 }
+
+export interface PopupOptions extends mapboxgl.PopupOptions {
+  html: string;
+}
