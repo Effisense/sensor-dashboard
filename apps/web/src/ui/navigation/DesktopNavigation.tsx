@@ -4,23 +4,18 @@ import {
   NavigationMenuList,
 } from "@/ui/NavigationMenu";
 import { useAuth, UserButton } from "@clerk/nextjs";
-import { Button } from "./Button";
-import OrganizationSwitcher from "./OrganizationSwitcher";
+import { Button } from "../Button";
+import OrganizationSwitcher from "../OrganizationSwitcher";
 import Link from "next/link";
-import Logo from "./Logo";
-import LoadingSpinner from "./LoadingSpinner";
+import LoadingSpinner from "../LoadingSpinner";
+import LogoLink from "../LogoLink";
 
-const Navigation = () => {
+const DesktopNavigation = () => {
   const { isSignedIn, isLoaded } = useAuth();
   return (
-    <NavigationMenu>
-      {/* Left part of navigation, with logo */}
+    <NavigationMenu className="hidden md:flex">
       <div className="flex items-center justify-start">
-        <Link href="/">
-          <div className="h-10 drop-shadow-md transition-all duration-300 hover:drop-shadow-lg">
-            <Logo />
-          </div>
-        </Link>
+        <LogoLink />
       </div>
 
       {isSignedIn && (
@@ -67,4 +62,4 @@ const Navigation = () => {
     </NavigationMenu>
   );
 };
-export default Navigation;
+export default DesktopNavigation;
