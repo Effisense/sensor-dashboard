@@ -1,4 +1,5 @@
 import useUpdateSensorForm from "@/hooks/forms/useUpdateSensorForm";
+import useSetSensorPositionMap from "@/hooks/map/useSetSensorPositionMap";
 import useGetSensor from "@/hooks/queries/useGetSensor";
 import { Button } from "@/ui/Button";
 import SelectContainerDropdown from "@/ui/containers/SelectContainerDropdown";
@@ -17,6 +18,15 @@ type UpdateSensorPageProps = InferGetServerSidePropsType<
 
 const UpdateSensorPage = ({ id }: UpdateSensorPageProps) => {
   const {
+    container,
+    data: location,
+    isLoading: mapIsLoading,
+    latitude,
+    longitude,
+    error: mapError,
+  } = useSetSensorPositionMap();
+
+  const {
     register,
     onSubmit,
     handleSubmit,
@@ -25,6 +35,8 @@ const UpdateSensorPage = ({ id }: UpdateSensorPageProps) => {
     setContainerId,
   } = useUpdateSensorForm({
     id,
+    latitude,
+    longitude,
   });
   const {
     data,
@@ -100,7 +112,12 @@ const UpdateSensorPage = ({ id }: UpdateSensorPageProps) => {
               defaultValue={data?.sensor.longitude}
             />
 
-            <SetSensorPositionMap />
+            <SetSensorPositionMap
+              container={container}
+              location={location}
+              error={mapError}
+              isLoading={mapIsLoading}
+            />
 
             <Button variant="default" type="submit" className="w-3/4">
               Update sensor
