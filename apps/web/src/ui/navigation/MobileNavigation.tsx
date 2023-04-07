@@ -1,4 +1,3 @@
-import { MenuIcon } from "lucide-react";
 import { Button } from "../Button";
 import { SheetTrigger, SheetContent, Sheet, SheetFooter } from "../Sheet";
 import LogoLink from "../LogoLink";
@@ -8,6 +7,7 @@ import LoadingSpinner from "../LoadingSpinner";
 import navigation from "@/lib/navigation";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { Bars3Icon } from "@heroicons/react/24/solid";
 
 const MobileNavigation = () => {
   const { isSignedIn, isLoaded } = useAuth();
@@ -22,7 +22,7 @@ const MobileNavigation = () => {
       <Sheet>
         <SheetTrigger asChild>
           <Button variant="outline">
-            <MenuIcon className="w-4" />
+            <Bars3Icon className="w-4" />
           </Button>
         </SheetTrigger>
         <SheetContent className="flex w-10/12 flex-col items-center justify-center">
@@ -41,7 +41,12 @@ const MobileNavigation = () => {
 
           <SheetFooter>
             <div className="flex items-center justify-center">
-              {!isLoaded && <LoadingSpinner />}
+              {!isLoaded && (
+                <div className="flex flex-col items-center justify-center">
+                  <LoadingSpinner />
+                  <span>Loading organization...</span>
+                </div>
+              )}
               {isSignedIn && (
                 <div className="flex items-center justify-center">
                   <OrganizationSwitcher />

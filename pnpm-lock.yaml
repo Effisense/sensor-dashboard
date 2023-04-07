@@ -109,15 +109,9 @@ importers:
       dotenv-cli:
         specifier: ^6.0.0
         version: 6.0.0
-      heroicons:
-        specifier: 1.0.6
-        version: 1.0.6
       kysely:
         specifier: ^0.23.5
         version: 0.23.5
-      lucide-react:
-        specifier: ^0.115.0
-        version: 0.115.0(react@18.2.0)
       mapbox-gl:
         specifier: ^2.13.0
         version: 2.13.0
@@ -4947,10 +4941,6 @@ packages:
     dependencies:
       function-bind: 1.1.1
 
-  /heroicons@1.0.6:
-    resolution: {integrity: sha512-5bxTsG2hyNBF0l+BrFlZlR5YngQNMfl0ggJjIRkMSADBQbaZMoTg47OIQzq6f1mpEZ85HEIgSC4wt5AeFM9J2Q==}
-    dev: false
-
   /hoist-non-react-statics@3.3.2:
     resolution: {integrity: sha512-/gGivxi8JPKWNm/W0jSmzcMPpfpPLc3dY/6GxhX2hQ9iGj3aDfklV4ET7NjKpSinLpJ5vafa9iiGIEZg10SfBw==}
     dependencies:
@@ -5696,14 +5686,6 @@ packages:
 
   /lru_map@0.3.3:
     resolution: {integrity: sha512-Pn9cox5CsMYngeDbmChANltQl+5pi6XmTrraMSzhPmMBbmgcxmqWry0U3PGapCU1yB4/LqCcom7qhHZiF/jGfQ==}
-    dev: false
-
-  /lucide-react@0.115.0(react@18.2.0):
-    resolution: {integrity: sha512-VGL7jBKN6pEXi6peXoyn9t9O7olvinaAonnoe+iFi/F2q7/yQzAFM5KR1OY15u9PlrB3scI9HvcTFoOrIjUaVQ==}
-    peerDependencies:
-      react: ^16.5.1 || ^17.0.0 || ^18.0.0
-    dependencies:
-      react: 18.2.0
     dev: false
 
   /magic-string@0.27.0:

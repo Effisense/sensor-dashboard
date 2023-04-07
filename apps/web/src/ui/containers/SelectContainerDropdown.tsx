@@ -8,7 +8,7 @@ import {
   DropdownMenuItem,
 } from "@/ui/DropdownMenu";
 import { Label } from "@radix-ui/react-label";
-import { ChevronDown, Plus } from "lucide-react";
+import { ChevronDownIcon, PlusIcon } from "@heroicons/react/24/outline";
 import { Dispatch, SetStateAction } from "react";
 import { Button } from "../Button";
 import { DropdownMenuHeading } from "../DropdownMenu";
@@ -43,7 +43,7 @@ const SelectContainerDropdown = ({
           <Button variant="default">
             <div className="flex items-center justify-center">
               <span>{selectedContainer?.name || "Select container"}</span>
-              <ChevronDown className="ml-2 w-4" />
+              <ChevronDownIcon className="ml-2 w-4" />
             </div>
           </Button>
         </DropdownMenuTrigger>
@@ -88,7 +88,7 @@ const SelectContainerDropdown = ({
               }}
             >
               <div className="flex items-start justify-center">
-                <Plus className="mr-2 w-4" />
+                <PlusIcon className="mr-2 w-4" />
                 <span>Add new container</span>
               </div>
             </Link>
