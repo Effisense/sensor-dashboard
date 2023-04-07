@@ -8,10 +8,16 @@ import navigation from "@/lib/navigation";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { Bars3Icon } from "@heroicons/react/24/solid";
+import { useEffect, useState } from "react";
 
 const MobileNavigation = () => {
   const { isSignedIn, isLoaded } = useAuth();
   const router = useRouter();
+  const [isOpen, setIsOpen] = useState(false);
+
+  useEffect(() => {
+    router.events.on("routeChangeComplete", () => setIsOpen(false));
+  }, [isOpen, router]);
 
   return (
     <div className="flex h-20 items-center justify-between p-4 md:hidden">
@@ -19,14 +25,19 @@ const MobileNavigation = () => {
         <LogoLink />
       </div>
 
-      <Sheet>
+      <Sheet
+        open={isOpen}
+        onOpenChange={() => {
+          setIsOpen(!isOpen);
+        }}
+      >
         <SheetTrigger asChild>
           <Button variant="outline">
             <Bars3Icon className="w-4" />
           </Button>
         </SheetTrigger>
         <SheetContent className="flex w-10/12 flex-col items-center justify-center">
-          <div className="my-8 flex flex-col items-center gap-y-2">
+          <div className="my-8 flex flex-col items-center gap-y-4">
             {navigation.map((item, i) => {
               const active = router.pathname === item.href;
               return (
