@@ -9,6 +9,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { Bars3Icon } from "@heroicons/react/24/solid";
 import { useEffect, useState } from "react";
+import { MD_IN_PIXELS } from "@/utils/tailwind";
 
 const MobileNavigation = () => {
   const { isSignedIn, isLoaded } = useAuth();
@@ -18,6 +19,17 @@ const MobileNavigation = () => {
   useEffect(() => {
     router.events.on("routeChangeComplete", () => setIsOpen(false));
   }, [isOpen, router]);
+
+  useEffect(() => {
+    // Close the sheet if viewport is resized to desktop
+    const handleResize = () => {
+      if (window.innerWidth > MD_IN_PIXELS) {
+        setIsOpen(false);
+      }
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  });
 
   return (
     <div className="flex h-20 items-center justify-between p-4 md:hidden">
