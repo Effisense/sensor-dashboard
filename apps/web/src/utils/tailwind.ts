@@ -25,3 +25,5 @@ export const severityToTailwindColor = (severity?: Severity) => {
       return slate["100"];
   }
 };
+
+export const MD_IN_PIXELS = 768;

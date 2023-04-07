@@ -4,38 +4,39 @@ import {
   NavigationMenuList,
 } from "@/ui/NavigationMenu";
 import { useAuth, UserButton } from "@clerk/nextjs";
-import { Button } from "./Button";
-import OrganizationSwitcher from "./OrganizationSwitcher";
+import { Button } from "../Button";
+import OrganizationSwitcher from "../OrganizationSwitcher";
 import Link from "next/link";
-import Logo from "./Logo";
-import LoadingSpinner from "./LoadingSpinner";
+import LoadingSpinner from "../LoadingSpinner";
+import LogoLink from "../LogoLink";
+import navigation from "@/lib/navigation";
+import { useRouter } from "next/router";
 
-const Navigation = () => {
+const DesktopNavigation = () => {
   const { isSignedIn, isLoaded } = useAuth();
+  const router = useRouter();
+
   return (
-    <NavigationMenu>
-      {/* Left part of navigation, with logo */}
+    <NavigationMenu className="hidden md:flex">
       <div className="flex items-center justify-start">
-        <Link href="/">
-          <div className="h-10 drop-shadow-md transition-all duration-300 hover:drop-shadow-lg">
-            <Logo />
-          </div>
-        </Link>
+        <LogoLink />
       </div>
 
       {isSignedIn && (
         <NavigationMenuList className="gap-x-2">
           {/* Right part of navigation, with the rest */}
-          <NavigationMenuItem>
-            <Link href="/containers/create">
-              <Button variant="link">Add container</Button>
-            </Link>
-          </NavigationMenuItem>
-          <NavigationMenuItem>
-            <Link href="/sensors/create">
-              <Button variant="link">Add sensor</Button>
-            </Link>
-          </NavigationMenuItem>
+          {navigation.map((item, i) => {
+            const active = router.pathname === item.href;
+            return (
+              <NavigationMenuItem key={i}>
+                <Link href={item.href}>
+                  <Button variant={active ? "subtle" : "link"}>
+                    {item.label}
+                  </Button>
+                </Link>
+              </NavigationMenuItem>
+            );
+          })}
           <div className="flex items-center justify-center">
             {!isLoaded && (
               <NavigationMenuItem>
@@ -67,4 +68,4 @@ const Navigation = () => {
     </NavigationMenu>
   );
 };
-export default Navigation;
+export default DesktopNavigation;
