@@ -13,7 +13,6 @@ const useAllSensorsMap = () => {
     ((options: MarkerOptions) => Marker)[]
   >([]);
 
-  //get data from all sensors in the backend
   const {
     data: sensors,
     isLoading: sensorsIsLoading,
@@ -25,13 +24,16 @@ const useAllSensorsMap = () => {
       return;
     }
 
-    // if there is no latitude or longitude, do nothing
     if (!longitude || !latitude) {
       return;
     }
 
+    if (!container.current) {
+      return;
+    }
+
     map.current = MapboxMap({
-      container: container.current!,
+      container: container.current,
       style: "mapbox://styles/mapbox/dark-v11",
       center: [longitude, latitude],
       zoom: 10,

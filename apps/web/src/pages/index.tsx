@@ -32,8 +32,6 @@ const IndexPage = ({ userId }: IndexPageProps) => {
             Dashboard
           </h1>
 
-          <SetSensorPositionMap />
-
           <AllSensorsMap />
         </>
       )}

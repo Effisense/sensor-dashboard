@@ -26,11 +26,6 @@ const AllSensorsMap = () => {
             <Subtle>All sensors loaded successfully.</Subtle>
           </div>
         )}
-        {!isLoading && error && (
-          <div className="flex items-center justify-center">
-            <Subtle>An error occurred while loading sensors.</Subtle>
-          </div>
-        )}
       </div>
     </div>
   );
