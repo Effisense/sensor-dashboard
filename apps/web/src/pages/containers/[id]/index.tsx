@@ -22,9 +22,31 @@ const ContainerPage = ({ id }: ContainerPageProps) => {
     containerId: id,
   });
 
+  if (containerIsLoading || sensorsIsLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (containerError || sensorsError) {
+    return <div>Error</div>;
+  }
+
+  if (!container) {
+    return <div>Container not found</div>;
+  }
+
   return (
     <div>
-      <H1>Container</H1>
+      <H1>Container {container.id}</H1>
+      <p>Description: {container.description}</p>
+      <p>Name: {container.name}</p>
+      <p>Sensors:</p>
+      <ul>
+        {sensors.map((sensor) => (
+          <li key={sensor.id}>
+            {sensor.name} 
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };
