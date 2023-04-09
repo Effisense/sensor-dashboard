@@ -44,8 +44,16 @@ const SensorPage = ({ id }: SensorPageProps) => {
     return <LoadingSpinner />;
   }
 
-  if (sensorError || containerError || deleteSensorError) {
-    return <div>Error</div>;
+  if (sensorError) {
+    return <div>sensorError {sensorError.message}</div>;
+  }
+
+  if (containerError) {
+    return <div>containerError {containerError.message}</div>;
+  }
+
+  if (deleteSensorError) {
+    return <div>deleteSensorError {deleteSensorError.message}</div>;
   }
 
   const handleDelete = async () => {
