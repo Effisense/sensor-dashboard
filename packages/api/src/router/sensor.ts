@@ -163,7 +163,7 @@ export const sensorRouter = router({
 
       const container = await ctx.prisma.container.findUnique({
         where: {
-          id: sensor.containerId || undefined,
+          id: sensor.containerId || undefined || "",
         },
       });
 

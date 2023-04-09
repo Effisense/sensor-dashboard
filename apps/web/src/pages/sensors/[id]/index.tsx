@@ -1,19 +1,115 @@
+import { toast } from "@/hooks/toast/useToast";
+import { Button } from "@/ui/Button";
 import H1 from "@/ui/typography/H1";
+import Subtle from "@/ui/typography/Subtle";
 import { trpc } from "@/utils/trpc";
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/ui/AlertDialog"
+import { Textarea } from "@/ui/Textarea";
+import H4 from "@/ui/typography/H4";
+import LoadingSpinner from "@/ui/LoadingSpinner";
 
 type SensorPageProps = InferGetServerSidePropsType<typeof getServerSideProps>;
 
 const SensorPage = ({ id }: SensorPageProps) => {
+  const router = useRouter();
   const {
     data: sensor,
     isLoading: sensorIsLoading,
     error: sensorError,
   } = trpc.sensor.get.useQuery({ id });
+  const {
+    data: containerData,
+    isLoading: containerIsLoading,
+    error: containerError,
+  } = trpc.container.getAll.useQuery();
+  const {
+    mutate: deleteSensor,
+    isLoading: deleteSensorIsLoading,
+    error: deleteSensorError,
+  } = trpc.sensor.delete.useMutation();
+  
+  if (sensorIsLoading || deleteSensorIsLoading) {
+    return <LoadingSpinner />;
+  }
+
+  if (sensorError) {
+    return <div>Error du {sensorError.message}</div>;
+  }
+
+  const handleDelete = async () => {
+    try {
+      await deleteSensor({ sensorId: id });
+      toast({
+        title: "Success!",
+        description: "Sensor was deleted. You will now be redirected to the dashboard",
+        severity: "success",
+      });
+      router.push({
+        pathname: "/",
+      });
+    } catch (error) {
+      toast({
+        title: "Error!",
+        description: "There was an error while deleting the sensor",
+        severity: "error",
+      });
+    }
+  };  
 
   return (
     <div>
-      <H1>Sensor</H1>
+      <H1>{sensor.sensor.name}</H1>
+      <div className="my-4 flex flex-col items-left justify-left">
+      <H4>Location</H4>
+      <p>{sensor.sensor.location}</p>
+      <H4>Container</H4>
+      {sensor.sensor.containerId ? (
+      <a href={`../containers/${sensor.sensor.containerId}`}>
+        {containerData?.find((c) => c.id === sensor.sensor.containerId)?.name || "No container"}
+      </a>
+      ) : (
+      <span>
+        {containerData?.find((c) => c.id === sensor.sensor.containerId)?.name || "No container"}
+      </span>
+      )}
+      <H4>Description</H4>
+      <Textarea value={sensor.sensor.description} disabled />
+    </div>
+    <div className="my-4 flex flex-row items-left justify-left gap-x-4">
+      <Link href={`${id}/update`}>
+      <Button variant="subtle">Update</Button>
+    </Link>
+      <AlertDialog>
+      <AlertDialogTrigger asChild>
+        <Button variant="subtle">Delete</Button>
+      </AlertDialogTrigger>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+          <AlertDialogDescription>
+            Once executed, this action cannot be reversed. It will permanently delete this sensor.
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogAction onClick={handleDelete}>Continue</AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+    </div>
     </div>
   );
 };

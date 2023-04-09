@@ -19,6 +19,7 @@ import {
 } from "@/ui/AlertDialog"
 import { Textarea } from "@/ui/Textarea";
 import H4 from "@/ui/typography/H4";
+import LoadingSpinner from "@/ui/LoadingSpinner";
 
 type ContainerPageProps = InferGetServerSidePropsType<
   typeof getServerSideProps
@@ -41,7 +42,6 @@ const ContainerPage = ({ id }: ContainerPageProps) => {
   } = trpc.container.getSensorsByContainerId.useQuery({
     containerId: id,
   });
-
   const {
     mutate: deleteContainer,
     isLoading: deleteContainerIsLoading,
@@ -50,35 +50,13 @@ const ContainerPage = ({ id }: ContainerPageProps) => {
 
 
   if (containerIsLoading || sensorsIsLoading || deleteContainerIsLoading) {
-    return <div>Loading...</div>;
+    return <LoadingSpinner />;
   }
 
   if (containerError || sensorsError || deleteContainerError) {
     return <div>Error</div>;
   }
-
-  const handleDelete = async () => {
-    try {
-      await deleteContainer({ containerId: id });
-      toast({
-        title: "Success!",
-        description: "Container was deletedy. You will now be redirected to the dashboard",
-        severity: "success",
-      });
-      router.push({
-        pathname: "/",
-      });
-    } catch (error) {
-      // Handle the error, for example:
-      console.error("Failed to delete container:", error);
-      toast({
-        title: "Error!",
-        description: "There was an error while deleting the container",
-        severity: "error",
-      });
-    }
-  };  
-
+  
   if (!container) {
     return     <div className="flex flex-col items-center justify-center gap-y-4">
     <H1>Oh no!</H1>
@@ -90,6 +68,26 @@ const ContainerPage = ({ id }: ContainerPageProps) => {
     </Link>
   </div>;
   }
+
+  const handleDelete = async () => {
+    try {
+      await deleteContainer({ containerId: id });
+      toast({
+        title: "Success!",
+        description: "Container was deleted. You will now be redirected to the dashboard",
+        severity: "success",
+      });
+      router.push({
+        pathname: "/",
+      });
+    } catch (error) {
+      toast({
+        title: "Error!",
+        description: "There was an error while deleting the container",
+        severity: "error",
+      });
+    }
+  };  
 
   //TODO change textarea with card from tremor
   return (
@@ -108,7 +106,7 @@ const ContainerPage = ({ id }: ContainerPageProps) => {
       <ul className="list-disc ml-8">
         {sensors.map((sensor) => (
           <li key={sensor.id}>
-            {sensor.name} 
+            <Link href={`../sensors/${sensor.id}`}>{sensor.name}</Link>
           </li>
         ))}
       </ul>
