@@ -69,6 +69,8 @@ const SensorPage = ({ id }: SensorPageProps) => {
     }
   };  
 
+  const container = containerData?.find((c) => c.id === sensor.sensor.containerId);
+
   return (
     <div>
       <H1>{sensor.sensor.name}</H1>
@@ -76,13 +78,12 @@ const SensorPage = ({ id }: SensorPageProps) => {
       <H4>Location</H4>
       <p>{sensor.sensor.location}</p>
       <H4>Container</H4>
-      {sensor.sensor.containerId ? (
-      <a href={`../containers/${sensor.sensor.containerId}`}>
-        {containerData?.find((c) => c.id === sensor.sensor.containerId)?.name || "No container"}
-      </a>
+      {container ? (
+        <><Link className="hover:underline" href={`../containers/${sensor.sensor.containerId}`}>{container.name}</Link>
+        </>
       ) : (
       <span>
-        {containerData?.find((c) => c.id === sensor.sensor.containerId)?.name || "No container"}
+        No container
       </span>
       )}
       <H4>Description</H4>

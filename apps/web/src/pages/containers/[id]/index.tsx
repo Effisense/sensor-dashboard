@@ -106,7 +106,7 @@ const ContainerPage = ({ id }: ContainerPageProps) => {
       <ul className="list-disc ml-8">
         {sensors.map((sensor) => (
           <li key={sensor.id}>
-            <Link href={`../sensors/${sensor.id}`}>{sensor.name}</Link>
+            <Link className="hover:underline" href={`../sensors/${sensor.id}`}>{sensor.name}</Link>
           </li>
         ))}
       </ul>
