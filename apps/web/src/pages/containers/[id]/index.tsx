@@ -28,6 +28,7 @@ type ContainerPageProps = InferGetServerSidePropsType<
 const ContainerPage = ({ id }: ContainerPageProps) => {
 
   const router = useRouter();
+  
   const {
     data: container,
     isLoading: containerIsLoading,

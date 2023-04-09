@@ -167,15 +167,8 @@ export const sensorRouter = router({
         },
       });
 
-      const timeseries = Sensor.selectAll()
-        .where("sensor_id", "=", id)
-        .orderBy("time", "desc")
-        .limit(1)
-        .execute();
-
       return {
         sensor,
-        timeseries,
         container,
       };
     }),

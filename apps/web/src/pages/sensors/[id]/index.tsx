@@ -23,7 +23,9 @@ import LoadingSpinner from "@/ui/LoadingSpinner";
 type SensorPageProps = InferGetServerSidePropsType<typeof getServerSideProps>;
 
 const SensorPage = ({ id }: SensorPageProps) => {
+  
   const router = useRouter();
+
   const {
     data: sensor,
     isLoading: sensorIsLoading,
@@ -40,7 +42,7 @@ const SensorPage = ({ id }: SensorPageProps) => {
     error: deleteSensorError,
   } = trpc.sensor.delete.useMutation();
   
-  if (sensorIsLoading || deleteSensorIsLoading) {
+  if (sensorIsLoading || deleteSensorIsLoading || containerIsLoading) {
     return <LoadingSpinner />;
   }
 
