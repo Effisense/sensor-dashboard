@@ -1,7 +1,6 @@
 import { toast } from "@/hooks/toast/useToast";
 import { Button } from "@/ui/Button";
 import H1 from "@/ui/typography/H1";
-import Subtle from "@/ui/typography/Subtle";
 import { trpc } from "@/utils/trpc";
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 import Link from "next/link";
@@ -45,8 +44,8 @@ const SensorPage = ({ id }: SensorPageProps) => {
     return <LoadingSpinner />;
   }
 
-  if (sensorError) {
-    return <div>Error du {sensorError.message}</div>;
+  if (sensorError || containerError || deleteSensorError) {
+    return <div>Error</div>;
   }
 
   const handleDelete = async () => {
