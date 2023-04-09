@@ -17,6 +17,8 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/ui/AlertDialog"
+import { Textarea } from "@/ui/Textarea";
+import H4 from "@/ui/typography/H4";
 
 type ContainerPageProps = InferGetServerSidePropsType<
   typeof getServerSideProps
@@ -89,30 +91,41 @@ const ContainerPage = ({ id }: ContainerPageProps) => {
   </div>;
   }
 
+  //TODO change textarea with card from tremor
   return (
     <div>
       <H1>{container.name}</H1>
-      <p>Height: {container.binHeightInMillimeters}</p>
-      <p>Width: {container.binWidthInMillimeters}</p>
-      <p>Volume: {container.containerVolumeInLiters}</p>
-      <p>Description: {container.description}</p>
-      <p>Sensors:</p>
-      <ul>
+      <div className="my-4 flex flex-col items-left justify-left">
+      <H4>Height</H4>
+      <p>{container.binHeightInMillimeters}</p>
+      <H4>Width</H4>
+      <p>{container.binWidthInMillimeters}</p>
+      <H4>Volume</H4>
+      <p>{container.containerVolumeInLiters}</p>
+      <H4>Description</H4>
+      <Textarea value={container.description} disabled />
+      <H4>Sensors:</H4>
+      <ul className="list-disc ml-8">
         {sensors.map((sensor) => (
           <li key={sensor.id}>
             {sensor.name} 
           </li>
         ))}
       </ul>
+    </div>
+    <div className="my-4 flex flex-row items-left justify-left gap-x-4">
+      <Link href={`${id}/update`}>
+      <Button variant="subtle">Update</Button>
+    </Link>
       <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button variant="outline">Delete Container</Button>
+        <Button variant="subtle">Delete</Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
           <AlertDialogDescription>
-            Once executed, this action cannot be reversed. It will permanently delete the container and remove it from all sensors that are currently using it.
+            Once executed, this action cannot be reversed. It will permanently delete this container and remove it from all sensors that are currently using it.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
@@ -121,6 +134,7 @@ const ContainerPage = ({ id }: ContainerPageProps) => {
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
+    </div>
     </div>
   );
 };
