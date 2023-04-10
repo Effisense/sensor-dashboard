@@ -95,19 +95,26 @@ export const sensorRouter = router({
         })
         .then((org) => org);
 
-      return ctx.prisma.sensor.create({
-        data: {
-          id: sensorId,
-          collectionId,
-          latitude,
-          longitude,
-          name,
-          description,
-          location: location || "",
-          containerId,
-          organizationId: ctx.auth.organizationId,
-        },
-      });
+      return ctx.prisma.sensor
+        .create({
+          data: {
+            id: sensorId,
+            collectionId,
+            latitude,
+            longitude,
+            name,
+            description,
+            location: location || "",
+            containerId,
+            organizationId: ctx.auth.organizationId,
+          },
+        })
+        .catch(() => {
+          throw new TRPCError({
+            code: "INTERNAL_SERVER_ERROR",
+            message: "It seems like this sensor already exists.",
+          });
+        });
     }),
 
   get: protectedProcedure
