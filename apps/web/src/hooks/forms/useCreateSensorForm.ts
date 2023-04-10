@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { z } from "zod";
 import { useToast } from "../toast/useToast";
 import useZodForm from "../useZodForm";
+import { useRouter } from "next/router";
 
 type CreateSensorFormProps = {
   sensorId: string;
@@ -23,6 +24,7 @@ const useCreateSensorForm = ({
   latitude,
   longitude,
 }: CreateSensorFormProps) => {
+  const router = useRouter();
   const { mutateAsync } = trpc.sensor.create.useMutation({
     onSuccess: () => {
       toast({
@@ -30,6 +32,8 @@ const useCreateSensorForm = ({
         description: "Successfully added sensor.",
         severity: "success",
       });
+
+      router.push("/");
     },
     onError: (error) => {
       toast({

@@ -20,13 +20,6 @@ const AllSensorsMap = () => {
           )}
         </div>
       )}
-      <div className="py-8">
-        {!isLoading && !error && (
-          <div className="flex items-center justify-center">
-            <Subtle>All sensors loaded successfully.</Subtle>
-          </div>
-        )}
-      </div>
     </div>
   );
 };

@@ -56,7 +56,7 @@ export const containerRouter = router({
   get: protectedProcedure
     .input(ContainerIdSchema)
     .query(async ({ ctx, input }) => {
-      const { containerId: containerTypeId } = input;
+      const { containerId } = input;
 
       const isMemberOfOrganization = await userIsMemberOfOrganization(
         ctx.auth.user?.id,
@@ -69,11 +69,20 @@ export const containerRouter = router({
         });
       }
 
-      return ctx.prisma.container.findUnique({
+      const container = await ctx.prisma.container.findUnique({
         where: {
-          id: containerTypeId,
+          id: containerId,
         },
       });
+
+      if (!container) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Container not found",
+        });
+      }
+
+      return container;
     }),
 
   getAll: protectedProcedure.query(async ({ ctx }) => {

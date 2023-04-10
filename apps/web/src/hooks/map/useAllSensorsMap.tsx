@@ -48,7 +48,12 @@ const useAllSensorsMap = () => {
         // Render custom popup content
         const popupNode = document.createElement("div");
         ReactDOM.render(
-          <SensorMarkerPopover title={sensor.name} content={sensor.location} />,
+          <SensorMarkerPopover
+            title={sensor.name}
+            content={sensor.location}
+            link={`sensors/${sensor.id}`}
+            linkLabel="See more"
+          />,
           popupNode,
         );
         const popup = MapboxPopup({ html: popupNode });

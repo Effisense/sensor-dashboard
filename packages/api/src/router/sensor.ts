@@ -95,19 +95,26 @@ export const sensorRouter = router({
         })
         .then((org) => org);
 
-      return ctx.prisma.sensor.create({
-        data: {
-          id: sensorId,
-          collectionId,
-          latitude,
-          longitude,
-          name,
-          description,
-          location: location || "",
-          containerId,
-          organizationId: ctx.auth.organizationId,
-        },
-      });
+      return ctx.prisma.sensor
+        .create({
+          data: {
+            id: sensorId,
+            collectionId,
+            latitude,
+            longitude,
+            name,
+            description,
+            location: location || "",
+            containerId,
+            organizationId: ctx.auth.organizationId,
+          },
+        })
+        .catch(() => {
+          throw new TRPCError({
+            code: "INTERNAL_SERVER_ERROR",
+            message: "It seems like this sensor already exists.",
+          });
+        });
     }),
 
   get: protectedProcedure
@@ -163,19 +170,12 @@ export const sensorRouter = router({
 
       const container = await ctx.prisma.container.findUnique({
         where: {
-          id: sensor.containerId || undefined,
+          id: sensor.containerId || undefined || "",
         },
       });
 
-      const timeseries = Sensor.selectAll()
-        .where("sensor_id", "=", id)
-        .orderBy("time", "desc")
-        .limit(1)
-        .execute();
-
       return {
         sensor,
-        timeseries,
         container,
       };
     }),
