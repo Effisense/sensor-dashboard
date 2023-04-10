@@ -8,7 +8,11 @@ type GetSensorProps = {
 
 const useGetSensor = ({ id }: GetSensorProps) => {
   const router = useRouter();
-  const { data, isLoading: sensorIsLoading } = trpc.sensor.get.useQuery(
+  const {
+    data,
+    isLoading: sensorIsLoading,
+    error,
+  } = trpc.sensor.get.useQuery(
     { id },
     {
       onError: (err) => {
@@ -54,6 +58,7 @@ const useGetSensor = ({ id }: GetSensorProps) => {
   return {
     data,
     isLoading,
+    error,
     deleteSensorMutation,
   };
 };
