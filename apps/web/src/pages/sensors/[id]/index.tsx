@@ -22,26 +22,17 @@ const SensorPage = ({ id }: SensorPageProps) => {
     error: sensorError,
   } = trpc.sensor.get.useQuery({ id });
   const {
-    data: containerData,
-    isLoading: containerIsLoading,
-    error: containerError,
-  } = trpc.container.getAll.useQuery();
-  const {
     mutate: deleteSensor,
     isLoading: deleteSensorIsLoading,
     error: deleteSensorError,
   } = trpc.sensor.delete.useMutation();
 
-  if (sensorIsLoading || deleteSensorIsLoading || containerIsLoading) {
+  if (sensorIsLoading || deleteSensorIsLoading) {
     return <LoadingSpinner />;
   }
 
   if (sensorError) {
     return <div>sensorError {sensorError.message}</div>;
-  }
-
-  if (containerError) {
-    return <div>containerError {containerError.message}</div>;
   }
 
   if (deleteSensorError) {
@@ -69,10 +60,6 @@ const SensorPage = ({ id }: SensorPageProps) => {
     }
   };
 
-  const container = containerData?.find(
-    (c) => c.id === sensor.sensor.containerId,
-  );
-
   return (
     <div>
       <H1>{sensor.sensor.name}</H1>
@@ -80,13 +67,13 @@ const SensorPage = ({ id }: SensorPageProps) => {
         <H4>Location</H4>
         <p>{sensor.sensor.location}</p>
         <H4>Container</H4>
-        {container ? (
+        {sensor.container ? (
           <>
             <Link
               className="hover:underline"
               href={`/containers/${sensor.sensor.containerId}`}
             >
-              {container.name}
+              {sensor.container.name}
             </Link>
           </>
         ) : (

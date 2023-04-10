@@ -3,19 +3,20 @@ import P from "../typography/P";
 import Subtle from "../typography/Subtle";
 import { Popover } from "../Popover";
 import Link from "next/link";
+import { Button } from "../Button";
 
 type SensorMarkerPopoverProps = PopoverProps & {
   title: string;
   content: string;
   link: string;
-  linkContent: string;
+  linkLabel: string;
 };
 
 const SensorMarkerPopover = ({
   title,
   content,
   link,
-  linkContent,
+  linkLabel,
   ...props
 }: SensorMarkerPopoverProps) => {
   return (
@@ -23,8 +24,10 @@ const SensorMarkerPopover = ({
       <P className="font-bold">{title}</P>
       <Subtle>{content}</Subtle>
       <Link href={link}>
-        <Subtle className="hover:underline">{linkContent}</Subtle>
-        </Link>
+        <Button size="sm" variant="subtle">
+          {linkLabel}
+        </Button>
+      </Link>
     </Popover>
   );
 };
