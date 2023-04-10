@@ -56,6 +56,9 @@ jobs:
       #     path: ${{ github.workspace }}apps/nextjs/.next/cache
       #     key: ${{ runner.os }}-${{ runner.node }}-${{ hashFiles('**/pnpm-lock.yaml') }}-nextjs
 
+      - name: Enable core dumps
+        run: ulimit -c unlimited -S
+
       - name: Build, lint and type-check
         run: pnpm turbo build lint type:check
 
