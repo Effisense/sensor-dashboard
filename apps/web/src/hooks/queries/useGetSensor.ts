@@ -1,7 +1,6 @@
 import { trpc } from "@/utils/trpc";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
-import { useToast } from "../toast/useToast";
+import { toast } from "../toast/useToast";
 
 type GetSensorProps = {
   id: string;
@@ -9,29 +8,53 @@ type GetSensorProps = {
 
 const useGetSensor = ({ id }: GetSensorProps) => {
   const router = useRouter();
-  const { data, isLoading, error } = trpc.sensor.get.useQuery({ id });
-  const { toast } = useToast();
+  const { data, isLoading: sensorIsLoading } = trpc.sensor.get.useQuery(
+    { id },
+    {
+      onError: (err) => {
+        if (err.data?.code === "NOT_FOUND") {
+          router.push("/404");
+          return;
+        }
 
-  useEffect(() => {
-    if (error) {
+        toast({
+          title: "Error!",
+          description: "There was an error while fetching the sensor",
+          severity: "error",
+        });
+      },
+    },
+  );
+
+  const {
+    mutateAsync: deleteSensorMutation,
+    isLoading: deleteSensorIsLoading,
+  } = trpc.sensor.delete.useMutation({
+    onSuccess: () => {
       toast({
-        title: "Oops!",
-        description: `An error occurred: ${error.message}`,
+        title: "Success!",
+        description:
+          "Sensor was deleted. You will now be redirected to the dashboard.",
+        severity: "success",
+      });
+
+      router.push("/");
+    },
+    onError: () => {
+      toast({
+        title: "Error!",
+        description: "There was an error while deleting the sensor",
         severity: "error",
       });
-    }
-  }, [error, toast]);
+    },
+  });
 
-  useEffect(() => {
-    if (error?.data?.code === "NOT_FOUND") {
-      router.push("/404");
-    }
-  }, [error, router]);
+  const isLoading = sensorIsLoading || deleteSensorIsLoading;
 
   return {
     data,
     isLoading,
-    error,
+    deleteSensorMutation,
   };
 };
 

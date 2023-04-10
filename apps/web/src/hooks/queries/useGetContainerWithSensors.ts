@@ -1,7 +1,6 @@
 import { trpc } from "@/utils/trpc";
 import { useRouter } from "next/router";
 import { toast } from "../toast/useToast";
-import { error } from "console";
 
 type GetContainerWithSensorsProps = {
   id: string;
