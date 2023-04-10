@@ -1,6 +1,7 @@
 import { trpc } from "@/utils/trpc";
 import { useRouter } from "next/router";
 import { toast } from "../toast/useToast";
+import { error } from "console";
 
 type GetContainerWithSensorsProps = {
   id: string;
@@ -14,8 +15,17 @@ const useGetContainerWithSensors = ({ id }: GetContainerWithSensorsProps) => {
         containerId: id,
       },
       {
-        onError: () => {
-          router.push("/404");
+        onError: (err) => {
+          if (err.data?.code === "NOT_FOUND") {
+            router.push("/404");
+            return;
+          }
+
+          toast({
+            title: "Error!",
+            description: "There was an error while fetching the container",
+            severity: "error",
+          });
         },
       },
     );
