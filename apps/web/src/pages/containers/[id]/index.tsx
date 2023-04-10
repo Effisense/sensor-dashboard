@@ -9,7 +9,7 @@ import { useRouter } from "next/router";
 import { Textarea } from "@/ui/Textarea";
 import H4 from "@/ui/typography/H4";
 import LoadingSpinner from "@/ui/LoadingSpinner";
-import DeleteContainerAlert from "@/ui/containers/DeleteContainerAlert";
+import Alert from "@/ui/Alert";
 import { PencilIcon, TrashIcon } from "@heroicons/react/24/outline";
 
 type ContainerPageProps = InferGetServerSidePropsType<
@@ -100,10 +100,7 @@ const ContainerPage = ({ id }: ContainerPageProps) => {
         <ul className="ml-8 list-disc">
           {sensors.map((sensor) => (
             <li key={sensor.id}>
-              <Link
-                className="hover:underline"
-                href={`/dashboard/sensors/${sensor.id}`}
-              >
+              <Link className="hover:underline" href={`/sensors/${sensor.id}`}>
                 {sensor.name}
               </Link>
             </li>
@@ -111,7 +108,7 @@ const ContainerPage = ({ id }: ContainerPageProps) => {
         </ul>
       </div>
       <div className="items-left justify-left my-4 flex flex-row gap-x-4">
-        <Link href={`/dashboard/containers/${id}/update`}>
+        <Link href={`/containers/${id}/update`}>
           <Button
             variant="subtle"
             className="flex items-center justify-center gap-x-2"
@@ -121,7 +118,9 @@ const ContainerPage = ({ id }: ContainerPageProps) => {
           </Button>
         </Link>
 
-        <DeleteContainerAlert
+        <Alert
+          title="Are you sure you want to delete the container?"
+          description="The container will be deleted, and removed from all sensors that are currently using it."
           trigger={
             <Button
               variant="subtle"

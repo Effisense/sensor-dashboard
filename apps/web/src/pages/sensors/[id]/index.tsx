@@ -5,25 +5,15 @@ import { trpc } from "@/utils/trpc";
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/ui/AlertDialog"
 import { Textarea } from "@/ui/Textarea";
 import H4 from "@/ui/typography/H4";
 import LoadingSpinner from "@/ui/LoadingSpinner";
+import { PencilIcon, TrashIcon } from "@heroicons/react/24/outline";
+import Alert from "@/ui/Alert";
 
 type SensorPageProps = InferGetServerSidePropsType<typeof getServerSideProps>;
 
 const SensorPage = ({ id }: SensorPageProps) => {
-  
   const router = useRouter();
 
   const {
@@ -41,7 +31,7 @@ const SensorPage = ({ id }: SensorPageProps) => {
     isLoading: deleteSensorIsLoading,
     error: deleteSensorError,
   } = trpc.sensor.delete.useMutation();
-  
+
   if (sensorIsLoading || deleteSensorIsLoading || containerIsLoading) {
     return <LoadingSpinner />;
   }
@@ -58,12 +48,13 @@ const SensorPage = ({ id }: SensorPageProps) => {
     return <div>deleteSensorError {deleteSensorError.message}</div>;
   }
 
-  const handleDelete = async () => {
+  const onDelete = async () => {
     try {
       await deleteSensor({ sensorId: id });
       toast({
         title: "Success!",
-        description: "Sensor was deleted. You will now be redirected to the dashboard",
+        description:
+          "Sensor was deleted. You will now be redirected to the dashboard",
         severity: "success",
       });
       router.push({
@@ -76,50 +67,60 @@ const SensorPage = ({ id }: SensorPageProps) => {
         severity: "error",
       });
     }
-  };  
+  };
 
-  const container = containerData?.find((c) => c.id === sensor.sensor.containerId);
+  const container = containerData?.find(
+    (c) => c.id === sensor.sensor.containerId,
+  );
 
   return (
     <div>
       <H1>{sensor.sensor.name}</H1>
-      <div className="my-4 flex flex-col items-left justify-left">
-      <H4>Location</H4>
-      <p>{sensor.sensor.location}</p>
-      <H4>Container</H4>
-      {container ? (
-        <><Link className="hover:underline" href={`../containers/${sensor.sensor.containerId}`}>{container.name}</Link>
-        </>
-      ) : (
-      <span>
-        No container
-      </span>
-      )}
-      <H4>Description</H4>
-      <Textarea value={sensor.sensor.description} disabled />
-    </div>
-    <div className="my-4 flex flex-row items-left justify-left gap-x-4">
-      <Link href={`${id}/update`}>
-      <Button variant="subtle">Update</Button>
-    </Link>
-      <AlertDialog>
-      <AlertDialogTrigger asChild>
-        <Button variant="subtle">Delete</Button>
-      </AlertDialogTrigger>
-      <AlertDialogContent>
-        <AlertDialogHeader>
-          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-          <AlertDialogDescription>
-            Once executed, this action cannot be reversed. It will permanently delete this sensor.
-          </AlertDialogDescription>
-        </AlertDialogHeader>
-        <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction onClick={handleDelete}>Continue</AlertDialogAction>
-        </AlertDialogFooter>
-      </AlertDialogContent>
-    </AlertDialog>
-    </div>
+      <div className="items-left justify-left my-4 flex flex-col">
+        <H4>Location</H4>
+        <p>{sensor.sensor.location}</p>
+        <H4>Container</H4>
+        {container ? (
+          <>
+            <Link
+              className="hover:underline"
+              href={`/containers/${sensor.sensor.containerId}`}
+            >
+              {container.name}
+            </Link>
+          </>
+        ) : (
+          <span>No container</span>
+        )}
+        <H4>Description</H4>
+        <Textarea value={sensor.sensor.description} disabled />
+      </div>
+      <div className="items-left justify-left my-4 flex flex-row gap-x-4">
+        <Link href={`/sensors/${id}/update`}>
+          <Button
+            variant="subtle"
+            className="flex items-center justify-center gap-x-2"
+          >
+            <PencilIcon className="w-4" />
+            <span>Update</span>
+          </Button>
+        </Link>
+
+        <Alert
+          title="Are you sure you want to delete the sensor?"
+          description="The sensor will be permanently deleted."
+          trigger={
+            <Button
+              variant="subtle"
+              className="flex items-center justify-center gap-x-2"
+            >
+              <TrashIcon className="w-4" />
+              <span>Delete</span>
+            </Button>
+          }
+          onDelete={onDelete}
+        />
+      </div>
     </div>
   );
 };
@@ -128,6 +129,7 @@ export const getServerSideProps = async (
   context: GetServerSidePropsContext<{ id: string }>,
 ) => {
   const id = context.params?.id;
+
   if (!id) {
     return {
       redirect: {

@@ -9,27 +9,25 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "../AlertDialog";
-import { red } from "tailwindcss/colors";
+} from "./AlertDialog";
 
-type DeleteContainerAlert = {
+type Alert = {
+  title: string;
+  description?: string;
   trigger: ReactNode;
   onDelete: () => void;
 };
 
-const DeleteContainerAlert = ({ trigger, onDelete }: DeleteContainerAlert) => {
+const Alert = ({ title, description, trigger, onDelete }: Alert) => {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>{trigger}</AlertDialogTrigger>
 
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>
-            Are you sure you want to delete the container?
-          </AlertDialogTitle>
+          <AlertDialogTitle>{title}</AlertDialogTitle>
           <AlertDialogDescription>
-            The container will be deleted, and removed from all sensors that are
-            currently using it.
+            {description || "This action cannot be undone."}
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
@@ -46,4 +44,4 @@ const DeleteContainerAlert = ({ trigger, onDelete }: DeleteContainerAlert) => {
   );
 };
 
-export default DeleteContainerAlert;
+export default Alert;
