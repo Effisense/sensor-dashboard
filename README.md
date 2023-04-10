@@ -1,13 +1,5 @@
 # Effisense: Sensor Dashboard
 
-## TODO
-
-- [ ] Go through existing `TODO`s in code base
-- [ ] Point Sentry to the correct project
-- [ ] Add Tremor to the project if needed
-- [ ] Add all secrets to GitHub Secrets
-- [ ] Make Playwright work in CI
-
 ## Code Layout
 
 ```txt
@@ -33,6 +25,8 @@ packages
  |   └─ E2E tests using Playwright
  ├─ email
  |   └─ Email templates
+ ├─ mapbox
+ |   └─ Mapbox library to be used in the web app
 ```
 
 ## Running the application
@@ -73,9 +67,6 @@ pnpm gen:types
 
 # Start all `dev` scripts
 pnpm dev
-
-# Start the `email` service for email templates
-pnpm email:dev
 ```
 
 Please inspect [package.json](/package.json) for more scripts.
