@@ -3,21 +3,36 @@ import type {
   InferGetServerSidePropsType,
 } from "next";
 import { getAuth } from "@clerk/nextjs/server";
-import SetSensorPositionMap from "@/ui/map/SetSensorPositionMap";
 import { trpc } from "@/utils/trpc";
 import LoadingSpinner from "@/ui/LoadingSpinner";
 import { useEffect } from "react";
 import AllSensorsMap from "@/ui/map/AllSensorsMap";
+import useErrorToast from "@/hooks/toast/useErrorToast";
+import { useAuth } from "@clerk/nextjs";
 
 type IndexPageProps = InferGetServerSidePropsType<typeof getServerSideProps>;
 
 const IndexPage = ({ userId }: IndexPageProps) => {
   const { mutateAsync, isLoading } = trpc.user.createIfNotExists.useMutation();
+  const { orgId } = useAuth();
+  const {
+    data: sensors,
+    isLoading: sensorsIsLoading,
+    error,
+    refetch,
+  } = trpc.sensor.getAll.useQuery();
+
+  useEffect(() => {
+    if (!orgId) return;
+    refetch();
+  }, [orgId, refetch]);
 
   useEffect(() => {
     if (!userId) return;
     mutateAsync({ userId });
   }, [mutateAsync, userId]);
+
+  useErrorToast({ error });
 
   return (
     <div className="flex flex-col items-center justify-center gap-12 px-4 py-8">
@@ -32,7 +47,8 @@ const IndexPage = ({ userId }: IndexPageProps) => {
             Dashboard
           </h1>
 
-          <AllSensorsMap />
+          {sensorsIsLoading && !sensors && <LoadingSpinner />}
+          {!sensorsIsLoading && sensors && <AllSensorsMap sensors={sensors} />}
         </>
       )}
     </div>
