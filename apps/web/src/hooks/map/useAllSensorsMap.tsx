@@ -18,17 +18,14 @@ const useAllSensorsMap = ({ sensors }: AllSensorsMapProps) => {
   );
 
   useEffect(() => {
-    if (map.current || !sensors) {
-      return;
-    }
+    if (!map.current) return;
+    map.current.triggerRepaint();
+  }, [sensors]);
 
-    if (!longitude || !latitude) {
-      return;
-    }
-
-    if (!container.current) {
-      return;
-    }
+  useEffect(() => {
+    if (map.current || !sensors) return;
+    if (!longitude || !latitude) return;
+    if (!container.current) return;
 
     map.current = MapboxMap({
       container: container.current,
@@ -51,6 +48,7 @@ const useAllSensorsMap = ({ sensors }: AllSensorsMapProps) => {
 
       setSensorMarkers(markers);
     };
+
     map.current.on("load", onMapLoad);
 
     return () => {
@@ -87,7 +85,7 @@ const useAllSensorsMap = ({ sensors }: AllSensorsMapProps) => {
     };
   }, [sensorMarkers]);
 
-  const isLoading = map.current?.isMoving();
+  const isLoading = map.current?.isMoving() || false;
 
   return {
     container,

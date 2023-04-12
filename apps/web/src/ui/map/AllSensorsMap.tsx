@@ -11,7 +11,7 @@ const AllSensorsMap = ({ sensors }: AllSensorsMapProps) => {
 
   return (
     <div>
-      {!!container && (
+      {!!container ? (
         <div className="h-72 w-72" id="map">
           <div ref={container} className="h-full w-full" />
           {isLoading && (
@@ -20,6 +20,8 @@ const AllSensorsMap = ({ sensors }: AllSensorsMapProps) => {
             </div>
           )}
         </div>
+      ) : (
+        <LoadingSpinner />
       )}
     </div>
   );

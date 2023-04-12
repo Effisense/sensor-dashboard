@@ -34,6 +34,7 @@ export function Toaster() {
               severity === "success" && "border-green-500",
               severity === "info" && "border-blue-400",
               severity === "neutral" && "border-slate-400",
+              severity === "loading" && "border-slate-400",
             )}
           >
             <div className="grid gap-1">

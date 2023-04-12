@@ -25,7 +25,8 @@ const useCreateSensorForm = ({
   longitude,
 }: CreateSensorFormProps) => {
   const router = useRouter();
-  const { mutateAsync } = trpc.sensor.create.useMutation({
+  const { toast } = useToast();
+  const { mutateAsync, isLoading } = trpc.sensor.create.useMutation({
     onSuccess: () => {
       toast({
         title: "Success!",
@@ -43,8 +44,15 @@ const useCreateSensorForm = ({
       });
     },
   });
-  const { toast } = useToast();
   const [containerId, setContainerId] = useState<string | undefined>(undefined);
+
+  useEffect(() => {
+    if (!isLoading) return;
+    toast({
+      title: "Creating sensor...",
+      severity: "neutral",
+    });
+  }, [isLoading, toast]);
 
   const {
     register,

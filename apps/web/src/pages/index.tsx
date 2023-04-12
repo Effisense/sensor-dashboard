@@ -8,16 +8,24 @@ import LoadingSpinner from "@/ui/LoadingSpinner";
 import { useEffect } from "react";
 import AllSensorsMap from "@/ui/map/AllSensorsMap";
 import useErrorToast from "@/hooks/toast/useErrorToast";
+import { useAuth } from "@clerk/nextjs";
 
 type IndexPageProps = InferGetServerSidePropsType<typeof getServerSideProps>;
 
 const IndexPage = ({ userId }: IndexPageProps) => {
   const { mutateAsync, isLoading } = trpc.user.createIfNotExists.useMutation();
+  const { orgId } = useAuth();
   const {
     data: sensors,
     isLoading: sensorsIsLoading,
     error,
+    refetch,
   } = trpc.sensor.getAll.useQuery();
+
+  useEffect(() => {
+    if (!orgId) return;
+    refetch();
+  }, [orgId, refetch]);
 
   useEffect(() => {
     if (!userId) return;

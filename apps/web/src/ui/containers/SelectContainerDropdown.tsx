@@ -52,7 +52,7 @@ const SelectContainerDropdown = ({
           <DropdownMenuSeparator />
 
           {isLoading && (
-            <div className="flex flex-col items-center justify-center">
+            <div className="flex flex-col items-center justify-center py-2">
               <LoadingSpinner />
               <DropdownMenuSeparator />
             </div>
