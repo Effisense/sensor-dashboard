@@ -1,25 +1,21 @@
 import { useEffect, useRef, useState } from "react";
 import useGeoLocation from "../useGeolocation";
 import { mapbox, MapboxMap, MapboxMarker, MapboxPopup } from "@acme/mapbox";
-import { trpc } from "@/utils/trpc";
 import { slate } from "tailwindcss/colors";
-import SensorMarkerPopover from "@/ui/map/SensorMarkerPopover";
-import ReactDOM from "react-dom";
+import { Sensor } from "@acme/db";
+import { createPopupNode } from "@/utils/mapbox";
 
-const useAllSensorsMap = () => {
+type AllSensorsMapProps = {
+  sensors: Sensor[];
+};
+
+const useAllSensorsMap = ({ sensors }: AllSensorsMapProps) => {
   const container = useRef<HTMLDivElement>(null);
-  const popups = useRef<(mapbox.Popup | null)[]>([]);
   const { latitude, longitude } = useGeoLocation();
   const map = useRef<mapbox.Map | null>(null);
   const [sensorMarkers, setSensorMarkers] = useState<(mapbox.Marker | null)[]>(
     [],
   );
-
-  const {
-    data: sensors,
-    isLoading: sensorsIsLoading,
-    error: sensorsError,
-  } = trpc.sensor.getAll.useQuery();
 
   useEffect(() => {
     if (map.current || !sensors) {
@@ -44,20 +40,7 @@ const useAllSensorsMap = () => {
     const onMapLoad = () => {
       const markers = sensors.map((sensor) => {
         if (!map.current) return null;
-
-        // Render custom popup content
-        const popupNode = document.createElement("div");
-        ReactDOM.render(
-          <SensorMarkerPopover
-            title={sensor.name}
-            content={sensor.location}
-            link={`sensors/${sensor.id}`}
-            linkLabel="See more"
-          />,
-          popupNode,
-        );
-        const popup = MapboxPopup({ html: popupNode });
-
+        const popup = MapboxPopup({ html: createPopupNode({ sensor }) });
         return MapboxMarker({
           latitude: sensor.latitude,
           longitude: sensor.longitude,
@@ -104,12 +87,11 @@ const useAllSensorsMap = () => {
     };
   }, [sensorMarkers]);
 
-  const isLoading = map.current?.isMoving() || sensorsIsLoading;
+  const isLoading = map.current?.isMoving();
 
   return {
     container,
     isLoading,
-    error: sensorsError,
   };
 };
 

@@ -1,12 +1,13 @@
-import useErrorToast from "@/hooks/toast/useErrorToast";
 import useAllSensorsMap from "@/hooks/map/useAllSensorsMap";
 import LoadingSpinner from "../LoadingSpinner";
-import Subtle from "../typography/Subtle";
+import { Sensor } from "@acme/db";
 
-const AllSensorsMap = () => {
-  const { container, isLoading, error } = useAllSensorsMap();
+type AllSensorsMapProps = {
+  sensors: Sensor[];
+};
 
-  useErrorToast({ error });
+const AllSensorsMap = ({ sensors }: AllSensorsMapProps) => {
+  const { container, isLoading } = useAllSensorsMap({ sensors });
 
   return (
     <div>
