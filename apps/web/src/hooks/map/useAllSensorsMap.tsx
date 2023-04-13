@@ -29,7 +29,7 @@ const useAllSensorsMap = ({ sensors }: AllSensorsMapProps) => {
 
     map.current = MapboxMap({
       container: container.current,
-      style: "mapbox://styles/mapbox/light-v11",
+      style: "mapbox://styles/mapbox/outdoors-v12",
       center: [longitude, latitude],
       zoom: 10,
     });
