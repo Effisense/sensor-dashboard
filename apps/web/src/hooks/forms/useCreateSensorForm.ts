@@ -44,7 +44,9 @@ const useCreateSensorForm = ({
       });
     },
   });
-  const [containerId, setContainerId] = useState<string | undefined>(undefined);
+  const [containerId, setContainerId] = useState<string | null | undefined>(
+    undefined,
+  );
 
   useEffect(() => {
     if (!isLoading) return;
