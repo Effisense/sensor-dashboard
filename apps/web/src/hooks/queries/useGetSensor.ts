@@ -1,12 +1,14 @@
 import { trpc } from "@/utils/trpc";
 import { useRouter } from "next/router";
-import { toast } from "../toast/useToast";
+import { useToast } from "../toast/useToast";
+import { useEffect } from "react";
 
 type GetSensorProps = {
   id: string;
 };
 
 const useGetSensor = ({ id }: GetSensorProps) => {
+  const { toast } = useToast();
   const router = useRouter();
   const {
     data,
@@ -52,6 +54,14 @@ const useGetSensor = ({ id }: GetSensorProps) => {
       });
     },
   });
+
+  useEffect(() => {
+    if (!deleteSensorIsLoading) return;
+    toast({
+      title: "Deleting sensor...",
+      severity: "loading",
+    });
+  }, [deleteSensorIsLoading, toast]);
 
   const isLoading = sensorIsLoading || deleteSensorIsLoading;
 

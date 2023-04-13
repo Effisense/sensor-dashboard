@@ -30,7 +30,7 @@ const useUpdateSensorForm = ({
   longitude,
 }: UpdateSensorFormProps) => {
   const { toast } = useToast();
-  const { mutateAsync } = trpc.sensor.update.useMutation({
+  const { mutateAsync, isLoading } = trpc.sensor.update.useMutation({
     onSuccess: () => {
       toast({
         title: "Success!",
@@ -79,6 +79,14 @@ const useUpdateSensorForm = ({
     if (!longitude) return;
     setValue("longitude", longitude);
   }, [longitude, setValue]);
+
+  useEffect(() => {
+    if (!isLoading) return;
+    toast({
+      title: "Updating sensor...",
+      severity: "loading",
+    });
+  }, [isLoading, toast]);
 
   return {
     register,

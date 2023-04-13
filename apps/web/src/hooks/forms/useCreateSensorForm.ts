@@ -50,7 +50,7 @@ const useCreateSensorForm = ({
     if (!isLoading) return;
     toast({
       title: "Creating sensor...",
-      severity: "neutral",
+      severity: "loading",
     });
   }, [isLoading, toast]);
 
