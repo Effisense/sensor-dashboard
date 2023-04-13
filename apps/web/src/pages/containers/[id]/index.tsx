@@ -8,6 +8,7 @@ import Alert from "@/ui/Alert";
 import { PencilIcon, TrashIcon } from "@heroicons/react/24/outline";
 import useGetContainerWithSensors from "@/hooks/queries/useGetContainerWithSensors";
 import LoadingSpinner from "@/ui/LoadingSpinner";
+import AllSensorsMap from "@/ui/map/AllSensorsMap";
 
 type ContainerPageProps = InferGetServerSidePropsType<
   typeof getServerSideProps
@@ -51,6 +52,9 @@ const ContainerPage = ({ id }: ContainerPageProps) => {
                   </li>
                 ))}
             </ul>
+            <div className="h-full min-w-4xl">
+            <AllSensorsMap sensors={sensors} />
+            </div>
           </div>
           <div className="items-left justify-left my-4 flex flex-row gap-x-4">
             <Link href={`/containers/${id}/update`}>
