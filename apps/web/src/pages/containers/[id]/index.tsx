@@ -8,6 +8,7 @@ import LoadingSpinner from "@/ui/LoadingSpinner";
 import AllSensorsMap from "@/ui/map/AllSensorsMap";
 import { Card, Text, Title } from "@tremor/react";
 import { Divider } from "@tremor/react";
+import SeverityToIcon from "@/ui/utils/SeverityToIcon";
 
 type ContainerPageProps = InferGetServerSidePropsType<
   typeof getServerSideProps
@@ -21,60 +22,65 @@ const ContainerPage = ({ id }: ContainerPageProps) => {
     await deleteContainerMutation({ containerId: id });
   };
 
-  // TODO: change textarea with card from tremor
   return (
     <div>
       {loading && <LoadingSpinner />}
       {!loading && container && (
-                <><><div className="flex flex-row items-center justify-center gap-x-8">
+          <><><div className="flex flex-row items-center justify-center gap-x-8">
           <div className=" mt-8">
             <AllSensorsMap sensors={sensors} />
           </div>
           <div className="flex-col flex gap-y-4 mt-4">
-          <Card className="max-w-xs mx-auto">
-              <Title>Sensors:</Title>
-          <div className="flex gap-x-2 mt-4">
-              <ul className="ml-8 list-disc">
-                {sensors &&
-                  sensors.map((sensor) => (
-                    <li key={sensor.id}>
+            <ul className="list-disc">
+              {sensors &&
+                sensors.map((sensor) => (
+                  <Card key={sensor.id} className="mx-auto flex flex-col max-h-7 justify-center">
+                    <div className="flex-row flex gap-x-2" >
+                    {/**TODO add real fillLevel*/}
+                      <div className="bg-red-600 w-[35px] max-w-xs flex justify-center items-center rounded text-white text-xs">
+                        54%
+                      </div>
                       <Link
                         className="hover:underline"
                         href={`/sensors/${sensor.id}`}
                       >
-                        {sensor.name}
+                      <Text>{sensor.name}</Text>
                       </Link>
-                    </li>
+                    {/**TODO change color if sensor not online*/}
+                      {SeverityToIcon("success")}
+                  </div>
+                </Card>
                   ))}
-              </ul>
+            </ul>
+          <Card className="max-w-sm mx-auto flex flex-col">
+            <div className="flex-row flex gap-x-2 mb-4">
+            <Title>{container?.name}</Title>
+            </div>
+            <div className="flex flex-col gap-y-2">
+              <div className="flex-row flex justify-between">
+                <Text>Height</Text>
+                <Text>{container.binHeightInMillimeters}</Text>
               </div>
-          </Card>
-            <Card className="max-w-sm mx-auto flex flex-col">
-              <div className="flex-row flex gap-x-2 mb-4">
-                <Title>{container?.name}</Title>
+              <Divider className="mb-1 mt-1" />
+              <div className="flex-row flex justify-between">
+                <Text>Width</Text>
+                <Text>{container.binWidthInMillimeters}</Text>
               </div>
-              <div className="flex-row flex gap-x-36">
-              <Text>Height</Text>
-              <Text>{container.binHeightInMillimeters}</Text>
+              <Divider className="mb-1 mt-1" />
+              <div className="flex-row flex justify-between">
+                <Text>Volume</Text>
+                <Text>{container.containerVolumeInLiters}</Text>
               </div>
-              <Divider className="mb-2 mt-2"/>
-              <div className="flex-row flex gap-x-36">
-              <Text>Width</Text>
-              <Text>{container.binWidthInMillimeters}</Text>
-              </div>
-              <Divider className="mb-2 mt-2" />
-              <div className="flex-row flex gap-x-36">
-              <Text>Volume</Text>
-              <Text>{container.containerVolumeInLiters}</Text>
-              </div>
-              <Divider className="mb-2 mt-2"/>
-              <div className="flex-row flex gap-x-24">
+            <Divider className="mb-1 mt-1" />
+            <div className="flex-row flex justify-between">
               <Text>Target fill-level</Text>
               <Text>{container.targetFillLevelInPercent}</Text>
-              </div>
-              <Card className="max-w-xs mx-auto mt-4">
-                <Text>{container.description}</Text>
-              </Card>
+            </div>
+          <Divider className="mb-1 mt-1" />
+          <Card className="max-w-xs mx-auto mt-2">
+            <Text>{container.description}</Text>
+          </Card>
+          </div>
               <div className="items-left justify-left my-4 flex flex-row gap-x-4 mt-4">
                 <Link href={`/sensors/${id}/update`}>
                   <Button
