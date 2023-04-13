@@ -48,19 +48,22 @@ const useSetSensorPositionMap = ({
       return;
     }
 
+    const lat = latitude || geoLocationLat;
+    const lng = longitude || geoLocationLong;
+
     map.current = MapboxMap({
       container: "map",
       style: "mapbox://styles/mapbox/dark-v11",
       center: {
-        lat: latitude || geoLocationLat,
-        lng: longitude || geoLocationLong,
+        lat,
+        lng,
       },
     });
 
     const marker = MapboxMarker({
       addTo: map.current,
-      latitude: latitude || geoLocationLat,
-      longitude: longitude || geoLocationLong,
+      latitude: lat,
+      longitude: lng,
     });
     setSensorMarker(marker);
   }, [longitude, latitude, geoLocationLat, geoLocationLong]);

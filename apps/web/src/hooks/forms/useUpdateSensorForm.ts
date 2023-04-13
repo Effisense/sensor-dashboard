@@ -58,18 +58,16 @@ const useUpdateSensorForm = ({
     handleSubmit,
     setValue,
     formState: { errors },
-    getValues,
   } = useZodForm({
     schema: UpdateSensorFormSchema,
     defaultValues: {
-      containerId: sensor?.containerId || undefined,
       name: sensor?.name,
+      description: sensor?.description,
+      containerId: sensor?.containerId || undefined,
       latitude: sensor?.latitude,
       longitude: sensor?.longitude,
     },
   });
-
-  console.log(getValues());
 
   const onSubmit = async (data: z.infer<typeof UpdateSensorFormSchema>) => {
     await mutateAsync({
@@ -78,11 +76,21 @@ const useUpdateSensorForm = ({
     });
   };
 
+  useEffect(() => {
+    if (!sensor) return;
+    setContainerId(sensor.containerId);
+  }, [sensor]);
+
   // Whenever the containerId changes in the dropdown menu, update the form value.
   useEffect(() => {
     if (!containerId) return;
     setValue("containerId", containerId);
   }, [containerId, setValue]);
+
+  useEffect(() => {
+    if (!sensor?.containerId) return;
+    setValue("containerId", sensor?.containerId);
+  }, [sensor?.containerId, setValue]);
 
   useEffect(() => {
     if (!latitude) return;

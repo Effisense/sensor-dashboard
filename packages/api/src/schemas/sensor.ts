@@ -2,7 +2,7 @@ import { z } from "zod";
 
 export const SensorSchema = z.object({
   sensorId: z.string(),
-  collectionId: z.string(),
+  collectionId: z.string().optional(),
   name: z.string().min(1, { message: "Required" }),
   description: z.string(),
   latitude: z
