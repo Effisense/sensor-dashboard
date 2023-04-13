@@ -139,7 +139,7 @@ export const sensorRouter = router({
       );
       if (!isMemberOfOrganization) {
         throw new TRPCError({
-          code: "BAD_REQUEST",
+          code: "UNAUTHORIZED",
           message: "You are not part of this organization",
         });
       }
@@ -163,7 +163,7 @@ export const sensorRouter = router({
         sensor.organizationId === ctx.auth.organizationId;
       if (!sensorBelongsToOrganization) {
         throw new TRPCError({
-          code: "BAD_REQUEST",
+          code: "UNAUTHORIZED",
           message: "Your organization does not own this sensor",
         });
       }

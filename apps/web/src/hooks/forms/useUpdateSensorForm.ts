@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { z } from "zod";
 import { useToast } from "../toast/useToast";
 import useZodForm from "../useZodForm";
+import { Sensor } from "@acme/db";
 
 /**
  * We use this schema to omit the `sensorId` from the form, because the `id` is passed in as a prop.
@@ -14,6 +15,7 @@ const UpdateSensorFormSchema = UpdateSensorSchema.omit({
 });
 
 type UpdateSensorFormProps = {
+  sensor?: Sensor;
   id: string;
   latitude?: number;
   longitude?: number;
@@ -25,6 +27,7 @@ type UpdateSensorFormProps = {
  * @returns all objects and handlers needed to update a sensor.
  */
 const useUpdateSensorForm = ({
+  sensor,
   id,
   latitude,
   longitude,
@@ -46,16 +49,27 @@ const useUpdateSensorForm = ({
       });
     },
   });
-  const [containerId, setContainerId] = useState<string | undefined>(undefined);
+  const [containerId, setContainerId] = useState<string | null | undefined>(
+    sensor?.containerId,
+  );
 
   const {
     register,
     handleSubmit,
     setValue,
     formState: { errors },
+    getValues,
   } = useZodForm({
     schema: UpdateSensorFormSchema,
+    defaultValues: {
+      containerId: sensor?.containerId || undefined,
+      name: sensor?.name,
+      latitude: sensor?.latitude,
+      longitude: sensor?.longitude,
+    },
   });
+
+  console.log(getValues());
 
   const onSubmit = async (data: z.infer<typeof UpdateSensorFormSchema>) => {
     await mutateAsync({

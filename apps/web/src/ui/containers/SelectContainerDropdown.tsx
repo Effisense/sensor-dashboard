@@ -18,8 +18,8 @@ import LoadingSpinner from "../LoadingSpinner";
 import { useRouter } from "next/router";
 
 type SelectContainerDropdownProps = {
-  containerId?: string;
-  setContainerId: Dispatch<SetStateAction<string | undefined>>;
+  containerId?: string | null;
+  setContainerId: Dispatch<SetStateAction<string | null | undefined>>;
   isLoading: boolean;
   data?: Container[];
 };
@@ -37,7 +37,7 @@ const SelectContainerDropdown = ({
 
   return (
     <div className="flex w-full flex-col items-center justify-start gap-y-2">
-      <Label htmlFor={containerId}>Container</Label>
+      <Label htmlFor={containerId || ""}>Container</Label>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant="default">
@@ -61,7 +61,7 @@ const SelectContainerDropdown = ({
           {data && data.length > 0 && (
             <>
               <DropdownMenuRadioGroup
-                value={containerId}
+                value={containerId || undefined}
                 onValueChange={setContainerId}
               >
                 {data?.map((container) => (
