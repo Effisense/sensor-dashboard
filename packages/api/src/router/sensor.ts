@@ -10,6 +10,7 @@ import {
 } from "../schemas/sensor";
 import { protectedProcedure, publicProcedure, router } from "../trpc";
 import { sensorBelongsToCollection as _sensorBelongsToCollection } from "../utils/sensor";
+import { Sensor } from "../lib/kysely";
 
 export const sensorRouter = router({
   create: protectedProcedure
