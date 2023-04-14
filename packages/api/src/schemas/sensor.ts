@@ -2,7 +2,7 @@ import { z } from "zod";
 
 export const SensorSchema = z.object({
   sensorId: z.string(),
-  collectionId: z.string().optional(),
+  collectionId: z.string(),
   name: z.string().min(1, { message: "Required" }),
   description: z.string(),
   latitude: z
@@ -13,7 +13,7 @@ export const SensorSchema = z.object({
     .number()
     .min(-180, { message: "Must be between -180 and 180" })
     .max(180, { message: "Must be between -180 and 180" }),
-  containerId: z.string(),
+  containerId: z.string().optional(),
 });
 export type Sensor = z.infer<typeof SensorSchema>;
 

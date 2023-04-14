@@ -1,8 +1,6 @@
 import Head from "next/head";
 import { ReactNode } from "react";
 import Footer from "./Footer";
-import DesktopNavigation from "./navigation/DesktopNavigation";
-import MobileNavigation from "./navigation/MobileNavigation";
 import Navigation from "./navigation/Navigation";
 
 type LayoutProps = {

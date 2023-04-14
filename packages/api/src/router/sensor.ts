@@ -1,7 +1,6 @@
 import { getLocationFromLngLat } from "@acme/mapbox";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
-import { Sensor } from "../lib/kysely";
 import { userIsMemberOfOrganization } from "../lib/clerk";
 import {
   SensorIdSchema,
