@@ -26,7 +26,7 @@ const ContainerPage = ({ id }: ContainerPageProps) => {
     <div>
       {loading && <LoadingSpinner />}
       {!loading && container && (
-          <><><div className="flex flex-row items-center justify-center gap-x-8">
+          <><><div className="flex flex-col md:flex-row items-center justify-center gap-x-8">
           <div className=" mt-8">
             <AllSensorsMap sensors={sensors} />
           </div>
