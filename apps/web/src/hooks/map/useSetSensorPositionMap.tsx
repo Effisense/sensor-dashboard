@@ -1,36 +1,32 @@
 import { useEffect, useRef, useState } from "react";
-import useGeoLocation from "./useGeolocation";
-import { mapbox, MapboxGeocoder, MapboxMap, MapboxMarker } from "@acme/mapbox";
+import useGeoLocation from "../useGeolocation";
+import { mapbox, MapboxMap, MapboxMarker } from "@acme/mapbox";
+import { trpc } from "@/utils/trpc";
 
 /**
  * Handles initialization of the map from Mapbox, and updates the sensor marker's position on move.
  *
  * @returns the `ref` to the map container. This is used to render the map, for instance in a `div` element: `<div ref={container} />`.
  */
-const useMap = () => {
+const useSetSensorPositionMap = () => {
   const container = useRef(null);
-  const { latitude, longitude, error } = useGeoLocation();
+  const { latitude, longitude } = useGeoLocation();
   const map = useRef<mapbox.Map | null>(null);
   const [sensorMarker, setSensorMarker] = useState<mapbox.Marker | null>(null);
-  const [location, setLocation] = useState<string | null>(null);
-
-  MapboxGeocoder.on("result", (event) => {
-    // Note that this is a MapboxGeocoder event, not a Mapbox event.
-    // The types in this library are not well maintained, so we have to cast the result by trial and error.
-    if (
-      !event.result.place_name ||
-      !event.result.geometry.coordinates ||
-      !sensorMarker
-    ) {
-      return;
-    }
-
-    const [lng, lat] = event.result.geometry.coordinates as [number, number];
-    const location = event.result.place_name as string;
-
-    setLocation(location);
-    sensorMarker.setLngLat({ lng, lat });
-  });
+  const {
+    data,
+    isLoading: locationIsLoading,
+    error,
+    refetch,
+  } = trpc.map.getLocationFromLngLat.useQuery(
+    {
+      longitude: sensorMarker?.getLngLat().lng,
+      latitude: sensorMarker?.getLngLat().lat,
+    },
+    {
+      enabled: !!sensorMarker?.getLngLat(),
+    },
+  );
 
   // Initialize map
   useEffect(() => {
@@ -76,15 +72,20 @@ const useMap = () => {
 
     map.current.on("moveend", () => {
       setSensorMarker(sensorMarker);
+      refetch();
     });
   });
 
+  const isLoading = map.current?.isMoving() || locationIsLoading;
+
   return {
     container,
-    geoLocationEnabled: !!error,
-    sensorMarker,
-    location,
+    data,
+    latitude: sensorMarker?.getLngLat().lat,
+    longitude: sensorMarker?.getLngLat().lng,
+    isLoading,
+    error,
   };
 };
 
-export default useMap;
+export default useSetSensorPositionMap;

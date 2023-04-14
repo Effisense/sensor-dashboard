@@ -5,7 +5,7 @@ import {
 } from "@acme/api/src/schemas/sensor";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
-import { useToast } from "./useToast";
+import { useToast } from "./toast/useToast";
 
 /**
  * Handles scanning of a sensor QR code.

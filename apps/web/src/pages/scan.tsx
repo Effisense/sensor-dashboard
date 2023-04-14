@@ -11,7 +11,7 @@ const ScanPage = () => {
   return (
     <div className="w-full">
       <div className="flex flex-col items-center justify-center py-8">
-        <H1>Welcome to Effisense</H1>
+        <H1>Add sensor</H1>
         <Subtle>Please scan the QR code on your sensor.</Subtle>
       </div>
 

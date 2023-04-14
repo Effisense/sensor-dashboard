@@ -1,6 +1,5 @@
 import { SignUp, useAuth } from "@clerk/nextjs";
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
-import { getAuth } from "@clerk/nextjs/server";
 import { RedirectSchema } from "@/schemas";
 import LoadingSpinner from "@/ui/LoadingSpinner";
 
@@ -31,17 +30,6 @@ const SignUpPage = ({ redirect }: SignUpPageProps) => {
 };
 
 export const getServerSideProps = (ctx: GetServerSidePropsContext) => {
-  const { userId } = getAuth(ctx.req);
-
-  if (userId) {
-    return {
-      redirect: {
-        destination: "/",
-        permanent: false,
-      },
-    };
-  }
-
   const { success } = RedirectSchema.safeParse(ctx.query.redirect);
   if (!success) {
     return {

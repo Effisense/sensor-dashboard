@@ -7,6 +7,7 @@ import {
   SensorIdSchema,
   SensorSchema,
   SpanApiPayloadSchema,
+  UpdateSensorSchema,
 } from "../schemas/sensor";
 import { protectedProcedure, publicProcedure, router } from "../trpc";
 import { sensorBelongsToCollection as _sensorBelongsToCollection } from "../utils/sensor";
@@ -76,7 +77,7 @@ export const sensorRouter = router({
       if (!containerExists) {
         throw new TRPCError({
           code: "BAD_REQUEST",
-          message: "Container type not found",
+          message: "Container not found",
         });
       }
 
@@ -94,19 +95,26 @@ export const sensorRouter = router({
         })
         .then((org) => org);
 
-      return ctx.prisma.sensor.create({
-        data: {
-          id: sensorId,
-          collectionId,
-          latitude,
-          longitude,
-          name,
-          description,
-          location: location || "",
-          containerId,
-          organizationId: ctx.auth.organizationId,
-        },
-      });
+      return ctx.prisma.sensor
+        .create({
+          data: {
+            id: sensorId,
+            collectionId,
+            latitude,
+            longitude,
+            name,
+            description,
+            location: location || "",
+            containerId,
+            organizationId: ctx.auth.organizationId,
+          },
+        })
+        .catch(() => {
+          throw new TRPCError({
+            code: "INTERNAL_SERVER_ERROR",
+            message: "It seems like this sensor already exists.",
+          });
+        });
     }),
 
   get: protectedProcedure
@@ -136,11 +144,13 @@ export const sensorRouter = router({
         });
       }
 
-      const sensor = await ctx.prisma.sensor.findUnique({
-        where: {
-          id,
-        },
-      });
+      const sensor = await ctx.prisma.sensor
+        .findUnique({
+          where: {
+            id,
+          },
+        })
+        .then((sensor) => sensor);
 
       if (!sensor) {
         throw new TRPCError({
@@ -160,35 +170,47 @@ export const sensorRouter = router({
 
       const container = await ctx.prisma.container.findUnique({
         where: {
-          id: sensor.containerId,
+          id: sensor.containerId || undefined || "",
         },
       });
 
-      const timeseries = Sensor.selectAll()
-        .where("sensor_id", "=", id)
-        .orderBy("time", "desc")
-        .limit(1)
-        .execute();
-
       return {
         sensor,
-        timeseries,
         container,
       };
     }),
 
+  getAll: protectedProcedure.query(async ({ ctx }) => {
+    if (!ctx.auth.organizationId) {
+      throw new TRPCError({
+        code: "BAD_REQUEST",
+        message: "Organization not found",
+      });
+    }
+
+    const isMemberOfOrganization = await userIsMemberOfOrganization(
+      ctx.auth.user?.id,
+      ctx.auth.organizationId,
+    );
+    if (!isMemberOfOrganization) {
+      throw new TRPCError({
+        code: "BAD_REQUEST",
+        message: "You are not part of this organization",
+      });
+    }
+
+    return await ctx.prisma.sensor.findMany({
+      where: {
+        organizationId: ctx.auth.organizationId,
+      },
+    });
+  }),
+
   update: protectedProcedure
-    .input(SensorSchema)
+    .input(UpdateSensorSchema)
     .mutation(async ({ ctx, input }) => {
-      const {
-        sensorId,
-        collectionId,
-        name,
-        description,
-        latitude,
-        longitude,
-        containerId,
-      } = input;
+      const { sensorId, name, description, latitude, longitude, containerId } =
+        input;
 
       if (!ctx.auth.organizationId) {
         throw new TRPCError({
@@ -223,7 +245,6 @@ export const sensorRouter = router({
           id: sensorId,
         },
         data: {
-          collectionId,
           latitude,
           longitude,
           name,

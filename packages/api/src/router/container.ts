@@ -3,13 +3,13 @@ import { userIsMemberOfOrganization } from "../lib/clerk";
 import {
   ContainerIdSchema,
   ContainerSchema,
-  CreateContainerSchema,
+  ContainerFormSchema,
 } from "../schemas/container";
 import { protectedProcedure, router } from "../trpc";
 
 export const containerRouter = router({
   create: protectedProcedure
-    .input(CreateContainerSchema)
+    .input(ContainerFormSchema)
     .mutation(async ({ ctx, input }) => {
       const {
         name,
@@ -56,7 +56,7 @@ export const containerRouter = router({
   get: protectedProcedure
     .input(ContainerIdSchema)
     .query(async ({ ctx, input }) => {
-      const { containerId: containerTypeId } = input;
+      const { containerId } = input;
 
       const isMemberOfOrganization = await userIsMemberOfOrganization(
         ctx.auth.user?.id,
@@ -69,11 +69,20 @@ export const containerRouter = router({
         });
       }
 
-      return ctx.prisma.container.findUnique({
+      const container = await ctx.prisma.container.findUnique({
         where: {
-          id: containerTypeId,
+          id: containerId,
         },
       });
+
+      if (!container) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Container not found",
+        });
+      }
+
+      return container;
     }),
 
   getAll: protectedProcedure.query(async ({ ctx }) => {
@@ -101,6 +110,29 @@ export const containerRouter = router({
       },
     });
   }),
+
+  getSensorsByContainerId: protectedProcedure
+    .input(ContainerIdSchema)
+    .query(async ({ ctx, input }) => {
+      const { containerId } = input;
+
+      const isMemberOfOrganization = await userIsMemberOfOrganization(
+        ctx.auth.user?.id,
+        ctx.auth.organizationId,
+      );
+      if (!isMemberOfOrganization) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "You are not part of this organization",
+        });
+      }
+
+      return ctx.prisma.sensor.findMany({
+        where: {
+          containerId,
+        },
+      });
+    }),
 
   update: protectedProcedure
     .input(ContainerSchema)

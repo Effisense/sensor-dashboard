@@ -1,5 +1,3 @@
-import { getAuth } from "@clerk/nextjs/server";
-import { GetServerSidePropsContext } from "next";
 import { Button } from "../../ui/Button";
 import H1 from "@/ui/typography/H1";
 import FormInput from "@/ui/FormInput";
@@ -33,7 +31,7 @@ const CreateContainerPage = () => {
 
         <FormInput
           label="Target fill level (%)"
-          errorMessage={errors.name?.message}
+          errorMessage={errors.targetFillLevelInPercent?.message}
           id="targetFillLevelInPercent"
           register={register}
           valueAsNumber
@@ -78,23 +76,6 @@ const CreateContainerPage = () => {
       </form>
     </div>
   );
-};
-
-export const getServerSideProps = (ctx: GetServerSidePropsContext) => {
-  const { userId } = getAuth(ctx.req);
-
-  if (!userId) {
-    return {
-      redirect: {
-        destination: "/sign-in?redirect=/containers/create",
-        permanent: false,
-      },
-    };
-  }
-
-  return {
-    props: {},
-  };
 };
 
 export default CreateContainerPage;
