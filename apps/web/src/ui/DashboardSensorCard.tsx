@@ -1,5 +1,6 @@
 import { Sensor } from "@acme/db";
-import { Card, Title, Flex, Badge } from "@tremor/react";
+import { ArrowRightIcon } from "@heroicons/react/24/outline";
+import { Card, Title, Badge } from "@tremor/react";
 import Link from "next/link";
 
 type DashboardSensorCardProps = {
@@ -15,30 +16,15 @@ const DashboardSensorCard = ({
     <Link href={`/sensors/${sensor.id}`}>
       <div>
         <Card>
-          <Flex>
+          <div className="flex items-center justify-center gap-x-2">
             <Badge size="lg" color="yellow" className="mr-4 h-10">
-              {fillLevel} %
+              {`${fillLevel} %`}
             </Badge>
             <div className="pr-3">
               <Title>{sensor.name}</Title>
             </div>
-            <div className="">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke-width="1.5"
-                stroke="currentColor"
-                className="h-6"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"
-                />
-              </svg>
-            </div>
-          </Flex>
+            <ArrowRightIcon className="w-4" />
+          </div>
         </Card>
       </div>
     </Link>
