@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { z } from "zod";
 import { useToast } from "../toast/useToast";
 import useZodForm from "../useZodForm";
+import { Sensor } from "@acme/db";
 
 /**
  * We use this schema to omit the `sensorId` from the form, because the `id` is passed in as a prop.
@@ -14,6 +15,7 @@ const UpdateSensorFormSchema = UpdateSensorSchema.omit({
 });
 
 type UpdateSensorFormProps = {
+  sensor?: Sensor;
   id: string;
   latitude?: number;
   longitude?: number;
@@ -25,6 +27,7 @@ type UpdateSensorFormProps = {
  * @returns all objects and handlers needed to update a sensor.
  */
 const useUpdateSensorForm = ({
+  sensor,
   id,
   latitude,
   longitude,
@@ -46,7 +49,9 @@ const useUpdateSensorForm = ({
       });
     },
   });
-  const [containerId, setContainerId] = useState<string | undefined>(undefined);
+  const [containerId, setContainerId] = useState<string | null | undefined>(
+    sensor?.containerId,
+  );
 
   const {
     register,
@@ -55,6 +60,13 @@ const useUpdateSensorForm = ({
     formState: { errors },
   } = useZodForm({
     schema: UpdateSensorFormSchema,
+    defaultValues: {
+      name: sensor?.name,
+      description: sensor?.description,
+      containerId: sensor?.containerId || undefined,
+      latitude: sensor?.latitude,
+      longitude: sensor?.longitude,
+    },
   });
 
   const onSubmit = async (data: z.infer<typeof UpdateSensorFormSchema>) => {
@@ -64,11 +76,21 @@ const useUpdateSensorForm = ({
     });
   };
 
+  useEffect(() => {
+    if (!sensor) return;
+    setContainerId(sensor.containerId);
+  }, [sensor]);
+
   // Whenever the containerId changes in the dropdown menu, update the form value.
   useEffect(() => {
     if (!containerId) return;
     setValue("containerId", containerId);
   }, [containerId, setValue]);
+
+  useEffect(() => {
+    if (!sensor?.containerId) return;
+    setValue("containerId", sensor?.containerId);
+  }, [sensor?.containerId, setValue]);
 
   useEffect(() => {
     if (!latitude) return;
