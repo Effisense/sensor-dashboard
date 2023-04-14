@@ -1,18 +1,23 @@
 import { Sensor } from "@acme/db";
 import { Card, Title, Flex, Subtitle, Badge } from "@tremor/react";
+import Link from "next/link";
 
-function DashSensorCard(sensor: { sensor: Sensor; fillLevel: number }) {
+type DashSensorCardProps = {
+  sensor: Sensor;
+  fillLevel: number;
+};
+
+function DashSensorCard({ sensor, fillLevel }: DashSensorCardProps) {
   return (
-    <a href="">
+    <Link href={`/sensors/${sensor.id}`}>
       <div>
         <Card>
           <Flex>
             <Badge size="lg" color="yellow" className="mr-4 h-10">
-              {sensor.fillLevel} %
+              {fillLevel} %
             </Badge>
             <div className="pr-3">
-              <Title>{sensor.sensor.name}</Title>
-              <Subtitle>Oppdatert: 10.38, 04.03.23</Subtitle>
+              <Title>{sensor.name}</Title>
             </div>
             <div className="">
               <svg
@@ -33,7 +38,7 @@ function DashSensorCard(sensor: { sensor: Sensor; fillLevel: number }) {
           </Flex>
         </Card>
       </div>
-    </a>
+    </Link>
   );
 }
 

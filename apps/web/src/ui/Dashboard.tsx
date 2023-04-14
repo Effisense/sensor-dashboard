@@ -1,11 +1,11 @@
 import { trpc } from "@/utils/trpc";
 import DashContainerCard from "./DashContainerCard";
 import DashSensorCard from "./DashSensorCard";
-import CreateSensorMap from "./Map";
 import { useState, useEffect } from "react";
 import { Sensor } from "@acme/db";
 import { Card, Title } from "@tremor/react";
 import { MouseEvent } from "react";
+import AllSensorsMap from "./map/AllSensorsMap";
 
 interface sensorWithFillType {
   sensor: Sensor;
@@ -91,7 +91,7 @@ export default function Dashboard() {
       </div>
       <div className="order-1 flex-grow lg:order-2 lg:w-2/4 ">
         <div className="h-full w-full">
-          <CreateSensorMap />
+          <AllSensorsMap sensors={currentSensors.map((s) => s.sensor)} />
         </div>
       </div>
       <div className=" order-3 mx-auto">
@@ -104,8 +104,9 @@ export default function Dashboard() {
             </p>
           )}
           {currentSensors.map((item, index) => (
+            
             <div key={index} className="mb-4">
-              <DashSensorCard sensor={item} />
+              <DashSensorCard sensor={item.sensor} fillLevel={item.fillLevel} />
             </div>
           ))}
         </div>
