@@ -213,4 +213,59 @@ export const containerRouter = router({
         },
       });
     }),
+
+  getAllContainersWithSensorsAndFillLevel: protectedProcedure.query(
+    async ({ ctx }) => {
+      if (!ctx.auth.organizationId) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "Organization not found",
+        });
+      }
+
+      const isMemberOfOrganization = await userIsMemberOfOrganization(
+        ctx.auth.user?.id,
+        ctx.auth.organizationId,
+      );
+      if (!isMemberOfOrganization) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "You are not part of this organization",
+        });
+      }
+
+      //get all containers associated with the organization
+      const containers = await ctx.prisma.container.findMany({
+        where: {
+          organizationId: ctx.auth.organizationId,
+        },
+      });
+
+      //get all sensors associated with the organization
+      const sensors = await ctx.prisma.sensor.findMany({
+        where: {
+          organizationId: ctx.auth.organizationId,
+        },
+      });
+
+      //Map over all containers and add the sensors and fill level to each container
+      const containersWithSensorsAndFillLevel = containers.map((container) => {
+        const sensorsForContainer = sensors.filter(
+          (sensor) => sensor.containerId === container.id,
+        );
+
+        // const fillLevel = getFillLevel(timeseries, containerType);
+        const fillLevel = 83; // Dummy value, replace with actual value from the function above
+
+        console.log({
+          ...container,
+          sensors: sensorsForContainer,
+          fillLevel: fillLevel,
+        });
+      });
+
+      //return the containers with sensors and fill level
+      return containersWithSensorsAndFillLevel;
+    },
+  ),
 });

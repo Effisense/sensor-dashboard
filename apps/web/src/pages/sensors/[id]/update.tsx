@@ -61,11 +61,6 @@ const UpdateSensorPage = ({ id }: UpdateSensorPageProps) => {
 
   return (
     <div>
-      {!error && isLoading && (
-        <div className="flex items-center justify-center">
-          <LoadingSpinner />
-        </div>
-      )}
       {sensorExists && (
         <div>
           <div className="flex flex-col items-center justify-center py-8">
