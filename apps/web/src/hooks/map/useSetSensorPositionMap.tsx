@@ -3,14 +3,23 @@ import useGeoLocation from "../useGeolocation";
 import { mapbox, MapboxMap, MapboxMarker } from "@acme/mapbox";
 import { trpc } from "@/utils/trpc";
 
+type SetSensorPositionMapProps = {
+  latitude?: number;
+  longitude?: number;
+};
+
 /**
  * Handles initialization of the map from Mapbox, and updates the sensor marker's position on move.
  *
  * @returns the `ref` to the map container. This is used to render the map, for instance in a `div` element: `<div ref={container} />`.
  */
-const useSetSensorPositionMap = () => {
+const useSetSensorPositionMap = ({
+  latitude,
+  longitude,
+}: SetSensorPositionMapProps) => {
   const container = useRef(null);
-  const { latitude, longitude } = useGeoLocation();
+  const { latitude: geoLocationLat, longitude: geoLocationLong } =
+    useGeoLocation();
   const map = useRef<mapbox.Map | null>(null);
   const [sensorMarker, setSensorMarker] = useState<mapbox.Marker | null>(null);
   const {
@@ -34,26 +43,30 @@ const useSetSensorPositionMap = () => {
       return;
     }
 
-    if (!longitude || !latitude) {
+    // Don't initialize map if no coordinates are available
+    if (!latitude || !longitude || !geoLocationLat || !geoLocationLong) {
       return;
     }
+
+    const lat = latitude || geoLocationLat;
+    const lng = longitude || geoLocationLong;
 
     map.current = MapboxMap({
       container: "map",
       style: "mapbox://styles/mapbox/light-v11",
       center: {
-        lat: latitude,
-        lng: longitude,
+        lat,
+        lng,
       },
     });
 
     const marker = MapboxMarker({
       addTo: map.current,
-      latitude,
-      longitude,
+      latitude: lat,
+      longitude: lng,
     });
     setSensorMarker(marker);
-  }, [longitude, latitude]);
+  }, [longitude, latitude, geoLocationLat, geoLocationLong]);
 
   // Update sensor marker's position when map is moved
   useEffect(() => {

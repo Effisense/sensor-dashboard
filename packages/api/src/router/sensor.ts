@@ -1,7 +1,6 @@
 import { getLocationFromLngLat } from "@acme/mapbox";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
-import { Sensor } from "../lib/kysely";
 import { userIsMemberOfOrganization } from "../lib/clerk";
 import {
   SensorIdSchema,
@@ -139,7 +138,7 @@ export const sensorRouter = router({
       );
       if (!isMemberOfOrganization) {
         throw new TRPCError({
-          code: "BAD_REQUEST",
+          code: "UNAUTHORIZED",
           message: "You are not part of this organization",
         });
       }
@@ -163,7 +162,7 @@ export const sensorRouter = router({
         sensor.organizationId === ctx.auth.organizationId;
       if (!sensorBelongsToOrganization) {
         throw new TRPCError({
-          code: "BAD_REQUEST",
+          code: "UNAUTHORIZED",
           message: "Your organization does not own this sensor",
         });
       }

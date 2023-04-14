@@ -8,9 +8,11 @@ import axios from "axios";
  * @returns a boolean determining if the sensor belongs to the collection
  */
 export const sensorBelongsToCollection = async (
-  deviceId: string,
-  collectionId: string,
+  deviceId?: string,
+  collectionId?: string,
 ) => {
+  if (!deviceId || !collectionId) return false;
+
   return await axios
     .get(
       `https://api.lab5e.com/span/collections/${collectionId}/devices/${deviceId}`,

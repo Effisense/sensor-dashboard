@@ -23,6 +23,11 @@ const useGetSensor = ({ id }: GetSensorProps) => {
           return;
         }
 
+        if (err.data?.code === "UNAUTHORIZED") {
+          router.push("/");
+          return;
+        }
+
         toast({
           title: "Error!",
           description: "There was an error while fetching the sensor",
