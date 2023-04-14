@@ -11,6 +11,7 @@ import {
 } from "@tremor/react";
 import CreateSensorMap from "@/ui/Map";
 import { MapPinIcon, SignalIcon } from "@heroicons/react/24/solid";
+import React from "react";
 
 const chartdataOld = [
   {

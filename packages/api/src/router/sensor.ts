@@ -10,7 +10,6 @@ import {
 } from "../schemas/sensor";
 import { protectedProcedure, publicProcedure, router } from "../trpc";
 import { sensorBelongsToCollection as _sensorBelongsToCollection } from "../utils/sensor";
-import getFillLevel from "../utils/sensorDataInRange";
 
 export const sensorRouter = router({
   create: protectedProcedure
@@ -159,7 +158,7 @@ export const sensorRouter = router({
         });
       }
 
-      const containerType = await ctx.prisma.container.findUnique({
+      const container = await ctx.prisma.container.findUnique({
         where: {
           id: sensor.containerId,
         },
@@ -174,7 +173,7 @@ export const sensorRouter = router({
       return {
         sensor,
         timeseries,
-        containerType,
+        container,
       };
     }),
 
@@ -268,7 +267,7 @@ export const sensorRouter = router({
       return await _sensorBelongsToCollection(deviceId, collectionId);
     }),
 
-  getAllSensorsWithFill: protectedProcedure.query(async ({ ctx }) => {
+  getAllSensorsWithFillLevel: protectedProcedure.query(async ({ ctx }) => {
     if (!ctx.auth.organizationId) {
       throw new TRPCError({
         code: "BAD_REQUEST",
@@ -296,22 +295,25 @@ export const sensorRouter = router({
     const sensorsWithFillLevel = [];
 
     for (const sensor of sensors) {
+      if (!sensor.containerId) continue;
+
       const timeseries = await Sensor.selectAll()
         .where("sensor_id", "=", sensor.id)
         .orderBy("time", "desc")
         .limit(1)
-        .execute();
+        .execute()
+        .then((value) => value[0]);
 
-      const containerType = await ctx.prisma.container.findUnique({
+      const container = await ctx.prisma.container.findUnique({
         where: {
           id: sensor.containerId,
         },
       });
 
-      // const fillLevel = getFillLevel(timeseries, containerType);
+      // const fillLevel = getFillLevel(timeseries, container);
       const fillLevel = 83; // Dummy value, replace with actual value from the function above
 
-      sensorsWithFillLevel.push([sensor, fillLevel]);
+      sensorsWithFillLevel.push({ sensor, fillLevel });
     }
 
     return sensorsWithFillLevel;
