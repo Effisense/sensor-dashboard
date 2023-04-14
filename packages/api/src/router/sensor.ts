@@ -332,7 +332,7 @@ export const sensorRouter = router({
       });
 
       // const fillLevel = getFillLevel(timeseries, container);
-      const fillLevel = 83; // Dummy value, replace with actual value from the function above
+      const fillLevel = 83; // TODO: Dummy value, replace with actual value from the function above
 
       sensorsWithFillLevel.push({ sensor, fillLevel });
     }

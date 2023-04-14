@@ -1,13 +1,16 @@
 import { Sensor } from "@acme/db";
-import { Card, Title, Flex, Subtitle, Badge } from "@tremor/react";
+import { Card, Title, Flex, Badge } from "@tremor/react";
 import Link from "next/link";
 
-type DashSensorCardProps = {
+type DashboardSensorCardProps = {
   sensor: Sensor;
   fillLevel: number;
 };
 
-function DashSensorCard({ sensor, fillLevel }: DashSensorCardProps) {
+const DashboardSensorCard = ({
+  sensor,
+  fillLevel,
+}: DashboardSensorCardProps) => {
   return (
     <Link href={`/sensors/${sensor.id}`}>
       <div>
@@ -40,6 +43,6 @@ function DashSensorCard({ sensor, fillLevel }: DashSensorCardProps) {
       </div>
     </Link>
   );
-}
+};
 
-export default DashSensorCard;
+export default DashboardSensorCard;
