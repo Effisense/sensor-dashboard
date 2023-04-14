@@ -28,12 +28,12 @@ const IndexPage = ({}: IndexPageProps) => {
   } = trpc.container.getAll.useQuery();
 
   const [currentSensors, setCurrentSensors] = useState(sensorsWithFillLevel);
-  const [selectedContainer, setSelectedContainer] = useState<string | null>(
+  const [selectedContainerId, setSelectedContainerId] = useState<string | null>(
     null,
   );
 
   const handleContainerSelect = (containerId: string | null) => {
-    setSelectedContainer(containerId);
+    setSelectedContainerId(containerId);
 
     if (!containerId) {
       setCurrentSensors(sensorsWithFillLevel || []);
@@ -65,7 +65,7 @@ const IndexPage = ({}: IndexPageProps) => {
               <Card
                 className={cn(
                   "mt-4 transition-all duration-300",
-                  !selectedContainer ? "bg-green-5" : "bg-slate-100",
+                  !selectedContainerId ? "bg-green-5" : "bg-slate-100",
                 )}
                 onClick={() => handleContainerSelect(null)}
               >
@@ -74,16 +74,20 @@ const IndexPage = ({}: IndexPageProps) => {
 
               <h1 className="pt-8 pb-3 text-lg font-bold">Dine søppelbøtter</h1>
               {containers?.map((container) => (
-                <Card
-                  key={container.id}
-                  className={cn(
-                    "mt-4 transition-all duration-300",
-                    !selectedContainer ? "bg-green-5" : "bg-slate-100",
-                  )}
-                  onClick={() => handleContainerSelect(null)}
-                >
-                  <Title>{container.name}</Title>
-                </Card>
+                <Link href={`/containers/${container.id}`} key={container.id}>
+                  <Card
+                    key={container.id}
+                    className={cn(
+                      "mt-4 transition-all duration-300",
+                      !(container.id === selectedContainerId)
+                        ? "bg-green-5"
+                        : "bg-slate-100",
+                    )}
+                    onClick={() => handleContainerSelect(container.id)}
+                  >
+                    <Title>{container.name}</Title>
+                  </Card>
+                </Link>
               ))}
             </div>
           )}
