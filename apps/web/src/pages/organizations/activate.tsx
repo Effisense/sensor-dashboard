@@ -1,12 +1,31 @@
+import { Button } from "@/ui/Button";
+import { Input } from "@/ui/Input";
 import LoadingSpinner from "@/ui/LoadingSpinner";
 import OrganizationSwitcher from "@/ui/OrganizationSwitcher";
 import H1 from "@/ui/typography/H1";
 import H2 from "@/ui/typography/H2";
+import H4 from "@/ui/typography/H4";
+import P from "@/ui/typography/P";
 import Subtle from "@/ui/typography/Subtle";
-import { userIsMemberOfAnyOrganization } from "@acme/api/src/lib/clerk";
+import SeverityToIcon from "@/ui/utils/SeverityToIcon";
+import becomeCustomerEmail from "@/utils/becomeCustomerEmail";
+import isEmptyString from "@/utils/isEmptyString";
+import {
+  getUser,
+  userIsMemberOfAnyOrganization,
+} from "@acme/api/src/lib/clerk";
 import { useAuth } from "@clerk/nextjs";
 import { getAuth } from "@clerk/nextjs/server";
+import {
+  HandThumbDownIcon,
+  HandThumbUpIcon,
+  QuestionMarkCircleIcon,
+  RocketLaunchIcon,
+} from "@heroicons/react/24/outline";
+import { inferAsyncReturnType } from "@trpc/server";
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
+import Link from "next/link";
+import { useState } from "react";
 
 type ActivateOrganizationPageProps = InferGetServerSidePropsType<
   typeof getServerSideProps
@@ -14,27 +33,113 @@ type ActivateOrganizationPageProps = InferGetServerSidePropsType<
 
 const ActivateOrganizationPage = ({
   isMemberOfAnyOrganization,
+  user,
 }: ActivateOrganizationPageProps) => {
   const { isLoaded } = useAuth();
+  const [organizationName, setOrganizationName] = useState("");
+  const [isCustomer, setIsCustomer] = useState<boolean | null>(null);
 
   return (
-    <div>
+    <div className="flex flex-col items-center justify-center">
       <H1>Welcome to Effisense</H1>
       <Subtle>
         Before you can use the platform, you need to set an active organization.
       </Subtle>
 
       {!isMemberOfAnyOrganization && (
-        <div>
-          <H2>TODO</H2>
-          <Subtle>
-            Handle the case where the user does not belong to any organization
-            yet.
-          </Subtle>
+        <div className="my-4 flex flex-col items-center justify-center">
+          <H4 className="flex items-center justify-center gap-x-2">
+            {SeverityToIcon("warning", "w-6")}
+            <span>
+              It looks like you&apos;re not a member of any organization!
+            </span>
+          </H4>
+          <P>
+            Is your organization already a customer of the Effisense platform?
+          </P>
+
+          <div className="my-4 flex items-center justify-center gap-x-2">
+            <Button
+              variant="subtle"
+              className="flex items-center justify-center gap-x-2 bg-mint-6 hover:bg-mint-7"
+              onClick={() => setIsCustomer(true)}
+            >
+              <HandThumbUpIcon className="w-4" />
+              <span>Yes</span>
+            </Button>
+
+            <Button
+              variant="subtle"
+              className="flex items-center justify-center gap-x-2 bg-mint-6 hover:bg-mint-7"
+              onClick={() => setIsCustomer(false)}
+            >
+              <HandThumbDownIcon className="w-4" />
+              <span>No</span>
+            </Button>
+
+            <Button
+              variant="subtle"
+              className="flex items-center justify-center gap-x-2 bg-mint-6 hover:bg-mint-7"
+              onClick={() => setIsCustomer(false)}
+            >
+              <QuestionMarkCircleIcon className="w-4" />
+              <span>I don&apos;t know</span>
+            </Button>
+          </div>
+
+          <div className="flex w-3/4 flex-col items-center justify-center">
+            {isCustomer && (
+              <P className="mt-6">
+                If your organization is already a customer,{" "}
+                <span className="font-bold">
+                  please ask your organization administrator to invite you
+                </span>
+                .
+              </P>
+            )}
+
+            {!isCustomer && (
+              <div className="mt-6">
+                <P>
+                  If your organization is not yet a customer,{" "}
+                  <span className="font-bold">
+                    please reach out to Effisense to become a customer
+                  </span>
+                  .
+                </P>
+
+                <div className="my-4 flex w-full items-center justify-center gap-x-2">
+                  <Input
+                    onChange={(e) => setOrganizationName(e.target.value)}
+                    placeholder="Organization name"
+                    className="flex-1 py-4"
+                  />
+
+                  {!isEmptyString(organizationName) && (
+                    <Link
+                      href={becomeCustomerEmail({
+                        sender: user,
+                        organizationName: organizationName,
+                      })}
+                    >
+                      <Button
+                        variant="subtle"
+                        className="flex items-center justify-center gap-x-2 bg-mint-6 hover:bg-mint-7"
+                      >
+                        <RocketLaunchIcon className="w-4" />
+                        <span>Become a customer</span>
+                      </Button>
+                    </Link>
+                  )}
+                </div>
+              </div>
+            )}
+          </div>
         </div>
       )}
+
       {isMemberOfAnyOrganization && (
-        <div className="flex flex-col items-center justify-center gap-y-2">
+        <div className="my-4 flex flex-col items-center justify-center gap-y-2">
           <H2>Select active organization</H2>
           {!isLoaded && (
             <div className="flex items-center justify-center">
@@ -50,11 +155,24 @@ const ActivateOrganizationPage = ({
 
 export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
   const { userId } = getAuth(ctx.req);
+  const user = JSON.parse(
+    JSON.stringify(await getUser(userId)),
+  ) as inferAsyncReturnType<typeof getUser>;
   const isMemberOfAnyOrganization = await userIsMemberOfAnyOrganization(userId);
+
+  if (!user) {
+    return {
+      redirect: {
+        destination: "/sign-in",
+        permanent: false,
+      },
+    };
+  }
 
   return {
     props: {
       isMemberOfAnyOrganization,
+      user,
     },
   };
 };

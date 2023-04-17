@@ -3,6 +3,7 @@ import { ContainerFormSchema } from "@acme/api/src/schemas/container";
 import { z } from "zod";
 import { useToast } from "../toast/useToast";
 import useZodForm from "../useZodForm";
+import { useEffect } from "react";
 
 type UpdateContainerFormProps = {
   id: string;
@@ -14,7 +15,7 @@ type UpdateContainerFormProps = {
  * @returns all objects and handlers needed to update a container.
  */
 const useUpdateContainerForm = ({ id }: UpdateContainerFormProps) => {
-  const { mutateAsync } = trpc.container.update.useMutation({
+  const { mutateAsync, isLoading } = trpc.container.update.useMutation({
     onSuccess: () => {
       toast({
         title: "Success!",
@@ -46,6 +47,14 @@ const useUpdateContainerForm = ({ id }: UpdateContainerFormProps) => {
       ...data,
     });
   };
+
+  useEffect(() => {
+    if (!isLoading) return;
+    toast({
+      title: "Updating container...",
+      severity: "loading",
+    });
+  }, [isLoading, toast]);
 
   return {
     register,

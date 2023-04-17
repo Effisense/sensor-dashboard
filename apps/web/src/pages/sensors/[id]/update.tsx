@@ -18,13 +18,22 @@ type UpdateSensorPageProps = InferGetServerSidePropsType<
 
 const UpdateSensorPage = ({ id }: UpdateSensorPageProps) => {
   const {
+    data,
+    isLoading: sensorIsLoading,
+    error: sensorError,
+  } = useGetSensor({ id });
+
+  const {
     container,
     data: location,
     isLoading: mapIsLoading,
     latitude,
     longitude,
     error: mapError,
-  } = useSetSensorPositionMap();
+  } = useSetSensorPositionMap({
+    latitude: data?.sensor.latitude,
+    longitude: data?.sensor.longitude,
+  });
 
   const {
     register,
@@ -34,15 +43,12 @@ const UpdateSensorPage = ({ id }: UpdateSensorPageProps) => {
     containerId,
     setContainerId,
   } = useUpdateSensorForm({
+    sensor: data?.sensor,
     id,
     latitude,
     longitude,
   });
-  const {
-    data,
-    isLoading: sensorIsLoading,
-    error: sensorError,
-  } = useGetSensor({ id });
+
   const {
     data: containerData,
     isLoading: containerIsLoading,
@@ -55,11 +61,6 @@ const UpdateSensorPage = ({ id }: UpdateSensorPageProps) => {
 
   return (
     <div>
-      {!error && isLoading && (
-        <div className="flex items-center justify-center">
-          <LoadingSpinner />
-        </div>
-      )}
       {sensorExists && (
         <div>
           <div className="flex flex-col items-center justify-center py-8">
@@ -92,24 +93,6 @@ const UpdateSensorPage = ({ id }: UpdateSensorPageProps) => {
               setContainerId={setContainerId}
               data={containerData}
               isLoading={isLoading}
-            />
-
-            <FormInput
-              register={register}
-              id="latitude"
-              label="Latitude"
-              errorMessage={errors.latitude?.message}
-              valueAsNumber
-              defaultValue={data?.sensor.latitude}
-            />
-
-            <FormInput
-              register={register}
-              id="longitude"
-              label="Longitude"
-              errorMessage={errors.longitude?.message}
-              valueAsNumber
-              defaultValue={data?.sensor.longitude}
             />
 
             <SetSensorPositionMap

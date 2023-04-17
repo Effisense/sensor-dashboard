@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import { z } from "zod";
 import { useToast } from "../toast/useToast";
 import useZodForm from "../useZodForm";
+import { useEffect } from "react";
 
 /**
  * Handles logic related to creating a container.
@@ -11,7 +12,7 @@ import useZodForm from "../useZodForm";
  * @returns all objects and handlers needed to create a container.
  */
 const useCreateContainerForm = () => {
-  const { mutateAsync } = trpc.container.create.useMutation({
+  const { mutateAsync, isLoading } = trpc.container.create.useMutation({
     onSuccess: () => {
       toast({
         title: "Success!",
@@ -48,6 +49,14 @@ const useCreateContainerForm = () => {
       });
     }
   };
+
+  useEffect(() => {
+    if (!isLoading) return;
+    toast({
+      title: "Creating container...",
+      severity: "loading",
+    });
+  }, [isLoading, toast]);
 
   return {
     register,

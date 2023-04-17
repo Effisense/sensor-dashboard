@@ -44,13 +44,15 @@ const useCreateSensorForm = ({
       });
     },
   });
-  const [containerId, setContainerId] = useState<string | undefined>(undefined);
+  const [containerId, setContainerId] = useState<string | null | undefined>(
+    undefined,
+  );
 
   useEffect(() => {
     if (!isLoading) return;
     toast({
       title: "Creating sensor...",
-      severity: "neutral",
+      severity: "loading",
     });
   }, [isLoading, toast]);
 

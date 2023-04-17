@@ -1,7 +1,6 @@
 import { getLocationFromLngLat } from "@acme/mapbox";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
-import { Sensor } from "../lib/kysely";
 import { userIsMemberOfOrganization } from "../lib/clerk";
 import {
   SensorIdSchema,
@@ -11,6 +10,7 @@ import {
 } from "../schemas/sensor";
 import { protectedProcedure, publicProcedure, router } from "../trpc";
 import { sensorBelongsToCollection as _sensorBelongsToCollection } from "../utils/sensor";
+import { Sensor } from "../lib/kysely";
 
 export const sensorRouter = router({
   create: protectedProcedure
@@ -139,7 +139,7 @@ export const sensorRouter = router({
       );
       if (!isMemberOfOrganization) {
         throw new TRPCError({
-          code: "BAD_REQUEST",
+          code: "UNAUTHORIZED",
           message: "You are not part of this organization",
         });
       }
@@ -163,7 +163,7 @@ export const sensorRouter = router({
         sensor.organizationId === ctx.auth.organizationId;
       if (!sensorBelongsToOrganization) {
         throw new TRPCError({
-          code: "BAD_REQUEST",
+          code: "UNAUTHORIZED",
           message: "Your organization does not own this sensor",
         });
       }
@@ -287,4 +287,56 @@ export const sensorRouter = router({
       const { deviceId, collectionId } = input;
       return await _sensorBelongsToCollection(deviceId, collectionId);
     }),
+
+  getAllSensorsWithFillLevel: protectedProcedure.query(async ({ ctx }) => {
+    if (!ctx.auth.organizationId) {
+      throw new TRPCError({
+        code: "BAD_REQUEST",
+        message: "Organization not found",
+      });
+    }
+
+    const isMemberOfOrganization = await userIsMemberOfOrganization(
+      ctx.auth.user?.id,
+      ctx.auth.organizationId,
+    );
+    if (!isMemberOfOrganization) {
+      throw new TRPCError({
+        code: "BAD_REQUEST",
+        message: "You are not part of this organization",
+      });
+    }
+
+    const sensors = await ctx.prisma.sensor.findMany({
+      where: {
+        organizationId: ctx.auth.organizationId,
+      },
+    });
+
+    const sensorsWithFillLevel = [];
+
+    for (const sensor of sensors) {
+      if (!sensor.containerId) continue;
+
+      const timeseries = await Sensor.selectAll()
+        .where("sensor_id", "=", sensor.id)
+        .orderBy("time", "desc")
+        .limit(1)
+        .execute()
+        .then((value) => value[0]);
+
+      const container = await ctx.prisma.container.findUnique({
+        where: {
+          id: sensor.containerId,
+        },
+      });
+
+      // const fillLevel = getFillLevel(timeseries, container);
+      const fillLevel = 83; // TODO: Dummy value, replace with actual value from the function above
+
+      sensorsWithFillLevel.push({ sensor, fillLevel });
+    }
+
+    return sensorsWithFillLevel;
+  }),
 });

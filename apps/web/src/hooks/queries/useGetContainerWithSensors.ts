@@ -1,12 +1,14 @@
 import { trpc } from "@/utils/trpc";
 import { useRouter } from "next/router";
-import { toast } from "../toast/useToast";
+import { useEffect } from "react";
+import { useToast } from "../toast/useToast";
 
 type GetContainerWithSensorsProps = {
   id: string;
 };
 
 const useGetContainerWithSensors = ({ id }: GetContainerWithSensorsProps) => {
+  const { toast } = useToast();
   const router = useRouter();
   const { data: container, isLoading: containerIsLoading } =
     trpc.container.get.useQuery(
@@ -66,6 +68,14 @@ const useGetContainerWithSensors = ({ id }: GetContainerWithSensorsProps) => {
       });
     },
   });
+
+  useEffect(() => {
+    if (!deleteContainerIsLoading) return;
+    toast({
+      title: "Deleting continaer...",
+      severity: "loading",
+    });
+  }, [deleteContainerIsLoading, toast]);
 
   const loading =
     containerIsLoading || sensorsIsLoading || deleteContainerIsLoading;

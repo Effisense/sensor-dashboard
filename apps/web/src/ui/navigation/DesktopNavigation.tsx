@@ -1,9 +1,3 @@
-import {
-  NavigationMenu,
-  NavigationMenuItem,
-  NavigationMenuList,
-} from "@/ui/NavigationMenu";
-import { useAuth, UserButton } from "@clerk/nextjs";
 import { Button } from "../Button";
 import OrganizationSwitcher from "../OrganizationSwitcher";
 import Link from "next/link";
@@ -11,6 +5,12 @@ import LoadingSpinner from "../LoadingSpinner";
 import LogoLink from "../LogoLink";
 import navigation from "@/lib/navigation";
 import { useRouter } from "next/router";
+import { useAuth, UserButton } from "@clerk/nextjs";
+import {
+  NavigationMenu,
+  NavigationMenuItem,
+  NavigationMenuList,
+} from "../NavigationMenu";
 
 const DesktopNavigation = () => {
   const { isSignedIn, isLoaded } = useAuth();
