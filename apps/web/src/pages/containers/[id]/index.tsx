@@ -9,6 +9,7 @@ import AllSensorsMap from "@/ui/map/AllSensorsMap";
 import { Card, Text, Title } from "@tremor/react";
 import { Divider } from "@tremor/react";
 import SeverityToIcon from "@/ui/utils/SeverityToIcon";
+import { useEffect, useRef } from "react";
 
 type ContainerPageProps = InferGetServerSidePropsType<
   typeof getServerSideProps
@@ -21,6 +22,15 @@ const ContainerPage = ({ id }: ContainerPageProps) => {
   const onDelete = async () => {
     await deleteContainerMutation({ containerId: id });
   };
+  
+  useEffect(() => {
+      const div = document.getElementById("sensorDiv");
+      if (div && div.scrollHeight <= div.clientHeight) {
+        div.style.overflowY = "hidden";
+      } else if (div) {
+        div.style.overflowY = "scroll";
+      }
+  }, [container]);
 
   return (
     <div>
@@ -31,10 +41,10 @@ const ContainerPage = ({ id }: ContainerPageProps) => {
             <AllSensorsMap sensors={sensors} />
           </div>
           <div className="flex-col flex gap-y-4 mt-4">
-            <ul className="list-disc">
+            <div className="max-h-42 overflow-x-hidden flex flex-col gap-y-1" id="sensorDiv">
               {sensors &&
                 sensors.map((sensor) => (
-                  <Card key={sensor.id} className="mx-auto flex flex-col max-h-7 justify-center">
+                  <Card key={sensor.id} className="mx-auto flex w-[262px] flex-col max-h-7 justify-center m-px">
                     <div className="flex-row flex gap-x-2" >
                     {/**TODO add real fillLevel*/}
                       <div className="bg-red-600 w-[35px] max-w-xs flex justify-center items-center rounded text-white text-xs">
@@ -51,7 +61,7 @@ const ContainerPage = ({ id }: ContainerPageProps) => {
                   </div>
                 </Card>
                   ))}
-            </ul>
+                  </div>
           <Card className="max-w-sm mx-auto flex flex-col">
             <div className="flex-row flex gap-x-2 mb-4">
             <Title>{container?.name}</Title>

@@ -76,7 +76,6 @@ const SensorPage = ({ id }: SensorPageProps) => {
                 <span>Update</span>
               </Button>
             </Link>
-
             <Alert
               title="Are you sure you want to delete the sensor?"
               description="The sensor will be permanently deleted."
