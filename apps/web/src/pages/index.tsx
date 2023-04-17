@@ -46,6 +46,9 @@ const IndexPage = ({}: IndexPageProps) => {
     setCurrentSensors(sensors);
   };
 
+  console.log(currentSensors);
+  
+
   return (
     <div className="flex w-full flex-col lg:h-[calc(100vh-8rem)] lg:flex-row">
       <div className="order-2 mx-auto overflow-y-auto p-4  lg:order-1 lg:w-1/4 lg:overflow-y-visible">
