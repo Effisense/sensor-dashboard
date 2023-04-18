@@ -17,7 +17,7 @@ const UpdateContainerPage = ({ id }: UpdateContainerPageProps) => {
     id,
   });
   const { data, isLoading, error } = useGetContainer({ id });
-  const containerExists = !error && !isLoading && data;
+  console.log(error);
 
   return (
     <div>
@@ -26,84 +26,82 @@ const UpdateContainerPage = ({ id }: UpdateContainerPageProps) => {
           <LoadingSpinner />
         </div>
       )}
-      {containerExists && (
-        <div>
-          <div className="flex flex-col items-center justify-center py-8">
-            <H1>{data?.name}</H1>
-            <Subtle>Update information about this container.</Subtle>
-          </div>
-
-          <form
-            onSubmit={handleSubmit(onSubmit)}
-            className="my-8 flex flex-col items-center justify-center gap-y-2"
-          >
-            <FormInput
-              label="Name"
-              errorMessage={errors.name?.message}
-              id="name"
-              register={register}
-              defaultValue={data?.name}
-            />
-
-            <FormTextarea
-              label="Description"
-              errorMessage={errors.description?.message}
-              id="description"
-              register={register}
-              defaultValue={data?.description}
-            />
-
-            <FormInput
-              label="Target fill level (%)"
-              errorMessage={errors.targetFillLevelInPercent?.message}
-              id="targetFillLevelInPercent"
-              register={register}
-              valueAsNumber
-              defaultValue={data?.targetFillLevelInPercent}
-            />
-
-            <FormInput
-              register={register}
-              id="binHeightInMillimeters"
-              label="Bin height (mm)"
-              errorMessage={errors.binHeightInMillimeters?.message}
-              valueAsNumber
-              defaultValue={data?.binHeightInMillimeters}
-            />
-
-            <FormInput
-              register={register}
-              id="binWidthInMillimeters"
-              label="Bin width (mm)"
-              errorMessage={errors.binWidthInMillimeters?.message}
-              valueAsNumber
-              defaultValue={data?.binWidthInMillimeters}
-            />
-
-            <FormInput
-              register={register}
-              id="sensorOffsetInMillimeters"
-              label="Sensor offset (mm)"
-              errorMessage={errors.sensorOffsetInMillimeters?.message}
-              valueAsNumber
-              defaultValue={data?.sensorOffsetInMillimeters}
-            />
-
-            <FormInput
-              register={register}
-              id="containerVolumeInLiters"
-              label="Container volume (L)"
-              errorMessage={errors.containerVolumeInLiters?.message}
-              valueAsNumber
-              defaultValue={data?.containerVolumeInLiters}
-            />
-
-            <Button variant="default" type="submit" className="w-3/4">
-              Update container
-            </Button>
-          </form>
+      <div>
+        <div className="flex flex-col items-center justify-center py-8">
+          <H1>{data?.name}</H1>
+          <Subtle>Update information about this container.</Subtle>
         </div>
-      )}
+
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="my-8 flex flex-col items-center justify-center gap-y-2"
+        >
+          <FormInput
+            label="Name"
+            errorMessage={errors.name?.message}
+            id="name"
+            register={register}
+            defaultValue={data?.name}
+          />
+
+          <FormTextarea
+            label="Description"
+            errorMessage={errors.description?.message}
+            id="description"
+            register={register}
+            defaultValue={data?.description}
+          />
+
+          <FormInput
+            label="Target fill level (%)"
+            errorMessage={errors.targetFillLevelInPercent?.message}
+            id="targetFillLevelInPercent"
+            register={register}
+            valueAsNumber
+            defaultValue={data?.targetFillLevelInPercent}
+          />
+
+          <FormInput
+            register={register}
+            id="binHeightInMillimeters"
+            label="Bin height (mm)"
+            errorMessage={errors.binHeightInMillimeters?.message}
+            valueAsNumber
+            defaultValue={data?.binHeightInMillimeters}
+          />
+
+          <FormInput
+            register={register}
+            id="binWidthInMillimeters"
+            label="Bin width (mm)"
+            errorMessage={errors.binWidthInMillimeters?.message}
+            valueAsNumber
+            defaultValue={data?.binWidthInMillimeters}
+          />
+
+          <FormInput
+            register={register}
+            id="sensorOffsetInMillimeters"
+            label="Sensor offset (mm)"
+            errorMessage={errors.sensorOffsetInMillimeters?.message}
+            valueAsNumber
+            defaultValue={data?.sensorOffsetInMillimeters}
+          />
+
+          <FormInput
+            register={register}
+            id="containerVolumeInLiters"
+            label="Container volume (L)"
+            errorMessage={errors.containerVolumeInLiters?.message}
+            valueAsNumber
+            defaultValue={data?.containerVolumeInLiters}
+          />
+
+          <Button variant="default" type="submit" className="w-3/4">
+            Update container
+          </Button>
+        </form>
+      </div>
     </div>
   );
 };

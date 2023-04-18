@@ -53,7 +53,7 @@ const useSetSensorPositionMap = ({
 
     map.current = MapboxMap({
       container: "map",
-      style: "mapbox://styles/mapbox/light-v11",
+      style: "mapbox://styles/mapbox/outdoors-v12",
       center: {
         lat,
         lng,

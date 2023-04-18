@@ -3,7 +3,6 @@ import type {
   InferGetServerSidePropsType,
 } from "next";
 import { getAuth } from "@clerk/nextjs/server";
-import DashboardSensorCard from "@/ui/DashboardSensorCard";
 import LoadingSpinner from "@/ui/LoadingSpinner";
 import AllSensorsMap from "@/ui/map/AllSensorsMap";
 import { cn } from "@/utils/tailwind";

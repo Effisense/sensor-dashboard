@@ -6,7 +6,7 @@ import { Sensor } from "@acme/db";
 import { createPopupNode } from "@/utils/mapbox";
 
 type AllSensorsMapProps = {
-  sensors: Sensor[];
+  sensors: Sensor[] | undefined;
 };
 
 const useAllSensorsMap = ({ sensors }: AllSensorsMapProps) => {
@@ -29,7 +29,7 @@ const useAllSensorsMap = ({ sensors }: AllSensorsMapProps) => {
 
     map.current = MapboxMap({
       container: container.current,
-      style: "mapbox://styles/mapbox/dark-v11",
+      style: "mapbox://styles/mapbox/outdoors-v12",
       center: [longitude, latitude],
       zoom: 10,
     });
