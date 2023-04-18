@@ -3,7 +3,6 @@ import type {
   InferGetServerSidePropsType,
 } from "next";
 import { getAuth } from "@clerk/nextjs/server";
-import DashboardSensorCard from "@/ui/DashboardSensorCard";
 import LoadingSpinner from "@/ui/LoadingSpinner";
 import AllSensorsMap from "@/ui/map/AllSensorsMap";
 import { cn } from "@/utils/tailwind";
@@ -45,9 +44,6 @@ const IndexPage = ({}: IndexPageProps) => {
   //   );
   //   setCurrentSensors(sensors);
   // };
-
-  console.log(currentSensors);
-  
 
   return (
     <div className="flex w-full flex-col lg:h-[calc(100vh-8rem)] lg:flex-row">

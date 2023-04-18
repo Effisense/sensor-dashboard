@@ -257,11 +257,11 @@ export const containerRouter = router({
         // const fillLevel = getFillLevel(timeseries, containerType);
         const fillLevel = 83; // Dummy value, replace with actual value from the function above
 
-        console.log({
+        return {
           ...container,
           sensors: sensorsForContainer,
           fillLevel: fillLevel,
-        });
+        };
       });
 
       //return the containers with sensors and fill level
