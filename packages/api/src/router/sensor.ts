@@ -9,7 +9,10 @@ import {
   UpdateSensorSchema,
 } from "../schemas/sensor";
 import { protectedProcedure, publicProcedure, router } from "../trpc";
-import { sensorBelongsToCollection as _sensorBelongsToCollection } from "../utils/sensor";
+import {
+  sensorBelongsToCollection as _sensorBelongsToCollection,
+  getFillLevel,
+} from "../utils/sensor";
 import { Sensor } from "../lib/kysely";
 
 export const sensorRouter = router({
@@ -311,10 +314,22 @@ export const sensorRouter = router({
       where: {
         organizationId: ctx.auth.organizationId,
       },
+      select: {
+        id: true,
+        name: true,
+        description: true,
+        organizationId: true,
+        latitude: true,
+        longitude: true,
+        collectionId: true,
+        location: true,
+        containerId: true,
+        container: true,
+      },
     });
 
+    // TODO: Optimize this query to decrease the query wait time
     const sensorsWithFillLevel = [];
-
     for (const sensor of sensors) {
       if (!sensor.containerId) continue;
 
@@ -325,14 +340,10 @@ export const sensorRouter = router({
         .execute()
         .then((value) => value[0]);
 
-      const container = await ctx.prisma.container.findUnique({
-        where: {
-          id: sensor.containerId,
-        },
+      const fillLevel = getFillLevel({
+        timeseries,
+        container: sensor.container,
       });
-
-      // const fillLevel = getFillLevel(timeseries, container);
-      const fillLevel = 83; // TODO: Dummy value, replace with actual value from the function above
 
       sensorsWithFillLevel.push({ sensor, fillLevel });
     }

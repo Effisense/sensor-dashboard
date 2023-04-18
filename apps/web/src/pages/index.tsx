@@ -17,34 +17,34 @@ type IndexPageProps = InferGetServerSidePropsType<typeof getServerSideProps>;
 
 const IndexPage = ({}: IndexPageProps) => {
   const {
-    data: sensorsWithFillLevel,
+    data: sensors,
     isLoading: sensorsIsLoading,
     error: sensorsError,
-  } = trpc.sensor.getAllSensorsWithFillLevel.useQuery();
+  } = trpc.sensor.getAll.useQuery();
   const {
     data: containers,
     isLoading: containerIsLoading,
     error: containersError,
   } = trpc.container.getAll.useQuery();
 
-  const [currentSensors, setCurrentSensors] = useState(sensorsWithFillLevel);
+  const [currentSensors, setCurrentSensors] = useState(sensors);
   const [selectedContainerId, setSelectedContainerId] = useState<string | null>(
     null,
   );
 
-  const handleContainerSelect = (containerId: string | null) => {
-    setSelectedContainerId(containerId);
+  // const handleContainerSelect = (containerId: string | null) => {
+  //   setSelectedContainerId(containerId);
 
-    if (!containerId) {
-      setCurrentSensors(sensorsWithFillLevel || []);
-      return;
-    }
+  //   if (!containerId) {
+  //     setCurrentSensors(sensors || []);
+  //     return;
+  //   }
 
-    const sensors = sensorsWithFillLevel?.filter(
-      (item) => item.sensor.containerId === containerId,
-    );
-    setCurrentSensors(sensors);
-  };
+  //   const sensors = sensors?.filter(
+  //     (item) => item.sensor.containerId === containerId,
+  //   );
+  //   setCurrentSensors(sensors);
+  // };
 
   return (
     <div className="flex w-full flex-col lg:h-[calc(100vh-8rem)] lg:flex-row">
@@ -67,7 +67,7 @@ const IndexPage = ({}: IndexPageProps) => {
                   "mt-4 transition-all duration-300",
                   !selectedContainerId ? "bg-green-5" : "bg-slate-100",
                 )}
-                onClick={() => handleContainerSelect(null)}
+                // onClick={() => handleContainerSelect(null)}
               >
                 <Title>Alle containers</Title>
               </Card>
@@ -83,7 +83,7 @@ const IndexPage = ({}: IndexPageProps) => {
                         ? "bg-green-5"
                         : "bg-slate-100",
                     )}
-                    onClick={() => handleContainerSelect(container.id)}
+                    // onClick={() => handleContainerSelect(container.id)}
                   >
                     <Title>{container.name}</Title>
                   </Card>
@@ -95,11 +95,7 @@ const IndexPage = ({}: IndexPageProps) => {
       </div>
       <div className="order-1 flex-grow lg:order-2 lg:w-2/4 ">
         <div className="h-full w-full">
-          {currentSensors ? (
-            <AllSensorsMap sensors={currentSensors.map((s) => s.sensor)} />
-          ) : (
-            <LoadingSpinner />
-          )}
+          {sensors ? <AllSensorsMap sensors={sensors} /> : <LoadingSpinner />}
         </div>
       </div>
       <div className="order-3 mx-auto">
@@ -110,7 +106,7 @@ const IndexPage = ({}: IndexPageProps) => {
               <Button>Add sensor</Button>
             </Link>
           )}
-          {currentSensors &&
+          {/* {currentSensors &&
             currentSensors.map((item, index) => (
               <div key={index} className="mb-4">
                 <DashboardSensorCard
@@ -118,7 +114,7 @@ const IndexPage = ({}: IndexPageProps) => {
                   fillLevel={item.fillLevel}
                 />
               </div>
-            ))}
+            ))} */}
         </div>
       </div>
     </div>
