@@ -31,18 +31,21 @@ export const organizationRouter = router({
         });
       }
 
-      // Ensure organization exists
-      await ctx.prisma.organization.upsert({
-        where: {
-          id: ctx.auth.organizationId,
-        },
-        update: {
-          id: ctx.auth.organizationId,
-        },
-        create: {
-          id: ctx.auth.organizationId,
-        },
-      });
+      const organizationExists = await ctx.prisma.organization
+        .findUnique({
+          where: {
+            id: ctx.auth.organizationId,
+          },
+        })
+        .then((org) => !!org);
+
+      if (!organizationExists) {
+        await ctx.prisma.organization.create({
+          data: {
+            id: ctx.auth.organizationId,
+          },
+        });
+      }
 
       // Link user to organization if not already linked
       return await ctx.prisma.userInOrganization.upsert({
