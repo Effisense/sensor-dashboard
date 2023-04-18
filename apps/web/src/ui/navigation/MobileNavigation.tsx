@@ -32,11 +32,10 @@ const MobileNavigation = () => {
   });
 
   return (
-    <div className="flex h-20 items-center justify-between p-4 md:hidden">
+    <div className="flex h-20 w-full items-center justify-between p-4 md:hidden">
       <div className="flex items-center justify-start">
         <LogoLink />
       </div>
-
       <Sheet
         open={isOpen}
         onOpenChange={() => {

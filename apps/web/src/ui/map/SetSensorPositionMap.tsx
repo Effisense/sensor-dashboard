@@ -22,8 +22,8 @@ const SetSensorPositionMap = <T extends DefaultErrorShape>({
 
   return (
     <div>
-      <div className="h-72 w-72" id="map">
-        <div ref={container} className="w-full" />
+      <div className="h-96 w-96 rounded-lg shadow-lg" id="map">
+        <div ref={container} className="h-full w-full rounded-lg" />
       </div>
       <div className="py-8">
         {isLoading && (
