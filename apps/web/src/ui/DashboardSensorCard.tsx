@@ -5,7 +5,7 @@ import Link from "next/link";
 
 type DashboardSensorCardProps = {
   sensor: Sensor;
-  fillLevel: number;
+  fillLevel: number | null;
 };
 
 const DashboardSensorCard = ({
@@ -18,7 +18,7 @@ const DashboardSensorCard = ({
         <Card>
           <div className="flex items-center justify-center gap-x-2">
             <Badge size="lg" color="yellow" className="mr-4 h-10">
-              {`${fillLevel} %`}
+              {fillLevel === null ? "N/A" : `${fillLevel} %`}
             </Badge>
             <div className="pr-3">
               <Title>{sensor.name}</Title>
