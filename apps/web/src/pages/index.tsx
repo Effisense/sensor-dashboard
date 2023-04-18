@@ -71,7 +71,7 @@ const IndexPage = ({}: IndexPageProps) => {
 
   return (
     <div className="flex w-11/12 flex-col lg:flex-row">
-      <div className="order-2 m-2 w-full overflow-y-auto rounded-lg bg-slate-50 p-4 shadow-md hover:shadow-lg lg:order-1 lg:w-1/4 lg:overflow-y-visible">
+      <div className="order-2 my-2 w-full overflow-y-auto rounded-lg bg-slate-50 p-4 shadow-md transition-all duration-300 hover:shadow-lg md:m-0 lg:order-1 lg:w-1/4 lg:overflow-y-visible">
         <div className="lg:mx-auto">
           {containers?.length === 0 ? (
             <div className="flex h-full flex-col items-center justify-center">
@@ -122,7 +122,7 @@ const IndexPage = ({}: IndexPageProps) => {
         </div>
       </div>
 
-      <div className="order-3 m-2 w-full max-w-lg overflow-y-auto rounded-lg bg-slate-50 p-4 shadow-md transition-all duration-300 hover:shadow-lg lg:order-3 lg:overflow-y-visible">
+      <div className="order-3 my-2 w-full max-w-lg overflow-y-auto rounded-lg bg-slate-50 p-4 shadow-md transition-all duration-300 hover:shadow-lg md:m-0 lg:order-3 lg:overflow-y-visible">
         <div className="mb-4">
           <H3>Your sensors</H3>
           <Subtle>Click a sensor to view more.</Subtle>
