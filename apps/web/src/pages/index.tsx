@@ -44,6 +44,10 @@ const IndexPage = ({}: IndexPageProps) => {
   );
 
   useEffect(() => {
+    setCurrentSensors(sensors);
+  }, [sensors]);
+
+  useEffect(() => {
     if (!orgId) return;
     const refetch = async () => {
       await refetchSensors();
@@ -66,8 +70,8 @@ const IndexPage = ({}: IndexPageProps) => {
   };
 
   return (
-    <div className="flex w-full flex-col lg:flex-row">
-      <div className="order-2 mx-auto overflow-y-auto p-4 lg:order-1 lg:w-1/4 lg:overflow-y-visible">
+    <div className="flex w-11/12 flex-col lg:flex-row">
+      <div className="order-2 m-2 w-full overflow-y-auto rounded-lg bg-slate-50 p-4 shadow-md hover:shadow-lg lg:order-1 lg:w-1/4 lg:overflow-y-visible">
         <div className="lg:mx-auto">
           {containers?.length === 0 ? (
             <div className="flex h-full flex-col items-center justify-center">
@@ -82,7 +86,7 @@ const IndexPage = ({}: IndexPageProps) => {
               <Card
                 className={cn(
                   "mb-4 transition-all duration-300",
-                  !selectedContainerId ? "bg-green-5" : "bg-slate-100",
+                  !selectedContainerId ? "bg-green-5" : "bg-white",
                 )}
                 onClick={() => handleContainerSelect(null)}
               >
@@ -96,7 +100,7 @@ const IndexPage = ({}: IndexPageProps) => {
                   key={container.id}
                   className={cn(
                     "flex items-center justify-between",
-                    "mb-4 bg-slate-100 transition-all duration-300",
+                    "mb-4 bg-white transition-all duration-300",
                     selectedContainerId === container.id ? "bg-green-5" : "",
                   )}
                   onClick={() => handleContainerSelect(container.id)}
@@ -111,32 +115,32 @@ const IndexPage = ({}: IndexPageProps) => {
           )}
         </div>
       </div>
-      <div className="order-1 flex-grow lg:order-2 lg:w-2/4 ">
+
+      <div className="order-1 flex-grow lg:order-2 lg:w-2/4">
         <div className="h-full w-full">
           {sensors ? <AllSensorsMap sensors={sensors} /> : <LoadingSpinner />}
         </div>
       </div>
-      <div className="order-3 mx-auto">
-        <div className="order-3 max-w-lg overflow-y-auto  p-4 lg:order-3  lg:overflow-y-visible">
-          <div className="mb-4">
-            <H3>Your sensors</H3>
-            <Subtle>Click a sensor to view more.</Subtle>
-          </div>
-          {currentSensors && currentSensors.length === 0 && (
-            <div className="flex flex-col items-center justify-center">
-              <Subtle>No sensors found.</Subtle>
-              <Link href="/sensors/create">
-                <Button variant="link">Add sensor</Button>
-              </Link>
-            </div>
-          )}
-          {currentSensors &&
-            currentSensors.map((sensor, index) => (
-              <div key={index} className="mb-4">
-                <DashboardSensorCard sensor={sensor} fillLevel={50} />
-              </div>
-            ))}
+
+      <div className="order-3 m-2 w-full max-w-lg overflow-y-auto rounded-lg bg-slate-50 p-4 shadow-md hover:shadow-lg lg:order-3 lg:overflow-y-visible">
+        <div className="mb-4">
+          <H3>Your sensors</H3>
+          <Subtle>Click a sensor to view more.</Subtle>
         </div>
+        {currentSensors && currentSensors.length === 0 && (
+          <div className="flex flex-col items-center justify-center">
+            <Subtle>No sensors found.</Subtle>
+            <Link href="/sensors/create">
+              <Button variant="link">Add sensor</Button>
+            </Link>
+          </div>
+        )}
+        {currentSensors &&
+          currentSensors.map((sensor, index) => (
+            <div key={index} className="mb-4">
+              <DashboardSensorCard sensor={sensor} fillLevel={50} />
+            </div>
+          ))}
       </div>
     </div>
   );
