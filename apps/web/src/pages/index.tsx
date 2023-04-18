@@ -70,19 +70,29 @@ const IndexPage = ({}: IndexPageProps) => {
   };
 
   return (
-    <div className="flex w-11/12 flex-col lg:flex-row">
-      <div className="order-2 my-2 w-full overflow-y-auto rounded-lg bg-slate-50 p-4 shadow-md transition-all duration-300 hover:shadow-lg md:m-0 lg:order-1 lg:w-1/4 lg:overflow-y-visible">
+    <div className="grid h-[calc(100vh-6rem)] w-11/12 grid-cols-1 md:w-full md:gap-x-2 md:px-4 lg:grid-cols-4">
+      <div
+        className={cn(
+          "my-2 w-full rounded-lg bg-slate-50 lg:col-start-1",
+          "p-4 shadow-md transition-all duration-300 hover:shadow-lg md:m-0",
+        )}
+      >
         <div className="lg:mx-auto">
-          {containers?.length === 0 ? (
-            <div className="flex h-full flex-col items-center justify-center">
-              <P>No containers found.</P>
+          <div className="mb-4">
+            <H3>Your containers</H3>
+            <Subtle>Click a container to filter out its sensors.</Subtle>
+          </div>
+          {containers && containers.length === 0 ? (
+            <div>
+              <div className="flex flex-col items-center justify-center">
+                <Subtle>No containers found.</Subtle>
+                <Link href="/containers/create">
+                  <Button variant="outline">Add container</Button>
+                </Link>
+              </div>
             </div>
           ) : (
             <div>
-              <div className="mb-4">
-                <H3>Your containers</H3>
-                <Subtle>Filter by selecting a container.</Subtle>
-              </div>
               <Card
                 className={cn(
                   "mb-4 transition-all duration-300",
@@ -116,13 +126,24 @@ const IndexPage = ({}: IndexPageProps) => {
         </div>
       </div>
 
-      <div className="order-1 flex-grow lg:order-2 lg:w-2/4">
+      <div className="row-start-1 h-96 lg:col-span-2 lg:col-start-2 lg:h-auto">
         <div className="h-full w-full">
-          {sensors ? <AllSensorsMap sensors={sensors} /> : <LoadingSpinner />}
+          {sensors ? (
+            <AllSensorsMap sensors={sensors} />
+          ) : (
+            <div className="flex items-center justify-center">
+              <LoadingSpinner />
+            </div>
+          )}
         </div>
       </div>
 
-      <div className="order-3 my-2 w-full max-w-lg overflow-y-auto rounded-lg bg-slate-50 p-4 shadow-md transition-all duration-300 hover:shadow-lg md:m-0 lg:order-3 lg:overflow-y-visible">
+      <div
+        className={cn(
+          "my-2 w-full rounded-lg lg:col-start-4",
+          "bg-slate-50 p-4 shadow-md transition-all duration-300 hover:shadow-lg md:m-0",
+        )}
+      >
         <div className="mb-4">
           <H3>Your sensors</H3>
           <Subtle>Click a sensor to view more.</Subtle>
@@ -131,7 +152,7 @@ const IndexPage = ({}: IndexPageProps) => {
           <div className="flex flex-col items-center justify-center">
             <Subtle>No sensors found.</Subtle>
             <Link href="/sensors/create">
-              <Button variant="link">Add sensor</Button>
+              <Button variant="outline">Add sensor</Button>
             </Link>
           </div>
         )}
