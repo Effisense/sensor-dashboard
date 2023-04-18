@@ -70,10 +70,10 @@ const IndexPage = ({}: IndexPageProps) => {
   };
 
   return (
-    <div className="grid h-[calc(100vh-6rem)] w-11/12 grid-cols-1 md:w-full md:gap-x-2 md:px-4 lg:grid-cols-4">
+    <div className="grid min-h-[calc(100vh-6rem)] w-11/12 grid-cols-1 gap-y-4 md:w-full md:gap-x-2 md:px-4 lg:grid-cols-4 lg:gap-y-0">
       <div
         className={cn(
-          "my-2 w-full rounded-lg bg-slate-50 lg:col-start-1",
+          "my-4 w-full rounded-lg bg-slate-50 lg:col-start-1",
           "p-4 shadow-md transition-all duration-300 hover:shadow-lg md:m-0",
         )}
       >

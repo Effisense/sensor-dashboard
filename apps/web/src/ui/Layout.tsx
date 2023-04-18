@@ -45,7 +45,9 @@ const Layout = ({ children }: LayoutProps) => {
       <div className="flex min-h-screen w-screen flex-col items-center">
         <Navigation />
 
-        <main className="flex w-screen flex-col items-center">{children}</main>
+        <main className="flex h-full w-screen flex-col items-center">
+          {children}
+        </main>
       </div>
       <Footer />
     </>
