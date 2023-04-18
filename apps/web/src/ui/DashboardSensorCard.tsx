@@ -13,21 +13,17 @@ const DashboardSensorCard = ({
   fillLevel,
 }: DashboardSensorCardProps) => {
   return (
-    <div>
-      <Card>
-        <div className="flex items-center justify-center gap-x-2">
-          <Badge size="sm" color="yellow" className="mr-4 h-10">
-            {fillLevel === null ? "N/A" : `${fillLevel} %`}
-          </Badge>
-          <div className="pr-3">
-            <Title>{sensor.name}</Title>
-          </div>
-          <Link href={`/sensors/${sensor.id}`}>
-            <ArrowRightIcon className="w-4 transition-all duration-300 hover:translate-x-1" />
-          </Link>
-        </div>
-      </Card>
-    </div>
+    <Card className="flex w-full items-center justify-between">
+      <div className="flex items-center justify-center gap-x-2">
+        <Badge size="sm" color="yellow" className="mr-4 py-1 px-2">
+          {fillLevel === null ? "N/A" : `${fillLevel} %`}
+        </Badge>
+        <Title>{sensor.name}</Title>
+      </div>
+      <Link href={`/sensors/${sensor.id}`}>
+        <ArrowRightIcon className="w-4 transition-all duration-300 hover:translate-x-1" />
+      </Link>
+    </Card>
   );
 };
 

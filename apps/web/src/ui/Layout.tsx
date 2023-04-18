@@ -42,12 +42,10 @@ const Layout = ({ children }: LayoutProps) => {
         <link rel="icon" href="/favicon.svg" />
       </Head>
 
-      <div className="mb-16 flex min-h-screen w-screen flex-col items-center overflow-hidden">
+      <div className="flex min-h-screen w-screen flex-col items-center">
         <Navigation />
 
-        <main className="flex w-screen flex-col items-center overflow-hidden">
-          {children}
-        </main>
+        <main className="flex w-screen flex-col items-center">{children}</main>
       </div>
       <Footer />
     </>

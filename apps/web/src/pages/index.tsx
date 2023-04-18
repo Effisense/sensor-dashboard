@@ -122,7 +122,7 @@ const IndexPage = ({}: IndexPageProps) => {
         </div>
       </div>
 
-      <div className="order-3 m-2 w-full max-w-lg overflow-y-auto rounded-lg bg-slate-50 p-4 shadow-md hover:shadow-lg lg:order-3 lg:overflow-y-visible">
+      <div className="order-3 m-2 w-full max-w-lg overflow-y-auto rounded-lg bg-slate-50 p-4 shadow-md transition-all duration-300 hover:shadow-lg lg:order-3 lg:overflow-y-visible">
         <div className="mb-4">
           <H3>Your sensors</H3>
           <Subtle>Click a sensor to view more.</Subtle>
