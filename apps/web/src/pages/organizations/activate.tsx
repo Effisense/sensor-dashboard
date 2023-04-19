@@ -1,3 +1,5 @@
+import ActivateOrganizationDialog from "@/ui/ActivateOrganizationDialog";
+import Alert from "@/ui/Alert";
 import { Button } from "@/ui/Button";
 import { Input } from "@/ui/Input";
 import LoadingSpinner from "@/ui/LoadingSpinner";
@@ -25,22 +27,72 @@ import {
 import { inferAsyncReturnType } from "@trpc/server";
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 type ActivateOrganizationPageProps = InferGetServerSidePropsType<
   typeof getServerSideProps
 >;
 
 const ActivateOrganizationPage = ({
-  isMemberOfAnyOrganization,
+  // isMemberOfAnyOrganization,
   user,
 }: ActivateOrganizationPageProps) => {
+  const isMemberOfAnyOrganization = false;
   const { isLoaded } = useAuth();
   const [organizationName, setOrganizationName] = useState("");
   const [isCustomer, setIsCustomer] = useState<boolean | null>(null);
 
   return (
-    <div className="flex flex-col items-center justify-center">
+    <div className="flex min-h-[calc(100vh-6rem)] flex-col items-center">
+      <ActivateOrganizationDialog
+        open={isCustomer === true}
+        onOpenChange={() => {
+          setIsCustomer(null);
+        }}
+        title="Welcome to Effisense!"
+        description="If your organization is already a customer, please ask your organization administrator to invite you."
+        onConfirm={() => {
+          setIsCustomer(null);
+        }}
+      />
+      <ActivateOrganizationDialog
+        open={isCustomer === false}
+        onOpenChange={() => {
+          setIsCustomer(null);
+        }}
+        title="Welcome to Effisense!"
+        description="If your organization is not yet a customer, please reach out to Effisense to become a customer."
+        onConfirm={() => {
+          setIsCustomer(null);
+        }}
+        body={
+          <div className="my-2 flex w-full items-center justify-center gap-x-2">
+            <Input
+              onChange={(e) => setOrganizationName(e.target.value)}
+              placeholder="Organization name"
+              className="flex-1 py-4"
+            />
+
+            {!isEmptyString(organizationName) && (
+              <Link
+                href={becomeCustomerEmail({
+                  sender: user,
+                  organizationName: organizationName,
+                })}
+              >
+                <Button
+                  variant="subtle"
+                  className="flex items-center justify-center gap-x-2 bg-mint-6 hover:bg-mint-7"
+                >
+                  <RocketLaunchIcon className="w-4" />
+                  <span>Become a customer</span>
+                </Button>
+              </Link>
+            )}
+          </div>
+        }
+      />
+
       <H1>Welcome to Effisense</H1>
       <Subtle>
         Before you can use the platform, you need to set an active organization.
@@ -86,60 +138,11 @@ const ActivateOrganizationPage = ({
               <span>I don&apos;t know</span>
             </Button>
           </div>
-
-          <div className="flex w-3/4 flex-col items-center justify-center">
-            {isCustomer && (
-              <P className="mt-6">
-                If your organization is already a customer,{" "}
-                <span className="font-bold">
-                  please ask your organization administrator to invite you
-                </span>
-                .
-              </P>
-            )}
-
-            {!isCustomer && (
-              <div className="mt-6">
-                <P>
-                  If your organization is not yet a customer,{" "}
-                  <span className="font-bold">
-                    please reach out to Effisense to become a customer
-                  </span>
-                  .
-                </P>
-
-                <div className="my-4 flex w-full items-center justify-center gap-x-2">
-                  <Input
-                    onChange={(e) => setOrganizationName(e.target.value)}
-                    placeholder="Organization name"
-                    className="flex-1 py-4"
-                  />
-
-                  {!isEmptyString(organizationName) && (
-                    <Link
-                      href={becomeCustomerEmail({
-                        sender: user,
-                        organizationName: organizationName,
-                      })}
-                    >
-                      <Button
-                        variant="subtle"
-                        className="flex items-center justify-center gap-x-2 bg-mint-6 hover:bg-mint-7"
-                      >
-                        <RocketLaunchIcon className="w-4" />
-                        <span>Become a customer</span>
-                      </Button>
-                    </Link>
-                  )}
-                </div>
-              </div>
-            )}
-          </div>
         </div>
       )}
 
       {isMemberOfAnyOrganization && (
-        <div className="my-4 flex flex-col items-center justify-center gap-y-2">
+        <div className="my-4 flex h-full flex-col items-center justify-center gap-y-2">
           <H2>Select active organization</H2>
           {!isLoaded && (
             <div className="flex items-center justify-center">
