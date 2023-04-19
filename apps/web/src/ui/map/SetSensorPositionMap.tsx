@@ -28,7 +28,7 @@ const SetSensorPositionMap = <T extends DefaultErrorShape>({
       >
         <div ref={container} className="h-full w-full rounded-lg" />
       </div>
-      <div className="py-8">
+      <div className="py-4">
         {isLoading && (
           <div className="flex items-center justify-center gap-x-2">
             <LoadingSpinner />
