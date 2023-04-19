@@ -15,7 +15,7 @@ const CreateContainerPage = () => {
       <form
         onSubmit={handleSubmit(onSubmit)}
         className={cn(
-          "my-8 mx-8 flex h-full w-1/2 flex-col items-center",
+          "my-8 mx-8 flex h-full w-3/5 flex-col items-center",
           "justify-center gap-y-2 rounded-lg bg-slate-50 p-8",
           "shadow-md transition-all duration-300 hover:shadow-lg",
         )}
@@ -34,16 +34,16 @@ const CreateContainerPage = () => {
           register={register}
         />
 
-        <FormInput
-          label="Target fill level (%)"
-          errorMessage={errors.targetFillLevelInPercent?.message}
-          id="targetFillLevelInPercent"
-          register={register}
-          valueAsNumber
-          defaultValue={100}
-        />
+        <div className="flex w-full items-center justify-evenly gap-x-4">
+          <FormInput
+            label="Target fill level (%)"
+            errorMessage={errors.targetFillLevelInPercent?.message}
+            id="targetFillLevelInPercent"
+            register={register}
+            valueAsNumber
+            defaultValue={100}
+          />
 
-        <div className="flex items-center justify-center gap-x-4">
           <FormInput
             register={register}
             id="binHeightInMillimeters"
