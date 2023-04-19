@@ -15,6 +15,7 @@ import {
 import { sensorBelongsToCollection as _sensorBelongsToCollection } from "@acme/api/src/utils/sensor";
 import urlWithQueryParameters from "@/utils/urlWithQueryParameters";
 import useSetSensorPositionMap from "@/hooks/map/useSetSensorPositionMap";
+import { cn } from "@/utils/tailwind";
 
 type CreateSensorPageProps = InferGetServerSidePropsType<
   typeof getServerSideProps
@@ -45,35 +46,43 @@ const CreateSensorPage = ({
   const { data, isLoading } = trpc.container.getAll.useQuery();
 
   return (
-    <div className="flex flex-col items-center justify-center">
+    <div className="flex min-h-[calc(100vh-6rem)] w-screen flex-col items-center justify-start">
       <H1>Add sensor</H1>
 
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="my-8 flex flex-col items-center justify-center gap-y-2"
+        className={cn(
+          "my-8 mx-8 flex h-full w-11/12 flex-col items-center md:w-full",
+          "justify-center gap-y-2 rounded-lg bg-slate-50 p-8",
+          "shadow-md transition-all duration-300 hover:shadow-lg",
+          "md:grid md:flex-none md:grid-cols-2 md:gap-x-4",
+          "md:bg-transparent md:shadow-none md:hover:shadow-none",
+        )}
       >
-        <FormInput
-          label="Name"
-          errorMessage={errors.name?.message}
-          id="name"
-          register={register}
-        />
+        <div className="flex flex-col items-center justify-center md:col-start-2 md:row-start-1">
+          <FormInput
+            label="Name"
+            errorMessage={errors.name?.message}
+            id="name"
+            register={register}
+          />
 
-        <FormTextarea
-          register={register}
-          id="description"
-          errorMessage={errors.description?.message}
-          label="Description"
-        />
+          <FormTextarea
+            register={register}
+            id="description"
+            errorMessage={errors.description?.message}
+            label="Description"
+          />
 
-        <SelectContainerDropdown
-          containerId={containerId}
-          setContainerId={setContainerId}
-          data={data}
-          isLoading={isLoading}
-        />
+          <SelectContainerDropdown
+            containerId={containerId}
+            setContainerId={setContainerId}
+            data={data}
+            isLoading={isLoading}
+          />
+        </div>
 
-        <div className="my-4 h-96 w-96">
+        <div className="my-4 h-96 w-96 pb-8 md:col-start-1 md:row-start-1 md:h-full md:w-full">
           <SetSensorPositionMap
             container={container}
             location={location}
@@ -82,9 +91,11 @@ const CreateSensorPage = ({
           />
         </div>
 
-        <Button variant="default" type="submit" className="mt-16 w-3/4">
-          Add sensor
-        </Button>
+        <div className="flex items-center justify-center md:col-start-2 md:row-start-2">
+          <Button variant="default" type="submit" className="mt-8 md:w-1/2">
+            Add sensor
+          </Button>
+        </div>
       </form>
     </div>
   );
