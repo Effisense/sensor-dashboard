@@ -50,7 +50,7 @@ const CreateSensorPage = ({
 
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="my-8 flex flex-col items-center justify-center gap-y-2"
+        className="my-8 flex flex-col items-center justify-center gap-y-2 rounded-lg bg-slate-50 p-8 shadow-md transition-all duration-300 hover:shadow-lg"
       >
         <FormInput
           label="Name"
