@@ -34,7 +34,7 @@ const CreateContainerPage = () => {
           register={register}
         />
 
-        <div className="flex w-full items-center justify-evenly gap-x-4">
+        <div className="flex w-full flex-col items-center justify-evenly md:flex-row md:gap-x-4">
           <FormInput
             label="Target fill level (%)"
             errorMessage={errors.targetFillLevelInPercent?.message}
