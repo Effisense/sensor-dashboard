@@ -1,11 +1,9 @@
 import ActivateOrganizationDialog from "@/ui/ActivateOrganizationDialog";
-import Alert from "@/ui/Alert";
 import { Button } from "@/ui/Button";
 import { Input } from "@/ui/Input";
 import LoadingSpinner from "@/ui/LoadingSpinner";
 import OrganizationSwitcher from "@/ui/OrganizationSwitcher";
 import H1 from "@/ui/typography/H1";
-import H2 from "@/ui/typography/H2";
 import H4 from "@/ui/typography/H4";
 import P from "@/ui/typography/P";
 import Subtle from "@/ui/typography/Subtle";
@@ -27,17 +25,16 @@ import {
 import { inferAsyncReturnType } from "@trpc/server";
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 type ActivateOrganizationPageProps = InferGetServerSidePropsType<
   typeof getServerSideProps
 >;
 
 const ActivateOrganizationPage = ({
-  // isMemberOfAnyOrganization,
+  isMemberOfAnyOrganization,
   user,
 }: ActivateOrganizationPageProps) => {
-  const isMemberOfAnyOrganization = false;
   const { isLoaded } = useAuth();
   const [organizationName, setOrganizationName] = useState("");
   const [isCustomer, setIsCustomer] = useState<boolean | null>(null);
@@ -93,13 +90,16 @@ const ActivateOrganizationPage = ({
         }
       />
 
-      <H1>Welcome to Effisense</H1>
-      <Subtle>
-        Before you can use the platform, you need to set an active organization.
-      </Subtle>
+      <div className="flex flex-col items-center justify-center">
+        <H1>Welcome to Effisense</H1>
+        <Subtle>
+          Before you can use the platform, you need to set an active
+          organization.
+        </Subtle>
+      </div>
 
       {!isMemberOfAnyOrganization && (
-        <div className="my-4 flex flex-col items-center justify-center">
+        <div className="my-4 flex flex-grow flex-col items-center justify-center">
           <H4 className="flex items-center justify-center gap-x-2">
             {SeverityToIcon("warning", "w-6")}
             <span>
@@ -123,7 +123,10 @@ const ActivateOrganizationPage = ({
             <Button
               variant="subtle"
               className="flex items-center justify-center gap-x-2 bg-mint-6 hover:bg-mint-7"
-              onClick={() => setIsCustomer(false)}
+              onClick={() => {
+                setIsCustomer(false);
+                setOrganizationName("");
+              }}
             >
               <HandThumbDownIcon className="w-4" />
               <span>No</span>
@@ -132,7 +135,10 @@ const ActivateOrganizationPage = ({
             <Button
               variant="subtle"
               className="flex items-center justify-center gap-x-2 bg-mint-6 hover:bg-mint-7"
-              onClick={() => setIsCustomer(false)}
+              onClick={() => {
+                setIsCustomer(false);
+                setOrganizationName("");
+              }}
             >
               <QuestionMarkCircleIcon className="w-4" />
               <span>I don&apos;t know</span>
@@ -142,8 +148,8 @@ const ActivateOrganizationPage = ({
       )}
 
       {isMemberOfAnyOrganization && (
-        <div className="my-4 flex h-full flex-col items-center justify-center gap-y-2">
-          <H2>Select active organization</H2>
+        <div className="my-4 flex flex-grow flex-col items-center justify-center gap-y-4">
+          <H4>Select active organization</H4>
           {!isLoaded && (
             <div className="flex items-center justify-center">
               <LoadingSpinner />
