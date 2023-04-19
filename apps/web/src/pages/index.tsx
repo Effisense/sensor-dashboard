@@ -13,8 +13,6 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useAuth } from "@clerk/nextjs";
 import DashboardSensorCard from "@/ui/DashboardSensorCard";
-import P from "@/ui/typography/P";
-import H4 from "@/ui/typography/H4";
 import Subtle from "@/ui/typography/Subtle";
 import H3 from "@/ui/typography/H3";
 import { Button } from "@/ui/Button";

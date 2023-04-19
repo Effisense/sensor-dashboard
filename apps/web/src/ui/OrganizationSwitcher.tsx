@@ -1,4 +1,3 @@
-import { useToast } from "@/hooks/toast/useToast";
 import { trpc } from "@/utils/trpc";
 import {
   OrganizationSwitcher as ClerkOrganizationSwitcher,
@@ -9,17 +8,8 @@ import LoadingSpinner from "./LoadingSpinner";
 
 const OrganizationSwitcher = () => {
   const { userId, orgId } = useAuth();
-  const { toast } = useToast();
   const { mutateAsync, isLoading } =
-    trpc.organization.addUserToOrganization.useMutation({
-      onError: () => {
-        toast({
-          title: "Error",
-          description: "An error occurred when setting the active organization",
-          severity: "error",
-        });
-      },
-    });
+    trpc.organization.addUserToOrganization.useMutation();
 
   useEffect(() => {
     const addUserToOrganization = async () => {
