@@ -73,14 +73,16 @@ const CreateSensorPage = ({
           isLoading={isLoading}
         />
 
-        <SetSensorPositionMap
-          container={container}
-          location={location}
-          error={error}
-          isLoading={mapIsLoading}
-        />
+        <div className="my-4 h-96 w-96">
+          <SetSensorPositionMap
+            container={container}
+            location={location}
+            error={error}
+            isLoading={mapIsLoading}
+          />
+        </div>
 
-        <Button variant="default" type="submit" className="w-3/4">
+        <Button variant="default" type="submit" className="mt-16 w-3/4">
           Add sensor
         </Button>
       </form>

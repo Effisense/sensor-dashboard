@@ -44,7 +44,11 @@ const useSetSensorPositionMap = ({
     }
 
     // Don't initialize map if no coordinates are available
-    if (!latitude || !longitude || !geoLocationLat || !geoLocationLong) {
+    if (!latitude && !longitude && !geoLocationLat && !geoLocationLong) {
+      return;
+    }
+
+    if (!geoLocationLat || !geoLocationLong) {
       return;
     }
 

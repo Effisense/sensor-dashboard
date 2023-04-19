@@ -21,14 +21,18 @@ const SetSensorPositionMap = <T extends DefaultErrorShape>({
   useErrorToast({ error });
 
   return (
-    <div>
-      <div className="h-96 w-96 rounded-lg shadow-lg" id="map">
+    <div className="relative h-full w-full bg-slate-50">
+      <div
+        className="relative h-[inherit] w-[inherit] rounded-lg shadow-lg"
+        id="map"
+      >
         <div ref={container} className="h-full w-full rounded-lg" />
       </div>
       <div className="py-8">
         {isLoading && (
-          <div className="flex items-center justify-center">
+          <div className="flex items-center justify-center gap-x-2">
             <LoadingSpinner />
+            <span>Loading...</span>
           </div>
         )}
         {!isLoading && !error && !!location && (
