@@ -9,6 +9,7 @@ import LoadingSpinner from "@/ui/LoadingSpinner";
 import SetSensorPositionMap from "@/ui/map/SetSensorPositionMap";
 import H1 from "@/ui/typography/H1";
 import Subtle from "@/ui/typography/Subtle";
+import { cn } from "@/utils/tailwind";
 import { trpc } from "@/utils/trpc";
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 
@@ -60,9 +61,9 @@ const UpdateSensorPage = ({ id }: UpdateSensorPageProps) => {
   const sensorExists = !sensorError && !sensorIsLoading && !!data?.sensor;
 
   return (
-    <div>
+    <div className="flex min-h-[calc(100vh-6rem)] w-screen flex-col items-center justify-start">
       {sensorExists && (
-        <div>
+        <>
           <div className="flex flex-col items-center justify-center py-8">
             <H1>{data?.sensor.name}</H1>
             <Subtle>Update information about this sensor.</Subtle>
@@ -70,43 +71,59 @@ const UpdateSensorPage = ({ id }: UpdateSensorPageProps) => {
 
           <form
             onSubmit={handleSubmit(onSubmit)}
-            className="my-8 flex flex-col items-center justify-center gap-y-2"
+            className={cn(
+              "my-8 mx-8 flex h-full w-11/12 flex-col items-center md:w-full",
+              "justify-center gap-y-2 rounded-lg bg-slate-50 p-8",
+              "shadow-md transition-all duration-300 hover:shadow-lg",
+              "md:grid md:flex-none md:grid-cols-2 md:gap-x-4",
+              "md:bg-transparent md:shadow-none md:hover:shadow-none",
+            )}
           >
-            <FormInput
-              label="Name"
-              errorMessage={errors.name?.message}
-              id="name"
-              register={register}
-              defaultValue={data?.sensor.name}
-            />
+            <div className="flex flex-col items-center justify-center md:col-start-2 md:row-start-1">
+              <FormInput
+                label="Name"
+                errorMessage={errors.name?.message}
+                id="name"
+                register={register}
+                defaultValue={data?.sensor.name}
+              />
 
-            <FormTextarea
-              label="Description"
-              errorMessage={errors.description?.message}
-              id="description"
-              register={register}
-              defaultValue={data?.sensor.description}
-            />
+              <FormTextarea
+                label="Description"
+                errorMessage={errors.description?.message}
+                id="description"
+                register={register}
+                defaultValue={data?.sensor.description}
+              />
 
-            <SelectContainerDropdown
-              containerId={containerId}
-              setContainerId={setContainerId}
-              data={containerData}
-              isLoading={isLoading}
-            />
+              <SelectContainerDropdown
+                containerId={containerId}
+                setContainerId={setContainerId}
+                data={containerData}
+                isLoading={isLoading}
+              />
+            </div>
 
-            <SetSensorPositionMap
-              container={container}
-              location={location}
-              error={mapError}
-              isLoading={mapIsLoading}
-            />
+            <div className="my-4 h-96 w-96 pb-8 md:col-start-1 md:row-start-1 md:h-full md:w-full">
+              <SetSensorPositionMap
+                container={container}
+                location={location}
+                error={mapError}
+                isLoading={mapIsLoading}
+              />
+            </div>
 
-            <Button variant="default" type="submit" className="w-3/4">
-              Update sensor
-            </Button>
+            <div className="flex items-center justify-center md:col-start-2 md:row-start-2">
+              <Button
+                variant="default"
+                type="submit"
+                className="w-full md:w-3/4"
+              >
+                Update sensor
+              </Button>
+            </div>
           </form>
-        </div>
+        </>
       )}
     </div>
   );
