@@ -10,7 +10,7 @@ const AllSensorsMap = ({ sensors }: AllSensorsMapProps) => {
   const { container, isLoading } = useAllSensorsMap({ sensors });
 
   return (
-    <div className="relative h-full w-full">
+    <div className="relative h-full w-full bg-slate-50">
       {!!container ? (
         <div
           className="relative h-[inherit] w-[inherit] rounded-lg shadow-lg"
