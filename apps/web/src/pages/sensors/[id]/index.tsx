@@ -6,8 +6,11 @@ import Alert from "@/ui/Alert";
 import useGetSensor from "@/hooks/queries/useGetSensor";
 import LoadingSpinner from "@/ui/LoadingSpinner";
 import AllSensorsMap from "@/ui/map/AllSensorsMap";
-import { Card, Text, Title } from "@tremor/react";
+import { Badge, Card, Text, Title } from "@tremor/react";
 import SeverityToIcon from "@/ui/utils/SeverityToIcon";
+import { cn } from "@/utils/tailwind";
+import H3 from "@/ui/typography/H3";
+import Subtle from "@/ui/typography/Subtle";
 
 type SensorPageProps = InferGetServerSidePropsType<typeof getServerSideProps>;
 
@@ -19,29 +22,33 @@ const SensorPage = ({ id }: SensorPageProps) => {
   };
 
   return (
-    <div>
+    <div className="grid min-h-[calc(100vh-6rem)] w-11/12 grid-row-1 gap-y-4 md:w-full md:gap-x-2 md:px-4 lg:grid-cols-4 lg:gap-y-0">
       {isLoading && <LoadingSpinner />}
       {!isLoading && data && (
-        <div className="flex flex-col items-center justify-center gap-x-8 gap-y-4 md:flex-row">
-          <div className="mt-8">
-            <AllSensorsMap sensors={[data.sensor]} />
-          </div>
+        <><div className={cn(
+          " w-full rounded-lg lg:col-start-1 grid grid-col",
+          "bg-slate-50 shadow-md transition-all duration-300 hover:shadow-lg md:m-0",
+          "flex justify-start items-center flex-col p-4"
+        )}>
+        <div className="mb-4 flex justify-start items-center flex-col mt-4">
+        <div className="flex flex-row gap-x-2">
+          <H3>{data.sensor.name}</H3>
+          {SeverityToIcon("success")}
+        </div>
+          <Subtle>Information about your sensor</Subtle>
+        </div>
           <div>
             <Card
               className="mx-auto flex max-w-sm flex-col gap-y-4"
               decoration="top"
               decorationColor="teal"
             >
-              <div className="flex flex-row gap-x-2">
-                {/**TODO add real fillLevel*/}
-                <div className="flex w-[35px] max-w-xs items-center justify-center rounded bg-red-600 text-xs text-white">
-                  54%
-                </div>
-                <Title>{data?.sensor.name}</Title>
-                {/**TODO change color if sensor not online*/}
-                {SeverityToIcon("success")}
-              </div>
-              <div className="mt-4 flex flex-row gap-x-2">
+          <div className="h-8 flex items-center">
+            <Badge size="sm" color="yellow">
+              54%
+            </Badge>
+          </div>
+              <div className="mt-2 flex flex-row gap-x-2">
                 <TrashIcon className="w-4" />
                 <Text>
                   {" "}
@@ -79,22 +86,33 @@ const SensorPage = ({ id }: SensorPageProps) => {
                 <Alert
                   title="Are you sure you want to delete the sensor?"
                   description="The sensor will be permanently deleted."
-                  trigger={
-                    <Button
-                      variant="subtle"
-                      className="flex items-center justify-center gap-x-2"
-                    >
-                      <TrashIcon className="w-4" />
-                      <span>Delete</span>
-                    </Button>
-                  }
-                  onDelete={onDelete}
-                />
+                  trigger={<Button
+                    variant="subtle"
+                    className="flex items-center justify-center gap-x-2"
+                  >
+                    <TrashIcon className="w-4" />
+                    <span>Delete</span>
+                  </Button>}
+                  onDelete={onDelete} />
               </div>
             </Card>
           </div>
         </div>
+       
+        <div className="row-start-1 h-96 lg:col-span-2 lg:col-start-2 lg:h-auto">
+              <AllSensorsMap sensors={[data.sensor]} />
+        </div>
+        <div className={cn(
+          " w-full rounded-lg lg:col-start-4 grid grid-col",
+          "bg-slate-50 shadow-md transition-all duration-300 hover:shadow-lg md:m-0",
+          "flex justify-start items-center flex-col p-4"
+        )}>
+          TODO: graphs here
+        </div>
+        
+        </>
       )}
+      
     </div>
   );
 };

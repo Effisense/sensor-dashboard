@@ -101,7 +101,7 @@ const ContainerPage = ({ id }: ContainerPageProps) => {
         </div>
 
         <div className={cn(
-          "w-full rounded-lg lg:col-start-4 grid grid-col",
+          "p-4 w-full rounded-lg lg:col-start-4 grid grid-col",
           "bg-slate-50 shadow-md transition-all duration-300 hover:shadow-lg md:m-0",
           "flex justify-start items-center flex-col"
         )}>
