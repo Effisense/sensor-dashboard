@@ -57,14 +57,13 @@ export const getFillLevel = ({
 
   const hasEvenNumberOfPoints = validPoints.length % 2 === 0;
 
-  // TODO: Rename these to be more descriptive
-  const a = validPoints[validPoints.length / 2 - 1];
-  const b = validPoints[validPoints.length / 2];
+  const left = validPoints[validPoints.length / 2 - 1];
+  const right = validPoints[validPoints.length / 2];
 
-  if (!a || !b) return null;
+  if (!left || !right) return null;
 
   const median = hasEvenNumberOfPoints
-    ? (a + b) / 2
+    ? (left + right) / 2
     : validPoints[Math.floor(validPoints.length / 2)];
 
   if (!median) return null;

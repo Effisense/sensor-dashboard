@@ -23,11 +23,11 @@ type IndexPageProps = InferGetServerSidePropsType<typeof getServerSideProps>;
 const IndexPage = ({}: IndexPageProps) => {
   const { orgId } = useAuth();
   const {
-    data: sensors,
+    data: sensorsWithFillLevel,
     isLoading: sensorsIsLoading,
     error: sensorsError,
     refetch: refetchSensors,
-  } = trpc.sensor.getAll.useQuery();
+  } = trpc.sensor.getAllSensorsWithFillLevel.useQuery();
 
   const {
     data: containers,
@@ -36,14 +36,15 @@ const IndexPage = ({}: IndexPageProps) => {
     refetch: refetchContainers,
   } = trpc.container.getAll.useQuery();
 
-  const [currentSensors, setCurrentSensors] = useState(sensors);
+  const [currentSensorsWithFillLevel, setCurrentSensors] =
+    useState(sensorsWithFillLevel);
   const [selectedContainerId, setSelectedContainerId] = useState<string | null>(
     null,
   );
 
   useEffect(() => {
-    setCurrentSensors(sensors);
-  }, [sensors]);
+    setCurrentSensors(sensorsWithFillLevel);
+  }, [sensorsWithFillLevel]);
 
   useEffect(() => {
     if (!orgId) return;
@@ -59,11 +60,13 @@ const IndexPage = ({}: IndexPageProps) => {
     setSelectedContainerId(containerId);
 
     if (!containerId) {
-      setCurrentSensors(sensors || []);
+      setCurrentSensors(sensorsWithFillLevel || []);
       return;
     }
 
-    const current = sensors?.filter((item) => item.containerId === containerId);
+    const current = sensorsWithFillLevel?.filter(
+      (item) => item.sensor.containerId === containerId,
+    );
     setCurrentSensors(current);
   };
 
@@ -126,8 +129,10 @@ const IndexPage = ({}: IndexPageProps) => {
 
       <div className="row-start-1 h-96 lg:col-span-2 lg:col-start-2 lg:h-auto">
         <div className="h-full w-full">
-          {sensors ? (
-            <AllSensorsMap sensors={sensors} />
+          {sensorsWithFillLevel ? (
+            <AllSensorsMap
+              sensors={sensorsWithFillLevel.map((s) => s.sensor)}
+            />
           ) : (
             <div className="flex items-center justify-center">
               <LoadingSpinner />
@@ -146,18 +151,22 @@ const IndexPage = ({}: IndexPageProps) => {
           <H3>Your sensors</H3>
           <Subtle>Click a sensor to view more.</Subtle>
         </div>
-        {currentSensors && currentSensors.length === 0 && (
-          <div className="flex flex-col items-center justify-center">
-            <Subtle>No sensors found.</Subtle>
-            <Link href="/sensors/create">
-              <Button variant="outline">Add sensor</Button>
-            </Link>
-          </div>
-        )}
-        {currentSensors &&
-          currentSensors.map((sensor, index) => (
+        {currentSensorsWithFillLevel &&
+          currentSensorsWithFillLevel.length === 0 && (
+            <div className="flex flex-col items-center justify-center">
+              <Subtle>No sensors found.</Subtle>
+              <Link href="/sensors/create">
+                <Button variant="outline">Add sensor</Button>
+              </Link>
+            </div>
+          )}
+        {currentSensorsWithFillLevel &&
+          currentSensorsWithFillLevel.map((sensor, index) => (
             <div key={index} className="mb-4">
-              <DashboardSensorCard sensor={sensor} fillLevel={50} />
+              <DashboardSensorCard
+                sensor={sensor.sensor}
+                fillLevel={sensor.fillLevel}
+              />
             </div>
           ))}
       </div>
