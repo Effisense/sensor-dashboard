@@ -4,12 +4,20 @@ import { mapbox, MapboxMap, MapboxMarker, MapboxPopup } from "@acme/mapbox";
 import { slate } from "tailwindcss/colors";
 import { Sensor } from "@acme/db";
 import { createPopupNode } from "@/utils/mapbox";
+import percentToColorTremor, {
+  percentToColorHex,
+} from "@/utils/percentToColor";
 
 type AllSensorsMapProps = {
-  sensors: Sensor[] | undefined;
+  sensor: Sensor | undefined;
+  fillLevel: number | null;
+}[];
+
+type AllSensorsMapComponentProps = {
+  sensorWithFill: AllSensorsMapProps;
 };
 
-const useAllSensorsMap = ({ sensors }: AllSensorsMapProps) => {
+const useAllSensorsMap = ({ sensorWithFill }: AllSensorsMapComponentProps) => {
   const container = useRef<HTMLDivElement>(null);
   const { latitude, longitude } = useGeoLocation();
   const map = useRef<mapbox.Map | null>(null);
@@ -20,10 +28,10 @@ const useAllSensorsMap = ({ sensors }: AllSensorsMapProps) => {
   useEffect(() => {
     if (!map.current) return;
     map.current.triggerRepaint();
-  }, [sensors]);
+  }, [sensorWithFill]);
 
   useEffect(() => {
-    if (map.current || !sensors) return;
+    if (map.current || !sensorWithFill) return;
     if (!longitude || !latitude) return;
     if (!container.current) return;
 
@@ -35,13 +43,15 @@ const useAllSensorsMap = ({ sensors }: AllSensorsMapProps) => {
     });
 
     const onMapLoad = () => {
-      const markers = sensors.map((sensor) => {
-        if (!map.current) return null;
-        const popup = MapboxPopup({ html: createPopupNode({ sensor }) });
+      const markers = sensorWithFill.map((sensorWithFill) => {
+        if (!map.current || !sensorWithFill.sensor) return null;
+        const popup = MapboxPopup({
+          html: createPopupNode({ sensorWithFill }),
+        });
         return MapboxMarker({
-          latitude: sensor.latitude,
-          longitude: sensor.longitude,
-          color: slate["400"],
+          latitude: sensorWithFill.sensor.latitude,
+          longitude: sensorWithFill.sensor.longitude,
+          color: percentToColorHex(sensorWithFill.fillLevel),
           addTo: map.current,
         }).setPopup(popup);
       });
@@ -56,7 +66,7 @@ const useAllSensorsMap = ({ sensors }: AllSensorsMapProps) => {
         map.current.remove();
       }
     };
-  }, [longitude, latitude, sensors]);
+  }, [longitude, latitude, sensorWithFill]);
 
   // Updates the position of the markers when the map is moved
   useEffect(() => {

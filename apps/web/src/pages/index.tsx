@@ -88,7 +88,9 @@ const IndexPage = ({}: IndexPageProps) => {
               <div className="flex flex-col items-center justify-center">
                 <Subtle>No containers found.</Subtle>
                 <Link href="/containers/create">
-                  <Button variant="outline">Add container</Button>
+                  <Button variant="outline" className="mt-4">
+                    Add container
+                  </Button>
                 </Link>
               </div>
             </div>
@@ -97,7 +99,9 @@ const IndexPage = ({}: IndexPageProps) => {
               <Card
                 className={cn(
                   "mb-4 transition-all duration-300",
-                  !selectedContainerId ? "bg-green-5" : "bg-white",
+                  !selectedContainerId
+                    ? "bg-green-5 hover:bg-green-6"
+                    : "bg-white hover:bg-slate-50",
                 )}
                 onClick={() => handleContainerSelect(null)}
               >
@@ -106,22 +110,54 @@ const IndexPage = ({}: IndexPageProps) => {
 
               <hr className="mb-4 h-[2px] rounded-full bg-slate-200" />
 
-              {containers?.map((container) => (
-                <Card
-                  key={container.id}
-                  className={cn(
-                    "flex items-center justify-between",
-                    "mb-4 bg-white transition-all duration-300",
-                    selectedContainerId === container.id ? "bg-green-5" : "",
-                  )}
-                  onClick={() => handleContainerSelect(container.id)}
-                >
-                  <Title>{container.name}</Title>
-                  <Link href={`/containers/${container.id}`} key={container.id}>
-                    <ArrowRightIcon className="w-4 transition-all duration-300 hover:translate-x-1" />
-                  </Link>
-                </Card>
-              ))}
+              {containerIsLoading ? (
+                <div className="flex animate-pulse flex-wrap justify-center">
+                  {Array.from({ length: 4 }).map((_, index) => (
+                    <Card
+                      key={index}
+                      className={cn(
+                        "hover:bg-slate mb-4 h-24 bg-gray-200 transition-all duration-300",
+                        "flex items-center justify-between",
+                      )}
+                    ></Card>
+                  ))}
+                </div>
+              ) : containersError ? (
+                <div className="flex flex-col items-center justify-center">
+                  <Subtle>Could not load containers.</Subtle>
+                  <Button
+                    variant="outline"
+                    onClick={() => refetchContainers()}
+                    className="mt-4"
+                  >
+                    Retry
+                  </Button>
+                </div>
+              ) : (
+                <div>
+                  {containers?.map((container) => (
+                    <Card
+                      key={container.id}
+                      className={cn(
+                        "flex items-center justify-between ",
+                        "mb-4 bg-white transition-all duration-300",
+                        selectedContainerId === container.id
+                          ? "bg-green-5 hover:bg-green-6"
+                          : "hover:bg-slate-50",
+                      )}
+                      onClick={() => handleContainerSelect(container.id)}
+                    >
+                      <Title>{container.name}</Title>
+                      <Link
+                        href={`/containers/${container.id}`}
+                        key={container.id}
+                      >
+                        <ArrowRightIcon className="w-4 transition-all duration-300 hover:translate-x-1" />
+                      </Link>
+                    </Card>
+                  ))}
+                </div>
+              )}
             </div>
           )}
         </div>
@@ -130,9 +166,8 @@ const IndexPage = ({}: IndexPageProps) => {
       <div className="row-start-1 h-96 lg:col-span-2 lg:col-start-2 lg:h-auto">
         <div className="h-full w-full">
           {sensorsWithFillLevel ? (
-            <AllSensorsMap
-              sensors={sensorsWithFillLevel.map((s) => s.sensor)}
-            />
+            // TODO: Have this using currentSensorsWithFillLevel instead
+            <AllSensorsMap sensorWithFill={sensorsWithFillLevel} />
           ) : (
             <div className="flex items-center justify-center">
               <LoadingSpinner />
@@ -151,24 +186,52 @@ const IndexPage = ({}: IndexPageProps) => {
           <H3>Your sensors</H3>
           <Subtle>Click a sensor to view more.</Subtle>
         </div>
-        {currentSensorsWithFillLevel &&
-          currentSensorsWithFillLevel.length === 0 && (
-            <div className="flex flex-col items-center justify-center">
-              <Subtle>No sensors found.</Subtle>
-              <Link href="/sensors/create">
-                <Button variant="outline">Add sensor</Button>
-              </Link>
-            </div>
-          )}
-        {currentSensorsWithFillLevel &&
-          currentSensorsWithFillLevel.map((sensor, index) => (
-            <div key={index} className="mb-4">
-              <DashboardSensorCard
-                sensor={sensor.sensor}
-                fillLevel={sensor.fillLevel}
-              />
-            </div>
-          ))}
+
+        {sensorsIsLoading ? (
+          <div className="flex animate-pulse flex-wrap justify-center">
+            {Array.from({ length: 4 }).map((_, index) => (
+              <Card
+                key={index}
+                className={cn(
+                  "mb-4 h-24 bg-gray-200 transition-all duration-300",
+                  "flex items-center justify-between",
+                )}
+              ></Card>
+            ))}
+          </div>
+        ) : sensorsError ? (
+          <div className="flex flex-col items-center justify-center">
+            <Subtle>Could not load sensors.</Subtle>
+            <Button
+              variant="outline"
+              onClick={() => refetchSensors()}
+              className="mt-4"
+            >
+              Retry
+            </Button>
+          </div>
+        ) : (
+          <div>
+            {currentSensorsWithFillLevel &&
+              currentSensorsWithFillLevel.length === 0 && (
+                <div className="flex flex-col items-center justify-center">
+                  <Subtle>No sensors found.</Subtle>
+                  <Link href="/sensors/create">
+                    <Button variant="outline">Add sensor</Button>
+                  </Link>
+                </div>
+              )}
+            {currentSensorsWithFillLevel &&
+              currentSensorsWithFillLevel.map((sensor, index) => (
+                <div key={index} className="mb-4">
+                  <DashboardSensorCard
+                    sensor={sensor.sensor}
+                    fillLevel={sensor.fillLevel}
+                  />
+                </div>
+              ))}
+          </div>
+        )}
       </div>
     </div>
   );
