@@ -40,7 +40,7 @@ export const getFillLevel = ({
 }: FillLevelProps): number | null => {
   if (!timeseries || !container) return null;
 
-  const middlePoints: (number | null)[] = [
+  const middlePoints = [
     timeseries.status_z5,
     timeseries.status_z6,
     timeseries.status_z9,
@@ -55,14 +55,19 @@ export const getFillLevel = ({
 
   validPoints.sort((a, b) => a - b);
 
-  const median: number | undefined =
-    validPoints.length % 2 === 0
-      ? (validPoints[validPoints.length / 2 - 1] +
-          validPoints[validPoints.length / 2]) /
-        2
-      : validPoints[Math.floor(validPoints.length / 2)];
+  const hasEvenNumberOfPoints = validPoints.length % 2 === 0;
 
-  if (median === undefined) return null;
+  // TODO: Rename these to be more descriptive
+  const a = validPoints[validPoints.length / 2 - 1];
+  const b = validPoints[validPoints.length / 2];
+
+  if (!a || !b) return null;
+
+  const median = hasEvenNumberOfPoints
+    ? (a + b) / 2
+    : validPoints[Math.floor(validPoints.length / 2)];
+
+  if (!median) return null;
 
   const sensorOffset = container.sensorOffsetInMillimeters ?? 0;
   const binHeight = container.binHeightInMillimeters;
@@ -72,7 +77,7 @@ export const getFillLevel = ({
   }
 
   const distanceFromTop = median - sensorOffset;
-  const fullness = ((binHeight - distanceFromTop) / binHeight) * 100;
+  const fillLevel = ((binHeight - distanceFromTop) / binHeight) * 100;
 
-  return Math.min(Math.max(0, fullness), 100);
+  return Math.min(Math.max(0, fillLevel), 100);
 };
