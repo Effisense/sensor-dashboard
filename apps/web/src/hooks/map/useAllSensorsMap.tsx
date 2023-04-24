@@ -7,6 +7,8 @@ import { createPopupNode } from "@/utils/mapbox";
 import percentToColorTremor, {
   percentToColorHex,
 } from "@/utils/percentToColor";
+import { LngLatBounds } from "mapbox-gl";
+import { centroid, distance } from "@turf/turf";
 
 type AllSensorsMapProps = {
   sensor: Sensor | undefined;
@@ -21,6 +23,7 @@ const useAllSensorsMap = ({ sensorWithFill }: AllSensorsMapComponentProps) => {
   const container = useRef<HTMLDivElement>(null);
   const { latitude, longitude } = useGeoLocation();
   const map = useRef<mapbox.Map | null>(null);
+  const [loading, setLoading] = useState(true);
   const [sensorMarkers, setSensorMarkers] = useState<(mapbox.Marker | null)[]>(
     [],
   );
@@ -34,6 +37,7 @@ const useAllSensorsMap = ({ sensorWithFill }: AllSensorsMapComponentProps) => {
     if (map.current || !sensorWithFill) return;
     if (!longitude || !latitude) return;
     if (!container.current) return;
+    if (isNaN(longitude) || isNaN(latitude)) return;
 
     map.current = MapboxMap({
       container: container.current,
@@ -43,11 +47,19 @@ const useAllSensorsMap = ({ sensorWithFill }: AllSensorsMapComponentProps) => {
     });
 
     const onMapLoad = () => {
+      const bounds = new LngLatBounds();
       const markers = sensorWithFill.map((sensorWithFill) => {
         if (!map.current || !sensorWithFill.sensor) return null;
         const popup = MapboxPopup({
           html: createPopupNode({ sensorWithFill }),
         });
+
+        // Add the sensor's position to the bounds
+        bounds.extend([
+          sensorWithFill.sensor.longitude,
+          sensorWithFill.sensor.latitude,
+        ]);
+
         return MapboxMarker({
           latitude: sensorWithFill.sensor.latitude,
           longitude: sensorWithFill.sensor.longitude,
@@ -57,6 +69,14 @@ const useAllSensorsMap = ({ sensorWithFill }: AllSensorsMapComponentProps) => {
       });
 
       setSensorMarkers(markers);
+
+      // TODO: Fix padding so that the map is not zoomed in too much. Needs a new implementation
+      if (map.current && !bounds.isEmpty()) {
+        map.current.fitBounds(bounds, {
+          padding: 200,
+        });
+      }
+      setLoading(false);
     };
 
     map.current.on("load", onMapLoad);
@@ -95,7 +115,7 @@ const useAllSensorsMap = ({ sensorWithFill }: AllSensorsMapComponentProps) => {
     };
   }, [sensorMarkers]);
 
-  const isLoading = map.current?.isMoving() || false;
+  const isLoading = loading;
 
   return {
     container,
