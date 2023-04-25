@@ -165,9 +165,9 @@ const IndexPage = ({}: IndexPageProps) => {
 
       <div className="row-start-1 h-96 lg:col-span-2 lg:col-start-2 lg:h-auto">
         <div className="h-full w-full">
-          {sensorsWithFillLevel ? (
+          {currentSensorsWithFillLevel ? (
             // TODO: Have this using currentSensorsWithFillLevel instead
-            <AllSensorsMap sensorWithFill={sensorsWithFillLevel} />
+            <AllSensorsMap sensorWithFill={currentSensorsWithFillLevel} />
           ) : (
             <div className="flex items-center justify-center">
               <LoadingSpinner />
