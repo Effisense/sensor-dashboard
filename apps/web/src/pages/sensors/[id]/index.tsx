@@ -11,66 +11,39 @@ import SeverityToIcon from "@/ui/utils/SeverityToIcon";
 import { cn } from "@/utils/tailwind";
 import H3 from "@/ui/typography/H3";
 import Subtle from "@/ui/typography/Subtle";
-import { DateRangePicker, DateRangePickerValue } from "@tremor/react";
-import { useEffect, useMemo, useState } from "react";
+import { DateRangePicker } from "@tremor/react";
+import { useMemo } from "react";
 import { AreaChart } from "@tremor/react";
 import { trpc } from "@/utils/trpc";
 import percentToColorTremor from "@/utils/percentToColor";
+import useDateRange from "@/hooks/useDateRange";
+import { formatAreaChart } from "@/utils/tremor";
 
 type SensorPageProps = InferGetServerSidePropsType<typeof getServerSideProps>;
 
 const SensorPage = ({ id }: SensorPageProps) => {
-  const startDate = new Date();
-  startDate.setDate(startDate.getDate() - 7);
-  const endDate = new Date();
-
-  const [dateRange, setDateRange] = useState<{
-    startDate: Date;
-    endDate: Date;
-  }>({
-    startDate,
-    endDate,
-  });
-  endDate.setDate(endDate.getDate() - 7);
+  const { startDate, endDate, setDateRange } = useDateRange({});
 
   const {
     data: fillLevelBetweenDates,
-    isLoading: fillLevelIsLoading,
-    error: fillLevelError,
+    isLoading: fillLevelBetweenDatesIsLoading,
+    error: fillLevelBetweenDatesError,
   } = trpc.sensor.getWithFillLevelBetweenDates.useQuery({
     sensorId: id,
-    startDate: dateRange.startDate,
-    endDate: dateRange.endDate,
+    startDate: startDate || new Date(),
+    endDate: endDate || new Date(),
   });
 
   const { data, isLoading, deleteSensorMutation } = useGetSensor({ id });
   const {
-    data: sensorWithFill,
-    isLoading: sensorWithFillIsLoading,
-    error: sensorWithFillError,
-  } = trpc.sensor.getFillLevel.useQuery({ sensorId: id });
-
-  const [value, setValue] = useState<DateRangePickerValue>([
-    startDate,
-    endDate,
-  ]);
-
-  const dataFormatter = (number: number) => {
-    return "$ " + Intl.NumberFormat("us").format(number).toString();
-  };
+    data: sensorWithFillLevel,
+    isLoading: sensorWithFillLevelIsLoading,
+    error: sensorWithFillLevelError,
+  } = trpc.sensor.getWithFillLevel.useQuery({ sensorId: id });
 
   const onDelete = async () => {
     await deleteSensorMutation({ sensorId: id });
   };
-
-  useEffect(() => {
-    if (Array.isArray(value) && value.length === 2 && value[0] && value[1]) {
-      setDateRange({
-        startDate: value[0],
-        endDate: value[1],
-      });
-    }
-  }, [value]);
 
   const chartData = useMemo(() => {
     if (!fillLevelBetweenDates) return [];
@@ -97,8 +70,8 @@ const SensorPage = ({ id }: SensorPageProps) => {
                 "flex flex-col items-center justify-start p-4",
               )}
             >
-              {sensorWithFill ? (
-                <AllSensorsMap sensorWithFill={sensorWithFill} />
+              {sensorWithFillLevel ? (
+                <AllSensorsMap sensorWithFill={sensorWithFillLevel} />
               ) : (
                 <div>
                   {/* TODO: This could be prettier */}
@@ -153,15 +126,17 @@ const SensorPage = ({ id }: SensorPageProps) => {
                     <Badge
                       size="sm"
                       color={
-                        sensorWithFill && sensorWithFill[0]
-                          ? percentToColorTremor(sensorWithFill[0].fillLevel)
+                        sensorWithFillLevel && sensorWithFillLevel[0]
+                          ? percentToColorTremor(
+                              sensorWithFillLevel[0].fillLevel,
+                            )
                           : "gray"
                       }
                       className="mr-4 py-1 px-2"
                     >
-                      {sensorWithFill?.[0]?.fillLevel === null
+                      {sensorWithFillLevel?.[0]?.fillLevel === null
                         ? "N/A"
-                        : `${sensorWithFill?.[0]?.fillLevel} %`}
+                        : `${sensorWithFillLevel?.[0]?.fillLevel} %`}
                     </Badge>
                   </div>
                   <div className="mt-2 flex flex-row gap-x-2">
@@ -193,8 +168,8 @@ const SensorPage = ({ id }: SensorPageProps) => {
                 <Title className="pt-5">History</Title>
                 <DateRangePicker
                   className="mx-auto max-w-md pt-4"
-                  value={value}
-                  onValueChange={setValue}
+                  value={[startDate, endDate]}
+                  onValueChange={setDateRange}
                   dropdownPlaceholder="Select dates"
                 />
 
@@ -212,7 +187,7 @@ const SensorPage = ({ id }: SensorPageProps) => {
                     index="date"
                     categories={["Fill Level"]}
                     colors={["cyan"]}
-                    valueFormatter={dataFormatter}
+                    valueFormatter={formatAreaChart}
                   />
                 )}
               </div>

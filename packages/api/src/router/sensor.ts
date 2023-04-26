@@ -285,7 +285,7 @@ export const sensorRouter = router({
       return data;
     }),
 
-  getFillLevel: protectedProcedure
+  getWithFillLevel: protectedProcedure
     .input(
       z.object({
         sensorId: z.string(),
