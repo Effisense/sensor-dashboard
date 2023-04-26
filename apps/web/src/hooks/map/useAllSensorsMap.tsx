@@ -14,7 +14,7 @@ const useAllSensorsMap = ({ sensorsWithFillLevel }: AllSensorsMapProps) => {
   const container = useRef<HTMLDivElement>(null);
   const { latitude, longitude } = useGeoLocation();
   const map = useRef<mapbox.Map | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
   const [sensorMarkers, setSensorMarkers] = useState<(mapbox.Marker | null)[]>(
     [],
   );
@@ -67,7 +67,7 @@ const useAllSensorsMap = ({ sensorsWithFillLevel }: AllSensorsMapProps) => {
           padding: 200,
         });
       }
-      setLoading(false);
+      setIsLoading(false);
     };
 
     map.current.on("load", onMapLoad);
@@ -105,8 +105,6 @@ const useAllSensorsMap = ({ sensorsWithFillLevel }: AllSensorsMapProps) => {
       }
     };
   }, [sensorMarkers]);
-
-  const isLoading = loading;
 
   return {
     container,
