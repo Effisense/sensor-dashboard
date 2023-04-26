@@ -1,18 +1,20 @@
 import { useEffect, useRef, useState } from "react";
 import useGeoLocation from "../useGeolocation";
 import { mapbox, MapboxMap, MapboxMarker, MapboxPopup } from "@acme/mapbox";
-import { slate } from "tailwindcss/colors";
-import { Sensor } from "@acme/db";
 import { createPopupNode } from "@/utils/mapbox";
+import { percentToColorHex } from "@/utils/percentToColor";
+import { LngLatBounds } from "mapbox-gl";
+import { SensorWithFillLevel } from "@/types";
 
 type AllSensorsMapProps = {
-  sensors: Sensor[] | undefined;
+  sensorsWithFillLevel: SensorWithFillLevel[];
 };
 
-const useAllSensorsMap = ({ sensors }: AllSensorsMapProps) => {
+const useAllSensorsMap = ({ sensorsWithFillLevel }: AllSensorsMapProps) => {
   const container = useRef<HTMLDivElement>(null);
   const { latitude, longitude } = useGeoLocation();
   const map = useRef<mapbox.Map | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
   const [sensorMarkers, setSensorMarkers] = useState<(mapbox.Marker | null)[]>(
     [],
   );
@@ -20,12 +22,13 @@ const useAllSensorsMap = ({ sensors }: AllSensorsMapProps) => {
   useEffect(() => {
     if (!map.current) return;
     map.current.triggerRepaint();
-  }, [sensors]);
+  }, [sensorsWithFillLevel]);
 
   useEffect(() => {
-    if (map.current || !sensors) return;
+    if (map.current || !sensorsWithFillLevel) return;
     if (!longitude || !latitude) return;
     if (!container.current) return;
+    if (isNaN(longitude) || isNaN(latitude)) return;
 
     map.current = MapboxMap({
       container: container.current,
@@ -35,18 +38,36 @@ const useAllSensorsMap = ({ sensors }: AllSensorsMapProps) => {
     });
 
     const onMapLoad = () => {
-      const markers = sensors.map((sensor) => {
-        if (!map.current) return null;
-        const popup = MapboxPopup({ html: createPopupNode({ sensor }) });
+      const bounds = new LngLatBounds();
+      const markers = sensorsWithFillLevel.map((sensorWithFillLevel) => {
+        if (!map.current || !sensorWithFillLevel.sensor) return null;
+        const popup = MapboxPopup({
+          html: createPopupNode({ sensorWithFillLevel }),
+        });
+
+        // Add the sensor's position to the bounds
+        bounds.extend([
+          sensorWithFillLevel.sensor.longitude,
+          sensorWithFillLevel.sensor.latitude,
+        ]);
+
         return MapboxMarker({
-          latitude: sensor.latitude,
-          longitude: sensor.longitude,
-          color: slate["400"],
+          latitude: sensorWithFillLevel.sensor.latitude,
+          longitude: sensorWithFillLevel.sensor.longitude,
+          color: percentToColorHex(sensorWithFillLevel.fillLevel),
           addTo: map.current,
         }).setPopup(popup);
       });
 
       setSensorMarkers(markers);
+
+      // TODO: Fix padding so that the map is not zoomed in too much. Needs a new implementation
+      if (map.current && !bounds.isEmpty()) {
+        map.current.fitBounds(bounds, {
+          padding: 200,
+        });
+      }
+      setIsLoading(false);
     };
 
     map.current.on("load", onMapLoad);
@@ -56,7 +77,7 @@ const useAllSensorsMap = ({ sensors }: AllSensorsMapProps) => {
         map.current.remove();
       }
     };
-  }, [longitude, latitude, sensors]);
+  }, [longitude, latitude, sensorsWithFillLevel]);
 
   // Updates the position of the markers when the map is moved
   useEffect(() => {
@@ -84,8 +105,6 @@ const useAllSensorsMap = ({ sensors }: AllSensorsMapProps) => {
       }
     };
   }, [sensorMarkers]);
-
-  const isLoading = map.current?.isMoving() || false;
 
   return {
     container,

@@ -19,7 +19,7 @@ type ContainerPageProps = InferGetServerSidePropsType<
 >;
 
 const ContainerPage = ({ id }: ContainerPageProps) => {
-  const { container, sensors, loading, deleteContainerMutation } =
+  const { container, sensorsWithFillLevel, loading, deleteContainerMutation } =
     useGetContainerWithSensors({ id });
 
   const onDelete = async () => {
@@ -99,8 +99,8 @@ const ContainerPage = ({ id }: ContainerPageProps) => {
           </div>
 
           <div className="row-start-1 h-96 lg:col-span-2 lg:col-start-2 lg:h-auto">
-            {sensors ? (
-              <AllSensorsMap sensors={sensors} />
+            {sensorsWithFillLevel ? (
+              <AllSensorsMap sensorWithFill={sensorsWithFillLevel} />
             ) : (
               <div className="flex items-center justify-center">
                 <LoadingSpinner />
@@ -120,10 +120,13 @@ const ContainerPage = ({ id }: ContainerPageProps) => {
               <Subtle>Click a sensor to view more.</Subtle>
             </div>
             <ScrollArea className="h-[420px] rounded-md p-4">
-              {sensors &&
-                sensors.map((sensor, index) => (
+              {sensorsWithFillLevel &&
+                sensorsWithFillLevel.map((sensor, index) => (
                   <div key={index} className="mb-4">
-                    <DashboardSensorCard sensor={sensor} fillLevel={50} />
+                    <DashboardSensorCard
+                      sensor={sensor.sensor}
+                      fillLevel={sensor.fillLevel}
+                    />
                   </div>
                 ))}
             </ScrollArea>

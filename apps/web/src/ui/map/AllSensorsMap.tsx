@@ -3,11 +3,18 @@ import LoadingSpinner from "../LoadingSpinner";
 import { Sensor } from "@acme/db";
 
 type AllSensorsMapProps = {
-  sensors: Sensor[] | undefined;
+  sensor: Sensor | undefined;
+  fillLevel: number | null;
+}[];
+
+type AllSensorsMapComponentProps = {
+  sensorWithFill: AllSensorsMapProps;
 };
 
-const AllSensorsMap = ({ sensors }: AllSensorsMapProps) => {
-  const { container, isLoading } = useAllSensorsMap({ sensors });
+const AllSensorsMap = ({ sensorWithFill }: AllSensorsMapComponentProps) => {
+  const { container, isLoading } = useAllSensorsMap({
+    sensorsWithFillLevel: sensorWithFill,
+  });
 
   return (
     <div className="relative h-full w-full bg-slate-50">

@@ -209,6 +209,160 @@ export const sensorRouter = router({
     });
   }),
 
+  getWithFillLevelBetweenDates: protectedProcedure
+    .input(
+      z.object({
+        sensorId: z.string(),
+        startDate: z.date(),
+        endDate: z.date(),
+      }),
+    )
+    .query(async ({ ctx, input }) => {
+      const { sensorId, startDate, endDate } = input;
+
+      if (!ctx.auth.organizationId) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "Organization not found",
+        });
+      }
+
+      // Get the sensor object
+      const sensor = await ctx.prisma.sensor
+        .findUnique({
+          where: {
+            id: sensorId,
+          },
+        })
+        .then((sensor) => sensor);
+
+      // Get data from timeseries between dates
+      const timeseriesData = await Sensor.selectAll()
+        .where("sensor_id", "=", sensorId)
+        .where("time", ">=", startDate)
+        .where("time", "<=", endDate)
+        .orderBy("time", "asc")
+        .execute();
+
+      // Get the associated container object
+      if (!sensor) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Sensor not found",
+        });
+      }
+      const container = await ctx.prisma.container
+        .findUnique({
+          where: {
+            id: sensor.containerId || undefined || "",
+          },
+        })
+        .then((container) => container);
+
+      if (!container) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Container not found",
+        });
+      }
+
+      // Map data to array of objects with date and fill level using getFillLevel and store in array
+      // {
+      //   dateAndTime: dateAndTime,
+      //   fillLevel: fillLevel,
+      // },
+      const data = timeseriesData.map((data) => {
+        const dateAndTime = data.time;
+        const fillLevel = getFillLevel({ timeseries: data, container });
+        return {
+          dateAndTime,
+          fillLevel,
+        };
+
+        // Return array of objects
+      });
+
+      return data;
+    }),
+
+  getWithFillLevel: protectedProcedure
+    .input(
+      z.object({
+        sensorId: z.string(),
+      }),
+    )
+    .query(async ({ ctx, input }) => {
+      const { sensorId } = input;
+
+      if (!ctx.auth.organizationId) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "Organization not found",
+        });
+      }
+
+      // Get the sensor object
+      const sensor = await ctx.prisma.sensor
+        .findUnique({
+          where: {
+            id: sensorId,
+          },
+        })
+        .then((sensor) => sensor);
+
+      // Get the associated container object
+
+      if (!sensor) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Sensor not found",
+        });
+      }
+      const container = await ctx.prisma.container
+        .findUnique({
+          where: {
+            id: sensor.containerId || undefined || "",
+          },
+        })
+        .then((container) => container);
+
+      if (!container) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Container not found",
+        });
+      }
+
+      // Get the latest data from timeseries
+      const timeseriesData = await Sensor.selectAll()
+        .where("sensor_id", "=", sensorId)
+        .orderBy("time", "desc")
+        .limit(1)
+        .execute();
+
+      // Check if there is timeseries data
+      if (timeseriesData.length === 0) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Timeseries data not found",
+        });
+      }
+
+      // Get the fill level
+      const fillLevel = getFillLevel({
+        timeseries: timeseriesData[0],
+        container,
+      });
+
+      //Return sensor object and fill level as an object in an array
+      return [
+        {
+          sensor,
+          fillLevel: fillLevel || null,
+        },
+      ];
+    }),
+
   update: protectedProcedure
     .input(UpdateSensorSchema)
     .mutation(async ({ ctx, input }) => {

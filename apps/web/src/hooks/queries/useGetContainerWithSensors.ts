@@ -30,7 +30,7 @@ const useGetContainerWithSensors = ({ id }: GetContainerWithSensorsProps) => {
         },
       },
     );
-  const { data: sensors, isLoading: sensorsIsLoading } =
+  const { data: sensorsWithFillLevel, isLoading: sensorsIsLoading } =
     trpc.container.getSensorsByContainerId.useQuery(
       {
         containerId: id,
@@ -72,7 +72,7 @@ const useGetContainerWithSensors = ({ id }: GetContainerWithSensorsProps) => {
   useEffect(() => {
     if (!deleteContainerIsLoading) return;
     toast({
-      title: "Deleting continaer...",
+      title: "Deleting container...",
       severity: "loading",
     });
   }, [deleteContainerIsLoading, toast]);
@@ -82,7 +82,7 @@ const useGetContainerWithSensors = ({ id }: GetContainerWithSensorsProps) => {
 
   return {
     container,
-    sensors,
+    sensorsWithFillLevel,
     loading,
     deleteContainerMutation,
   };
