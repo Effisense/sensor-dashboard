@@ -6,6 +6,8 @@ import {
   ContainerFormSchema,
 } from "../schemas/container";
 import { protectedProcedure, router } from "../trpc";
+import { getFillLevel } from "../utils/sensor";
+import { Sensor } from "../lib/kysely";
 
 export const containerRouter = router({
   create: protectedProcedure
@@ -127,11 +129,45 @@ export const containerRouter = router({
         });
       }
 
-      return ctx.prisma.sensor.findMany({
+      const sensors = await ctx.prisma.sensor.findMany({
         where: {
           containerId,
         },
+        select: {
+          id: true,
+          name: true,
+          description: true,
+          organizationId: true,
+          latitude: true,
+          longitude: true,
+          collectionId: true,
+          location: true,
+          containerId: true,
+          container: true,
+        },
       });
+
+      const sensorsWithFillLevel = [];
+
+      for (const sensor of sensors) {
+        if (!sensor.containerId) continue;
+
+        const timeseries = await Sensor.selectAll()
+          .where("sensor_id", "=", sensor.id)
+          .orderBy("time", "desc")
+          .limit(1)
+          .execute()
+          .then((value) => value[0]);
+
+        const fillLevel = getFillLevel({
+          timeseries,
+          container: sensor.container,
+        });
+
+        sensorsWithFillLevel.push({ sensor, fillLevel });
+      }
+
+      return sensorsWithFillLevel;
     }),
 
   update: protectedProcedure
