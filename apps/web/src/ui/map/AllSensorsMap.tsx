@@ -12,7 +12,9 @@ type AllSensorsMapComponentProps = {
 };
 
 const AllSensorsMap = ({ sensorWithFill }: AllSensorsMapComponentProps) => {
-  const { container, isLoading } = useAllSensorsMap({ sensorWithFill });
+  const { container, isLoading } = useAllSensorsMap({
+    sensorsWithFillLevel: sensorWithFill,
+  });
 
   return (
     <div className="relative h-full w-full bg-slate-50">

@@ -1,28 +1,21 @@
+import { SensorWithFillLevel } from "@/types";
 import SensorMarkerPopover from "@/ui/map/SensorMarkerPopover";
-import { Sensor } from "@acme/db";
 import ReactDOM from "react-dom";
 
-type AllSensorsMapProps = {
-  sensor: Sensor | undefined;
-  fillLevel: number | null;
+type PopupNodeProps = {
+  sensorWithFillLevel: SensorWithFillLevel;
 };
 
-type AllSensorsMapComponentProps = {
-  sensorWithFill: AllSensorsMapProps;
-};
-
-export const createPopupNode = ({
-  sensorWithFill,
-}: AllSensorsMapComponentProps) => {
+export const createPopupNode = ({ sensorWithFillLevel }: PopupNodeProps) => {
   const popupNode = document.createElement("div");
 
   ReactDOM.render(
     <SensorMarkerPopover
-      title={sensorWithFill.sensor?.name || "Ingen navn"}
-      content={sensorWithFill.sensor?.description || "Ingen beskrivelse"}
-      link={`sensors/${sensorWithFill.sensor?.id}`}
+      title={sensorWithFillLevel.sensor?.name || "Ingen navn"}
+      content={sensorWithFillLevel.sensor?.description || "Ingen beskrivelse"}
+      link={`sensors/${sensorWithFillLevel.sensor?.id}`}
       linkLabel="See more"
-      fillLevel={sensorWithFill.fillLevel}
+      fillLevel={sensorWithFillLevel.fillLevel}
     />,
     popupNode,
   );
