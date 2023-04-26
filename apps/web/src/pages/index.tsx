@@ -24,8 +24,8 @@ const IndexPage = ({}: IndexPageProps) => {
   const { orgId } = useAuth();
   const {
     data: sensorsWithFillLevel,
-    isLoading: sensorsIsLoading,
-    error: sensorsError,
+    isLoading: sensorsWithFillLevelIsLoading,
+    error: sensorsWithFillLevelError,
     refetch: refetchSensors,
   } = trpc.sensor.getAllSensorsWithFillLevel.useQuery();
 
@@ -36,14 +36,14 @@ const IndexPage = ({}: IndexPageProps) => {
     refetch: refetchContainers,
   } = trpc.container.getAll.useQuery();
 
-  const [currentSensorsWithFillLevel, setCurrentSensors] =
+  const [currentSensorsWithFillLevel, setCurrentSensorsWithFillLevel] =
     useState(sensorsWithFillLevel);
   const [selectedContainerId, setSelectedContainerId] = useState<string | null>(
     null,
   );
 
   useEffect(() => {
-    setCurrentSensors(sensorsWithFillLevel);
+    setCurrentSensorsWithFillLevel(sensorsWithFillLevel);
   }, [sensorsWithFillLevel]);
 
   useEffect(() => {
@@ -60,14 +60,14 @@ const IndexPage = ({}: IndexPageProps) => {
     setSelectedContainerId(containerId);
 
     if (!containerId) {
-      setCurrentSensors(sensorsWithFillLevel || []);
+      setCurrentSensorsWithFillLevel(sensorsWithFillLevel || []);
       return;
     }
 
     const current = sensorsWithFillLevel?.filter(
       (item) => item.sensor.containerId === containerId,
     );
-    setCurrentSensors(current);
+    setCurrentSensorsWithFillLevel(current);
   };
 
   return (
@@ -166,7 +166,6 @@ const IndexPage = ({}: IndexPageProps) => {
       <div className="row-start-1 h-96 lg:col-span-2 lg:col-start-2 lg:h-auto">
         <div className="h-full w-full">
           {currentSensorsWithFillLevel ? (
-            // TODO: Have this using currentSensorsWithFillLevel instead
             <AllSensorsMap sensorWithFill={currentSensorsWithFillLevel} />
           ) : (
             <div className="flex items-center justify-center">
@@ -187,7 +186,7 @@ const IndexPage = ({}: IndexPageProps) => {
           <Subtle>Click a sensor to view more.</Subtle>
         </div>
 
-        {sensorsIsLoading ? (
+        {sensorsWithFillLevelIsLoading ? (
           <div className="flex animate-pulse flex-wrap justify-center">
             {Array.from({ length: 4 }).map((_, index) => (
               <Card
@@ -199,7 +198,7 @@ const IndexPage = ({}: IndexPageProps) => {
               ></Card>
             ))}
           </div>
-        ) : sensorsError ? (
+        ) : sensorsWithFillLevelError ? (
           <div className="flex flex-col items-center justify-center">
             <Subtle>Could not load sensors.</Subtle>
             <Button
