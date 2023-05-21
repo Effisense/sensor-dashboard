@@ -26,8 +26,8 @@ importers:
         specifier: ^0.1.13
         version: 0.1.13(prettier@2.8.4)
       turbo:
-        specifier: ^1.8.8
-        version: 1.9.1
+        specifier: ^1.9.8
+        version: 1.9.8
       typescript:
         specifier: ^4.9.5
         version: 4.9.5
@@ -93,7 +93,7 @@ importers:
         version: 4.24.10(react-dom@18.2.0)(react@18.2.0)
       '@tremor/react':
         specifier: ^2.0.0
-        version: 2.0.0(react-dom@18.2.0)(react@18.2.0)
+        version: 2.0.0(prop-types@15.8.1)(react-dom@18.2.0)(react@18.2.0)
       '@trpc/client':
         specifier: ^10.13.0
         version: 10.13.0(@trpc/server@10.13.0)
@@ -2335,7 +2335,7 @@ packages:
       use-sync-external-store: 1.2.0(react@18.2.0)
     dev: false
 
-  /@tremor/react@2.0.0(react-dom@18.2.0)(react@18.2.0):
+  /@tremor/react@2.0.0(prop-types@15.8.1)(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-F4UtSpBm6FZurWnv5A8lvr8NM3j6MCGLVz8LbfaQ9M36V53KTg0dNXuyjQf3Bhn+pNAK1nTi87JFIinDuZTy1Q==}
     peerDependencies:
       react: ^18.0.0
@@ -2344,7 +2344,7 @@ packages:
       date-fns: 2.29.3
       react: 18.2.0
       react-transition-group: 4.4.5(react-dom@18.2.0)(react@18.2.0)
-      recharts: 2.4.3(react-dom@18.2.0)(react@18.2.0)
+      recharts: 2.4.3(prop-types@15.8.1)(react-dom@18.2.0)(react@18.2.0)
       tailwind-merge: 1.10.0
     transitivePeerDependencies:
       - prop-types
@@ -6804,7 +6804,7 @@ packages:
       react-dom: 18.2.0(react@18.2.0)
     dev: false
 
-  /react-smooth@2.0.2(react-dom@18.2.0)(react@18.2.0):
+  /react-smooth@2.0.2(prop-types@15.8.1)(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-pgqSp1q8rAGtF1bXQE0m3CHGLNfZZh5oA5o1tsPLXRHnKtkujMIJ8Ws5nO1mTySZf1c4vgwlEk+pHi3Ln6eYLw==}
     peerDependencies:
       prop-types: ^15.6.0
@@ -6812,6 +6812,7 @@ packages:
       react-dom: ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0
     dependencies:
       fast-equals: 4.0.3
+      prop-types: 15.8.1
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
       react-transition-group: 2.9.0(react-dom@18.2.0)(react@18.2.0)
@@ -6944,7 +6945,7 @@ packages:
       decimal.js-light: 2.5.1
     dev: false
 
-  /recharts@2.4.3(react-dom@18.2.0)(react@18.2.0):
+  /recharts@2.4.3(prop-types@15.8.1)(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-/hkRHTQShEOKDYd2OlKLIvGA0X9v/XVO/mNeRoDHg0lgFRL2KbGzeqVnStI3mMfORUZ6Hak4JbQ+uDiin1Foqg==}
     engines: {node: '>=12'}
     peerDependencies:
@@ -6955,11 +6956,12 @@ packages:
       classnames: 2.3.2
       eventemitter3: 4.0.7
       lodash: 4.17.21
+      prop-types: 15.8.1
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
       react-is: 16.13.1
       react-resize-detector: 7.1.2(react-dom@18.2.0)(react@18.2.0)
-      react-smooth: 2.0.2(react-dom@18.2.0)(react@18.2.0)
+      react-smooth: 2.0.2(prop-types@15.8.1)(react-dom@18.2.0)(react@18.2.0)
       recharts-scale: 0.4.5
       reduce-css-calc: 2.1.8
       victory-vendor: 36.6.8
@@ -7768,65 +7770,65 @@ packages:
       tslib: 1.14.1
       typescript: 4.9.5
 
-  /turbo-darwin-64@1.9.1:
-    resolution: {integrity: sha512-IX/Ph4CO80lFKd9pPx3BWpN2dynt6mcUFifyuHUNVkOP1Usza/G9YuZnKQFG6wUwKJbx40morFLjk1TTeLe04w==}
+  /turbo-darwin-64@1.9.8:
+    resolution: {integrity: sha512-PkTdBjPfgpj/Dob/6SjkzP0BBP80/KmFjLEocXVEECCLJE6tHKbWLRdvc79B0N6SufdYdZ1uvvoU3KPtBokSPw==}
     cpu: [x64]
     os: [darwin]
     requiresBuild: true
     dev: false
     optional: true
 
-  /turbo-darwin-arm64@1.9.1:
-    resolution: {integrity: sha512-6tCbmIboy9dTbhIZ/x9KIpje73nvxbiyVnHbr9xKnsxLJavD0xqjHZzbL5U2tHp8chqmYf0E4WYOXd+XCNg+OQ==}
+  /turbo-darwin-arm64@1.9.8:
+    resolution: {integrity: sha512-sLwqOx3XV57QCEoJM9GnDDnnqidG8wf29ytxssBaWHBdeJTjupyrmzTUrX+tyKo3Q+CjWvbPLyqVqxT4g5NuXQ==}
     cpu: [arm64]
     os: [darwin]
     requiresBuild: true
     dev: false
     optional: true
 
-  /turbo-linux-64@1.9.1:
-    resolution: {integrity: sha512-ti8XofnJFO1XaadL92lYJXgxb0VBl03Yu9VfhxkOTywFe7USTLBkJcdvQ4EpFk/KZwLiTdCmT2NQVxsG4AxBiQ==}
+  /turbo-linux-64@1.9.8:
+    resolution: {integrity: sha512-AMg6VT6sW7aOD1uOs5suxglXfTYz9T0uVyKGKokDweGOYTWmuTMGU5afUT1tYRUwQ+kVPJI+83Atl5Ob0oBsgw==}
     cpu: [x64]
     os: [linux]
     requiresBuild: true
     dev: false
     optional: true
 
-  /turbo-linux-arm64@1.9.1:
-    resolution: {integrity: sha512-XYvIbeiCCCr+ENujd2Jtck/lJPTKWb8T2MSL/AEBx21Zy3Sa7HgrQX6LX0a0pNHjaleHz00XXt1D0W5hLeP+tA==}
+  /turbo-linux-arm64@1.9.8:
+    resolution: {integrity: sha512-tLnxFv+OIklwTjiOZ8XMeEeRDAf150Ry4BCivNwgTVFAqQGEqkFP6KGBy56hb5RRF1frPQpoPGipJNVm7c8m1w==}
     cpu: [arm64]
     os: [linux]
     requiresBuild: true
     dev: false
     optional: true
 
-  /turbo-windows-64@1.9.1:
-    resolution: {integrity: sha512-x7lWAspe4/v3XQ0gaFRWDX/X9uyWdhwFBPEfb8BA0YKtnsrPOHkV0mRHCRrXzvzjA7pcDCl2agGzb7o863O+Jg==}
+  /turbo-windows-64@1.9.8:
+    resolution: {integrity: sha512-r3pCjvXTMR7kq2E3iqwFlN1R7pFO/TOsuUjMhOSPP7HwuuUIinAckU4I9foM3q7ZCQd1XXScBUt3niDyHijAqQ==}
     cpu: [x64]
     os: [win32]
     requiresBuild: true
     dev: false
     optional: true
 
-  /turbo-windows-arm64@1.9.1:
-    resolution: {integrity: sha512-QSLNz8dRBLDqXOUv/KnoesBomSbIz2Huef/a3l2+Pat5wkQVgMfzFxDOnkK5VWujPYXz+/prYz+/7cdaC78/kw==}
+  /turbo-windows-arm64@1.9.8:
+    resolution: {integrity: sha512-CWzRbX2TM5IfHBC6uWM659qUOEDC4h0nn16ocG8yIq1IF3uZMzKRBHgGOT5m1BHom+R08V0NcjTmPRoqpiI0dg==}
     cpu: [arm64]
     os: [win32]
     requiresBuild: true
     dev: false
     optional: true
 
-  /turbo@1.9.1:
-    resolution: {integrity: sha512-Rqe8SP96e53y4Pk29kk2aZbA8EF11UtHJ3vzXJseadrc1T3V6UhzvAWwiKJL//x/jojyOoX1axnoxmX3UHbZ0g==}
+  /turbo@1.9.8:
+    resolution: {integrity: sha512-dTouGZBm4a2fE0OPafcTQERCp4i3ZOow0Pr0JlOyxKmzJy0JRwXypH013kbZoK6k1ET5tS/g9rwUXIM/AmWXXQ==}
     hasBin: true
     requiresBuild: true
     optionalDependencies:
-      turbo-darwin-64: 1.9.1
-      turbo-darwin-arm64: 1.9.1
-      turbo-linux-64: 1.9.1
-      turbo-linux-arm64: 1.9.1
-      turbo-windows-64: 1.9.1
-      turbo-windows-arm64: 1.9.1
+      turbo-darwin-64: 1.9.8
+      turbo-darwin-arm64: 1.9.8
+      turbo-linux-64: 1.9.8
+      turbo-linux-arm64: 1.9.8
+      turbo-windows-64: 1.9.8
+      turbo-windows-arm64: 1.9.8
     dev: false
 
   /type-check@0.3.2:
