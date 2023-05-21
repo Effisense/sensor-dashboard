@@ -16,8 +16,8 @@ const NotFoundPage = () => {
           variant="subtle"
           className="flex items-center justify-center gap-x-2"
         >
-          <span>Take me home</span>
           <ArrowUturnLeftIcon className="w-4" />
+          <span>Take me home</span>
         </Button>
       </Link>
     </div>

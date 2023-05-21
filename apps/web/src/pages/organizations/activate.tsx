@@ -57,6 +57,7 @@ const ActivateOrganizationPage = ({
         onOpenChange={() => {
           setIsCustomer(null);
         }}
+        showConfirmButton={false}
         title="Welcome to Effisense!"
         description="If your organization is not yet a customer, please reach out to Effisense to become a customer."
         onConfirm={() => {

@@ -1,4 +1,4 @@
-import { Dispatch, ReactNode, SetStateAction } from "react";
+import { ReactNode } from "react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -16,6 +16,8 @@ type ActivateOrganizationDialogProps = {
   onConfirm: () => void;
   open: boolean;
   onOpenChange: () => void;
+  showConfirmButton?: boolean;
+  showCancelButton?: boolean;
   body?: ReactNode;
 };
 
@@ -26,6 +28,8 @@ const ActivateOrganizationDialog = ({
   open,
   onOpenChange,
   body,
+  showCancelButton = true,
+  showConfirmButton = true,
 }: ActivateOrganizationDialogProps) => {
   return (
     <AlertDialog open={open} onOpenChange={onOpenChange}>
@@ -36,13 +40,15 @@ const ActivateOrganizationDialog = ({
         </AlertDialogHeader>
         {body}
         <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction
-            onClick={onConfirm}
-            className="border border-mint-8 bg-mint-7 hover:bg-mint-8"
-          >
-            Got it!
-          </AlertDialogAction>
+          {showCancelButton && <AlertDialogCancel>Cancel</AlertDialogCancel>}
+          {showConfirmButton && (
+            <AlertDialogAction
+              onClick={onConfirm}
+              className="border border-mint-8 bg-mint-7 hover:bg-mint-8"
+            >
+              Got it!
+            </AlertDialogAction>
+          )}
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
