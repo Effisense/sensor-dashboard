@@ -83,7 +83,6 @@ const SensorPage = ({ id }: SensorPageProps) => {
               <div className="mb-4 mt-4 flex flex-col items-center justify-start">
                 <div className="flex flex-row gap-x-2">
                   <H3>{data.sensor.name}</H3>
-                  {SeverityToIcon("success")}
                 </div>
                 <Subtle>Information about your sensor</Subtle>
               </div>
