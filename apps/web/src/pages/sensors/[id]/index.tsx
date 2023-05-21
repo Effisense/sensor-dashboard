@@ -134,7 +134,7 @@ const SensorPage = ({ id }: SensorPageProps) => {
                       }
                       className="mr-4 py-1 px-2"
                     >
-                      {sensorWithFillLevel?.[0]?.fillLevel === null
+                      {!sensorWithFillLevel?.[0]?.fillLevel
                         ? "N/A"
                         : `${sensorWithFillLevel?.[0]?.fillLevel} %`}
                     </Badge>

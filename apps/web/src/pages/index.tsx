@@ -210,13 +210,15 @@ const IndexPage = ({}: IndexPageProps) => {
             </Button>
           </div>
         ) : (
-          <div>
+          <div className="my-4">
             {currentSensorsWithFillLevel &&
               currentSensorsWithFillLevel.length === 0 && (
                 <div className="flex flex-col items-center justify-center">
                   <Subtle>No sensors found.</Subtle>
                   <Link href="/sensors/create">
-                    <Button variant="outline">Add sensor</Button>
+                    <Button variant="outline" className="mt-4">
+                      Add sensor
+                    </Button>
                   </Link>
                 </div>
               )}

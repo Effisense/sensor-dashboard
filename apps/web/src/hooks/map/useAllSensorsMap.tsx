@@ -28,6 +28,7 @@ const useAllSensorsMap = ({ sensorsWithFillLevel }: AllSensorsMapProps) => {
     if (map.current || !sensorsWithFillLevel) return;
     if (!longitude || !latitude) return;
     if (!container.current) return;
+    // TODO: This still doesn't work
     if (isNaN(longitude) || isNaN(latitude)) return;
 
     map.current = MapboxMap({

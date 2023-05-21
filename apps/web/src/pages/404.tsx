@@ -1,6 +1,7 @@
 import { Button } from "@/ui/Button";
 import H1 from "@/ui/typography/H1";
 import Subtle from "@/ui/typography/Subtle";
+import { ArrowUturnLeftIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 
 const NotFoundPage = () => {
@@ -10,8 +11,14 @@ const NotFoundPage = () => {
       <Subtle>
         It looks like the page you&apos;re looking for doesn&apos;t exist.
       </Subtle>
-      <Link href="/">
-        <Button variant="subtle">Take me home</Button>
+      <Link href="/" className="my-8">
+        <Button
+          variant="subtle"
+          className="flex items-center justify-center gap-x-2"
+        >
+          <span>Take me home</span>
+          <ArrowUturnLeftIcon className="w-4" />
+        </Button>
       </Link>
     </div>
   );

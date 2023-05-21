@@ -120,6 +120,16 @@ const ContainerPage = ({ id }: ContainerPageProps) => {
               <Subtle>Click a sensor to view more.</Subtle>
             </div>
             <ScrollArea className="h-[420px] rounded-md p-4">
+              {sensorsWithFillLevel && sensorsWithFillLevel.length === 0 && (
+                <div className="flex flex-col items-center justify-center">
+                  <Subtle>No sensors found.</Subtle>
+                  <Link href="/sensors/create">
+                    <Button variant="outline" className="mt-4">
+                      Add sensor
+                    </Button>
+                  </Link>
+                </div>
+              )}
               {sensorsWithFillLevel &&
                 sensorsWithFillLevel.map((sensor, index) => (
                   <div key={index} className="mb-4">
