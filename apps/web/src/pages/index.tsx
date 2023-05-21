@@ -116,8 +116,8 @@ const IndexPage = ({}: IndexPageProps) => {
                     <Card
                       key={index}
                       className={cn(
-                        "hover:bg-slate mb-4 h-24 bg-gray-200 transition-all duration-300",
-                        "flex items-center justify-between",
+                        "mb-4 h-20 bg-slate-200 transition-all duration-700",
+                        "flex animate-pulse items-center justify-between",
                       )}
                     ></Card>
                   ))}
@@ -192,8 +192,8 @@ const IndexPage = ({}: IndexPageProps) => {
               <Card
                 key={index}
                 className={cn(
-                  "mb-4 h-24 bg-gray-200 transition-all duration-300",
-                  "flex items-center justify-between",
+                  "mb-4 h-20 bg-slate-200 transition-all duration-700",
+                  "flex animate-pulse items-center justify-between",
                 )}
               ></Card>
             ))}
