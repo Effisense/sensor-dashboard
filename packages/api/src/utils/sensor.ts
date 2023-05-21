@@ -15,18 +15,18 @@ export const sensorBelongsToCollection = async (
 ) => {
   if (!deviceId || !collectionId) return false;
 
-  return await axios
-    .get(
-      `https://api.lab5e.com/span/collections/${collectionId}/devices/${deviceId}`,
-      {
-        headers: {
-          Accept: "application/json",
-          "X-API-Token": process.env.SPAN_API_TOKEN,
-        },
+  const result = await axios.get(
+    `https://api.lab5e.com/span/collections/${collectionId}/devices/${deviceId}`,
+    {
+      headers: {
+        Accept: "application/json",
+        "X-API-Token": process.env.SPAN_API_TOKEN,
       },
-    )
-    .then((res) => res.status === 200)
-    .catch(() => false);
+    },
+  );
+  // .then((res) => res.status === 200)
+  // .catch(() => false);
+  return result.status === 200;
 };
 
 type FillLevelProps = {

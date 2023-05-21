@@ -15,7 +15,7 @@ const CreateContainerPage = () => {
       <form
         onSubmit={handleSubmit(onSubmit)}
         className={cn(
-          "my-8 mx-8 flex h-full w-3/5 flex-col items-center",
+          "my-8 mx-8 flex h-full w-11/12 flex-col items-center lg:w-3/5",
           "justify-center gap-y-2 rounded-lg bg-slate-50 p-8",
           "shadow-md transition-all duration-300 hover:shadow-lg",
         )}
@@ -34,7 +34,7 @@ const CreateContainerPage = () => {
           register={register}
         />
 
-        <div className="flex w-full flex-col items-center justify-evenly md:flex-row md:gap-x-4">
+        <div className="flex w-full flex-col items-end justify-evenly md:flex-row md:gap-x-4">
           <FormInput
             label="Target fill level (%)"
             errorMessage={errors.targetFillLevelInPercent?.message}
@@ -77,7 +77,7 @@ const CreateContainerPage = () => {
           />
         </div>
 
-        <Button variant="default" type="submit" className="w-3/4">
+        <Button variant="default" type="submit" className="w-1/2">
           Add container
         </Button>
       </form>

@@ -16,7 +16,7 @@ const DashboardSensorCard = ({
   fillLevel,
 }: DashboardSensorCardProps) => {
   return (
-    <Link href={`/sensors/${sensor.id}`} className="">
+    <Link href={`/sensors/${sensor.id}`}>
       <Card className="flex w-full items-center justify-between p-4 hover:bg-slate-50">
         <div className="flex items-center justify-center gap-x-2">
           <Badge
@@ -31,9 +31,7 @@ const DashboardSensorCard = ({
             <Subtle>{sensor.location}</Subtle>
           </div>
         </div>
-        <Link href={`/sensors/${sensor.id}`}>
-          <ArrowRightIcon className="w-4 transition-all duration-300 hover:translate-x-1" />
-        </Link>
+        <ArrowRightIcon className="w-4 transition-all duration-300 hover:translate-x-1" />
       </Card>
     </Link>
   );
