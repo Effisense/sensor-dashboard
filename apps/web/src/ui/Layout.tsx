@@ -45,7 +45,7 @@ const Layout = ({ children }: LayoutProps) => {
       </Head>
 
       <div className="flex min-h-screen w-screen flex-col items-center">
-        {isSignedIn && <Navigation />}
+        {isSignedIn ? <Navigation /> : <div className="h-20 w-full" />}
 
         <main className="flex h-full w-screen flex-col items-center">
           {children}
