@@ -73,9 +73,8 @@ const SensorPage = ({ id }: SensorPageProps) => {
               {sensorWithFillLevel ? (
                 <AllSensorsMap sensorsWithFillLevel={[sensorWithFillLevel]} />
               ) : (
-                <div>
-                  {/* TODO: This could be prettier */}
-                  <p>Could not load map</p>
+                <div className="flex items-center justify-center">
+                  <LoadingSpinner />
                 </div>
               )}
             </div>
