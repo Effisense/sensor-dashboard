@@ -116,7 +116,7 @@ const UpdateSensorPage = ({ id }: UpdateSensorPageProps) => {
               <Button
                 variant="default"
                 type="submit"
-                className="my-4 w-full md:w-1/2"
+                className="mt-8 w-full md:w-1/2"
               >
                 Update sensor
               </Button>

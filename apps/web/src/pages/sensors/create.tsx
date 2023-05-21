@@ -92,7 +92,11 @@ const CreateSensorPage = ({
         </div>
 
         <div className="flex items-center justify-center md:col-start-2 md:row-start-2">
-          <Button variant="default" type="submit" className="mt-8 md:w-1/2">
+          <Button
+            variant="default"
+            type="submit"
+            className="mt-8 w-full md:w-1/2"
+          >
             Add sensor
           </Button>
         </div>
