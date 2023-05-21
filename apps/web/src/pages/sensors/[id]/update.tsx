@@ -5,7 +5,6 @@ import { Button } from "@/ui/Button";
 import SelectContainerDropdown from "@/ui/containers/SelectContainerDropdown";
 import FormInput from "@/ui/FormInput";
 import FormTextarea from "@/ui/FormTextarea";
-import LoadingSpinner from "@/ui/LoadingSpinner";
 import SetSensorPositionMap from "@/ui/map/SetSensorPositionMap";
 import H1 from "@/ui/typography/H1";
 import Subtle from "@/ui/typography/Subtle";
@@ -117,7 +116,7 @@ const UpdateSensorPage = ({ id }: UpdateSensorPageProps) => {
               <Button
                 variant="default"
                 type="submit"
-                className="w-full md:w-3/4"
+                className="my-4 w-full md:w-1/2"
               >
                 Update sensor
               </Button>
