@@ -100,7 +100,7 @@ const ContainerPage = ({ id }: ContainerPageProps) => {
 
           <div className="row-start-1 h-96 lg:col-span-2 lg:col-start-2 lg:h-auto">
             {sensorsWithFillLevel ? (
-              <AllSensorsMap sensorWithFill={sensorsWithFillLevel} />
+              <AllSensorsMap sensorsWithFillLevel={sensorsWithFillLevel} />
             ) : (
               <div className="flex items-center justify-center">
                 <LoadingSpinner />

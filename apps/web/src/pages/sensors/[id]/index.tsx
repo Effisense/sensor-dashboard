@@ -71,7 +71,7 @@ const SensorPage = ({ id }: SensorPageProps) => {
               )}
             >
               {sensorWithFillLevel ? (
-                <AllSensorsMap sensorWithFill={sensorWithFillLevel} />
+                <AllSensorsMap sensorsWithFillLevel={[sensorWithFillLevel]} />
               ) : (
                 <div>
                   {/* TODO: This could be prettier */}
@@ -126,17 +126,15 @@ const SensorPage = ({ id }: SensorPageProps) => {
                     <Badge
                       size="sm"
                       color={
-                        sensorWithFillLevel && sensorWithFillLevel[0]
-                          ? percentToColorTremor(
-                              sensorWithFillLevel[0].fillLevel,
-                            )
+                        sensorWithFillLevel && sensorWithFillLevel
+                          ? percentToColorTremor(sensorWithFillLevel.fillLevel)
                           : "gray"
                       }
                       className="mr-4 py-1 px-2"
                     >
-                      {!sensorWithFillLevel?.[0]?.fillLevel
+                      {!sensorWithFillLevel?.fillLevel
                         ? "N/A"
-                        : `${sensorWithFillLevel?.[0]?.fillLevel} %`}
+                        : `${sensorWithFillLevel?.fillLevel} %`}
                     </Badge>
                   </div>
                   <div className="mt-2 flex flex-row gap-x-2">

@@ -2,12 +2,14 @@ import Head from "next/head";
 import { ReactNode } from "react";
 import Footer from "./Footer";
 import Navigation from "./navigation/Navigation";
+import { useAuth } from "@clerk/nextjs";
 
 type LayoutProps = {
   children: ReactNode;
 };
 
 const Layout = ({ children }: LayoutProps) => {
+  const { isSignedIn } = useAuth();
   return (
     <>
       <Head>
@@ -43,7 +45,7 @@ const Layout = ({ children }: LayoutProps) => {
       </Head>
 
       <div className="flex min-h-screen w-screen flex-col items-center">
-        <Navigation />
+        {isSignedIn && <Navigation />}
 
         <main className="flex h-full w-screen flex-col items-center">
           {children}

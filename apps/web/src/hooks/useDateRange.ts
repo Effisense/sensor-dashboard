@@ -8,7 +8,9 @@ type DateRangeProps = {
 
 const useDateRange = ({ startDate, endDate }: DateRangeProps) => {
   const start = startDate ? startDate : new Date();
-  start.setDate(start.getDate() - 7);
+  if (!startDate) {
+    start.setDate(start.getDate() - 7);
+  }
 
   const end = endDate ? endDate : new Date();
 

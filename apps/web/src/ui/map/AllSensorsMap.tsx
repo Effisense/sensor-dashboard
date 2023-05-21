@@ -8,12 +8,14 @@ type AllSensorsMapProps = {
 }[];
 
 type AllSensorsMapComponentProps = {
-  sensorWithFill: AllSensorsMapProps;
+  sensorsWithFillLevel: AllSensorsMapProps;
 };
 
-const AllSensorsMap = ({ sensorWithFill }: AllSensorsMapComponentProps) => {
+const AllSensorsMap = ({
+  sensorsWithFillLevel,
+}: AllSensorsMapComponentProps) => {
   const { container, isLoading } = useAllSensorsMap({
-    sensorsWithFillLevel: sensorWithFill,
+    sensorsWithFillLevel,
   });
 
   return (

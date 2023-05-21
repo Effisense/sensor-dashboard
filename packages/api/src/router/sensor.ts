@@ -348,19 +348,15 @@ export const sensorRouter = router({
         });
       }
 
-      // Get the fill level
       const fillLevel = getFillLevel({
         timeseries: timeseriesData[0],
         container,
       });
 
-      //Return sensor object and fill level as an object in an array
-      return [
-        {
-          sensor,
-          fillLevel: fillLevel || null,
-        },
-      ];
+      return {
+        sensor,
+        fillLevel,
+      };
     }),
 
   update: protectedProcedure
