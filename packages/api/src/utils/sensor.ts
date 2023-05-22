@@ -47,24 +47,24 @@ export const getFillLevel = ({
     timeseries.status_z10,
   ];
 
-  const validPoints: number[] = middlePoints.filter(
+  const points: number[] = middlePoints.filter(
     (point): point is number => point !== null,
   );
 
-  if (validPoints.length === 0) return null;
+  if (points.length === 0) return null;
 
-  validPoints.sort((a, b) => a - b);
+  points.sort((a, b) => a - b);
 
-  const hasEvenNumberOfPoints = validPoints.length % 2 === 0;
+  const hasEvenNumberOfPoints = points.length % 2 === 0;
 
-  const left = validPoints[validPoints.length / 2 - 1];
-  const right = validPoints[validPoints.length / 2];
+  const left = points[points.length / 2 - 1];
+  const right = points[points.length / 2];
 
   if (!left || !right) return null;
 
   const median = hasEvenNumberOfPoints
     ? (left + right) / 2
-    : validPoints[Math.floor(validPoints.length / 2)];
+    : points[Math.floor(points.length / 2)];
 
   if (!median) return null;
 

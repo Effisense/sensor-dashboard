@@ -39,8 +39,6 @@ const IndexPage = ({ containerId }: IndexPageProps) => {
     refetch: refetchContainers,
   } = trpc.container.getAll.useQuery();
 
-  console.log(typeof containerId);
-
   const [currentSensorsWithFillLevel, setCurrentSensorsWithFillLevel] =
     useState(sensorsWithFillLevel);
   const [selectedContainerId, setSelectedContainerId] = useState<string | null>(

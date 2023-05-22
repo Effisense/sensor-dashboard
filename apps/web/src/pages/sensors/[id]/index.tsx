@@ -7,7 +7,6 @@ import useGetSensor from "@/hooks/queries/useGetSensor";
 import LoadingSpinner from "@/ui/LoadingSpinner";
 import AllSensorsMap from "@/ui/map/AllSensorsMap";
 import { Badge, Card, Text, Title } from "@tremor/react";
-import SeverityToIcon from "@/ui/utils/SeverityToIcon";
 import { cn } from "@/utils/tailwind";
 import H3 from "@/ui/typography/H3";
 import Subtle from "@/ui/typography/Subtle";
@@ -34,6 +33,8 @@ const SensorPage = ({ id }: SensorPageProps) => {
     endDate: endDate || new Date(),
   });
 
+  console.log(fillLevelBetweenDates);
+
   const { data, isLoading, deleteSensorMutation } = useGetSensor({ id });
   const {
     data: sensorWithFillLevel,
@@ -49,7 +50,7 @@ const SensorPage = ({ id }: SensorPageProps) => {
     if (!fillLevelBetweenDates) return [];
 
     return fillLevelBetweenDates.map((entry) => ({
-      date: entry.dateAndTime,
+      date: entry.datetime,
       SemiAnalysis: entry.fillLevel || 0,
     }));
   }, [fillLevelBetweenDates]);
