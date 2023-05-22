@@ -425,8 +425,6 @@ export const sensorRouter = router({
         });
       }
 
-      // TODO: Maybe we need to delete the container as well?
-
       return ctx.prisma.sensor.delete({
         where: {
           id: sensorId,

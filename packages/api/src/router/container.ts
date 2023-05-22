@@ -241,8 +241,6 @@ export const containerRouter = router({
         });
       }
 
-      // TODO: Check if container type is in use by container / sensor. If so, set sensor's containerType to null.
-
       return ctx.prisma.container.delete({
         where: {
           id: containerTypeId,
