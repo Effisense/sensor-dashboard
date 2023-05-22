@@ -14,8 +14,8 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "@acme/db": "workspace:^",
-    "@acme/mapbox": "workspace:^",
+    "@acme/db": "0.1.0",
+    "@acme/mapbox": "0.1.0",
     "@clerk/nextjs": "^4.18.2",
     "@trpc/client": "^10.27.1",
     "@trpc/server": "^10.27.1",
