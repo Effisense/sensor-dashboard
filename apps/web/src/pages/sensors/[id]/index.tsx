@@ -11,14 +11,12 @@ import { cn } from "@/utils/tailwind";
 import H3 from "@/ui/typography/H3";
 import Subtle from "@/ui/typography/Subtle";
 import { DateRangePicker } from "@tremor/react";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { AreaChart } from "@tremor/react";
 import { trpc } from "@/utils/trpc";
 import percentToColorTremor from "@/utils/percentToColor";
 import useDateRange from "@/hooks/useDateRange";
-import { formatAreaChart } from "@/utils/tremor";
-
-const FILL_LEVEL_LEGEND = "Fill level (%)";
+import { FILL_LEVEL_LEGEND, formatAreaChart } from "@/utils/tremor";
 
 type SensorPageProps = InferGetServerSidePropsType<typeof getServerSideProps>;
 
@@ -29,6 +27,7 @@ const SensorPage = ({ id }: SensorPageProps) => {
     data: fillLevelBetweenDates,
     isLoading: fillLevelBetweenDatesIsLoading,
     error: fillLevelBetweenDatesError,
+    refetch: refetchFillLevelBetweenDates,
   } = trpc.sensor.getWithFillLevelBetweenDates.useQuery({
     sensorId: id,
     startDate: startDate || new Date(),
@@ -36,6 +35,14 @@ const SensorPage = ({ id }: SensorPageProps) => {
   });
 
   console.log(fillLevelBetweenDates);
+
+  useEffect(() => {
+    if (!startDate || !endDate) return;
+    const refetch = async () => {
+      await refetchFillLevelBetweenDates();
+    };
+    refetch();
+  }, [startDate, endDate, refetchFillLevelBetweenDates]);
 
   const { data, isLoading, deleteSensorMutation } = useGetSensor({ id });
   const {
