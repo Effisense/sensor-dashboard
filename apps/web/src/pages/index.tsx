@@ -17,10 +17,13 @@ import Subtle from "@/ui/typography/Subtle";
 import H3 from "@/ui/typography/H3";
 import { Button } from "@/ui/Button";
 import { ArrowRightIcon } from "@heroicons/react/24/outline";
+import { useRouter } from "next/router";
+import { SelectContainerQuery, SelectContainerQuerySchema } from "@/schemas";
 
 type IndexPageProps = InferGetServerSidePropsType<typeof getServerSideProps>;
 
-const IndexPage = ({}: IndexPageProps) => {
+const IndexPage = ({ containerId }: IndexPageProps) => {
+  const router = useRouter();
   const { orgId } = useAuth();
   const {
     data: sensorsWithFillLevel,
@@ -36,10 +39,12 @@ const IndexPage = ({}: IndexPageProps) => {
     refetch: refetchContainers,
   } = trpc.container.getAll.useQuery();
 
+  console.log(typeof containerId);
+
   const [currentSensorsWithFillLevel, setCurrentSensorsWithFillLevel] =
     useState(sensorsWithFillLevel);
   const [selectedContainerId, setSelectedContainerId] = useState<string | null>(
-    null,
+    containerId || null,
   );
 
   useEffect(() => {
@@ -56,9 +61,15 @@ const IndexPage = ({}: IndexPageProps) => {
     refetch();
   }, [orgId, refetchContainers, refetchSensors]);
 
-  const handleContainerSelect = (containerId: string | null) => {
+  const handleContainerSelect = async (containerId: string | null) => {
     setSelectedContainerId(containerId);
 
+    // Update URL state
+    await router.push(!containerId ? "/" : `?containerId=${containerId}`);
+    router.reload();
+  };
+
+  useEffect(() => {
     if (!containerId) {
       setCurrentSensorsWithFillLevel(sensorsWithFillLevel || []);
       return;
@@ -68,7 +79,7 @@ const IndexPage = ({}: IndexPageProps) => {
       (item) => item.sensor.containerId === containerId,
     );
     setCurrentSensorsWithFillLevel(current);
-  };
+  }, [containerId, sensorsWithFillLevel]);
 
   return (
     <div className="grid min-h-[calc(100vh-6rem)] w-11/12 grid-cols-1 gap-y-4 md:w-full md:gap-x-2 md:px-4 lg:grid-cols-4 lg:gap-y-0">
@@ -241,8 +252,20 @@ const IndexPage = ({}: IndexPageProps) => {
 export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
   const { userId } = getAuth(ctx.req);
 
+  const { success: hasContainerId } = SelectContainerQuerySchema.safeParse(
+    ctx.query,
+  );
+
+  if (!hasContainerId) {
+    return {
+      props: { userId },
+    };
+  }
+
+  const { containerId } = ctx.query as SelectContainerQuery;
+
   return {
-    props: { userId },
+    props: { userId, containerId },
   };
 };
 
