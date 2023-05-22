@@ -18,6 +18,8 @@ import percentToColorTremor from "@/utils/percentToColor";
 import useDateRange from "@/hooks/useDateRange";
 import { formatAreaChart } from "@/utils/tremor";
 
+const FILL_LEVEL_LEGEND = "Fill level (%)";
+
 type SensorPageProps = InferGetServerSidePropsType<typeof getServerSideProps>;
 
 const SensorPage = ({ id }: SensorPageProps) => {
@@ -50,8 +52,8 @@ const SensorPage = ({ id }: SensorPageProps) => {
     if (!fillLevelBetweenDates) return [];
 
     return fillLevelBetweenDates.map((entry) => ({
-      date: entry.datetime,
-      SemiAnalysis: entry.fillLevel || 0,
+      date: entry.datetime.toUTCString(),
+      [`${FILL_LEVEL_LEGEND}`]: entry.fillLevel || 0,
     }));
   }, [fillLevelBetweenDates]);
 
@@ -161,7 +163,6 @@ const SensorPage = ({ id }: SensorPageProps) => {
                     <Text>{data?.sensor.description}</Text>
                   </Card>
                 </Card>
-
                 <Title className="pt-5">History</Title>
                 <DateRangePicker
                   className="mx-auto max-w-md pt-4"
@@ -169,21 +170,28 @@ const SensorPage = ({ id }: SensorPageProps) => {
                   onValueChange={setDateRange}
                   dropdownPlaceholder="Select dates"
                 />
-
-                {chartData.length === 0 ? (
+                {fillLevelBetweenDatesIsLoading ? (
                   <div className="flex h-72 items-center justify-center">
-                    <p className="px-12 text-center text-sm text-gray-500">
-                      No data available. Choose another time interval or wait
-                      for sensor to collect data
-                    </p>
+                    <LoadingSpinner />
                   </div>
                 ) : (
+                  chartData.length === 0 && (
+                    <div className="flex h-72 items-center justify-center">
+                      <p className="px-12 text-center text-sm text-gray-500">
+                        No data available. Choose another time interval or wait
+                        for sensor to collect data.
+                      </p>
+                    </div>
+                  )
+                )}
+
+                {chartData.length > 0 && (
                   <AreaChart
                     className="mt-4 h-72"
                     data={chartData}
                     index="date"
-                    categories={["Fill Level"]}
-                    colors={["cyan"]}
+                    categories={[FILL_LEVEL_LEGEND]}
+                    colors={["emerald"]}
                     valueFormatter={formatAreaChart}
                   />
                 )}
