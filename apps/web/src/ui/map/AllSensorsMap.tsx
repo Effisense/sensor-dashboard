@@ -18,8 +18,6 @@ const AllSensorsMap = ({
     sensorsWithFillLevel,
   });
 
-  console.log(container);
-
   return (
     <div className="relative h-full w-full bg-slate-50">
       {!!container ? (

@@ -19,31 +19,6 @@ const useAllSensorsMap = ({ sensorsWithFillLevel }: AllSensorsMapProps) => {
     [],
   );
 
-  // TODO: Map is removed when state changes. Force rerender here
-  map.current?.on("remove", () => {
-    console.log("removed");
-    if (map.current) return;
-    if (!longitude || !latitude) return;
-    if (!container.current) return;
-    // TODO: This still doesn't work all the time
-    if (isNaN(longitude) || isNaN(latitude)) return;
-
-    map.current = MapboxMap({
-      container: container.current,
-      style: "mapbox://styles/mapbox/outdoors-v12",
-      center: [longitude, latitude],
-      zoom: 10,
-    });
-
-    map.current.on("load", onMapLoad);
-
-    return () => {
-      if (map.current) {
-        map.current.remove();
-      }
-    };
-  });
-
   const onMapLoad = useCallback(() => {
     const bounds = new LngLatBounds();
     const markers = sensorsWithFillLevel.map((sensorWithFillLevel) => {

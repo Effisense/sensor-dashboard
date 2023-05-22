@@ -227,22 +227,17 @@ export const sensorRouter = router({
         });
       }
 
-      // Get the sensor object
       const sensor = await ctx.prisma.sensor
         .findUnique({
           where: {
             id: sensorId,
           },
+          select: {
+            id: true,
+            containerId: true,
+          },
         })
         .then((sensor) => sensor);
-
-      // Get data from timeseries between dates
-      const timeseriesData = await Sensor.selectAll()
-        .where("sensor_id", "=", sensorId)
-        .where("time", ">=", startDate)
-        .where("time", "<=", endDate)
-        .orderBy("time", "asc")
-        .execute();
 
       // Get the associated container object
       if (!sensor) {
@@ -251,6 +246,15 @@ export const sensorRouter = router({
           message: "Sensor not found",
         });
       }
+
+      // Get data from timeseries between dates
+      const timeseries = await Sensor.selectAll()
+        .where("sensor_id", "=", sensorId)
+        .where("time", ">=", startDate)
+        .where("time", "<=", endDate)
+        .orderBy("time", "asc")
+        .execute();
+
       const container = await ctx.prisma.container
         .findUnique({
           where: {
@@ -271,11 +275,11 @@ export const sensorRouter = router({
       //   dateAndTime: dateAndTime,
       //   fillLevel: fillLevel,
       // },
-      const data = timeseriesData.map((data) => {
-        const dateAndTime = data.time;
+      const data = timeseries.map((data) => {
+        const datetime = data.time;
         const fillLevel = getFillLevel({ timeseries: data, container });
         return {
-          dateAndTime,
+          datetime,
           fillLevel,
         };
 

@@ -18,7 +18,6 @@ const UpdateContainerPage = ({ id }: UpdateContainerPageProps) => {
     id,
   });
   const { data, isLoading, error } = useGetContainer({ id });
-  console.log(error);
 
   return (
     <div className="flex w-screen flex-col items-center justify-center">
