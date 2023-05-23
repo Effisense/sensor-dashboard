@@ -6,7 +6,7 @@ import SelectContainerDropdown from "@/ui/containers/SelectContainerDropdown";
 import FormInput from "@/ui/FormInput";
 import FormTextarea from "@/ui/FormTextarea";
 import SetSensorPositionMap from "@/ui/map/SetSensorPositionMap";
-import H1 from "@/ui/typography/H1";
+import H2 from "@/ui/typography/H2";
 import Subtle from "@/ui/typography/Subtle";
 import { cn } from "@/utils/tailwind";
 import { trpc } from "@/utils/trpc";
@@ -60,66 +60,66 @@ const UpdateSensorPage = ({ id }: UpdateSensorPageProps) => {
   const sensorExists = !sensorError && !sensorIsLoading && !!data?.sensor;
 
   return (
-    <div className="flex min-h-[calc(100vh-6rem)] w-screen flex-col items-center justify-start">
+    <div>
       {sensorExists && (
         <>
-          <div className="flex flex-col items-center justify-center py-8">
-            <H1>{data?.sensor.name}</H1>
-            <Subtle>Update information about this sensor.</Subtle>
-          </div>
-
-          <form
-            onSubmit={handleSubmit(onSubmit)}
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <div className="grid min-h-[calc(100vh-6rem)] w-11/12 grid-cols-1 gap-y-4 md:w-full md:gap-x-16 md:px-4 lg:grid-cols-3 lg:gap-y-0">
+            <div
             className={cn(
-              "my-8 mx-8 flex h-full w-11/12 flex-col items-center md:w-full",
-              "justify-center gap-y-2 rounded-lg bg-slate-50 p-8",
-              "shadow-md transition-all duration-300 hover:shadow-lg",
-              "md:grid md:flex-none md:grid-cols-2 md:gap-x-4",
-              "md:bg-transparent md:shadow-none md:hover:shadow-none",
-            )}
-          >
-            <div className="flex flex-col items-center justify-center md:col-start-2 md:row-start-1">
-              <FormInput
-                label="Name"
-                errorMessage={errors.name?.message}
-                id="name"
-                register={register}
-                defaultValue={data?.sensor.name}
-              />
+              "w-full rounded-lg bg-slate-50 shadow-md transition-all duration-300",
+              "flex flex-col items-center justify-start p-4",
+              "h-96 lg:h-[calc(100vh-6rem)] mb-4",
+            "col-span-2 lg:col-span-2"
+  )}
+>
+  <SetSensorPositionMap
+    container={container}
+    location={location}
+    error={mapError}
+    isLoading={mapIsLoading}
+  />
+</div>
 
-              <FormTextarea
-                label="Description"
-                errorMessage={errors.description?.message}
-                id="description"
-                register={register}
-                defaultValue={data?.sensor.description}
-              />
+              <div className="col-span-1 lg:col-span-1 lg:col-start-3">
+                <div className="flex flex-col items-center justify-center">
+                  <div className="py-8">
+                    <H2 className="text-lg">{data?.sensor.name}</H2>
+                    <Subtle>Update information about this sensor.</Subtle>
+                  </div>
+                  <FormInput
+                    label="Name"
+                    errorMessage={errors.name?.message}
+                    id="name"
+                    register={register}
+                    defaultValue={data?.sensor.name}
+                  />
 
-              <SelectContainerDropdown
-                containerId={containerId}
-                setContainerId={setContainerId}
-                data={containerData}
-                isLoading={isLoading}
-              />
-            </div>
+                  <FormTextarea
+                    label="Description"
+                    errorMessage={errors.description?.message}
+                    id="description"
+                    register={register}
+                    defaultValue={data?.sensor.description}
+                  />
 
-            <div className="my-4 h-96 w-96 pb-8 md:col-start-1 md:row-start-1 md:h-full md:w-full">
-              <SetSensorPositionMap
-                container={container}
-                location={location}
-                error={mapError}
-                isLoading={mapIsLoading}
-              />
-            </div>
-
-            <div className="flex items-center justify-center md:col-start-2 md:row-start-2">
-              <Button
-                variant="default"
-                type="submit"
-                className="mt-8 w-full md:w-1/2"
-              >
-                Update sensor
-              </Button>
+                  <SelectContainerDropdown
+                    containerId={containerId}
+                    setContainerId={setContainerId}
+                    data={containerData}
+                    isLoading={isLoading}
+                  />
+                  <div className="flex items-center justify-center">
+                    <Button
+                      variant="default"
+                      type="submit"
+                      className="mt-8 w-full md:w-1/2"
+                    >
+                      Update sensor
+                    </Button>
+                  </div>
+                </div>
+              </div>
             </div>
           </form>
         </>
