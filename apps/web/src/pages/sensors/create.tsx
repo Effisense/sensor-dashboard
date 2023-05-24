@@ -46,49 +46,49 @@ const CreateSensorPage = ({
   const { data, isLoading } = trpc.container.getAll.useQuery();
 
   return (
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-        >
-        <div className="grid min-h-[calc(100vh-6rem)] w-11/12 grid-cols-1 gap-y-4 md:w-full md:gap-x-8 md:px-4 lg:grid-cols-3 lg:gap-y-0">
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <div className="grid min-h-[calc(100vh-6rem)] w-11/12 grid-cols-1 gap-y-4 md:w-full md:gap-x-8 md:px-4 lg:grid-cols-3 lg:gap-y-0">
         <div
-              className={cn(
-                "col-span-1 grid w-full rounded-lg lg:col-span-2",
-                "bg-slate-50 shadow-md transition-all duration-300 md:m-0",
-                "flex flex-col items-center justify-start p-2",
-                "md:h-auto",
-                "h-64"
-              )}
-            >
-            <SetSensorPositionMap
-              container={container}
-              location={location}
-              error={error}
-              isLoading={mapIsLoading} />
+          className={cn(
+            "col-span-1 grid w-full rounded-lg lg:col-span-2",
+            "bg-slate-50 shadow-md transition-all duration-300 md:m-0",
+            "flex flex-col items-center justify-start p-2",
+            "md:h-auto",
+            "h-96",
+          )}
+        >
+          <SetSensorPositionMap
+            container={container}
+            location={location}
+            error={error}
+            isLoading={mapIsLoading}
+          />
         </div>
         <div className="col-span-1 h-96 lg:col-span-1 lg:h-auto lg:w-96">
           <div className="flex flex-col items-center justify-center">
             <div className="mb-4 mt-4">
-            <H2>
-              Add Sensor
-            </H2>
+              <H2>Add sensor</H2>
             </div>
             <FormInput
               label="Name"
               errorMessage={errors.name?.message}
               id="name"
-              register={register} />
+              register={register}
+            />
 
             <FormTextarea
               register={register}
               id="description"
               errorMessage={errors.description?.message}
-              label="Description" />
+              label="Description"
+            />
 
             <SelectContainerDropdown
               containerId={containerId}
               setContainerId={setContainerId}
               data={data}
-              isLoading={isLoading} />
+              isLoading={isLoading}
+            />
           </div>
           <div className="flex items-center justify-center">
             <Button
@@ -101,11 +101,9 @@ const CreateSensorPage = ({
           </div>
         </div>
       </div>
-        </form>
+    </form>
   );
 };
-
-
 
 export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
   const { userId } = getAuth(ctx.req);

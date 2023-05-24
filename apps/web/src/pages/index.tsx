@@ -63,7 +63,7 @@ const IndexPage = ({ containerId }: IndexPageProps) => {
     setSelectedContainerId(containerId);
 
     // Update URL state
-    await router.push(!containerId ? "/" : `/containers/${containerId}`);
+    await router.push(!containerId ? "/" : `?containerId=${containerId}`);
     router.reload();
   };
 
