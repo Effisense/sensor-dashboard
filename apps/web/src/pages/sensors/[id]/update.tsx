@@ -64,18 +64,22 @@ const UpdateSensorPage = ({ id }: UpdateSensorPageProps) => {
       {sensorExists && (
         <>
           <form onSubmit={handleSubmit(onSubmit)}>
+          <div className="flex flex-col w-full justify-center items-center lg:mt-0">
+                <H2 className="text-lg">{data?.sensor.name}</H2>
+                <Subtle>Update information about this sensor.</Subtle>
+          </div>
           <div className={cn(
             "md:grid",
-            "flex min-h-[calc(100vh-6rem)]",
-            "w-full lg:p-4 md:grid-cols-1 gap-y-4 lg:grid-cols-3 lg:gap-y-0",
-            "w-screen p-4 md:p-16 flex-col gap-y-20"
+            "flex min-h-[calc(100vh-12rem)]",
+            "w-full gap-y-4 lg:grid-cols-3 lg:gap-y-0",
+            "w-screen p-6 flex-col gap-y-20"
           )}>        
         <div
           className={cn(
             "col-span-1 grid w-full rounded-lg lg:col-span-2",
-            "bg-slate-50 shadow-md transition-all duration-300 md:m-0 md:mt-8",
-            "flex md:flex-col md:items-center md:justify-center flex-row order-1 md:order-2 sm:order-2 lg:order:1",
-            "h-[calc(100vh-3rem)] lg:h-5/6"
+            "bg-slate-50 shadow-md transition-all duration-300 mt-4",
+            "flex flex-row md:order-1 sm:order-1 lg:order:1",
+            "h-[calc(100vh-3rem)] lg:h-96"
           )}
         >
                 <SetSensorPositionMap
@@ -85,12 +89,7 @@ const UpdateSensorPage = ({ id }: UpdateSensorPageProps) => {
                   isLoading={mapIsLoading}
                 />
               </div>
-
-              <div className="col-span-1 h-96 lg:col-span-1 lg:h-auto lg:w-96 flex justify-center items-center flex-col md:order-1 sm:order-1 lg:order-2 mt-4 md:mt-0">
-                  <div className="py-8 text-center">
-                    <H2 className="text-lg">{data?.sensor.name}</H2>
-                    <Subtle>Update information about this sensor.</Subtle>
-                  </div>
+              <div className="col-span-1 h-80 lg:col-span-1 lg:h-auto lg:w-96 flex justify-center items-center flex-col md:order-2 sm:order-2 lg:order-2">
                   <div className="w-64 px-4">
                   <FormInput
                     label="Name"
