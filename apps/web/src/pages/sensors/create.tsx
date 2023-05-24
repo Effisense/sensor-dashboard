@@ -16,6 +16,7 @@ import { sensorBelongsToCollection as _sensorBelongsToCollection } from "@acme/a
 import urlWithQueryParameters from "@/utils/urlWithQueryParameters";
 import useSetSensorPositionMap from "@/hooks/map/useSetSensorPositionMap";
 import { cn } from "@/utils/tailwind";
+import Subtle from "@/ui/typography/Subtle";
 
 type CreateSensorPageProps = InferGetServerSidePropsType<
   typeof getServerSideProps
@@ -47,6 +48,9 @@ const CreateSensorPage = ({
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
+          <div className="absolute top-28 left-0 mx-8 mt-4">
+              <Subtle>Please set the position of the sensor</Subtle>
+          </div>
           <div className="flex w-screen justify-center lg:mt-0">
               <H2>Add sensor</H2>
           </div>

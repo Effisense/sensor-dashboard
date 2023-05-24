@@ -64,6 +64,9 @@ const UpdateSensorPage = ({ id }: UpdateSensorPageProps) => {
       {sensorExists && (
         <>
           <form onSubmit={handleSubmit(onSubmit)}>
+          <div className="absolute top-36 left-0 mx-8 mt-4">
+              <Subtle>Please set the position of the sensor</Subtle>
+          </div>
           <div className="flex flex-col w-full justify-center items-center lg:mt-0">
                 <H2 className="text-lg">{data?.sensor.name}</H2>
                 <Subtle>Update information about this sensor.</Subtle>
