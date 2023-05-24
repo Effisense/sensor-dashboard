@@ -67,15 +67,15 @@ const UpdateSensorPage = ({ id }: UpdateSensorPageProps) => {
           <div className={cn(
             "md:grid",
             "flex min-h-[calc(100vh-6rem)]",
-            "md:w-full md:grid-cols-1 gap-y-4 md:w-full md:gap-x-8 md:px-4 lg:grid-cols-3 lg:gap-y-0",
-            "w-screen p-4 md:p-2 flex-col gap-y-20"
+            "w-full lg:p-4 md:grid-cols-1 gap-y-4 lg:grid-cols-3 lg:gap-y-0",
+            "w-screen p-4 md:p-16 flex-col gap-y-20"
           )}>        
         <div
           className={cn(
             "col-span-1 grid w-full rounded-lg lg:col-span-2",
             "bg-slate-50 shadow-md transition-all duration-300 md:m-0 md:mt-8",
-            "flex md:flex-col md:items-center md:justify-start p-2 flex-row justify-end order-2 md:order-1",
-            "h-[calc(100vh-3rem)] md:h-5/6"
+            "flex md:flex-col md:items-center md:justify-center flex-row order-1 md:order-2 sm:order-2 lg:order:1",
+            "h-[calc(100vh-3rem)] lg:h-5/6"
           )}
         >
                 <SetSensorPositionMap
@@ -86,19 +86,19 @@ const UpdateSensorPage = ({ id }: UpdateSensorPageProps) => {
                 />
               </div>
 
-              <div className="col-span-1 h-96 lg:col-span-1 lg:h-auto lg:w-96 flex justify-center items-center flex-col md:order-2 order-1 mt-4 md:mt-0">
+              <div className="col-span-1 h-96 lg:col-span-1 lg:h-auto lg:w-96 flex justify-center items-center flex-col md:order-1 sm:order-1 lg:order-2 mt-4 md:mt-0">
                   <div className="py-8 text-center">
                     <H2 className="text-lg">{data?.sensor.name}</H2>
                     <Subtle>Update information about this sensor.</Subtle>
                   </div>
+                  <div className="w-64 px-4">
                   <FormInput
                     label="Name"
                     errorMessage={errors.name?.message}
                     id="name"
                     register={register}
                     defaultValue={data?.sensor.name}
-                  />
-
+                  />  
                   <FormTextarea
                     label="Description"
                     errorMessage={errors.description?.message}
@@ -106,7 +106,7 @@ const UpdateSensorPage = ({ id }: UpdateSensorPageProps) => {
                     register={register}
                     defaultValue={data?.sensor.description}
                   />
-
+                  </div>
                   <SelectContainerDropdown
                     containerId={containerId}
                     setContainerId={setContainerId}
