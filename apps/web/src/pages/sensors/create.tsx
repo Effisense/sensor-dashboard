@@ -53,7 +53,6 @@ const CreateSensorPage = ({
             "col-span-1 grid w-full rounded-lg lg:col-span-2",
             "bg-slate-50 shadow-md transition-all duration-300 md:m-0",
             "flex flex-col items-center justify-start p-2",
-            "md:h-auto",
             "h-96",
           )}
         >
