@@ -82,7 +82,7 @@ const UpdateSensorPage = ({ id }: UpdateSensorPageProps) => {
             "col-span-1 grid w-full rounded-lg lg:col-span-2",
             "bg-slate-50 shadow-md transition-all duration-300 mt-4",
             "flex flex-row md:order-1 sm:order-1 lg:order:1",
-            "h-[calc(100vh-3rem)] lg:h-80"
+            "h-[calc(100vh-3rem)] lg:h-[345px]"
           )}
         >
                 <SetSensorPositionMap
