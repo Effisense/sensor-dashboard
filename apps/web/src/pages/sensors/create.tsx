@@ -2,7 +2,7 @@ import { getAuth } from "@clerk/nextjs/server";
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 import { Button } from "../../ui/Button";
 import SetSensorPositionMap from "@/ui/map/SetSensorPositionMap";
-import H1 from "@/ui/typography/H1";
+import H2 from "@/ui/typography/H2";
 import useCreateSensorForm from "@/hooks/forms/useCreateSensorForm";
 import FormInput from "@/ui/FormInput";
 import FormTextarea from "@/ui/FormTextarea";
@@ -49,13 +49,14 @@ const CreateSensorPage = ({
         <form
           onSubmit={handleSubmit(onSubmit)}
         >
-        <div className="grid min-h-[calc(100vh-6rem)] w-11/12 grid-cols-1 gap-y-4 md:w-full md:gap-x-16 md:px-4 md:grid-cols-3 lg:gap-y-0">
-          <div
+        <div className="grid min-h-[calc(100vh-6rem)] w-11/12 grid-cols-1 gap-y-4 md:w-full md:gap-x-8 md:px-4 lg:grid-cols-3 lg:gap-y-0">
+        <div
               className={cn(
                 "col-span-1 grid w-full rounded-lg lg:col-span-2",
                 "bg-slate-50 shadow-md transition-all duration-300 md:m-0",
-                "flex flex-col items-center justify-start p-4",
-                "h-96 lg:h-[calc(100vh-6rem)] mb-4",
+                "flex flex-col items-center justify-start p-2",
+                "md:h-auto",
+                "h-64"
               )}
             >
             <SetSensorPositionMap
@@ -64,12 +65,12 @@ const CreateSensorPage = ({
               error={error}
               isLoading={mapIsLoading} />
         </div>
-        <div className="col-span-1 h-96 lg:col-span-1 lg:h-auto">
+        <div className="col-span-1 h-96 lg:col-span-1 lg:h-auto lg:w-96">
           <div className="flex flex-col items-center justify-center">
             <div className="mb-4 mt-4">
-            <H1>
+            <H2>
               Add Sensor
-            </H1>
+            </H2>
             </div>
             <FormInput
               label="Name"

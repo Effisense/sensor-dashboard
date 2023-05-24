@@ -64,24 +64,26 @@ const UpdateSensorPage = ({ id }: UpdateSensorPageProps) => {
       {sensorExists && (
         <>
           <form onSubmit={handleSubmit(onSubmit)}>
-            <div className="grid min-h-[calc(100vh-6rem)] w-11/12 grid-cols-1 gap-y-4 md:w-full md:gap-x-16 md:px-4 lg:grid-cols-3 lg:gap-y-0">
-            <div
-            className={cn(
-              "w-full rounded-lg bg-slate-50 shadow-md transition-all duration-300",
-              "flex flex-col items-center justify-start p-4",
-              "h-96 lg:h-[calc(100vh-6rem)] mb-4",
-            "col-span-2 lg:col-span-2"
-  )}
->
-  <SetSensorPositionMap
-    container={container}
-    location={location}
-    error={mapError}
-    isLoading={mapIsLoading}
-  />
-</div>
+            <div className="grid min-h-[calc(100vh-6rem)] w-11/12 grid-cols-1 gap-y-4 md:w-full md:gap-x-8 md:px-4 lg:grid-cols-3 lg:gap-y-0">
 
-              <div className="col-span-1 lg:col-span-1 lg:col-start-3">
+            <div
+              className={cn(
+                "col-span-1 grid w-full rounded-lg lg:col-span-2",
+                "bg-slate-50 shadow-md transition-all duration-300 md:m-0",
+                "flex flex-col items-center justify-start p-2",
+                "md:h-auto",
+                "h-64"
+              )}
+            >
+              <SetSensorPositionMap
+                container={container}
+                location={location}
+                error={mapError}
+                isLoading={mapIsLoading}
+              />
+            </div>
+
+              <div className="col-span-1 h-96 lg:col-span-1 lg:h-auto lg:w-96">
                 <div className="flex flex-col items-center justify-center">
                   <div className="py-8">
                     <H2 className="text-lg">{data?.sensor.name}</H2>
@@ -113,7 +115,7 @@ const UpdateSensorPage = ({ id }: UpdateSensorPageProps) => {
                     <Button
                       variant="default"
                       type="submit"
-                      className="mt-8 w-full md:w-1/2"
+                      className="mt-8 w-full md:w-40"
                     >
                       Update sensor
                     </Button>
