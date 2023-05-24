@@ -47,13 +47,18 @@ const CreateSensorPage = ({
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <div className="grid min-h-[calc(100vh-6rem)] w-11/12 grid-cols-1 gap-y-4 md:w-full md:gap-x-8 md:px-4 lg:grid-cols-3 lg:gap-y-0">
+      <div className={cn(
+        "md:grid",
+        "flex min-h-[calc(100vh-6rem)]",
+        "md:w-full md:grid-cols-1 gap-y-4 md:w-full md:gap-x-8 md:px-4 lg:grid-cols-3 lg:gap-y-0",
+        "w-screen p-4 md:p-2 flex-col gap-y-20"
+      )}>
         <div
           className={cn(
             "col-span-1 grid w-full rounded-lg lg:col-span-2",
-            "bg-slate-50 shadow-md transition-all duration-300 md:m-0",
-            "flex flex-col items-center justify-start p-2",
-            "h-96",
+            "bg-slate-50 shadow-md transition-all duration-300 md:m-0 md:mt-8",
+            "flex md:flex-col md:items-center md:justify-start p-2 flex-row justify-end order-2 md:order-1",
+            "h-[calc(100vh-3rem)] md:h-5/6"
           )}
         >
           <SetSensorPositionMap
@@ -63,7 +68,7 @@ const CreateSensorPage = ({
             isLoading={mapIsLoading}
           />
         </div>
-        <div className="col-span-1 h-96 lg:col-span-1 lg:h-auto lg:w-96">
+        <div className="col-span-1 h-96 lg:col-span-1 lg:h-auto lg:w-96 flex flex-col md:order-2 order-1 mt-4 md:mt-0">
           <div className="flex flex-col items-center justify-center">
             <div className="mb-4 mt-4">
               <H2>Add sensor</H2>
@@ -93,7 +98,7 @@ const CreateSensorPage = ({
             <Button
               variant="default"
               type="submit"
-              className="mt-8 w-full md:w-1/2"
+              className="mt-8 w-1/2"
             >
               Add sensor
             </Button>
