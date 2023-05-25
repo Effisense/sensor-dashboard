@@ -43,7 +43,7 @@ const Layout = ({ children }: LayoutProps) => {
 
         <link rel="icon" href="/favicon.svg" />
       </Head>
-
+      <div className="overflow-x-hidden"> 
       <div className="flex min-h-screen w-screen flex-col items-center">
         {isSignedIn ? <Navigation /> : <div className="h-20 w-full" />}
 
@@ -52,6 +52,7 @@ const Layout = ({ children }: LayoutProps) => {
         </main>
       </div>
       <Footer />
+      </div>
     </>
   );
 };

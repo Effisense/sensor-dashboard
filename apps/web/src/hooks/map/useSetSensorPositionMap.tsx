@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import useGeoLocation from "../useGeolocation";
 import { mapbox, MapboxMap, MapboxMarker } from "@acme/mapbox";
 import { trpc } from "@/utils/trpc";
+import isBrowser from "@/utils/isBrowser";
 
 type SetSensorPositionMapProps = {
   latitude?: number;
@@ -39,18 +40,11 @@ const useSetSensorPositionMap = ({
 
   // Initialize map
   useEffect(() => {
-    if (map.current) {
-      return;
-    }
-
+    if (map.current) return;
     // Don't initialize map if no coordinates are available
-    if (!latitude && !longitude && !geoLocationLat && !geoLocationLong) {
-      return;
-    }
-
-    if (!geoLocationLat || !geoLocationLong) {
-      return;
-    }
+    if (!latitude && !longitude && !geoLocationLat && !geoLocationLong) return;
+    if (!geoLocationLat || !geoLocationLong) return;
+    if (!isBrowser()) return;
 
     const lat = latitude || geoLocationLat;
     const lng = longitude || geoLocationLong;
