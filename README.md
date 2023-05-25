@@ -65,7 +65,7 @@ pnpm db:push
 # Generate types from external services
 pnpm gen:types
 
-# Start all `dev` scripts
+# Start all `dev` scriptsPrisma. How do we define schema a do queries to the MySQL database?
 pnpm dev
 ```
 
@@ -74,3 +74,13 @@ Please inspect [package.json](/package.json) for more scripts.
 ## References
 
 This stack is based on [t3-turbo-and-clerk](https://github.com/clerkinc/t3-turbo-and-clerk).
+
+## Shadcn/ui
+
+Shadcn/ui is a collection of re-usable components built using Radix UI and Tailwind CSS. Unlike traditional component libraries, it gives you the freedom to copy and paste the code directly into your application. We chose to utilize Shadcn/ui due to its ability to grant us full control over the implementation and styling of components. These components, which can be located in the [ui](/sensor-dashboard/apps/web/src/ui/) folder, are used throughout our entire application.
+
+You can find more information about how to use Shadcn/ui [here](https://ui.shadcn.com/docs).
+
+## Prisma
+
+Prisma. How do we define schema a do queries to the MySQL database?
