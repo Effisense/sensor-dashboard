@@ -65,7 +65,7 @@ const SensorPage = ({ id }: SensorPageProps) => {
   }, [fillLevelBetweenDates]);
 
   return (
-    <div className="grid min-h-[calc(100vh-6rem)] w-11/12 grid-cols-1 gap-y-4 md:w-full md:gap-x-2 md:px-4 lg:grid-cols-3 lg:gap-y-0">
+    <div className="grid min-h-[calc(100vh-6rem)] w-11/12 grid-cols-1 md:w-full md:gap-x-2 md:px-4 lg:grid-cols-3 lg:grid-rows-1">
       {isLoading ? (
         <div className="col-span-3 flex items-center justify-center">
           <LoadingSpinner />
@@ -73,27 +73,9 @@ const SensorPage = ({ id }: SensorPageProps) => {
       ) : (
         data && (
           <>
-            <div
-              className={cn(
-                "col-span-1 grid w-full rounded-lg lg:col-span-2",
-                "bg-slate-50 shadow-md transition-all duration-300 md:m-0",
-                "flex flex-col items-center justify-start p-4",
-                "md:h-auto",
-                "h-1/2",
-              )}
-            >
-              {sensorWithFillLevel ? (
-                <AllSensorsMap sensorsWithFillLevel={[sensorWithFillLevel]} />
-              ) : (
-                <div className="flex h-full w-full items-center justify-center">
-                  <LoadingSpinner />
-                </div>
-              )}
-            </div>
-
-            <div className="col-span-1 h-96 lg:col-span-1 lg:h-auto">
-              <div className="mb-4 mt-4 flex flex-col items-center justify-start">
-                <div className="flex flex-row gap-x-2">
+            <div className="col-span-1 lg:col-span-1 lg:col-start-3 lg:row-start-1 lg:h-auto">
+              <div className="mb-4 mt-0 flex flex-col items-center justify-start lg:mt-4">
+                <div className="mt-6 flex flex-row gap-x-2 lg:mt-0">
                   <H3>{data.sensor.name}</H3>
                 </div>
                 <Subtle>Information about your sensor</Subtle>
@@ -205,6 +187,23 @@ const SensorPage = ({ id }: SensorPageProps) => {
                   />
                 )}
               </div>
+            </div>
+            <div
+              className={cn(
+                "col-span-1 grid w-full rounded-lg lg:col-span-2 lg:col-start-1",
+                "bg-slate-50 p-0 shadow-md transition-all duration-300",
+                "flex flex-col items-center justify-start",
+                "h-[calc(100vh-12rem)] lg:mt-2 lg:h-auto",
+                "lg:row-start-1",
+              )}
+            >
+              {sensorWithFillLevel ? (
+                <AllSensorsMap sensorsWithFillLevel={[sensorWithFillLevel]} />
+              ) : (
+                <div className="flex h-full w-full items-center justify-center">
+                  <LoadingSpinner />
+                </div>
+              )}
             </div>
           </>
         )

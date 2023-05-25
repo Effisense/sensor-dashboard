@@ -44,7 +44,7 @@ const useAllSensorsMap = ({ sensorsWithFillLevel }: AllSensorsMapProps) => {
     setSensorMarkers(markers);
 
     // TODO: Fix padding so that the map is not zoomed in too much. Needs a new implementation
-    if (map.current && !bounds.isEmpty()) {
+    if (map.current && !bounds.isEmpty() && sensorsWithFillLevel.length > 1) {
       map.current.fitBounds(bounds, {
         padding: 200,
       });

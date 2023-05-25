@@ -72,8 +72,8 @@ const UpdateSensorPage = ({ id }: UpdateSensorPageProps) => {
             <div
               className={cn(
                 "md:grid",
-                "flex min-h-[calc(100vh-12rem)]",
-                "w-full gap-y-4 lg:grid-cols-3 lg:gap-y-0",
+                "flex min-h-[calc(100vh-12rem)] gap-y-16 lg:gap-y-0",
+                "w-full lg:grid-cols-3",
                 "w-screen flex-col p-6",
               )}
             >
@@ -82,7 +82,7 @@ const UpdateSensorPage = ({ id }: UpdateSensorPageProps) => {
                   "col-span-1 grid w-full lg:col-span-2",
                   "transition-all duration-300",
                   "lg:order:1 flex flex-col items-start justify-center sm:order-1 md:order-1",
-                  "sm:h-[calc(100vh-12rem)] lg:h-auto",
+                  "h-[calc(100vh-12rem)] lg:h-auto",
                 )}
               >
                 <Subtle className="w-full py-2 text-center">
@@ -95,7 +95,7 @@ const UpdateSensorPage = ({ id }: UpdateSensorPageProps) => {
                   isLoading={mapIsLoading}
                 />
               </div>
-              <div className="col-span-1 flex w-full flex-col items-center justify-center sm:order-2 md:order-2 md:mt-8 lg:order-2 lg:col-span-1 lg:mt-0 lg:h-auto">
+              <div className="col-span-1 flex w-full flex-col items-center justify-center sm:order-2 md:order-2 lg:order-2 lg:col-span-1 lg:mt-0 lg:h-auto">
                 <div>
                   <FormInput
                     label="Name"
