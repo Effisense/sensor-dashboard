@@ -1,3 +1,16 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  /* Mapbox search bar input */
+  .mapboxgl-ctrl-geocoder--input,
+  /* Mapbox search bar container */
+  mapboxgl-ctrl-geocoder mapboxgl-ctrl,
+  /* Mapbox search bar icon */
+  mapboxgl-ctrl-geocoder--icon mapboxgl-ctrl-geocoder--icon-search,
+  /* Mapbox search bar close icon */
+  mapboxgl-ctrl-geocoder--icon mapboxgl-ctrl-geocoder--icon-close {
+    @apply h-8 !important;
+  }
+}
