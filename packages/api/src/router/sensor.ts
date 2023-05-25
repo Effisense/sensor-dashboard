@@ -270,23 +270,16 @@ export const sensorRouter = router({
         });
       }
 
-      // Map data to array of objects with date and fill level using getFillLevel and store in array
-      // {
-      //   dateAndTime: dateAndTime,
-      //   fillLevel: fillLevel,
-      // },
-      const data = timeseries.map((data) => {
+      const result = timeseries.map((data) => {
         const datetime = data.time;
         const fillLevel = getFillLevel({ timeseries: data, container });
         return {
           datetime,
           fillLevel,
         };
-
-        // Return array of objects
       });
 
-      return data;
+      return result;
     }),
 
   getWithFillLevel: protectedProcedure
