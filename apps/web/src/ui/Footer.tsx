@@ -3,7 +3,7 @@ import Subtle from "./typography/Subtle";
 
 const Footer = () => {
   return (
-    <div className="flex flex-col items-center justify-center py-4">
+    <div className="mt-16 flex flex-col items-center justify-center py-4">
       <Subtle>
         Developed and designed by{" "}
         <Link

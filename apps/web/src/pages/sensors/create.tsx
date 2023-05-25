@@ -2,7 +2,7 @@ import { getAuth } from "@clerk/nextjs/server";
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 import { Button } from "../../ui/Button";
 import SetSensorPositionMap from "@/ui/map/SetSensorPositionMap";
-import H1 from "@/ui/typography/H1";
+import H2 from "@/ui/typography/H2";
 import useCreateSensorForm from "@/hooks/forms/useCreateSensorForm";
 import FormInput from "@/ui/FormInput";
 import FormTextarea from "@/ui/FormTextarea";
@@ -16,6 +16,7 @@ import { sensorBelongsToCollection as _sensorBelongsToCollection } from "@acme/a
 import urlWithQueryParameters from "@/utils/urlWithQueryParameters";
 import useSetSensorPositionMap from "@/hooks/map/useSetSensorPositionMap";
 import { cn } from "@/utils/tailwind";
+import Subtle from "@/ui/typography/Subtle";
 
 type CreateSensorPageProps = InferGetServerSidePropsType<
   typeof getServerSideProps
@@ -46,43 +47,29 @@ const CreateSensorPage = ({
   const { data, isLoading } = trpc.container.getAll.useQuery();
 
   return (
-    <div className="flex min-h-[calc(100vh-6rem)] w-screen flex-col items-center justify-start">
-      <H1>Add sensor</H1>
-
-      <form
-        onSubmit={handleSubmit(onSubmit)}
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <div className="flex w-screen justify-center lg:mt-0">
+        <H2>Add sensor</H2>
+      </div>
+      <div
         className={cn(
-          "my-8 mx-8 flex h-full w-11/12 flex-col items-center md:w-full",
-          "justify-center gap-y-2 rounded-lg bg-slate-50 p-8",
-          "shadow-md transition-all duration-300 hover:shadow-lg",
-          "md:grid md:flex-none md:grid-cols-2 md:gap-x-4",
-          "md:bg-transparent md:shadow-none md:hover:shadow-none",
+          "md:grid",
+          "flex min-h-[calc(100vh-12rem)]",
+          "w-full gap-y-4 lg:grid-cols-3 lg:gap-y-0",
+          "w-screen flex-col gap-y-20 p-6",
         )}
       >
-        <div className="flex flex-col items-center justify-center md:col-start-2 md:row-start-1">
-          <FormInput
-            label="Name"
-            errorMessage={errors.name?.message}
-            id="name"
-            register={register}
-          />
-
-          <FormTextarea
-            register={register}
-            id="description"
-            errorMessage={errors.description?.message}
-            label="Description"
-          />
-
-          <SelectContainerDropdown
-            containerId={containerId}
-            setContainerId={setContainerId}
-            data={data}
-            isLoading={isLoading}
-          />
-        </div>
-
-        <div className="my-4 h-96 w-96 pb-8 md:col-start-1 md:row-start-1 md:h-full md:w-full">
+        <div
+          className={cn(
+            "col-span-1 grid w-full lg:col-span-2",
+            "transition-all duration-300",
+            "lg:order:1 flex flex-col items-start justify-center sm:order-1 md:order-1",
+            "sm:h-[calc(100vh-12rem)] lg:h-auto",
+          )}
+        >
+          <Subtle className="w-full py-2 text-center">
+            Please set the position of the sensor.
+          </Subtle>
           <SetSensorPositionMap
             container={container}
             location={location}
@@ -90,18 +77,36 @@ const CreateSensorPage = ({
             isLoading={mapIsLoading}
           />
         </div>
+        <div className="col-span-1 flex w-full flex-col items-center justify-center sm:order-2 md:order-2 md:mt-8 lg:order-2 lg:col-span-1 lg:mt-0 lg:h-auto">
+          <div>
+            <FormInput
+              label="Name"
+              errorMessage={errors.name?.message}
+              id="name"
+              register={register}
+            />
 
-        <div className="flex items-center justify-center md:col-start-2 md:row-start-2">
-          <Button
-            variant="default"
-            type="submit"
-            className="mt-8 w-full md:w-1/2"
-          >
-            Add sensor
-          </Button>
+            <FormTextarea
+              register={register}
+              id="description"
+              errorMessage={errors.description?.message}
+              label="Description"
+            />
+          </div>
+          <SelectContainerDropdown
+            containerId={containerId}
+            setContainerId={setContainerId}
+            data={data}
+            isLoading={isLoading}
+          />
+          <div className="flex items-center justify-center">
+            <Button variant="default" type="submit" className="mt-8 w-40">
+              Add sensor
+            </Button>
+          </div>
         </div>
-      </form>
-    </div>
+      </div>
+    </form>
   );
 };
 
