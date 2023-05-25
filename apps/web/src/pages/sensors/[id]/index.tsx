@@ -6,7 +6,7 @@ import Alert from "@/ui/Alert";
 import useGetSensor from "@/hooks/queries/useGetSensor";
 import LoadingSpinner from "@/ui/LoadingSpinner";
 import AllSensorsMap from "@/ui/map/AllSensorsMap";
-import { Badge, Card, Text, Title } from "@tremor/react";
+import { Badge, Card, DateRangePickerValue, Text, Title } from "@tremor/react";
 import { cn } from "@/utils/tailwind";
 import H3 from "@/ui/typography/H3";
 import Subtle from "@/ui/typography/Subtle";
@@ -17,11 +17,25 @@ import { trpc } from "@/utils/trpc";
 import percentToColorTremor from "@/utils/percentToColor";
 import useDateRange from "@/hooks/useDateRange";
 import { FILL_LEVEL_LEGEND, formatAreaChart } from "@/utils/tremor";
+import {
+  SelectDateIntervalQuery,
+  SelectDateIntervalQuerySchema,
+} from "@/schemas";
+import { useRouter } from "next/router";
+import urlWithQueryParameters from "@/utils/urlWithQueryParameters";
 
 type SensorPageProps = InferGetServerSidePropsType<typeof getServerSideProps>;
 
-const SensorPage = ({ id }: SensorPageProps) => {
-  const { startDate, endDate, setDateRange } = useDateRange({});
+const SensorPage = ({
+  id,
+  startDate: _startDate,
+  endDate: _endDate,
+}: SensorPageProps) => {
+  const router = useRouter();
+  const { startDate, endDate, setDateRange } = useDateRange({
+    startDate: _startDate ? new Date(_startDate) : undefined,
+    endDate: _endDate ? new Date(_endDate) : undefined,
+  });
 
   const {
     data: fillLevelBetweenDates,
@@ -33,8 +47,6 @@ const SensorPage = ({ id }: SensorPageProps) => {
     startDate: startDate || new Date(),
     endDate: endDate || new Date(),
   });
-
-  console.log(fillLevelBetweenDates);
 
   useEffect(() => {
     if (!startDate || !endDate) return;
@@ -63,6 +75,24 @@ const SensorPage = ({ id }: SensorPageProps) => {
       [`${FILL_LEVEL_LEGEND}`]: entry.fillLevel || 0,
     }));
   }, [fillLevelBetweenDates]);
+
+  const handleDateChange = async (value: DateRangePickerValue) => {
+    setDateRange(value);
+
+    const startDate = value[0]?.toISOString();
+    const endDate = value[1]?.toISOString();
+
+    if (startDate && endDate) {
+      await router.push({
+        pathname: `/sensors/${id}`,
+        query: {
+          startDate,
+          endDate,
+        },
+      });
+      router.reload();
+    }
+  };
 
   return (
     <div className="grid min-h-[calc(100vh-6rem)] w-11/12 grid-cols-1 gap-y-4 md:w-full md:gap-x-2 md:px-4 lg:grid-cols-3 lg:gap-y-0">
@@ -176,7 +206,7 @@ const SensorPage = ({ id }: SensorPageProps) => {
                 <DateRangePicker
                   className="mx-auto max-w-md pt-4"
                   value={[startDate, endDate]}
-                  onValueChange={setDateRange}
+                  onValueChange={handleDateChange}
                   dropdownPlaceholder="Select dates"
                 />
                 {fillLevelBetweenDatesIsLoading ? (
@@ -214,9 +244,9 @@ const SensorPage = ({ id }: SensorPageProps) => {
 };
 
 export const getServerSideProps = async (
-  context: GetServerSidePropsContext<{ id: string }>,
+  ctx: GetServerSidePropsContext<{ id: string }>,
 ) => {
-  const id = context.params?.id;
+  const id = ctx.params?.id;
 
   if (!id) {
     return {
@@ -227,10 +257,20 @@ export const getServerSideProps = async (
     };
   }
 
+  const { success: hasDateInterval } = SelectDateIntervalQuerySchema.safeParse(
+    ctx.query,
+  );
+
+  if (!hasDateInterval) {
+    return {
+      props: { id },
+    };
+  }
+
+  const { startDate, endDate } = ctx.query as SelectDateIntervalQuery;
+
   return {
-    props: {
-      id,
-    },
+    props: { id, startDate, endDate },
   };
 };
 
