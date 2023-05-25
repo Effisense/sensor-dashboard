@@ -39,6 +39,11 @@ const ClerkProvider: React.FC<ClerkProviderProps> = ({
             colorPrimary: emerald[600],
           },
         },
+        userProfile: {
+          variables: {
+            colorPrimary: emerald[600],
+          },
+        },
       }}
     >
       {children}
