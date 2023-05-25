@@ -79,13 +79,13 @@ const SensorPage = ({ id }: SensorPageProps) => {
                 "bg-slate-50 shadow-md transition-all duration-300 md:m-0",
                 "flex flex-col items-center justify-start p-4",
                 "md:h-auto",
-                "h-64"
+                "h-1/2",
               )}
             >
               {sensorWithFillLevel ? (
                 <AllSensorsMap sensorsWithFillLevel={[sensorWithFillLevel]} />
               ) : (
-                <div className="flex items-center justify-center">
+                <div className="flex h-full w-full items-center justify-center">
                   <LoadingSpinner />
                 </div>
               )}
