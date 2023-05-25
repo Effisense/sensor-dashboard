@@ -58,6 +58,7 @@ const DesktopNavigation = () => {
                         },
                       },
                     }}
+                    afterSignOutUrl="/"
                   />
                 </NavigationMenuItem>
               </div>

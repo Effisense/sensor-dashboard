@@ -81,6 +81,7 @@ const MobileNavigation = () => {
                         },
                       },
                     }}
+                    afterSignOutUrl="/"
                   />
                 </div>
               )}
