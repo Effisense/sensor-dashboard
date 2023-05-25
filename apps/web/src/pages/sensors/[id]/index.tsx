@@ -191,7 +191,7 @@ const SensorPage = ({ id }: SensorPageProps) => {
             <div
               className={cn(
                 "col-span-1 grid w-full rounded-lg lg:col-span-2 lg:col-start-1",
-                "bg-slate-50 p-0 shadow-md transition-all duration-300 lg:p-4",
+                "bg-slate-50 p-0 shadow-md transition-all duration-300",
                 "flex flex-col items-center justify-start",
                 "h-[calc(100vh-12rem)] lg:mt-2 lg:h-auto",
                 "lg:row-start-1",
