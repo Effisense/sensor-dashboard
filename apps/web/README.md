@@ -69,3 +69,11 @@ There are two main types of map in the application, the [`AllSensorsMap.tsx`](/a
 To implement the necessary logic for the map, we have defined some custom React hooks to be used in the components. If you are not familiar with custom React hooks, please inspect [the React documentation](https://react.dev/learn/reusing-logic-with-custom-hooks).
 
 These hooks are [`useAllSensorsMap.tsx`](/apps/web/src/hooks/map/useAllSensorsMap.tsx) (for [`AllSensorsMap.tsx`](/apps/web/src/ui/map/AllSensorsMap.tsx)) and [`useSetSensorPositionMap.tsx`](/apps/web/src/hooks/map/useSetSensorPositionMap.tsx) (for [`SetSensorPositionMap.tsx`](/apps/web/src/ui/map/SetSensorPositionMap.tsx)). The `useAllSensorMap` is responsible for populating a map with markers based on a a collection of sensors with a location. The `useSetSensorPositionMap` is responsible for setting the position of a sensor on a map.
+
+## Scanning a sensor
+
+An important part of the customer journey is to scan a sensor and registering it in our database.
+
+Scanning a sensor is done by using the [`react-qr-reader`](https://github.com/JodusNodus/react-qr-reader) package, with our wrapper component found in [`QrReader.tsx`](/apps/web/src/ui/QrReader.tsx). This package is used in the [`/sensors/create`](/apps/web/src/pages/sensors/create.tsx) page. The `ScanSensor` page is responsible for scanning a sensor and adding it to the user's organization. The logic for scanning a sensor is implemented in the custom hook [`useScanSensor.ts`](/apps/web/src/hooks/useScanSensor.ts). Please see the diagram below for a visual representation on how the data flows when scanning a sensor.
+
+![Data flow diagram for scanning a sensor](/assets/scan-sensor-data-flow.png)
