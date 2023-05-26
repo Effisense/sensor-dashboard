@@ -55,3 +55,17 @@ In the snippet above, if the current path is a public path, the middleware will 
 ## Sentry error tracking
 
 Sentry is an error tracking tool that helps us monitor and fix crashes in real time. We use Sentry to track errors in our application. For more information on Sentry, please inspect [their documentation](https://docs.sentry.io/), specifically for Next.js [here](https://docs.sentry.io/platforms/javascript/guides/nextjs/).
+
+## Consuming and using Mapbox
+
+If you are not familiar with how Mapbox is defined and used in this repository, please first read the [`mapbox` documentation](/packages/mapbox).
+
+### Rendering the map
+
+There are two main types of map in the application, the [`AllSensorsMap.tsx`](/apps/web/src/ui/map/AllSensorsMap.tsx) and the [`SetSensorPositionMap.tsx`](/apps/web/src/ui/map/SetSensorPositionMap.tsx). The `AllSensorsMap` is used to display an array of sensors, whilst the `SetSensorPositionMap` is used to set the position of a sensor. Additionally, we have a custom popover component for rendering the sensor information of one marker on the map, which is defined in [`SensorMarkerPopover.tsx`](/apps/web/src/ui/map/SensorMarkerPopover.tsx). In summary, these component are only responsible for rendering the map and the markers on the map.
+
+### The necessary logic and hooks
+
+To implement the necessary logic for the map, we have defined some custom React hooks to be used in the components. If you are not familiar with custom React hooks, please inspect [the React documentation](https://react.dev/learn/reusing-logic-with-custom-hooks).
+
+These hooks are [`useAllSensorsMap.tsx`](/apps/web/src/hooks/map/useAllSensorsMap.tsx) (for [`AllSensorsMap.tsx`](/apps/web/src/ui/map/AllSensorsMap.tsx)) and [`useSetSensorPositionMap.tsx`](/apps/web/src/hooks/map/useSetSensorPositionMap.tsx) (for [`SetSensorPositionMap.tsx`](/apps/web/src/ui/map/SetSensorPositionMap.tsx)). The `useAllSensorMap` is responsible for populating a map with markers based on a a collection of sensors with a location. The `useSetSensorPositionMap` is responsible for setting the position of a sensor on a map.
