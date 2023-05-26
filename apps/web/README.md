@@ -25,3 +25,29 @@ The web application is wrapped in a [`ClerkProvider.tsx`](/apps/web/src/ui/provi
 `shadcn/ui` is a collection of re-usable components built using Radix UI and Tailwind CSS. Unlike traditional component libraries, it gives you the freedom to copy and paste the code directly into an application. We chose to utilize `shadcn/ui` due to its ability to grant us full control over the implementation and styling of components. These components, which are located in the [ui](/apps/web/src/ui/) folder, are used throughout the entire application.
 
 For more information on `shadcn/ui`, please inspect [their documentation](https://ui.shadcn.com/).
+
+## Middleware
+
+Middleware is defined in [`apps/web/src/middleware.ts`](/apps/web/src/middleware.ts). This file contains some defined logic that is executed on all pages. This is the conventional way of for instance validating that a user is authenticated before accessing a page. For more information on middleware, please inspect [Next.js' documentation](https://nextjs.org/docs/pages/building-your-application/routing/middleware).
+
+The middleware is wrapped in `withClerkMiddleware`, in order to make Clerk accessible. Take the following snippet as an example:
+
+```ts
+const publicPaths = ["/sign-in*", "/sign-up*", "/scan"];
+
+export default withClerkMiddleware(async (req) => {
+  if (isPublicPath(req.nextUrl.pathname)) {
+    return NextResponse.next();
+  }
+
+  const { user, organization } = await getAuthentication(req);
+
+  if (!user) {
+    const signInUrl = new URL("/sign-in", req.url);
+    return NextResponse.redirect(signInUrl);
+  }
+
+  // ...
+```
+
+In the snippet above, if the current path is a public path, the middleware will return `NextResponse.next()`, which means that the request will continue to the next middleware. If the current path is not a public path, the middleware will check if the user is authenticated. If the user is not authenticated, the user will be redirected to the sign in page.
