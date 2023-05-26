@@ -31,7 +31,7 @@ packages
 
 ## Running the application
 
-Ensure that you have `pnpm` installed. This is a necessity for the project to run, as we're using [pnpm workspaces](https://pnpm.io/workspaces) and [Turborepo](https://turborepo.com/)
+Ensure that you have `pnpm` installed. This is a necessity for the project to run, as we're using [pnpm workspaces](https://pnpm.io/workspaces) and [Turborepo](https://turborepo.com/).
 
 Ensure that you have a `.env` file in the root of the project. You can copy the contents of `.env.example` to get started:
 
@@ -65,30 +65,40 @@ pnpm db:push
 # Generate types from external services
 pnpm gen:types
 
-# Start all `dev` scriptsPrisma. How do we define schema a do queries to the MySQL database?
+# Start all `dev` scripts
 pnpm dev
 ```
 
 Please inspect [package.json](/package.json) for more scripts.
 
+## Adding a new `pnpm` workspace to the Turborepo
+
+Workspaces are defined in the [`pnpm-workspace.yaml`](/pnpm-workspace.yaml) file. To add a new workspace, follow the convention already present in the file. The name of the package in `pnpm-workspace.yaml` must match the directory name of the package, for instance `packages/api` or `apps/web`.
+
+## Adding a new task in Turborepo
+
+Tasks are defined in the [`turbo.json`](/turbo.json) file. To add a new task, follow the convention already present in the file. For more information on how to define a task, please inspect the [Turborepo documentation](https://turborepo.com/docs), specifically [this section](https://turbo.build/repo/docs/core-concepts/monorepos/running-tasks).
+
+## `web` documentation
+
+Please inspect [apps/web/README.md](/apps/web) for more information.
+
+## `api` documentation
+
+Please inspect [packages/api/README.md](/packages/api) for more information.
+
+## `db` documentation
+
+Please inspect [packages/db/README.md](/packages/db) for more information.
+
+## `email` documentation
+
+Please inspect [packages/email/README.md](/packages/email) for more information.
+
+## `mapbox` documentation
+
+Please inspect [packages/mapbox/README.md](/packages/mapbox) for more information.
+
 ## References
 
 This stack is based on [t3-turbo-and-clerk](https://github.com/clerkinc/t3-turbo-and-clerk).
-
-## Shadcn/ui
-
-Shadcn/ui is a collection of re-usable components built using Radix UI and Tailwind CSS. Unlike traditional component libraries, it gives you the freedom to copy and paste the code directly into an application. We chose to utilize Shadcn/ui due to its ability to grant us full control over the implementation and styling of components. These components, which can be located in the [ui](/sensor-dashboard/apps/web/src/ui/) folder, are used throughout this entire application.
-
-Find more information about how to use Shadcn/ui [here](https://ui.shadcn.com/docs).
-
-## Prisma
-
-Prisma is an open-source database toolkit and object-relational mapping (ORM) tool that simplifies database access and manipulation for applications. It offers a set of tools and libraries that facilitate with databases, supporting MySQL and other database management systems.
-
-How we use Prisma in this application:
-
-1. **Schema Definition:** Our database schema is defined in the [schema.prisma](/sensor-dashboard/packages/db/prisma/schema.prisma) file. We used the Prisma Schema Syntax to define our data models. Each model represents a table in our database and includes fields, relationships, and other attributes.
-
-2. **Query Building:** Prisma provides a query builder that allows us to construct complex database queries using a fluent and chainable API. Within our application code, we can use this API to interact with the MySQL database, retrieve data, perform CRUD operations, and apply filters, sorting, and pagination to our queries. The queries made to the database can be found in the [queries](/sensor-dashboard/apps/web/src/hooks/queries/) folder.
-
-Find more documentation on how to use Prisma [here](https://www.prisma.io/docs).
