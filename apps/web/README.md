@@ -51,3 +51,7 @@ export default withClerkMiddleware(async (req) => {
 ```
 
 In the snippet above, if the current path is a public path, the middleware will return `NextResponse.next()`, which means that the request will continue to the next middleware. If the current path is not a public path, the middleware will check if the user is authenticated. If the user is not authenticated, the user will be redirected to the sign in page.
+
+## Sentry error tracking
+
+Sentry is an error tracking tool that helps us monitor and fix crashes in real time. We use Sentry to track errors in our application. For more information on Sentry, please inspect [their documentation](https://docs.sentry.io/), specifically for Next.js [here](https://docs.sentry.io/platforms/javascript/guides/nextjs/).
