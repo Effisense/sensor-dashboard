@@ -32,13 +32,12 @@ model UserInOrganization {
 }
 
 model Sensor {
-    id           String @id
-    name         String
-    description  String
-    latitude     Float
-    longitude    Float
-    location     String
-    collectionId String
+    id          String @id
+    name        String
+    description String
+    latitude    Float
+    longitude   Float
+    location    String
 
     organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
     organizationId String
