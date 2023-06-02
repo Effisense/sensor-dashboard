@@ -62,6 +62,9 @@ const IndexPage = ({ containerId }: IndexPageProps) => {
   const handleContainerSelect = async (containerId: string | null) => {
     setSelectedContainerId(containerId);
 
+    // Don't update URL state if the container is already selected
+    if (selectedContainerId === containerId) return;
+
     // Update URL state
     await router.push(!containerId ? "/" : `?containerId=${containerId}`);
     router.reload();
