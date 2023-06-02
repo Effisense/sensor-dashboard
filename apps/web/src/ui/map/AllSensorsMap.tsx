@@ -9,13 +9,16 @@ type AllSensorsMapProps = {
 
 type AllSensorsMapComponentProps = {
   sensorsWithFillLevel: AllSensorsMapProps;
+  searchBar?: boolean;
 };
 
 const AllSensorsMap = ({
   sensorsWithFillLevel,
+  searchBar = true,
 }: AllSensorsMapComponentProps) => {
   const { container, isLoading } = useAllSensorsMap({
     sensorsWithFillLevel,
+    searchBar,
   });
 
   return (

@@ -8,9 +8,13 @@ import { SensorWithFillLevel } from "@/types";
 
 type AllSensorsMapProps = {
   sensorsWithFillLevel: SensorWithFillLevel[];
+  searchBar?: boolean;
 };
 
-const useAllSensorsMap = ({ sensorsWithFillLevel }: AllSensorsMapProps) => {
+const useAllSensorsMap = ({
+  sensorsWithFillLevel,
+  searchBar = true,
+}: AllSensorsMapProps) => {
   const container = useRef<HTMLDivElement>(null);
   const { latitude, longitude } = useGeoLocation();
   const map = useRef<mapbox.Map | null>(null);
@@ -64,6 +68,7 @@ const useAllSensorsMap = ({ sensorsWithFillLevel }: AllSensorsMapProps) => {
       style: "mapbox://styles/mapbox/outdoors-v12",
       center: [longitude, latitude],
       zoom: 10,
+      searchBar,
     });
 
     map.current.on("load", onMapLoad);
@@ -73,7 +78,7 @@ const useAllSensorsMap = ({ sensorsWithFillLevel }: AllSensorsMapProps) => {
         map.current.remove();
       }
     };
-  }, [longitude, latitude, onMapLoad]);
+  }, [longitude, latitude, onMapLoad, searchBar]);
 
   // Updates the position of the markers when the map is moved
   useEffect(() => {

@@ -51,6 +51,7 @@ export type MapboxStyle =
 export interface MapOptions extends mapboxgl.MapboxOptions {
   center: mapboxgl.LngLatLike;
   style: MapboxStyle;
+  searchBar?: boolean;
 }
 
 export interface MarkerOptions extends mapboxgl.MarkerOptions {

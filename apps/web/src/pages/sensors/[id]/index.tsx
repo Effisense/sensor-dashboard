@@ -230,7 +230,10 @@ const SensorPage = ({
               )}
             >
               {sensorWithFillLevel ? (
-                <AllSensorsMap sensorsWithFillLevel={[sensorWithFillLevel]} />
+                <AllSensorsMap
+                  sensorsWithFillLevel={[sensorWithFillLevel]}
+                  searchBar={false}
+                />
               ) : (
                 <div className="flex h-full w-full items-center justify-center">
                   <LoadingSpinner />
