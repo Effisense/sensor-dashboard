@@ -7,8 +7,8 @@
     "dev": "pnpm with-env next dev",
     "build": "pnpm with-env next build",
     "clean": "rm -rf .next .turbo node_modules",
-    "start": "next start",
-    "lint": "next lint",
+    "start": "pnpm with-env next start",
+    "lint": "pnpm with-env next lint",
     "type-check": "tsc --noEmit",
     "update": "pnpm update",
     "test": "vitest run"
