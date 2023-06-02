@@ -1,8 +1,6 @@
 import { useRouter } from "next/router";
 import React, { ReactNode, useEffect, useState } from "react";
-import LoadingSpinner from "../LoadingSpinner";
-import { RotateSpinner } from "react-spinners-kit";
-import { emerald } from "tailwindcss/colors";
+import RotateSpinner from "../RotateSpinner";
 
 interface AppProviderProps {
   children: ReactNode;
@@ -36,7 +34,7 @@ const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     <>
       {loading ? (
         <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm">
-          <RotateSpinner size={64} color={emerald[600]} loading={loading} />
+          <RotateSpinner loading={loading} />
         </div>
       ) : (
         children

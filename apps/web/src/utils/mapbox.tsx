@@ -13,7 +13,7 @@ export const createPopupNode = ({ sensorWithFillLevel }: PopupNodeProps) => {
     <SensorMarkerPopover
       title={sensorWithFillLevel.sensor?.name || "Ingen navn"}
       content={sensorWithFillLevel.sensor?.description || "Ingen beskrivelse"}
-      link={`sensors/${sensorWithFillLevel.sensor?.id}`}
+      link={`/sensors/${sensorWithFillLevel.sensor?.id}`}
       linkLabel="See more"
       fillLevel={sensorWithFillLevel.fillLevel}
     />,
