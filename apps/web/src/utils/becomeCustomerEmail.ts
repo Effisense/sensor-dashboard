@@ -1,4 +1,4 @@
-import { User } from "@clerk/nextjs/dist/api";
+import { User } from "@clerk/nextjs/server";
 
 type BecomeCustomerEmailProps = {
   organizationName: string;
