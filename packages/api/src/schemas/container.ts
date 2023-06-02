@@ -5,7 +5,7 @@ const numberGreaterThanOne = z
   .min(1, { message: "Must be greater than 1" });
 
 export const ContainerSchema = z.object({
-  containerId: z.string(),
+  containerId: z.number(),
   name: z.string().min(1, { message: "Required" }),
   description: z.string(),
   targetFillLevelInPercent: z

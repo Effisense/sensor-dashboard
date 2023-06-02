@@ -1,0 +1,2 @@
+ALTER TABLE `Organization` MODIFY COLUMN `id` varchar(64) NOT NULL;
+ALTER TABLE `User` MODIFY COLUMN `id` varchar(64) NOT NULL;

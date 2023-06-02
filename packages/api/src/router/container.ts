@@ -8,6 +8,8 @@ import {
 import { protectedProcedure, router } from "../trpc";
 import { getFillLevel } from "../utils/sensor";
 import { Sensor } from "../lib/kysely";
+import { Container } from "@acme/db/src/schema";
+import { eq } from "drizzle-orm";
 
 export const containerRouter = router({
   create: protectedProcedure
@@ -41,8 +43,9 @@ export const containerRouter = router({
         });
       }
 
-      return ctx.prisma.container.create({
-        data: {
+      return await ctx.db
+        .insert(Container)
+        .values({
           name,
           description,
           binHeightInMillimeters,
@@ -51,8 +54,8 @@ export const containerRouter = router({
           sensorOffsetInMillimeters,
           targetFillLevelInPercent,
           organizationId: ctx.auth.organizationId,
-        },
-      });
+        })
+        .execute();
     }),
 
   get: protectedProcedure
@@ -71,11 +74,9 @@ export const containerRouter = router({
         });
       }
 
-      const container = await ctx.prisma.container.findUnique({
-        where: {
-          id: containerId,
-        },
-      });
+      const container = await ctx.db.query.Container.findFirst({
+        where: (Container, { eq }) => eq(Container.id, containerId),
+      }).execute();
 
       if (!container) {
         throw new TRPCError({
@@ -106,11 +107,10 @@ export const containerRouter = router({
       });
     }
 
-    return ctx.prisma.container.findMany({
-      where: {
-        organizationId: ctx.auth.organizationId,
-      },
-    });
+    return await ctx.db.query.Container.findMany({
+      where: (Container, { eq }) =>
+        eq(Container.organizationId, ctx.auth.organizationId as string),
+    }).execute();
   }),
 
   getSensorsByContainerId: protectedProcedure
@@ -129,23 +129,12 @@ export const containerRouter = router({
         });
       }
 
-      const sensors = await ctx.prisma.sensor.findMany({
-        where: {
-          containerId,
+      const sensors = await ctx.db.query.Sensor.findMany({
+        where: (Sensor, { eq }) => eq(Sensor.containerId, containerId),
+        with: {
+          Container: true,
         },
-        select: {
-          id: true,
-          name: true,
-          description: true,
-          organizationId: true,
-          latitude: true,
-          longitude: true,
-          collectionId: true,
-          location: true,
-          containerId: true,
-          container: true,
-        },
-      });
+      }).execute();
 
       const sensorsWithFillLevel = [];
 
@@ -161,7 +150,7 @@ export const containerRouter = router({
 
         const fillLevel = getFillLevel({
           timeseries,
-          container: sensor.container,
+          container: sensor.Container,
         });
 
         sensorsWithFillLevel.push({ sensor, fillLevel });
@@ -202,11 +191,9 @@ export const containerRouter = router({
         });
       }
 
-      return ctx.prisma.container.update({
-        where: {
-          id: containerId,
-        },
-        data: {
+      return await ctx.db
+        .update(Container)
+        .set({
           name,
           description,
           binHeightInMillimeters,
@@ -214,14 +201,15 @@ export const containerRouter = router({
           containerVolumeInLiters,
           sensorOffsetInMillimeters,
           targetFillLevelInPercent,
-        },
-      });
+        })
+        .where(eq(Container.id, containerId))
+        .execute();
     }),
 
   delete: protectedProcedure
     .input(ContainerIdSchema)
     .mutation(async ({ ctx, input }) => {
-      const { containerId: containerTypeId } = input;
+      const { containerId } = input;
 
       if (!ctx.auth.organizationId) {
         throw new TRPCError({
@@ -241,11 +229,10 @@ export const containerRouter = router({
         });
       }
 
-      return ctx.prisma.container.delete({
-        where: {
-          id: containerTypeId,
-        },
-      });
+      return await ctx.db
+        .delete(Container)
+        .where(eq(Container.id, containerId))
+        .execute();
     }),
 
   getAllContainersWithSensorsAndFillLevel: protectedProcedure.query(
@@ -268,19 +255,15 @@ export const containerRouter = router({
         });
       }
 
-      //get all containers associated with the organization
-      const containers = await ctx.prisma.container.findMany({
-        where: {
-          organizationId: ctx.auth.organizationId,
-        },
-      });
+      const containers = await ctx.db.query.Container.findMany({
+        where: (Container, { eq }) =>
+          eq(Container.organizationId, ctx.auth.organizationId as string),
+      }).execute();
 
-      //get all sensors associated with the organization
-      const sensors = await ctx.prisma.sensor.findMany({
-        where: {
-          organizationId: ctx.auth.organizationId,
-        },
-      });
+      const sensors = await ctx.db.query.Sensor.findMany({
+        where: (Sensor, { eq }) =>
+          eq(Sensor.organizationId, ctx.auth.organizationId as string),
+      }).execute();
 
       //Map over all containers and add the sensors and fill level to each container
       const containersWithSensorsAndFillLevel = containers.map((container) => {

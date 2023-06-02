@@ -6,10 +6,13 @@ import {
   text,
   mysqlTable,
   int,
+  varchar,
 } from "drizzle-orm/mysql-core";
 
+const ID_LENGTH = 64;
+
 export const User = mysqlTable("User", {
-  id: serial("id").primaryKey(),
+  id: varchar("id", { length: ID_LENGTH }).primaryKey(),
 });
 
 export const UserRelations = relations(User, ({ many }) => ({
@@ -17,7 +20,7 @@ export const UserRelations = relations(User, ({ many }) => ({
 }));
 
 export const Organization = mysqlTable("Organization", {
-  id: serial("id").primaryKey(),
+  id: varchar("id", { length: ID_LENGTH }).primaryKey(),
 });
 
 export const OrganizationRelations = relations(Organization, ({ many }) => ({
@@ -29,8 +32,8 @@ export const OrganizationRelations = relations(Organization, ({ many }) => ({
 export const UserInOrganization = mysqlTable(
   "UserInOrganization",
   {
-    userId: int("userId").notNull(),
-    organizationId: int("organizationId").notNull(),
+    userId: varchar("userId", { length: ID_LENGTH }).notNull(),
+    organizationId: varchar("organizationId", { length: ID_LENGTH }).notNull(),
   },
   (table) => {
     return {
@@ -63,7 +66,7 @@ export const Container = mysqlTable("Container", {
   sensorOffsetInMillimeters: int("sensorOffsetInMillimeters"),
   containerVolumeInLiters: int("containerVolumeInLiters"),
 
-  organizationId: int("organizationId"),
+  organizationId: varchar("organizationId", { length: ID_LENGTH }),
 });
 
 export const ContainerRelations = relations(Container, ({ one }) => ({
@@ -74,14 +77,14 @@ export const ContainerRelations = relations(Container, ({ one }) => ({
 }));
 
 export const Sensor = mysqlTable("Sensor", {
-  id: serial("id").primaryKey(),
+  id: varchar("id", { length: ID_LENGTH }).primaryKey(),
   name: text("name").notNull(),
   description: text("description"),
   latitude: float("latitude").notNull(),
   longitude: float("longitude").notNull(),
   location: text("location").notNull(),
 
-  organizationId: int("organizationId"),
+  organizationId: varchar("organizationId", { length: ID_LENGTH }).notNull(),
   containerId: int("containerId"),
 });
 

@@ -1,8 +1,8 @@
 {
   "version": "5",
   "dialect": "mysql",
-  "id": "50e56291-ae85-4dfb-adc2-1543810a4520",
-  "prevId": "00000000-0000-0000-0000-000000000000",
+  "id": "ded966b0-9815-4b00-a699-f4955e5b8767",
+  "prevId": "50e56291-ae85-4dfb-adc2-1543810a4520",
   "tables": {
     "Container": {
       "name": "Container",
@@ -80,7 +80,7 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "text",
+          "type": "varchar(64)",
           "primaryKey": true,
           "notNull": true,
           "autoincrement": false
@@ -159,7 +159,7 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "text",
+          "type": "varchar(64)",
           "primaryKey": true,
           "notNull": true,
           "autoincrement": false

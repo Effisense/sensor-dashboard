@@ -10,7 +10,7 @@ CREATE TABLE `Container` (
 	`organizationId` int);
 
 CREATE TABLE `Organization` (
-	`id` serial AUTO_INCREMENT PRIMARY KEY NOT NULL);
+	`id` text PRIMARY KEY NOT NULL);
 
 CREATE TABLE `Sensor` (
 	`id` serial AUTO_INCREMENT PRIMARY KEY NOT NULL,
@@ -23,7 +23,7 @@ CREATE TABLE `Sensor` (
 	`containerId` int);
 
 CREATE TABLE `User` (
-	`id` serial AUTO_INCREMENT PRIMARY KEY NOT NULL);
+	`id` text PRIMARY KEY NOT NULL);
 
 CREATE TABLE `UserInOrganization` (
 	`userId` int NOT NULL,

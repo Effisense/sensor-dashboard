@@ -1,7 +1,7 @@
-import { prisma } from "@acme/db";
 import { type inferAsyncReturnType } from "@trpc/server";
 import { type CreateNextContextOptions } from "@trpc/server/adapters/next";
 import { getAuthentication } from "./lib/clerk";
+import { db } from "@acme/db";
 
 export type CustomClerkMetadata = Record<string, unknown> & {
   role?: "user" | "admin";
@@ -19,7 +19,7 @@ type ContextInnerProps = {
 export const createContextInner = async ({ auth }: ContextInnerProps) => {
   return {
     auth,
-    prisma,
+    db,
   };
 };
 

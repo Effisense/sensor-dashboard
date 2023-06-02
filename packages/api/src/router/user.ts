@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { isAdmin } from "../lib/clerk";
 import { protectedProcedure, router } from "../trpc";
+import { User } from "@acme/db/src/schema";
 
 export const userRouter = router({
   isAdmin: protectedProcedure.query(({ ctx }) => {
@@ -14,17 +15,10 @@ export const userRouter = router({
     )
     .mutation(async ({ ctx, input }) => {
       const { userId } = input;
-
-      return await ctx.prisma.user.upsert({
-        where: {
-          id: userId,
-        },
-        update: {
-          id: userId,
-        },
-        create: {
-          id: userId,
-        },
-      });
+      return await ctx.db
+        .insert(User)
+        .values({ id: userId })
+        .onDuplicateKeyUpdate({ set: { id: userId } })
+        .execute();
     }),
 });
