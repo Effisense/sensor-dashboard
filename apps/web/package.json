@@ -50,6 +50,7 @@
     "react-dom": "18.2.0",
     "react-hook-form": "^7.43.9",
     "react-qr-reader": "3.0.0-beta-1",
+    "react-spinners-kit": "^1.9.1",
     "superjson": "^1.12.3",
     "tailwind-merge": "^1.12.0",
     "tailwindcss-animate": "^1.0.5",
