@@ -2,6 +2,7 @@ import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 import { userIsMemberOfOrganization } from "../lib/clerk";
 import { protectedProcedure, router } from "../trpc";
+import { Organization, UserInOrganization } from "@acme/db/src/schema";
 
 export const organizationRouter = router({
   addUserToOrganization: protectedProcedure
@@ -31,38 +32,34 @@ export const organizationRouter = router({
         });
       }
 
-      const organizationExists = await ctx.prisma.organization
-        .findUnique({
-          where: {
-            id: ctx.auth.organizationId,
-          },
-        })
+      const organizationExists = await ctx.db.query.Organization.findFirst({
+        where: (Organization, { eq }) =>
+          eq(Organization.id, ctx.auth.organizationId as string),
+      })
+        .execute()
         .then((org) => !!org);
 
       if (!organizationExists) {
-        await ctx.prisma.organization.create({
-          data: {
+        await ctx.db
+          .insert(Organization)
+          .values({
             id: ctx.auth.organizationId,
-          },
-        });
+          })
+          .execute();
       }
 
       // Link user to organization if not already linked
-      return await ctx.prisma.userInOrganization.upsert({
-        where: {
-          userId_organizationId: {
+      return ctx.db
+        .insert(UserInOrganization)
+        .values({
+          userId,
+          organizationId: ctx.auth.organizationId,
+        })
+        .onDuplicateKeyUpdate({
+          set: {
             userId,
             organizationId: ctx.auth.organizationId,
           },
-        },
-        update: {
-          userId,
-          organizationId: ctx.auth.organizationId,
-        },
-        create: {
-          userId,
-          organizationId: ctx.auth.organizationId,
-        },
-      });
+        }).execute;
     }),
 });
