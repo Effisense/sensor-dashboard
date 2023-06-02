@@ -13,7 +13,9 @@ import {
   sensorBelongsToCollection as _sensorBelongsToCollection,
   getFillLevel,
 } from "../utils/sensor";
-import { Sensor } from "../lib/kysely";
+import { Sensor as TimeseriesSensor } from "../lib/kysely";
+import { Organization, Sensor } from "@acme/db/src/schema";
+import { eq } from "drizzle-orm";
 
 export const sensorRouter = router({
   create: protectedProcedure
@@ -68,14 +70,14 @@ export const sensorRouter = router({
         });
       }
 
-      const containerExists = await ctx.prisma.container
-        .findUnique({
-          where: {
-            id: containerId,
-          },
-        })
-        .then((container) => !!container)
-        .catch(() => false);
+      const containerExists = containerId
+        ? await ctx.db.query.Container.findFirst({
+            where: (Container, { eq }) => eq(Container.id, containerId),
+          })
+            .execute()
+            .then((container) => !!container)
+            .catch(() => false)
+        : false;
 
       if (!containerExists) {
         throw new TRPCError({
@@ -84,34 +86,33 @@ export const sensorRouter = router({
         });
       }
 
-      await ctx.prisma.organization
-        .upsert({
-          where: {
-            id: ctx.auth.organizationId,
-          },
-          update: {
-            id: ctx.auth.organizationId,
-          },
-          create: {
+      await ctx.db
+        .insert(Organization)
+        .values({
+          id: ctx.auth.organizationId,
+        })
+        .onDuplicateKeyUpdate({
+          set: {
             id: ctx.auth.organizationId,
           },
         })
-        .then((org) => org);
+        .execute();
 
-      return ctx.prisma.sensor
-        .create({
-          data: {
-            id: sensorId,
-            collectionId,
-            latitude,
-            longitude,
-            name,
-            description,
-            location: location || "",
-            containerId,
-            organizationId: ctx.auth.organizationId,
-          },
+      return await ctx.db
+        .insert(Sensor)
+        .values({
+          id: sensorId,
+          collectionId,
+          latitude,
+          longitude,
+          name,
+          description,
+          location: location || "",
+          containerId,
+          organizationId: ctx.auth.organizationId,
         })
+        .execute()
+        .then((sensor) => sensor)
         .catch(() => {
           throw new TRPCError({
             code: "INTERNAL_SERVER_ERROR",
@@ -147,12 +148,10 @@ export const sensorRouter = router({
         });
       }
 
-      const sensor = await ctx.prisma.sensor
-        .findUnique({
-          where: {
-            id,
-          },
-        })
+      const sensor = await ctx.db.query.Sensor.findFirst({
+        where: (Sensor, { eq }) => eq(Sensor.id, id),
+      })
+        .execute()
         .then((sensor) => sensor);
 
       if (!sensor) {
@@ -171,11 +170,12 @@ export const sensorRouter = router({
         });
       }
 
-      const container = await ctx.prisma.container.findUnique({
-        where: {
-          id: sensor.containerId || undefined || "",
-        },
-      });
+      const container = sensor.containerId
+        ? await ctx.db.query.Container.findFirst({
+            where: (Container, { eq }) =>
+              eq(Container.id, sensor.containerId as number),
+          })
+        : null;
 
       return {
         sensor,
@@ -202,11 +202,10 @@ export const sensorRouter = router({
       });
     }
 
-    return await ctx.prisma.sensor.findMany({
-      where: {
-        organizationId: ctx.auth.organizationId,
-      },
-    });
+    return await ctx.db.query.Sensor.findMany({
+      where: (Sensor, { eq }) =>
+        eq(Sensor.organizationId, ctx.auth.organizationId as string),
+    }).execute();
   }),
 
   getWithFillLevelBetweenDates: protectedProcedure
@@ -227,16 +226,14 @@ export const sensorRouter = router({
         });
       }
 
-      const sensor = await ctx.prisma.sensor
-        .findUnique({
-          where: {
-            id: sensorId,
-          },
-          select: {
-            id: true,
-            containerId: true,
-          },
-        })
+      const sensor = await ctx.db.query.Sensor.findFirst({
+        where: (Sensor, { eq }) => eq(Sensor.id, sensorId),
+        columns: {
+          id: true,
+          containerId: true,
+        },
+      })
+        .execute()
         .then((sensor) => sensor);
 
       // Get the associated container object
@@ -248,20 +245,19 @@ export const sensorRouter = router({
       }
 
       // Get data from timeseries between dates
-      const timeseries = await Sensor.selectAll()
+      const timeseries = await TimeseriesSensor.selectAll()
         .where("sensor_id", "=", sensorId)
         .where("time", ">=", startDate)
         .where("time", "<=", endDate)
         .orderBy("time", "asc")
         .execute();
 
-      const container = await ctx.prisma.container
-        .findUnique({
-          where: {
-            id: sensor.containerId || undefined || "",
-          },
-        })
-        .then((container) => container);
+      const container = sensor.containerId
+        ? await ctx.db.query.Container.findFirst({
+            where: (Container, { eq }) =>
+              eq(Container.id, sensor.containerId as number),
+          }).execute()
+        : null;
 
       if (!container) {
         throw new TRPCError({
@@ -298,16 +294,9 @@ export const sensorRouter = router({
         });
       }
 
-      // Get the sensor object
-      const sensor = await ctx.prisma.sensor
-        .findUnique({
-          where: {
-            id: sensorId,
-          },
-        })
-        .then((sensor) => sensor);
-
-      // Get the associated container object
+      const sensor = await ctx.db.query.Sensor.findFirst({
+        where: (Sensor, { eq }) => eq(Sensor.id, sensorId),
+      }).execute();
 
       if (!sensor) {
         throw new TRPCError({
@@ -315,13 +304,13 @@ export const sensorRouter = router({
           message: "Sensor not found",
         });
       }
-      const container = await ctx.prisma.container
-        .findUnique({
-          where: {
-            id: sensor.containerId || undefined || "",
-          },
-        })
-        .then((container) => container);
+
+      const container = sensor.containerId
+        ? await ctx.db.query.Container.findFirst({
+            where: (Container, { eq }) =>
+              eq(Container.id, sensor.containerId as number),
+          }).execute()
+        : null;
 
       if (!container) {
         throw new TRPCError({
@@ -331,7 +320,7 @@ export const sensorRouter = router({
       }
 
       // Get the latest data from timeseries
-      const timeseriesData = await Sensor.selectAll()
+      const timeseriesData = await TimeseriesSensor.selectAll()
         .where("sensor_id", "=", sensorId)
         .orderBy("time", "desc")
         .limit(1)
@@ -390,11 +379,9 @@ export const sensorRouter = router({
         });
       });
 
-      return ctx.prisma.sensor.update({
-        where: {
-          id: sensorId,
-        },
-        data: {
+      return await ctx.db
+        .update(Sensor)
+        .set({
           latitude,
           longitude,
           name,
@@ -402,8 +389,9 @@ export const sensorRouter = router({
           location: location || "",
           containerId,
           organizationId: ctx.auth.organizationId,
-        },
-      });
+        })
+        .where(eq(Sensor.id, sensorId))
+        .execute();
     }),
 
   delete: protectedProcedure
@@ -422,11 +410,10 @@ export const sensorRouter = router({
         });
       }
 
-      return ctx.prisma.sensor.delete({
-        where: {
-          id: sensorId,
-        },
-      });
+      return await ctx.db
+        .delete(Sensor)
+        .where(eq(Sensor.id, sensorId))
+        .execute();
     }),
 
   belongsToCollection: publicProcedure
@@ -455,21 +442,11 @@ export const sensorRouter = router({
       });
     }
 
-    const sensors = await ctx.prisma.sensor.findMany({
-      where: {
-        organizationId: ctx.auth.organizationId,
-      },
-      select: {
-        id: true,
-        name: true,
-        description: true,
-        organizationId: true,
-        latitude: true,
-        longitude: true,
-        collectionId: true,
-        location: true,
-        containerId: true,
-        container: true,
+    const sensors = await ctx.db.query.Sensor.findMany({
+      where: (Sensor, { eq }) =>
+        eq(Sensor.organizationId, ctx.auth.organizationId as string),
+      with: {
+        Container: true,
       },
     });
 
@@ -478,7 +455,7 @@ export const sensorRouter = router({
     for (const sensor of sensors) {
       if (!sensor.containerId) continue;
 
-      const timeseries = await Sensor.selectAll()
+      const timeseries = await TimeseriesSensor.selectAll()
         .where("sensor_id", "=", sensor.id)
         .orderBy("time", "desc")
         .limit(1)
@@ -487,7 +464,7 @@ export const sensorRouter = router({
 
       const fillLevel = getFillLevel({
         timeseries,
-        container: sensor.container,
+        container: sensor.Container,
       });
 
       sensorsWithFillLevel.push({ sensor, fillLevel });

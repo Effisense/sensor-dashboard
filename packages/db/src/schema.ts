@@ -83,6 +83,7 @@ export const Sensor = mysqlTable("Sensor", {
   latitude: float("latitude").notNull(),
   longitude: float("longitude").notNull(),
   location: text("location").notNull(),
+  collectionId: varchar("collectionId", { length: ID_LENGTH }).notNull(),
 
   organizationId: varchar("organizationId", { length: ID_LENGTH }).notNull(),
   containerId: int("containerId"),

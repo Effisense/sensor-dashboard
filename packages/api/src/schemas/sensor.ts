@@ -13,7 +13,7 @@ export const SensorSchema = z.object({
     .number()
     .min(-180, { message: "Must be between -180 and 180" })
     .max(180, { message: "Must be between -180 and 180" }),
-  containerId: z.string().optional(),
+  containerId: z.number().optional(),
 });
 export type Sensor = z.infer<typeof SensorSchema>;
 
