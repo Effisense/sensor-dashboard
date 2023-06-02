@@ -23,6 +23,7 @@ import {
 } from "@/schemas";
 import { useRouter } from "next/router";
 import urlWithQueryParameters from "@/utils/urlWithQueryParameters";
+import RotateSpinner from "@/ui/RotateSpinner";
 
 type SensorPageProps = InferGetServerSidePropsType<typeof getServerSideProps>;
 
@@ -98,7 +99,7 @@ const SensorPage = ({
     <div className="grid min-h-[calc(100vh-6rem)] w-11/12 grid-cols-1 md:w-full md:gap-x-2 md:px-4 lg:grid-cols-3 lg:grid-rows-1">
       {isLoading ? (
         <div className="col-span-3 flex items-center justify-center">
-          <LoadingSpinner />
+          <RotateSpinner loading={isLoading} />
         </div>
       ) : (
         data && (
@@ -190,6 +191,7 @@ const SensorPage = ({
                   value={[startDate, endDate]}
                   onValueChange={handleDateChange}
                   dropdownPlaceholder="Select dates"
+                  enableClear={false}
                 />
                 {fillLevelBetweenDatesIsLoading ? (
                   <div className="flex h-72 items-center justify-center">
@@ -228,7 +230,10 @@ const SensorPage = ({
               )}
             >
               {sensorWithFillLevel ? (
-                <AllSensorsMap sensorsWithFillLevel={[sensorWithFillLevel]} />
+                <AllSensorsMap
+                  sensorsWithFillLevel={[sensorWithFillLevel]}
+                  searchBar={false}
+                />
               ) : (
                 <div className="flex h-full w-full items-center justify-center">
                   <LoadingSpinner />

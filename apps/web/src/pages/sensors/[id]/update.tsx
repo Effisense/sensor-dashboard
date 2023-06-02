@@ -5,13 +5,14 @@ import { Button } from "@/ui/Button";
 import SelectContainerDropdown from "@/ui/containers/SelectContainerDropdown";
 import FormInput from "@/ui/FormInput";
 import FormTextarea from "@/ui/FormTextarea";
-import LoadingSpinner from "@/ui/LoadingSpinner";
 import SetSensorPositionMap from "@/ui/map/SetSensorPositionMap";
 import H2 from "@/ui/typography/H2";
 import Subtle from "@/ui/typography/Subtle";
 import { cn } from "@/utils/tailwind";
 import { trpc } from "@/utils/trpc";
+import { ArrowUturnLeftIcon } from "@heroicons/react/24/outline";
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
+import { useRouter } from "next/router";
 
 type UpdateSensorPageProps = InferGetServerSidePropsType<
   typeof getServerSideProps
@@ -60,10 +61,22 @@ const UpdateSensorPage = ({ id }: UpdateSensorPageProps) => {
   const error = !!sensorError || !!containerError;
   const sensorExists = !sensorError && !sensorIsLoading && !!data?.sensor;
 
+  const router = useRouter();
+
   return (
     <div>
       {sensorExists && (
         <>
+          <Button
+            variant="subtle"
+            className="m-4 flex items-center justify-center gap-x-2"
+            onClick={() => {
+              router.back();
+            }}
+          >
+            <ArrowUturnLeftIcon className="w-4" />
+            <span>Back</span>
+          </Button>
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="flex w-full flex-col items-center justify-center lg:mt-0">
               <H2 className="text-lg">{data?.sensor.name}</H2>
@@ -95,7 +108,14 @@ const UpdateSensorPage = ({ id }: UpdateSensorPageProps) => {
                   isLoading={mapIsLoading}
                 />
               </div>
-              <div className="col-span-1 flex w-full flex-col items-center justify-center sm:order-2 md:order-2 lg:order-2 lg:col-span-1 lg:mt-0 lg:h-auto">
+              <div
+                className={cn(
+                  "mx-4 justify-center gap-y-2 rounded-lg bg-slate-50 md:ml-4",
+                  "shadow-md transition-all duration-300 hover:shadow-lg",
+                  "col-span-1 flex w-full flex-col items-center justify-center",
+                  "sm:order-2 md:order-2 lg:order-2 lg:col-span-1 lg:mt-0 lg:h-auto",
+                )}
+              >
                 <div>
                   <FormInput
                     label="Name"

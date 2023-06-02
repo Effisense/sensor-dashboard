@@ -7,15 +7,18 @@ import { trpc } from "../utils/trpc";
 import Layout from "../ui/Layout";
 import { Toaster } from "@/ui/Toaster";
 import ClerkProvider from "@/ui/providers/ClerkProvider";
+import AppProvider from "@/ui/providers/AppProvider";
 
 const MyApp: AppType = ({ Component, pageProps: { ...pageProps } }) => {
   return (
     <ClerkProvider pageProps={pageProps}>
-      <Layout>
-        <Component {...pageProps} />
-        {/* Load `Toaster` at top-level, and render it using `useToast` */}
-        <Toaster />
-      </Layout>
+      <AppProvider>
+        <Layout>
+          <Component {...pageProps} />
+          {/* Load `Toaster` at top-level, and render it using `useToast` */}
+          <Toaster />
+        </Layout>
+      </AppProvider>
     </ClerkProvider>
   );
 };

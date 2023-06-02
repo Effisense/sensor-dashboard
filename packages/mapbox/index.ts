@@ -19,8 +19,14 @@ export const MapboxGeocoder = new ExternalMapboxGeocoder({
   marker: false,
 });
 
-export const MapboxMap = ({ container, style, center, zoom }: MapOptions) =>
-  new mapboxgl.Map({
+export const MapboxMap = ({
+  container,
+  style,
+  center,
+  zoom,
+  searchBar = true,
+}: MapOptions) => {
+  const map = new mapboxgl.Map({
     container,
     style,
     center,
@@ -28,8 +34,12 @@ export const MapboxMap = ({ container, style, center, zoom }: MapOptions) =>
   })
     .addControl(new mapboxgl.NavigationControl())
     .addControl(new mapboxgl.FullscreenControl())
-    .addControl(new mapboxgl.GeolocateControl())
-    .addControl(MapboxGeocoder, "top-left");
+    .addControl(new mapboxgl.GeolocateControl());
+
+  if (searchBar) map.addControl(MapboxGeocoder, "top-left");
+
+  return map;
+};
 
 export const MapboxMarker = ({
   latitude,
