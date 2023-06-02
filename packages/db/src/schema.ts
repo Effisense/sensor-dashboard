@@ -1,4 +1,4 @@
-import { relations } from "drizzle-orm";
+import { InferModel, relations } from "drizzle-orm";
 import {
   primaryKey,
   serial,
@@ -14,20 +14,20 @@ const ID_LENGTH = 64;
 export const User = mysqlTable("User", {
   id: varchar("id", { length: ID_LENGTH }).primaryKey(),
 });
-
 export const UserRelations = relations(User, ({ many }) => ({
   UserInOrganization: many(UserInOrganization),
 }));
+export type UserSchema = InferModel<typeof User>;
 
 export const Organization = mysqlTable("Organization", {
   id: varchar("id", { length: ID_LENGTH }).primaryKey(),
 });
-
 export const OrganizationRelations = relations(Organization, ({ many }) => ({
   Container: many(Container),
   Sensor: many(Sensor),
   UserInOrganization: many(UserInOrganization),
 }));
+export type OrganizationSchema = InferModel<typeof Organization>;
 
 export const UserInOrganization = mysqlTable(
   "UserInOrganization",
@@ -41,7 +41,6 @@ export const UserInOrganization = mysqlTable(
     };
   },
 );
-
 export const UserInOrganizationRelations = relations(
   UserInOrganization,
   ({ one }) => ({
@@ -55,6 +54,7 @@ export const UserInOrganizationRelations = relations(
     }),
   }),
 );
+export type UserInOrganizationSchema = InferModel<typeof UserInOrganization>;
 
 export const Container = mysqlTable("Container", {
   id: serial("id").primaryKey(),
@@ -68,13 +68,13 @@ export const Container = mysqlTable("Container", {
 
   organizationId: varchar("organizationId", { length: ID_LENGTH }),
 });
-
 export const ContainerRelations = relations(Container, ({ one }) => ({
   Organization: one(Organization, {
     fields: [Container.organizationId],
     references: [Organization.id],
   }),
 }));
+export type ContainerSchema = InferModel<typeof Container>;
 
 export const Sensor = mysqlTable("Sensor", {
   id: varchar("id", { length: ID_LENGTH }).primaryKey(),
@@ -88,7 +88,6 @@ export const Sensor = mysqlTable("Sensor", {
   organizationId: varchar("organizationId", { length: ID_LENGTH }).notNull(),
   containerId: int("containerId"),
 });
-
 export const SensorRelations = relations(Sensor, ({ one }) => ({
   Organization: one(Organization, {
     fields: [Sensor.organizationId],
@@ -99,3 +98,4 @@ export const SensorRelations = relations(Sensor, ({ one }) => ({
     references: [Container.id],
   }),
 }));
+export type SensorSchema = InferModel<typeof Sensor>;

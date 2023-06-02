@@ -161,9 +161,20 @@ export const getServerSideProps = async (
     };
   }
 
+  const parsedId = parseInt(id);
+
+  if (!parsedId) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
+
   return {
     props: {
-      id,
+      id: parsedId,
     },
   };
 };

@@ -1,13 +1,13 @@
-import { Sensor } from "@acme/db";
 import { ArrowRightIcon } from "@heroicons/react/24/outline";
 import { Card, Title, Badge } from "@tremor/react";
 import Link from "next/link";
 import Subtle from "./typography/Subtle";
 import P from "./typography/P";
 import percentToColorTremor from "@/utils/percentToColor";
+import { SensorSchema } from "@acme/db/src/schema";
 
 type DashboardSensorCardProps = {
-  sensor: Sensor;
+  sensor: SensorSchema;
   fillLevel: number | null;
 };
 

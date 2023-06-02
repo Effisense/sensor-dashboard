@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import { useToast } from "../toast/useToast";
 
 type GetContainerProps = {
-  id: string;
+  id: number;
 };
 
 const useGetContainer = ({ id }: GetContainerProps) => {

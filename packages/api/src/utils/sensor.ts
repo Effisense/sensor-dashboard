@@ -1,6 +1,6 @@
-import { Container, Sensor } from "@acme/db";
 import axios from "axios";
 import SensorData from "../schemas/public/SensorData";
+import { ContainerSchema } from "@acme/db/src/schema";
 
 /**
  * Checks if a sensor belongs to a collection by using the SPAN API, the IoT platform used by Lab5e.
@@ -15,23 +15,23 @@ export const sensorBelongsToCollection = async (
 ) => {
   if (!deviceId || !collectionId) return false;
 
-  const result = await axios.get(
-    `https://api.lab5e.com/span/collections/${collectionId}/devices/${deviceId}`,
-    {
-      headers: {
-        Accept: "application/json",
-        "X-API-Token": process.env.SPAN_API_TOKEN,
+  return await axios
+    .get(
+      `https://api.lab5e.com/span/collections/${collectionId}/devices/${deviceId}`,
+      {
+        headers: {
+          Accept: "application/json",
+          "X-API-Token": process.env.SPAN_API_TOKEN,
+        },
       },
-    },
-  );
-  // .then((res) => res.status === 200)
-  // .catch(() => false);
-  return result.status === 200;
+    )
+    .then((res) => res.status === 200)
+    .catch(() => false);
 };
 
 type FillLevelProps = {
   timeseries?: SensorData;
-  container: Container | null;
+  container: ContainerSchema | null;
 };
 
 export const getFillLevel = ({

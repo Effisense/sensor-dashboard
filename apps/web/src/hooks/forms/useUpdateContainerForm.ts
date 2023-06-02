@@ -6,7 +6,7 @@ import useZodForm from "../useZodForm";
 import { useEffect } from "react";
 
 type UpdateContainerFormProps = {
-  id: string;
+  id: number;
 };
 
 /**

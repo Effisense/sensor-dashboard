@@ -1,9 +1,9 @@
 import useAllSensorsMap from "@/hooks/map/useAllSensorsMap";
 import LoadingSpinner from "../LoadingSpinner";
-import { Sensor } from "@acme/db";
+import { SensorSchema } from "@acme/db/src/schema";
 
 type AllSensorsMapProps = {
-  sensor: Sensor | undefined;
+  sensor: SensorSchema | undefined;
   fillLevel: number | null;
 }[];
 

@@ -132,7 +132,18 @@ export const getServerSideProps = async (
   context: GetServerSidePropsContext<{ id: string }>,
 ) => {
   const id = context.params?.id;
+
   if (!id) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
+
+  const parsedId = parseInt(id);
+  if (!parsedId) {
     return {
       redirect: {
         destination: "/",
@@ -143,7 +154,7 @@ export const getServerSideProps = async (
 
   return {
     props: {
-      id,
+      id: parsedId,
     },
   };
 };

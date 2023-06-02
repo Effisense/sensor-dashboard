@@ -41,7 +41,7 @@ const IndexPage = ({ containerId }: IndexPageProps) => {
 
   const [currentSensorsWithFillLevel, setCurrentSensorsWithFillLevel] =
     useState(sensorsWithFillLevel);
-  const [selectedContainerId, setSelectedContainerId] = useState<string | null>(
+  const [selectedContainerId, setSelectedContainerId] = useState<number | null>(
     containerId || null,
   );
 
@@ -59,7 +59,7 @@ const IndexPage = ({ containerId }: IndexPageProps) => {
     refetch();
   }, [orgId, refetchContainers, refetchSensors]);
 
-  const handleContainerSelect = async (containerId: string | null) => {
+  const handleContainerSelect = async (containerId: number | null) => {
     setSelectedContainerId(containerId);
 
     // Don't update URL state if the container is already selected
@@ -264,9 +264,10 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
   }
 
   const { containerId } = ctx.query as SelectContainerQuery;
+  const parsedContainerId = parseInt(containerId);
 
   return {
-    props: { userId, containerId },
+    props: { userId, containerId: parsedContainerId },
   };
 };
 

@@ -44,7 +44,7 @@ const useCreateSensorForm = ({
       });
     },
   });
-  const [containerId, setContainerId] = useState<string | null | undefined>(
+  const [containerId, setContainerId] = useState<number | null | undefined>(
     undefined,
   );
 

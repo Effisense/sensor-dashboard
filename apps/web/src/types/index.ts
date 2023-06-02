@@ -1,4 +1,4 @@
-import { Sensor } from "@acme/db";
+import { SensorSchema } from "@acme/db/src/schema";
 
 export type Severity =
   | "success"
@@ -9,6 +9,6 @@ export type Severity =
   | "loading";
 
 export type SensorWithFillLevel = {
-  sensor: Sensor | undefined;
+  sensor: SensorSchema | undefined;
   fillLevel: number | null;
 };

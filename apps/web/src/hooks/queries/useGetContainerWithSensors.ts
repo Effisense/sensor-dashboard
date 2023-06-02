@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { useToast } from "../toast/useToast";
 
 type GetContainerWithSensorsProps = {
-  id: string;
+  id: number;
 };
 
 const useGetContainerWithSensors = ({ id }: GetContainerWithSensorsProps) => {

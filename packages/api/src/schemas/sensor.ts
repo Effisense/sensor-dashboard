@@ -4,7 +4,7 @@ export const SensorSchema = z.object({
   sensorId: z.string(),
   collectionId: z.string(),
   name: z.string().min(1, { message: "Required" }),
-  description: z.string(),
+  description: z.string().optional(),
   latitude: z
     .number()
     .min(-90, { message: "Must be between -90 and 90" })

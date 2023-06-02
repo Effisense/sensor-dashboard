@@ -12,16 +12,16 @@ import { ChevronDownIcon, PlusIcon } from "@heroicons/react/24/outline";
 import { Dispatch, SetStateAction } from "react";
 import { Button } from "../Button";
 import { DropdownMenuHeading } from "../DropdownMenu";
-import { Container } from "@acme/db";
 import Link from "next/link";
 import LoadingSpinner from "../LoadingSpinner";
 import { useRouter } from "next/router";
+import { ContainerSchema } from "@acme/db/src/schema";
 
 type SelectContainerDropdownProps = {
-  containerId?: string | null;
-  setContainerId: Dispatch<SetStateAction<string | null | undefined>>;
+  containerId?: number | null;
+  setContainerId: Dispatch<SetStateAction<number | null | undefined>>;
   isLoading: boolean;
-  data?: Container[];
+  data?: ContainerSchema[];
 };
 
 const SelectContainerDropdown = ({
@@ -37,7 +37,7 @@ const SelectContainerDropdown = ({
 
   return (
     <div className="flex w-full flex-col items-center justify-start gap-y-2">
-      <Label htmlFor={containerId || ""}>Container</Label>
+      <Label htmlFor={containerId?.toString() || ""}>Container</Label>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant="default">
@@ -61,12 +61,12 @@ const SelectContainerDropdown = ({
           {data && data.length > 0 && (
             <>
               <DropdownMenuRadioGroup
-                value={containerId || undefined}
-                onValueChange={setContainerId}
+                value={String(containerId) || undefined}
+                onValueChange={(value) => setContainerId(Number(value))}
               >
                 {data?.map((container) => (
                   <DropdownMenuRadioItem
-                    value={container.id}
+                    value={String(container.id)}
                     key={container.id}
                   >
                     {container.name}
