@@ -24,6 +24,7 @@ import {
 import { useRouter } from "next/router";
 import urlWithQueryParameters from "@/utils/urlWithQueryParameters";
 import RotateSpinner from "@/ui/RotateSpinner";
+import formatFillLevel from "@/utils/formatFillLevel";
 
 type SensorPageProps = InferGetServerSidePropsType<typeof getServerSideProps>;
 
@@ -155,9 +156,7 @@ const SensorPage = ({
                       }
                       className="mr-4 py-1 px-2"
                     >
-                      {!sensorWithFillLevel?.fillLevel
-                        ? "N/A"
-                        : `${sensorWithFillLevel?.fillLevel} %`}
+                      {formatFillLevel(sensorWithFillLevel?.fillLevel)}
                     </Badge>
                   </div>
                   <div className="mt-2 flex flex-row gap-x-2">

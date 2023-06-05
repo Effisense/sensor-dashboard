@@ -5,6 +5,7 @@ import Link from "next/link";
 import Subtle from "./typography/Subtle";
 import P from "./typography/P";
 import percentToColorTremor from "@/utils/percentToColor";
+import formatFillLevel from "@/utils/formatFillLevel";
 
 type DashboardSensorCardProps = {
   sensor: Sensor;
@@ -24,7 +25,7 @@ const DashboardSensorCard = ({
             color={percentToColorTremor(fillLevel)}
             className="mr-4 py-1 px-2"
           >
-            {fillLevel === null ? "N/A" : `${fillLevel} %`}
+            {formatFillLevel(fillLevel)}
           </Badge>
           <div className="flex flex-col items-start justify-center">
             <Title>{sensor.name}</Title>
