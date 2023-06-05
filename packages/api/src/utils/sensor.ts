@@ -41,10 +41,10 @@ export const getFillLevel = ({
   if (!timeseries || !container) return null;
 
   const middlePoints = [
-    timeseries.status_z5,
-    timeseries.status_z6,
-    timeseries.status_z9,
-    timeseries.status_z10,
+    timeseries.dist_z5,
+    timeseries.dist_z6,
+    timeseries.dist_z9,
+    timeseries.dist_z10,
   ];
 
   const points: number[] = middlePoints.filter(
