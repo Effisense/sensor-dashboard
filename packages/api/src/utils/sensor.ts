@@ -82,30 +82,13 @@ export const getFillLevel = ({
 
   if (distances.length === 0) return null;
 
-  distances.sort((a, b) => a - b);
-
-  const hasEvenNumberOfPoints = distances.length % 2 === 0;
-
-  const left = distances[distances.length / 2 - 1];
-  const right = distances[distances.length / 2];
-
-  if (!left || !right) return null;
-
-  const median = hasEvenNumberOfPoints
-    ? (left + right) / 2
-    : distances[Math.floor(distances.length / 2)];
-
-  if (!median) return null;
+  const meanOfDistances =
+    distances.reduce((a, b) => a + b, 0) / distances.length;
 
   const sensorOffset = container.sensorOffsetInMillimeters ?? 0;
   const binHeight = container.binHeightInMillimeters;
+  const range = binHeight - sensorOffset;
 
-  if (median < sensorOffset) {
-    return 100;
-  }
-
-  const distanceFromTop = median - sensorOffset;
-  const fillLevel = ((binHeight - distanceFromTop) / binHeight) * 100;
-
+  const fillLevel = ((meanOfDistances - sensorOffset) / range) * 100;
   return Math.min(Math.max(0, fillLevel), 100);
 };
