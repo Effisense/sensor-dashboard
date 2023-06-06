@@ -37,11 +37,11 @@ const useScanSensor = () => {
    *
    * @param data is the raw data of the QR code, which can be any string in any format.
    */
-  const handleScan = (data: string) => {
+  const handleScan = async (data: string) => {
     try {
       const payload = SpanApiPayloadSchema.parse(JSON.parse(data));
       setPayload(payload);
-      refetch();
+      await refetch();
     } catch (e) {
       toast({
         title: "Oops!",
@@ -52,21 +52,25 @@ const useScanSensor = () => {
   };
 
   useEffect(() => {
-    if (sensorBelongsToCollection && payload) {
-      toast({
-        title: "Success!",
-        description: "You will now be redirected to add the sensor.",
-        severity: "success",
-      });
+    const onResult = async () => {
+      if (sensorBelongsToCollection && payload) {
+        toast({
+          title: "Success!",
+          description: "You will now be redirected to add the sensor.",
+          severity: "success",
+        });
 
-      router.push({
-        pathname: "/sensors/create",
-        query: {
-          deviceId: payload.deviceId,
-          collectionId: payload.collectionId,
-        },
-      });
-    }
+        await router.push({
+          pathname: "/sensors/create",
+          query: {
+            deviceId: payload.deviceId,
+            collectionId: payload.collectionId,
+          },
+        });
+      }
+    };
+
+    onResult();
   }, [payload, router, sensorBelongsToCollection, toast]);
 
   return {
