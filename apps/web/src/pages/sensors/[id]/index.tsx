@@ -6,7 +6,7 @@ import Alert from "@/ui/Alert";
 import useGetSensor from "@/hooks/queries/useGetSensor";
 import LoadingSpinner from "@/ui/LoadingSpinner";
 import AllSensorsMap from "@/ui/map/AllSensorsMap";
-import { Badge, Card, DateRangePickerValue, Text, Title } from "@tremor/react";
+import { Card, DateRangePickerValue, Text, Title } from "@tremor/react";
 import { cn } from "@/utils/tailwind";
 import H3 from "@/ui/typography/H3";
 import Subtle from "@/ui/typography/Subtle";
@@ -22,9 +22,9 @@ import {
   SelectDateIntervalQuerySchema,
 } from "@/schemas";
 import { useRouter } from "next/router";
-import urlWithQueryParameters from "@/utils/urlWithQueryParameters";
 import RotateSpinner from "@/ui/RotateSpinner";
 import formatFillLevel from "@/utils/formatFillLevel";
+import { Badge } from "@/ui/badge";
 
 type SensorPageProps = InferGetServerSidePropsType<typeof getServerSideProps>;
 
@@ -68,6 +68,8 @@ const SensorPage = ({
   const onDelete = async () => {
     await deleteSensorMutation({ sensorId: id });
   };
+
+  console.log(sensorWithFillLevel);
 
   const chartData = useMemo(() => {
     if (!fillLevelBetweenDates) return [];
@@ -148,7 +150,7 @@ const SensorPage = ({
                 >
                   <div className="flex h-8 items-center">
                     <Badge
-                      size="sm"
+                      variant="secondary"
                       color={
                         sensorWithFillLevel && sensorWithFillLevel
                           ? percentToColorTremor(sensorWithFillLevel.fillLevel)
