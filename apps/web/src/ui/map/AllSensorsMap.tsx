@@ -5,6 +5,7 @@ import isBrowser from "@/utils/isBrowser";
 import dynamic from "next/dynamic";
 import useGeoLocation from "@/hooks/useGeolocation";
 import RotateSpinner from "../RotateSpinner";
+import { percentToColorHex } from "@/utils/percentToColor";
 
 const Map = dynamic(
   () => import("@acme/leaflet").then((mod) => mod.Components.Map),
@@ -76,6 +77,7 @@ const AllSensorsMap = ({
                   lat: sensor.sensor.latitude,
                   lng: sensor.sensor.longitude,
                 }}
+                color={percentToColorHex(sensor.fillLevel || 0)}
               />
             );
           })}
@@ -86,21 +88,6 @@ const AllSensorsMap = ({
           <span className="animate-pulse text-sm">Generating your map...</span>
         </div>
       )}
-      {/* {!!container ? (
-        <div
-          className="relative h-[inherit] w-[inherit] rounded-lg shadow-lg"
-          id="map"
-        >
-          <div ref={container} className="h-full w-full rounded-lg" />
-          {isLoading && (
-            <div className="absolute inset-0 flex items-center justify-center">
-              <LoadingSpinner />
-            </div>
-          )}
-        </div>
-      ) : (
-        <LoadingSpinner />
-      )} */}
     </div>
   );
 };
