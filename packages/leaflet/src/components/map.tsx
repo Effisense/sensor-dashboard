@@ -6,7 +6,7 @@ import {
   TileLayer,
   useMap,
 } from "react-leaflet";
-import getBounds from "./utils/getBounds";
+import getBounds from "../utils/getBounds";
 
 export interface FitToBoundsProps {
   bounds: LatLngBounds;
