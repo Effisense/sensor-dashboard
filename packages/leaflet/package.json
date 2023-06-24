@@ -1,0 +1,27 @@
+{
+  "name": "@acme/leaflet",
+  "version": "0.1.0",
+  "main": "./index.ts",
+  "types": "./index.ts",
+  "license": "MIT",
+  "scripts": {
+    "clean": "rm -rf .turbo node_modules",
+    "with-env": "dotenv -e ../../.env --",
+    "update": "pnpm update"
+  },
+  "dependencies": {
+    "@acme/tailwind-config": "^0.1.0",
+    "axios": "^1.4.0",
+    "leaflet": "^1.9.4",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-leaflet": "^4.2.1"
+  },
+  "devDependencies": {
+    "@types/leaflet": "^1.9.3",
+    "@types/react": "^18.2.6",
+    "dotenv-cli": "^6.0.0",
+    "tailwindcss": "^3.3.2",
+    "typescript": "^4.9.5"
+  }
+}
