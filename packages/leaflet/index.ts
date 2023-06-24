@@ -8,4 +8,6 @@
 
 import * as Leaflet from "leaflet";
 import * as ReactLeaflet from "react-leaflet";
-import { Map } from "./src";
+import * as Components from "./src";
+
+export { Leaflet, ReactLeaflet, Components };
