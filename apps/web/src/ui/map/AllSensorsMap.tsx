@@ -1,4 +1,3 @@
-import useAllSensorsMap from "@/hooks/map/useAllSensorsMap";
 import LoadingSpinner from "../LoadingSpinner";
 import { Sensor } from "@acme/db";
 import isBrowser from "@/utils/isBrowser";
@@ -44,10 +43,7 @@ const AllSensorsMap = ({
   sensorsWithFillLevel,
   searchBar = true,
 }: AllSensorsMapComponentProps) => {
-  const { container, isLoading } = useAllSensorsMap({
-    sensorsWithFillLevel,
-    searchBar,
-  });
+  // TODO: Handle search bar in map
 
   const coordinates: [number, number][] = sensorsWithFillLevel
     .filter((sensor) => !!sensor.sensor)
