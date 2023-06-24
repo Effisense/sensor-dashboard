@@ -44,6 +44,7 @@
     "dotenv-cli": "^6.0.0",
     "kysely": "^0.23.5",
     "leaflet": "^1.9.4",
+    "lucide-react": "^0.252.0",
     "mapbox-gl": "^2.14.1",
     "next": "^13.4.3",
     "next-superjson-plugin": "^0.5.8",

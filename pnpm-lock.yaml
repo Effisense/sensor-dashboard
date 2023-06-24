@@ -128,6 +128,9 @@ importers:
       leaflet:
         specifier: ^1.9.4
         version: 1.9.4
+      lucide-react:
+        specifier: ^0.252.0
+        version: 0.252.0(react@18.2.0)
       mapbox-gl:
         specifier: ^2.14.1
         version: 2.14.1
@@ -6211,6 +6214,14 @@ packages:
 
   /lru_map@0.3.3:
     resolution: {integrity: sha512-Pn9cox5CsMYngeDbmChANltQl+5pi6XmTrraMSzhPmMBbmgcxmqWry0U3PGapCU1yB4/LqCcom7qhHZiF/jGfQ==}
+    dev: false
+
+  /lucide-react@0.252.0(react@18.2.0):
+    resolution: {integrity: sha512-98hUdm23F3YlC3UN4mzv1FAsWr81YYdxF31cYhm19c51FwOph4dn5B4NjKp45UXBiR1Xx+cKrdmSIZX0ldS8zw==}
+    peerDependencies:
+      react: ^16.5.1 || ^17.0.0 || ^18.0.0
+    dependencies:
+      react: 18.2.0
     dev: false
 
   /magic-string@0.27.0:

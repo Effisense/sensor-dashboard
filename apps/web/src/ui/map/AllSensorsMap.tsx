@@ -6,6 +6,7 @@ import dynamic from "next/dynamic";
 import useGeoLocation from "@/hooks/useGeolocation";
 import RotateSpinner from "../RotateSpinner";
 import { percentToColorHex } from "@/utils/percentToColor";
+import SensorMarkerPopover from "./SensorMarkerPopover";
 
 const Map = dynamic(
   () => import("@acme/leaflet").then((mod) => mod.Components.Map),
@@ -17,6 +18,13 @@ const Map = dynamic(
 
 const Marker = dynamic(
   () => import("@acme/leaflet").then((mod) => mod.Components.Marker),
+  {
+    ssr: false,
+  },
+);
+
+const Popup = dynamic(
+  () => import("@acme/leaflet").then((mod) => mod.Components.Popup),
   {
     ssr: false,
   },
@@ -68,17 +76,27 @@ const AllSensorsMap = ({
           }}
           coordinates={coordinates}
         >
-          {sensorsWithFillLevel.map((sensor) => {
-            if (!sensor.sensor) return null;
+          {sensorsWithFillLevel.map((sensorWithFillLevel) => {
+            if (!sensorWithFillLevel.sensor) return null;
             return (
               <Marker
-                key={sensor.sensor.id}
+                key={sensorWithFillLevel.sensor.id}
                 position={{
-                  lat: sensor.sensor.latitude,
-                  lng: sensor.sensor.longitude,
+                  lat: sensorWithFillLevel.sensor.latitude,
+                  lng: sensorWithFillLevel.sensor.longitude,
                 }}
-                color={percentToColorHex(sensor.fillLevel || 0)}
-              />
+                color={percentToColorHex(sensorWithFillLevel.fillLevel || 0)}
+              >
+                <Popup>
+                  <SensorMarkerPopover
+                    title={sensorWithFillLevel.sensor?.name || "Unkown"}
+                    content={sensorWithFillLevel.sensor?.description || ""}
+                    link={`/sensors/${sensorWithFillLevel.sensor?.id}`}
+                    linkLabel="See more"
+                    fillLevel={sensorWithFillLevel.fillLevel}
+                  />
+                </Popup>
+              </Marker>
             );
           })}
         </Map>

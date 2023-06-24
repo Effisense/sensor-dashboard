@@ -5,7 +5,7 @@ import { Popover } from "../Popover";
 import Link from "next/link";
 import { Button } from "../Button";
 import percentToColorTremor from "@/utils/percentToColor";
-import { Badge } from "@tremor/react";
+import { Badge } from "../badge";
 import formatFillLevel from "@/utils/formatFillLevel";
 
 type SensorMarkerPopoverProps = PopoverProps & {
@@ -25,10 +25,10 @@ const SensorMarkerPopover = ({
   ...props
 }: SensorMarkerPopoverProps) => {
   return (
-    <div className="w-32 rounded-lg">
+    <div className="w-64 rounded-lg">
       <Popover {...props}>
         <Badge
-          size="sm"
+          variant="secondary"
           color={percentToColorTremor(fillLevel)}
           className="py-1 px-2"
         >
