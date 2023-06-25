@@ -12,7 +12,11 @@ const Map = dynamic(
   () => import("@acme/leaflet").then((mod) => mod.Components.Map),
   {
     ssr: false,
-    loading: () => <LoadingSpinner />,
+    loading: () => (
+      <div className="flex h-full w-full items-center justify-center">
+        <RotateSpinner loading={true} />
+      </div>
+    ),
   },
 );
 
