@@ -37,15 +37,11 @@ type AllSensorsMapProps = {
 
 type AllSensorsMapComponentProps = {
   sensorsWithFillLevel: AllSensorsMapProps;
-  searchBar?: boolean;
 };
 
 const AllSensorsMap = ({
   sensorsWithFillLevel,
-  searchBar = true,
 }: AllSensorsMapComponentProps) => {
-  // TODO: Handle search bar in map
-
   const coordinates: Types.Coordinate[] = sensorsWithFillLevel
     .filter((sensor) => !!sensor.sensor)
     .map((_sensor) => {
