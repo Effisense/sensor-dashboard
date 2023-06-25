@@ -1,5 +1,4 @@
 import useUpdateSensorForm from "@/hooks/forms/useUpdateSensorForm";
-import useSetSensorPositionMap from "@/hooks/map/useSetSensorPositionMap";
 import useGetSensor from "@/hooks/queries/useGetSensor";
 import { Button } from "@/ui/Button";
 import SelectContainerDropdown from "@/ui/containers/SelectContainerDropdown";
@@ -10,9 +9,11 @@ import H2 from "@/ui/typography/H2";
 import Subtle from "@/ui/typography/Subtle";
 import { cn } from "@/utils/tailwind";
 import { trpc } from "@/utils/trpc";
+import { Types } from "@acme/leaflet";
 import { ArrowUturnLeftIcon } from "@heroicons/react/24/outline";
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 
 type UpdateSensorPageProps = InferGetServerSidePropsType<
   typeof getServerSideProps
@@ -25,17 +26,16 @@ const UpdateSensorPage = ({ id }: UpdateSensorPageProps) => {
     error: sensorError,
   } = useGetSensor({ id });
 
-  const {
-    container,
-    data: location,
-    isLoading: mapIsLoading,
-    latitude,
-    longitude,
-    error: mapError,
-  } = useSetSensorPositionMap({
-    latitude: data?.sensor.latitude,
-    longitude: data?.sensor.longitude,
-  });
+  const [position, setPosition] = useState<Types.Coordinate | null>(null);
+
+  useEffect(() => {
+    if (data?.sensor) {
+      setPosition({
+        lat: data.sensor.latitude,
+        lng: data.sensor.longitude,
+      });
+    }
+  }, [data?.sensor]);
 
   const {
     register,
@@ -47,8 +47,8 @@ const UpdateSensorPage = ({ id }: UpdateSensorPageProps) => {
   } = useUpdateSensorForm({
     sensor: data?.sensor,
     id,
-    latitude,
-    longitude,
+    latitude: position?.lat,
+    longitude: position?.lng,
   });
 
   const {
@@ -102,15 +102,18 @@ const UpdateSensorPage = ({ id }: UpdateSensorPageProps) => {
                   Please set the position of the sensor.
                 </Subtle>
                 <SetSensorPositionMap
-                  container={container}
-                  location={location}
-                  error={mapError}
-                  isLoading={mapIsLoading}
+                  sensor={data?.sensor}
+                  boundsFallback={{
+                    lat: data?.sensor.latitude,
+                    lng: data?.sensor.longitude,
+                  }}
+                  position={position}
+                  setPosition={setPosition}
                 />
               </div>
               <div
                 className={cn(
-                  "mx-4 justify-center gap-y-2 rounded-lg bg-slate-50 md:ml-4",
+                  "mx-4 justify-center gap-y-2 rounded-lg bg-slate-50 p-4 md:ml-4",
                   "shadow-md transition-all duration-300 hover:shadow-lg",
                   "col-span-1 flex w-full flex-col items-center justify-center",
                   "sm:order-2 md:order-2 lg:order-2 lg:col-span-1 lg:mt-0 lg:h-auto",

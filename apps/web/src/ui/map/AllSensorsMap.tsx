@@ -6,6 +6,7 @@ import useGeoLocation from "@/hooks/useGeolocation";
 import RotateSpinner from "../RotateSpinner";
 import { percentToColorHex } from "@/utils/percentToColor";
 import SensorMarkerPopover from "./SensorMarkerPopover";
+import { Types } from "@acme/leaflet";
 
 const Map = dynamic(
   () => import("@acme/leaflet").then((mod) => mod.Components.Map),
@@ -45,7 +46,7 @@ const AllSensorsMap = ({
 }: AllSensorsMapComponentProps) => {
   // TODO: Handle search bar in map
 
-  const coordinates: [number, number][] = sensorsWithFillLevel
+  const coordinates: Types.Coordinate[] = sensorsWithFillLevel
     .filter((sensor) => !!sensor.sensor)
     .map((_sensor) => {
       // We can safely cast this because we filter out null sensors above
