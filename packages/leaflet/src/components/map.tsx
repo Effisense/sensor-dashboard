@@ -1,5 +1,6 @@
 import { LatLngBounds, LatLngExpression } from "leaflet";
 import { ReactNode, useEffect } from "react";
+import MarkerClusterGroup from "react-leaflet-cluster";
 import {
   MapContainer,
   MapContainerProps,
@@ -48,7 +49,7 @@ export const Map = ({
         attribution='&copy; <a href="https://www.mapbox.com/contribute/">Mapbox</a> &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
         url={`https://api.mapbox.com/styles/v1/mapbox/streets-v11/tiles/{z}/{x}/{y}?access_token=${process.env.NEXT_PUBLIC_MAPBOX_PUBLIC_TOKEN}`}
       />
-      {children}
+      <MarkerClusterGroup chunkedLoading>{children}</MarkerClusterGroup>
       <FitToBounds bounds={bounds} />
     </MapContainer>
   );
