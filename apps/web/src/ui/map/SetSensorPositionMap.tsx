@@ -38,19 +38,16 @@ const SetSensorPositionMap = ({
 }: SetSensorPositionMapProps) => {
   const [debouncedPosition] = useDebouncedValue(position, 1000);
 
-  const {
-    data: location,
-    isLoading: locationIsLoading,
-    refetch,
-  } = trpc.map.getLocationFromLngLat.useQuery(
-    {
-      latitude: debouncedPosition?.lat,
-      longitude: debouncedPosition?.lng,
-    },
-    {
-      enabled: !!debouncedPosition,
-    },
-  );
+  const { data: location, isLoading: locationIsLoading } =
+    trpc.map.getLocationFromLngLat.useQuery(
+      {
+        latitude: debouncedPosition?.lat,
+        longitude: debouncedPosition?.lng,
+      },
+      {
+        enabled: !!debouncedPosition,
+      },
+    );
 
   return (
     <div className="relative h-full w-full bg-slate-50">
@@ -64,13 +61,7 @@ const SetSensorPositionMap = ({
           boundsFallback={boundsFallback}
           coordinates={[{ lat: sensor.latitude, lng: sensor.longitude }]}
         >
-          <SetPositionMarker
-            position={position}
-            setPosition={setPosition}
-            refetchLocation={async () => {
-              await refetch();
-            }}
-          />
+          <SetPositionMarker position={position} setPosition={setPosition} />
         </Map>
       ) : (
         <div className="flex h-full w-full flex-col items-center justify-center space-y-4">

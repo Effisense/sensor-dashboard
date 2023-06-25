@@ -37,13 +37,11 @@ export const Marker = ({
 interface SetPositionMarkerProps extends Omit<MarkerProps, "position"> {
   position: Coordinate;
   setPosition: Dispatch<SetStateAction<Coordinate | null>>;
-  refetchLocation?: () => Promise<void>;
 }
 
 export const SetPositionMarker = ({
   position,
   setPosition,
-  refetchLocation,
   children,
   popup,
   ...props
@@ -55,17 +53,6 @@ export const SetPositionMarker = ({
       lat: map.getCenter().lat,
       lng: map.getCenter().lng,
     });
-  });
-
-  map.on("moveend", async () => {
-    // setPosition({
-    //   lat: map.getCenter().lat,
-    //   lng: map.getCenter().lng,
-    // });
-    // if (refetchLocation) {
-    //   await refetchLocation();
-    // }
-    console.log("moveend");
   });
 
   return (
