@@ -65,6 +65,9 @@ importers:
       '@hookform/resolvers':
         specifier: ^3.1.0
         version: 3.1.0(react-hook-form@7.43.9)
+      '@mantine/hooks':
+        specifier: ^6.0.14
+        version: 6.0.14(react@18.2.0)
       '@mapbox/mapbox-gl-geocoder':
         specifier: ^5.0.1
         version: 5.0.1(mapbox-gl@2.14.1)
@@ -1277,6 +1280,14 @@ packages:
     dependencies:
       ramda: 0.28.0
     dev: true
+
+  /@mantine/hooks@6.0.14(react@18.2.0):
+    resolution: {integrity: sha512-cBGdTSdBDLcPScoeI12DCWFVzmT4tX+DmI9s+MOBm4IdhF4ogkLbbRgKosFbaBWNKx9WzYAUiQR/tUI5dTkJPQ==}
+    peerDependencies:
+      react: '>=16.8.0'
+    dependencies:
+      react: 18.2.0
+    dev: false
 
   /@manypkg/cli@0.19.2:
     resolution: {integrity: sha512-DXx/P1lyunNoFWwOj1MWBucUhaIJljoiAGOpO2fE0GKMBCI6EZBZD0Up1+fQZoXBecKXRgV9mGgLvIB2fOQ0KQ==}

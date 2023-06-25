@@ -6,6 +6,7 @@ import { Sensor } from "@acme/db";
 import { Dispatch, SetStateAction } from "react";
 import { Types } from "@acme/leaflet";
 import { trpc } from "@/utils/trpc";
+import { useDebouncedValue } from "@mantine/hooks";
 
 const Map = dynamic(
   () => import("@acme/leaflet").then((mod) => mod.Components.Map),
@@ -35,17 +36,19 @@ const SetSensorPositionMap = ({
   setPosition,
   boundsFallback,
 }: SetSensorPositionMapProps) => {
+  const [debouncedPosition] = useDebouncedValue(position, 1000);
+
   const {
     data: location,
     isLoading: locationIsLoading,
     refetch,
   } = trpc.map.getLocationFromLngLat.useQuery(
     {
-      latitude: position?.lat,
-      longitude: position?.lng,
+      latitude: debouncedPosition?.lat,
+      longitude: debouncedPosition?.lng,
     },
     {
-      enabled: !!position,
+      enabled: !!debouncedPosition,
     },
   );
 
