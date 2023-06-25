@@ -58,9 +58,14 @@ export const SetPositionMarker = ({
   });
 
   map.on("moveend", async () => {
-    if (refetchLocation !== undefined) {
-      await refetchLocation();
-    }
+    // setPosition({
+    //   lat: map.getCenter().lat,
+    //   lng: map.getCenter().lng,
+    // });
+    // if (refetchLocation) {
+    //   await refetchLocation();
+    // }
+    console.log("moveend");
   });
 
   return (

@@ -69,8 +69,6 @@ const SensorPage = ({
     await deleteSensorMutation({ sensorId: id });
   };
 
-  console.log(sensorWithFillLevel);
-
   const chartData = useMemo(() => {
     if (!fillLevelBetweenDates) return [];
 

@@ -1,14 +1,9 @@
-import useErrorToast from "@/hooks/toast/useErrorToast";
 import LoadingSpinner from "../LoadingSpinner";
 import Subtle from "../typography/Subtle";
-import { TRPCClientErrorBase } from "@trpc/client";
-import { DefaultErrorShape } from "@trpc/server";
 import dynamic from "next/dynamic";
-import { percentToColorHex } from "@/utils/percentToColor";
 import RotateSpinner from "../RotateSpinner";
 import { Sensor } from "@acme/db";
-import { LatLngExpression } from "leaflet";
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction } from "react";
 import { Types } from "@acme/leaflet";
 import { trpc } from "@/utils/trpc";
 
@@ -20,13 +15,6 @@ const Map = dynamic(
   },
 );
 
-const Marker = dynamic(
-  () => import("@acme/leaflet").then((mod) => mod.Components.Marker),
-  {
-    ssr: false,
-  },
-);
-
 const SetPositionMarker = dynamic(
   () => import("@acme/leaflet").then((mod) => mod.Components.SetPositionMarker),
   {
@@ -34,23 +22,22 @@ const SetPositionMarker = dynamic(
   },
 );
 
-type SetSensorPositionMapProps<T extends DefaultErrorShape> = {
+type SetSensorPositionMapProps = {
   sensor: Sensor;
   position: Types.Coordinate | null;
   setPosition: Dispatch<SetStateAction<Types.Coordinate | null>>;
   boundsFallback: Types.Coordinate;
 };
 
-const SetSensorPositionMap = <T extends DefaultErrorShape>({
+const SetSensorPositionMap = ({
   sensor,
   position,
   setPosition,
   boundsFallback,
-}: SetSensorPositionMapProps<T>) => {
+}: SetSensorPositionMapProps) => {
   const {
     data: location,
     isLoading: locationIsLoading,
-    error: locationError,
     refetch,
   } = trpc.map.getLocationFromLngLat.useQuery(
     {

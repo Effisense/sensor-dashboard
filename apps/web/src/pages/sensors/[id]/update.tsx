@@ -37,6 +37,8 @@ const UpdateSensorPage = ({ id }: UpdateSensorPageProps) => {
     }
   }, [data?.sensor]);
 
+  console.log(position);
+
   const {
     register,
     onSubmit,
