@@ -14,7 +14,7 @@ import { DateRangePicker } from "@tremor/react";
 import { useEffect, useMemo } from "react";
 import { AreaChart } from "@tremor/react";
 import { trpc } from "@/utils/trpc";
-import percentToColorTremor from "@/utils/percentToColor";
+import percentToColorTremor from "@/utils/percentToSeverity";
 import useDateRange from "@/hooks/useDateRange";
 import { FILL_LEVEL_LEGEND, formatAreaChart } from "@/utils/tremor";
 import {

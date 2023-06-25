@@ -4,9 +4,10 @@ import { Card, Title } from "@tremor/react";
 import Link from "next/link";
 import Subtle from "./typography/Subtle";
 import P from "./typography/P";
-import percentToColorTremor from "@/utils/percentToColor";
+import percentToColorTremor from "@/utils/percentToSeverity";
 import formatFillLevel from "@/utils/formatFillLevel";
 import { Badge } from "./badge";
+import { cn } from "@/utils/tailwind";
 
 type DashboardSensorCardProps = {
   sensor: Sensor;
@@ -23,8 +24,11 @@ const DashboardSensorCard = ({
         <div className="flex items-center justify-center gap-x-2">
           <Badge
             variant="secondary"
-            color={percentToColorTremor(fillLevel)}
-            className="mr-4 py-1 px-2"
+            className={cn(
+              "py-1 px-2",
+              `bg-${percentToColorTremor(fillLevel)}-100`,
+              "border-[1px] border-slate-300",
+            )}
           >
             {formatFillLevel(fillLevel)}
           </Badge>

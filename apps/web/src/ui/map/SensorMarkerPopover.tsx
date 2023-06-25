@@ -4,9 +4,10 @@ import Subtle from "../typography/Subtle";
 import { Popover } from "../Popover";
 import Link from "next/link";
 import { Button } from "../Button";
-import percentToColorTremor from "@/utils/percentToColor";
+import percentToColorTremor from "@/utils/percentToSeverity";
 import { Badge } from "../badge";
 import formatFillLevel from "@/utils/formatFillLevel";
+import { cn } from "@/utils/tailwind";
 
 type SensorMarkerPopoverProps = PopoverProps & {
   title: string;
@@ -24,13 +25,17 @@ const SensorMarkerPopover = ({
   fillLevel,
   ...props
 }: SensorMarkerPopoverProps) => {
+  console.log(fillLevel);
   return (
     <div className="w-64 rounded-lg">
       <Popover {...props}>
         <Badge
           variant="secondary"
-          color={percentToColorTremor(fillLevel)}
-          className="py-1 px-2"
+          className={cn(
+            "py-1 px-2",
+            `bg-${percentToColorTremor(fillLevel)}-100`,
+            "border-[1px] border-slate-300",
+          )}
         >
           {formatFillLevel(fillLevel)}
         </Badge>
