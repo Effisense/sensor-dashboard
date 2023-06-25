@@ -1,4 +1,4 @@
-export interface MapboxGeocoderResponse {
+export interface GeocoderResponse {
   type: string;
   query: number[];
   features: Feature[];
@@ -36,32 +36,4 @@ export interface Properties {
   landmark: boolean;
   address: string;
   category: string;
-}
-
-export type MapboxStyle =
-  | "mapbox://styles/mapbox/streets-v12"
-  | "mapbox://styles/mapbox/outdoors-v12"
-  | "mapbox://styles/mapbox/light-v11"
-  | "mapbox://styles/mapbox/dark-v11"
-  | "mapbox://styles/mapbox/satellite-v9"
-  | "mapbox://styles/mapbox/satellite-streets-v12"
-  | "mapbox://styles/mapbox/navigation-day-v1"
-  | "mapbox://styles/mapbox/navigation-night-v1";
-
-export interface MapOptions extends mapboxgl.MapboxOptions {
-  center: mapboxgl.LngLatLike;
-  style: MapboxStyle;
-  searchBar?: boolean;
-}
-
-export interface MarkerOptions extends mapboxgl.MarkerOptions {
-  latitude: number;
-  longitude: number;
-  addTo: mapboxgl.Map;
-  color?: string;
-  isCenter?: boolean;
-}
-
-export interface PopupOptions extends mapboxgl.PopupOptions {
-  html: HTMLElement;
 }
