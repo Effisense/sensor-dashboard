@@ -24,7 +24,7 @@ const SetPositionMarker = dynamic(
 );
 
 type SetSensorPositionMapProps = {
-  sensor: Sensor;
+  sensor?: Sensor;
   position: Types.Coordinate | null;
   setPosition: Dispatch<SetStateAction<Types.Coordinate | null>>;
   boundsFallback: Types.Coordinate;
@@ -51,15 +51,15 @@ const SetSensorPositionMap = ({
 
   return (
     <div className="relative h-full w-full bg-slate-50">
-      {sensor && position ? (
+      {position ? (
         <Map
           center={{
-            lat: sensor.latitude,
-            lng: sensor.longitude,
+            lat: position.lat,
+            lng: position.lng,
           }}
           className="relative h-[inherit] w-[inherit] rounded-lg shadow-lg"
           boundsFallback={boundsFallback}
-          coordinates={[{ lat: sensor.latitude, lng: sensor.longitude }]}
+          coordinates={[{ lat: position.lat, lng: position.lng }]}
         >
           <SetPositionMarker position={position} setPosition={setPosition} />
         </Map>

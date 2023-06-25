@@ -14,9 +14,12 @@ import {
 } from "@acme/api/src/schemas/sensor";
 import { sensorBelongsToCollection as _sensorBelongsToCollection } from "@acme/api/src/utils/sensor";
 import urlWithQueryParameters from "@/utils/urlWithQueryParameters";
-import useSetSensorPositionMap from "@/hooks/map/useSetSensorPositionMap";
 import { cn } from "@/utils/tailwind";
 import Subtle from "@/ui/typography/Subtle";
+import useGeoLocation from "@/hooks/useGeolocation";
+import { useEffect, useState } from "react";
+import { Types } from "@acme/leaflet";
+import RotateSpinner from "@/ui/RotateSpinner";
 
 type CreateSensorPageProps = InferGetServerSidePropsType<
   typeof getServerSideProps
@@ -26,14 +29,12 @@ const CreateSensorPage = ({
   sensorId,
   collectionId,
 }: CreateSensorPageProps) => {
-  const {
-    container,
-    data: location,
-    isLoading: mapIsLoading,
-    latitude,
-    longitude,
-    error,
-  } = useSetSensorPositionMap({});
+  const [position, setPosition] = useState<Types.Coordinate | null>(null);
+
+  const { latitude: geoLat, longitude: geoLong } = useGeoLocation();
+
+  const latitude = position?.lat || geoLat || undefined;
+  const longitude = position?.lng || geoLong || undefined;
 
   const {
     register,
@@ -46,6 +47,15 @@ const CreateSensorPage = ({
 
   const { data, isLoading } = trpc.container.getAll.useQuery();
 
+  useEffect(() => {
+    if (geoLat && geoLong) {
+      setPosition({
+        lat: geoLat,
+        lng: geoLong,
+      });
+    }
+  }, [geoLat, geoLong]);
+
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="flex w-screen justify-center lg:mt-0">
@@ -53,10 +63,10 @@ const CreateSensorPage = ({
       </div>
       <div
         className={cn(
-            "md:grid",
-            "flex min-h-[calc(100vh-12rem)] gap-y-16 lg:gap-y-0",
-            "w-full lg:grid-cols-3",
-            "w-screen flex-col p-6",
+          "md:grid",
+          "flex min-h-[calc(100vh-12rem)] gap-y-16 lg:gap-y-0",
+          "w-full lg:grid-cols-3",
+          "w-screen flex-col p-6",
         )}
       >
         <div
@@ -70,12 +80,24 @@ const CreateSensorPage = ({
           <Subtle className="w-full py-2 text-center">
             Please set the position of the sensor.
           </Subtle>
-          <SetSensorPositionMap
-            container={container}
-            location={location}
-            error={error}
-            isLoading={mapIsLoading}
-          />
+          {geoLat && geoLong ? (
+            <SetSensorPositionMap
+              boundsFallback={{
+                lat: geoLat,
+                lng: geoLong,
+              }}
+              position={position}
+              setPosition={setPosition}
+            />
+          ) : (
+            <div className="flex h-full w-full flex-col items-center justify-center space-y-4">
+              <RotateSpinner loading={true} />
+              <span className="flex animate-pulse flex-col items-center justify-center space-y-2 text-sm">
+                <span>Generating your map...</span>
+                <span>Ensure you have enabled location services.</span>
+              </span>
+            </div>
+          )}
         </div>
         <div className="col-span-1 flex w-full flex-col items-center justify-center sm:order-2 md:order-2 lg:order-2 lg:col-span-1 lg:mt-0 lg:h-auto">
           <div>
