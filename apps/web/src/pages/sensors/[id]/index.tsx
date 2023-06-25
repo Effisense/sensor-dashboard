@@ -122,12 +122,14 @@ const SensorPage = ({ id }: SensorPageProps) => {
                   <div className="flex h-8 items-center">
                     <Badge
                       variant="secondary"
-                      color={
-                        sensorWithFillLevel && sensorWithFillLevel
-                          ? percentToColorTremor(sensorWithFillLevel.fillLevel)
-                          : "gray"
-                      }
-                      className="mr-4 py-1 px-2"
+                      className={cn(
+                        "py-1 px-2",
+                        sensorWithFillLevel &&
+                          `bg-${percentToColorTremor(
+                            sensorWithFillLevel.fillLevel,
+                          )}-100`,
+                        "border-[1px] border-slate-300",
+                      )}
                     >
                       {formatFillLevel(sensorWithFillLevel?.fillLevel)}
                     </Badge>
