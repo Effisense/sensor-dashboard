@@ -6,7 +6,7 @@ import Alert from "@/ui/Alert";
 import useGetSensor from "@/hooks/queries/useGetSensor";
 import LoadingSpinner from "@/ui/LoadingSpinner";
 import AllSensorsMap from "@/ui/map/AllSensorsMap";
-import { Card, DateRangePickerValue, Text, Title } from "@tremor/react";
+import { Card, Text, Title, Badge } from "@tremor/react";
 import { cn } from "@/utils/tailwind";
 import H3 from "@/ui/typography/H3";
 import Subtle from "@/ui/typography/Subtle";
@@ -17,13 +17,8 @@ import { trpc } from "@/utils/trpc";
 import percentToColorTremor from "@/utils/percentToSeverity";
 import useDateRange from "@/hooks/useDateRange";
 import { FILL_LEVEL_LEGEND, formatAreaChart } from "@/utils/tremor";
-import {
-  SelectDateIntervalQuery,
-  SelectDateIntervalQuerySchema,
-} from "@/schemas";
 import RotateSpinner from "@/ui/RotateSpinner";
 import formatFillLevel from "@/utils/formatFillLevel";
-import { Badge } from "@/ui/badge";
 
 type SensorPageProps = InferGetServerSidePropsType<typeof getServerSideProps>;
 
@@ -121,15 +116,13 @@ const SensorPage = ({ id }: SensorPageProps) => {
                 >
                   <div className="flex h-8 items-center">
                     <Badge
-                      variant="secondary"
-                      className={cn(
-                        "py-1 px-2",
-                        sensorWithFillLevel &&
-                          `bg-${percentToColorTremor(
-                            sensorWithFillLevel.fillLevel,
-                          )}-100`,
-                        "border-[1px] border-slate-300",
-                      )}
+                      size="sm"
+                      color={
+                        sensorWithFillLevel && sensorWithFillLevel
+                          ? percentToColorTremor(sensorWithFillLevel.fillLevel)
+                          : "gray"
+                      }
+                      className="mr-4 py-1 px-2"
                     >
                       {formatFillLevel(sensorWithFillLevel?.fillLevel)}
                     </Badge>

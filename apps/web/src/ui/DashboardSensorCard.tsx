@@ -1,12 +1,11 @@
 import { Sensor } from "@acme/db";
 import { ArrowRightIcon } from "@heroicons/react/24/outline";
-import { Card, Title } from "@tremor/react";
+import { Card, Title, Badge } from "@tremor/react";
 import Link from "next/link";
 import Subtle from "./typography/Subtle";
 import P from "./typography/P";
 import percentToColorTremor from "@/utils/percentToSeverity";
 import formatFillLevel from "@/utils/formatFillLevel";
-import { Badge } from "./badge";
 import { cn } from "@/utils/tailwind";
 
 type DashboardSensorCardProps = {
@@ -23,12 +22,9 @@ const DashboardSensorCard = ({
       <Card className="flex w-full items-center justify-between p-4 hover:bg-slate-50">
         <div className="flex items-center justify-center gap-x-2">
           <Badge
-            variant="secondary"
-            className={cn(
-              "py-1 px-2",
-              `bg-${percentToColorTremor(fillLevel)}-100`,
-              "border-[1px] border-slate-300",
-            )}
+            size="sm"
+            color={percentToColorTremor(fillLevel)}
+            className="mr-4 py-1 px-2"
           >
             {formatFillLevel(fillLevel)}
           </Badge>
