@@ -2,6 +2,7 @@ import { Button } from "@/ui/Button";
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 import Link from "next/link";
 import { PencilIcon, TrashIcon, MapPinIcon } from "@heroicons/react/24/outline";
+import { InformationCircleIcon } from "@heroicons/react/24/solid";
 import Alert from "@/ui/Alert";
 import useGetSensor from "@/hooks/queries/useGetSensor";
 import LoadingSpinner from "@/ui/LoadingSpinner";
@@ -19,6 +20,7 @@ import useDateRange from "@/hooks/useDateRange";
 import { FILL_LEVEL_LEGEND, formatAreaChart } from "@/utils/tremor";
 import RotateSpinner from "@/ui/RotateSpinner";
 import formatFillLevel from "@/utils/formatFillLevel";
+import { Popover, PopoverContent, PopoverTrigger } from "@/ui/Popover";
 
 type SensorPageProps = InferGetServerSidePropsType<typeof getServerSideProps>;
 
@@ -75,8 +77,16 @@ const SensorPage = ({ id }: SensorPageProps) => {
           <>
             <div className="col-span-1 lg:col-span-1 lg:col-start-3 lg:row-start-1 lg:h-auto">
               <div className="mb-4 mt-0 flex flex-col items-center justify-start lg:mt-4">
-                <div className="mt-6 flex flex-row gap-x-2 lg:mt-0">
+                <div className="mt-6 flex flex-row items-center justify-center gap-x-2 lg:mt-0">
                   <H3>{data.sensor.name}</H3>
+                  <Popover>
+                    <PopoverTrigger>
+                      <InformationCircleIcon className="w-4 text-blue-400" />
+                    </PopoverTrigger>
+                    <PopoverContent>
+                      <Subtle>Collection ID: {data.sensor.collectionId}</Subtle>
+                    </PopoverContent>
+                  </Popover>
                 </div>
                 <Subtle>Information about your sensor</Subtle>
               </div>

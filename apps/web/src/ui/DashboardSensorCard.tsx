@@ -7,6 +7,8 @@ import P from "./typography/P";
 import percentToColorTremor from "@/utils/percentToSeverity";
 import formatFillLevel from "@/utils/formatFillLevel";
 import { cn } from "@/utils/tailwind";
+import { InformationCircleIcon } from "@heroicons/react/24/solid";
+import { Popover, PopoverContent, PopoverTrigger } from "./Popover";
 
 type DashboardSensorCardProps = {
   sensor: Sensor;
@@ -18,24 +20,36 @@ const DashboardSensorCard = ({
   fillLevel,
 }: DashboardSensorCardProps) => {
   return (
-    <Link href={`/sensors/${sensor.id}`}>
-      <Card className="flex w-full items-center justify-between p-4 hover:bg-slate-50">
-        <div className="flex items-center justify-center gap-x-2">
-          <Badge
-            size="sm"
-            color={percentToColorTremor(fillLevel)}
-            className="mr-4 py-1 px-2"
-          >
-            {formatFillLevel(fillLevel)}
-          </Badge>
-          <div className="flex flex-col items-start justify-center">
-            <Title>{sensor.name}</Title>
-            <Subtle>{sensor.location}</Subtle>
+    <Card className="flex w-full items-center justify-between p-4 hover:bg-slate-50">
+      <div className="flex items-center justify-center gap-x-2">
+        <Badge
+          size="sm"
+          color={percentToColorTremor(fillLevel)}
+          className="mr-4 py-1 px-2"
+        >
+          {formatFillLevel(fillLevel)}
+        </Badge>
+        <div className="flex flex-col items-start justify-center">
+          <div className="flex items-center justify-start gap-x-2">
+            <Link href={`/sensors/${sensor.id}`}>
+              <Title>{sensor.name}</Title>
+            </Link>
+            <Popover>
+              <PopoverTrigger>
+                <InformationCircleIcon className="w-4 text-blue-400" />
+              </PopoverTrigger>
+              <PopoverContent>
+                <Subtle>Collection ID: {sensor.collectionId}</Subtle>
+              </PopoverContent>
+            </Popover>
           </div>
+          <Subtle>{sensor.location}</Subtle>
         </div>
+      </div>
+      <Link href={`/sensors/${sensor.id}`}>
         <ArrowRightIcon className="w-4 transition-all duration-300 hover:translate-x-1" />
-      </Card>
-    </Link>
+      </Link>
+    </Card>
   );
 };
 
