@@ -76,6 +76,8 @@ const AllSensorsMap = ({
             lng: longitude || -0.09,
           }}
           coordinates={coordinates}
+          dragging={false}
+          touchZoom={true}
         >
           {sensorsWithFillLevel.map((sensorWithFillLevel) => {
             if (!sensorWithFillLevel.sensor) return null;
