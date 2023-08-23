@@ -5,6 +5,7 @@ import { z } from "zod";
 import { useToast } from "../toast/useToast";
 import useZodForm from "../useZodForm";
 import { Sensor } from "@acme/db";
+import { useRouter } from "next/router";
 
 /**
  * We use this schema to omit the `sensorId` from the form, because the `id` is passed in as a prop.
@@ -32,6 +33,7 @@ const useUpdateSensorForm = ({
   latitude,
   longitude,
 }: UpdateSensorFormProps) => {
+  const router = useRouter();
   const { toast } = useToast();
   const { mutateAsync, isLoading } = trpc.sensor.update.useMutation({
     onSuccess: () => {
@@ -73,6 +75,8 @@ const useUpdateSensorForm = ({
     await mutateAsync({
       sensorId: id,
       ...data,
+    }).then(async (sensor) => {
+      await router.push(`/sensors/${sensor.id}`);
     });
   };
 

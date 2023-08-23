@@ -4,6 +4,7 @@ import { z } from "zod";
 import { useToast } from "../toast/useToast";
 import useZodForm from "../useZodForm";
 import { useEffect } from "react";
+import { useRouter } from "next/router";
 
 type UpdateContainerFormProps = {
   id: string;
@@ -15,6 +16,8 @@ type UpdateContainerFormProps = {
  * @returns all objects and handlers needed to update a container.
  */
 const useUpdateContainerForm = ({ id }: UpdateContainerFormProps) => {
+  const router = useRouter();
+
   const { mutateAsync, isLoading } = trpc.container.update.useMutation({
     onSuccess: () => {
       toast({
@@ -45,6 +48,8 @@ const useUpdateContainerForm = ({ id }: UpdateContainerFormProps) => {
     await mutateAsync({
       containerId: id,
       ...data,
+    }).then(async (container) => {
+      await router.push(`/containers/${container.id}`);
     });
   };
 
