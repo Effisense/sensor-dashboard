@@ -1,5 +1,4 @@
-import { PopoverContent, PopoverProps } from "@radix-ui/react-popover";
-import P from "../typography/P";
+import { PopoverProps } from "@radix-ui/react-popover";
 import Subtle from "../typography/Subtle";
 import { Popover } from "../Popover";
 import Link from "next/link";
@@ -9,9 +8,8 @@ import formatFillLevel from "@/utils/formatFillLevel";
 import { Badge } from "@tremor/react";
 import { ClockIcon } from "@heroicons/react/24/outline";
 import H2 from "../typography/H2";
-import H3 from "../typography/H3";
 import H4 from "../typography/H4";
-import { Separator } from "../separator";
+import { Separator } from "../Separator";
 
 type SensorMarkerPopoverProps = PopoverProps & {
   title: string;
