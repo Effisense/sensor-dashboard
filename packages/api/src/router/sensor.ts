@@ -353,6 +353,7 @@ export const sensorRouter = router({
       return {
         sensor,
         fillLevel,
+        lastSeen: timeseriesData[0]?.time || null,
       };
     }),
 
@@ -490,7 +491,11 @@ export const sensorRouter = router({
         container: sensor.container,
       });
 
-      sensorsWithFillLevel.push({ sensor, fillLevel });
+      sensorsWithFillLevel.push({
+        sensor,
+        fillLevel,
+        lastSeen: timeseries?.time || null,
+      });
     }
 
     return sensorsWithFillLevel;

@@ -13,11 +13,13 @@ import { Popover, PopoverContent, PopoverTrigger } from "./Popover";
 type DashboardSensorCardProps = {
   sensor: Sensor;
   fillLevel: number | null;
+  lastSeen: Date | null;
 };
 
 const DashboardSensorCard = ({
   sensor,
   fillLevel,
+  lastSeen,
 }: DashboardSensorCardProps) => {
   return (
     <Card className="flex w-full items-center justify-between p-4 hover:bg-slate-50">
@@ -44,6 +46,16 @@ const DashboardSensorCard = ({
             </Popover>
           </div>
           <Subtle>{sensor.location}</Subtle>
+          <Subtle>
+            Last seen{" "}
+            {lastSeen?.toLocaleDateString("no-NB", {
+              month: "2-digit",
+              day: "2-digit",
+              year: "numeric",
+              hour: "2-digit",
+              minute: "2-digit",
+            })}
+          </Subtle>
         </div>
       </div>
       <Link href={`/sensors/${sensor.id}`}>

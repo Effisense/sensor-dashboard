@@ -239,6 +239,7 @@ const IndexPage = ({ containerId }: IndexPageProps) => {
                   <DashboardSensorCard
                     sensor={sensor.sensor}
                     fillLevel={sensor.fillLevel}
+                    lastSeen={sensor.lastSeen}
                   />
                 </div>
               ))}

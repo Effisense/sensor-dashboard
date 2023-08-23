@@ -1,7 +1,12 @@
 import { Button } from "@/ui/Button";
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 import Link from "next/link";
-import { PencilIcon, TrashIcon, MapPinIcon } from "@heroicons/react/24/outline";
+import {
+  PencilIcon,
+  TrashIcon,
+  MapPinIcon,
+  ClockIcon,
+} from "@heroicons/react/24/outline";
 import { InformationCircleIcon } from "@heroicons/react/24/solid";
 import Alert from "@/ui/Alert";
 import useGetSensor from "@/hooks/queries/useGetSensor";
@@ -158,6 +163,25 @@ const SensorPage = ({ id }: SensorPageProps) => {
                     <MapPinIcon className="w-4" />
                     <Text>{data?.sensor.location}</Text>
                   </div>
+
+                  {sensorWithFillLevel?.lastSeen && (
+                    <div className="flex flex-row gap-x-2">
+                      <ClockIcon className="w-4" />
+                      <Subtle>
+                        Last seen{" "}
+                        {sensorWithFillLevel?.lastSeen.toLocaleDateString(
+                          "no-NB",
+                          {
+                            month: "2-digit",
+                            day: "2-digit",
+                            year: "numeric",
+                            hour: "2-digit",
+                            minute: "2-digit",
+                          },
+                        )}
+                      </Subtle>
+                    </div>
+                  )}
                   {data.sensor.description &&
                     data.sensor.description.length > 0 && (
                       <Card className="mt-1 w-full p-4">

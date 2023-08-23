@@ -37,6 +37,7 @@ const Popup = dynamic(
 type AllSensorsMapProps = {
   sensor: Sensor | undefined;
   fillLevel: number | null;
+  lastSeen: Date | null;
 }[];
 
 type AllSensorsMapComponentProps = {
@@ -94,6 +95,7 @@ const AllSensorsMap = ({
                     link={`/sensors/${sensorWithFillLevel.sensor?.id}`}
                     linkLabel="See more"
                     fillLevel={sensorWithFillLevel.fillLevel}
+                    lastSeen={sensorWithFillLevel.lastSeen}
                   />
                 </Popup>
               </Marker>
