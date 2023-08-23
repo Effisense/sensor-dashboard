@@ -67,7 +67,6 @@ const IndexPage = ({ containerId }: IndexPageProps) => {
 
     // Update URL state
     await router.push(!containerId ? "/" : `?containerId=${containerId}`);
-    router.reload();
   };
 
   useEffect(() => {
@@ -110,10 +109,10 @@ const IndexPage = ({ containerId }: IndexPageProps) => {
             <div>
               <Card
                 className={cn(
-                  "mb-4 transition-all duration-300",
+                  "mb-4 cursor-pointer transition-all duration-300",
                   !selectedContainerId
-                    ? "bg-green-5 hover:bg-green-6"
-                    : "bg-white hover:bg-slate-50",
+                    ? "bg-emerald-100 hover:bg-emerald-50"
+                    : "bg-white hover:bg-slate-100",
                 )}
                 onClick={() => handleContainerSelect(null)}
               >
@@ -152,10 +151,10 @@ const IndexPage = ({ containerId }: IndexPageProps) => {
                       key={container.id}
                       className={cn(
                         "flex items-center justify-between ",
-                        "mb-4 bg-white transition-all duration-300",
+                        "mb-4 cursor-pointer bg-slate-200 transition-all duration-300",
                         selectedContainerId === container.id
-                          ? "bg-green-5 hover:bg-green-6"
-                          : "hover:bg-slate-50",
+                          ? "bg-emerald-100 hover:bg-emerald-50"
+                          : "hover:bg-slate-100",
                       )}
                       onClick={() => handleContainerSelect(container.id)}
                     >

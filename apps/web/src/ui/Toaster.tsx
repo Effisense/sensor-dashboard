@@ -28,7 +28,7 @@ export function Toaster() {
             key={id}
             {...props}
             className={cn(
-              "border-2",
+              "z-[10000] border-2",
               severity === "error" && "border-red-500",
               severity === "warning" && "border-orange-300",
               severity === "success" && "border-green-500",

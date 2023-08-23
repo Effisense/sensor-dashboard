@@ -1,6 +1,5 @@
 import "../styles/globals.css";
-import "mapbox-gl/dist/mapbox-gl.css";
-import "@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css";
+import "leaflet/dist/leaflet.css";
 
 import type { AppType } from "next/app";
 import { trpc } from "../utils/trpc";

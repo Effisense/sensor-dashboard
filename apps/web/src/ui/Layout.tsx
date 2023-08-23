@@ -3,6 +3,7 @@ import { ReactNode } from "react";
 import Footer from "./Footer";
 import Navigation from "./navigation/Navigation";
 import { useAuth } from "@clerk/nextjs";
+import Script from "next/script";
 
 type LayoutProps = {
   children: ReactNode;
@@ -42,16 +43,29 @@ const Layout = ({ children }: LayoutProps) => {
         />
 
         <link rel="icon" href="/favicon.svg" />
-      </Head>
-      <div className="overflow-x-hidden"> 
-      <div className="flex min-h-screen w-screen flex-col items-center">
-        {isSignedIn ? <Navigation /> : <div className="h-20 w-full" />}
 
-        <main className="flex h-full w-screen flex-col items-center">
-          {children}
-        </main>
-      </div>
-      <Footer />
+        <link
+          rel="stylesheet"
+          href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+          integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+          crossOrigin=""
+        />
+      </Head>
+      <div className="overflow-x-hidden">
+        <div className="flex min-h-screen w-screen flex-col items-center">
+          {isSignedIn ? <Navigation /> : <div className="h-20 w-full" />}
+
+          <main className="flex h-full w-screen flex-col items-center">
+            {children}
+          </main>
+        </div>
+        <Footer />
+
+        <Script
+          src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+          integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+          crossOrigin=""
+        />
       </div>
     </>
   );
