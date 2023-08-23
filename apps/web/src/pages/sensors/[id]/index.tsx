@@ -148,9 +148,12 @@ const SensorPage = ({ id }: SensorPageProps) => {
                     <MapPinIcon className="w-4" />
                     <Text>{data?.sensor.location}</Text>
                   </div>
-                  <Card className="mt-1 w-full p-4">
-                    <Text>{data?.sensor.description}</Text>
-                  </Card>
+                  {data.sensor.description &&
+                    data.sensor.description.length > 0 && (
+                      <Card className="mt-1 w-full p-4">
+                        <Text>{data?.sensor.description}</Text>
+                      </Card>
+                    )}
                 </Card>
                 <Title className="pt-5">History</Title>
                 <DateRangePicker
