@@ -1,4 +1,4 @@
-import { Container, Sensor } from "@acme/db";
+import { Container } from "@acme/db";
 import axios from "axios";
 import SensorData from "../schemas/public/SensorData";
 
