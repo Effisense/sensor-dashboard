@@ -1,12 +1,18 @@
 import { Button } from "@/ui/Button";
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 import Link from "next/link";
-import { PencilIcon, TrashIcon, MapPinIcon } from "@heroicons/react/24/outline";
+import {
+  PencilIcon,
+  TrashIcon,
+  MapPinIcon,
+  ClockIcon,
+} from "@heroicons/react/24/outline";
+import { InformationCircleIcon } from "@heroicons/react/24/solid";
 import Alert from "@/ui/Alert";
 import useGetSensor from "@/hooks/queries/useGetSensor";
 import LoadingSpinner from "@/ui/LoadingSpinner";
 import AllSensorsMap from "@/ui/map/AllSensorsMap";
-import { Card, DateRangePickerValue, Text, Title } from "@tremor/react";
+import { Card, Text, Title, Badge } from "@tremor/react";
 import { cn } from "@/utils/tailwind";
 import H3 from "@/ui/typography/H3";
 import Subtle from "@/ui/typography/Subtle";
@@ -17,13 +23,9 @@ import { trpc } from "@/utils/trpc";
 import percentToColorTremor from "@/utils/percentToSeverity";
 import useDateRange from "@/hooks/useDateRange";
 import { FILL_LEVEL_LEGEND, formatAreaChart } from "@/utils/tremor";
-import {
-  SelectDateIntervalQuery,
-  SelectDateIntervalQuerySchema,
-} from "@/schemas";
 import RotateSpinner from "@/ui/RotateSpinner";
 import formatFillLevel from "@/utils/formatFillLevel";
-import { Badge } from "@/ui/badge";
+import { Popover, PopoverContent, PopoverTrigger } from "@/ui/Popover";
 
 type SensorPageProps = InferGetServerSidePropsType<typeof getServerSideProps>;
 
@@ -80,8 +82,16 @@ const SensorPage = ({ id }: SensorPageProps) => {
           <>
             <div className="col-span-1 lg:col-span-1 lg:col-start-3 lg:row-start-1 lg:h-auto">
               <div className="mb-4 mt-0 flex flex-col items-center justify-start lg:mt-4">
-                <div className="mt-6 flex flex-row gap-x-2 lg:mt-0">
+                <div className="mt-6 flex flex-row items-center justify-center gap-x-2 lg:mt-0">
                   <H3>{data.sensor.name}</H3>
+                  <Popover>
+                    <PopoverTrigger>
+                      <InformationCircleIcon className="w-4 text-blue-400" />
+                    </PopoverTrigger>
+                    <PopoverContent>
+                      <Subtle>Collection ID: {data.sensor.collectionId}</Subtle>
+                    </PopoverContent>
+                  </Popover>
                 </div>
                 <Subtle>Information about your sensor</Subtle>
               </div>
@@ -121,15 +131,13 @@ const SensorPage = ({ id }: SensorPageProps) => {
                 >
                   <div className="flex h-8 items-center">
                     <Badge
-                      variant="secondary"
-                      className={cn(
-                        "py-1 px-2",
-                        sensorWithFillLevel &&
-                          `bg-${percentToColorTremor(
-                            sensorWithFillLevel.fillLevel,
-                          )}-100`,
-                        "border-[1px] border-slate-300",
-                      )}
+                      size="sm"
+                      color={
+                        sensorWithFillLevel && sensorWithFillLevel
+                          ? percentToColorTremor(sensorWithFillLevel.fillLevel)
+                          : "gray"
+                      }
+                      className="mr-4 py-1 px-2"
                     >
                       {formatFillLevel(sensorWithFillLevel?.fillLevel)}
                     </Badge>
@@ -155,9 +163,31 @@ const SensorPage = ({ id }: SensorPageProps) => {
                     <MapPinIcon className="w-4" />
                     <Text>{data?.sensor.location}</Text>
                   </div>
-                  <Card className="mt-1 w-full p-4">
-                    <Text>{data?.sensor.description}</Text>
-                  </Card>
+
+                  {sensorWithFillLevel?.lastSeen && (
+                    <div className="flex flex-row gap-x-2">
+                      <ClockIcon className="w-4" />
+                      <Subtle>
+                        Last seen{" "}
+                        {sensorWithFillLevel?.lastSeen.toLocaleDateString(
+                          "no-NB",
+                          {
+                            month: "2-digit",
+                            day: "2-digit",
+                            year: "numeric",
+                            hour: "2-digit",
+                            minute: "2-digit",
+                          },
+                        )}
+                      </Subtle>
+                    </div>
+                  )}
+                  {data.sensor.description &&
+                    data.sensor.description.length > 0 && (
+                      <Card className="mt-1 w-full p-4">
+                        <Text>{data?.sensor.description}</Text>
+                      </Card>
+                    )}
                 </Card>
                 <Title className="pt-5">History</Title>
                 <DateRangePicker

@@ -164,7 +164,11 @@ export const containerRouter = router({
           container: sensor.container,
         });
 
-        sensorsWithFillLevel.push({ sensor, fillLevel });
+        sensorsWithFillLevel.push({
+          sensor,
+          fillLevel,
+          lastSeen: timeseries?.time || null,
+        });
       }
 
       return sensorsWithFillLevel;

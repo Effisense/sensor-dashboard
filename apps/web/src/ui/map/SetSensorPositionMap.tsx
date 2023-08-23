@@ -61,7 +61,7 @@ const SetSensorPositionMap = ({
             lat: position.lat,
             lng: position.lng,
           }}
-          className="relative h-[inherit] w-[inherit] rounded-lg shadow-lg"
+          className="relative z-30 h-[inherit] w-[inherit] rounded-lg shadow-lg"
           boundsFallback={boundsFallback}
           coordinates={[{ lat: position.lat, lng: position.lng }]}
         >

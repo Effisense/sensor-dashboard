@@ -90,15 +90,19 @@ const ContainerPage = ({ id }: ContainerPageProps) => {
                   <Text>Target fill level</Text>
                   <Text>{container.targetFillLevelInPercent}</Text>
                 </div>
-                <Divider className="mb-1 mt-1" />
-                <Card className="mt-1 w-full p-4">
-                  <Text>{container.description}</Text>
-                </Card>
+                {container.description && (
+                  <>
+                    <Divider className="mb-1 mt-1" />
+                    <Card className="mt-1 w-full p-4">
+                      <Text>{container.description}</Text>
+                    </Card>
+                  </>
+                )}
               </div>
             </Card>
           </div>
 
-          <div className="row-start-1 h-96 lg:col-span-2 lg:col-start-2 lg:h-auto">
+          <div className="z-30 row-start-1 h-96 lg:col-span-2 lg:col-start-2 lg:h-auto">
             {sensorsWithFillLevel ? (
               <AllSensorsMap sensorsWithFillLevel={sensorsWithFillLevel} />
             ) : (
@@ -136,6 +140,7 @@ const ContainerPage = ({ id }: ContainerPageProps) => {
                     <DashboardSensorCard
                       sensor={sensor.sensor}
                       fillLevel={sensor.fillLevel}
+                      lastSeen={sensor.lastSeen}
                     />
                   </div>
                 ))}

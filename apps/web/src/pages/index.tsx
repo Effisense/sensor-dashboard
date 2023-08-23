@@ -174,7 +174,7 @@ const IndexPage = ({ containerId }: IndexPageProps) => {
         </div>
       </div>
 
-      <div className="row-start-1 h-96 lg:col-span-2 lg:col-start-2 lg:h-auto">
+      <div className="z-30 row-start-1 h-96 lg:col-span-2 lg:col-start-2 lg:h-auto">
         <div className="h-full w-full">
           {currentSensorsWithFillLevel ? (
             <AllSensorsMap sensorsWithFillLevel={currentSensorsWithFillLevel} />
@@ -239,6 +239,7 @@ const IndexPage = ({ containerId }: IndexPageProps) => {
                   <DashboardSensorCard
                     sensor={sensor.sensor}
                     fillLevel={sensor.fillLevel}
+                    lastSeen={sensor.lastSeen}
                   />
                 </div>
               ))}
